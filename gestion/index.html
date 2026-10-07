@@ -210,15 +210,16 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     { k: "messages", label: "Messages" },
     { k: "appels", label: "Appels" },
     { k: "minutes", label: "Minutes d'appel" },
-    { k: "inscrits", label: "Inscrits" },
-    { k: "ouvertures", label: "Ouvertures" }
+    { k: "inscrits", label: "Inscrits" }
   ];
+  // Les ouvertures de l'appli ne sont plus affichées (demande de Sébastien, 7 oct. 2026).
   var ME = "seb1975";
   var modo = null; // { reports: [], bannis: [] } ; null tant que le code SQL n'est pas installé
   var modoMissing = false;
   var view = /inscrits/.test(location.hash) ? "users" : /signalements/.test(location.hash) ? "reports" : "stats";
   var metric = "personnes";
   try { metric = localStorage.getItem("tdb_metric") || "personnes"; } catch (e) {}
+  if (!METRICS.some(function (m) { return m.k === metric; })) metric = "personnes";
   var last = null;
   var sb = null;
   var $ = function (id) { return document.getElementById(id); };
@@ -251,7 +252,7 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     $("todayDate").textContent = "· " + new Date(d.now).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "Indian/Reunion" });
     var t = d.today || {};
     var tiles = [
-      ["personnes", "personnes ont ouvert l'appli"], ["ouvertures", "ouvertures"], ["traductions", "traductions"],
+      ["personnes", "personnes ont ouvert l'appli"], ["traductions", "traductions"],
       ["messages", "messages envoyés"], ["appels", "appels"], ["minutes", "minutes d'appel"], ["inscrits", "nouveaux inscrits"]
     ];
     $("today").innerHTML = tiles.map(function (x) { return '<div class="tile"><b>' + fmt(t[x[0]]) + "</b><span>" + x[1] + "</span></div>"; }).join("");
