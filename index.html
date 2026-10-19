@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
-<script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, l'appli ouvre l'inscription (Messagerie) et cache le reste ; les pages légales restent lisibles. */(function(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return;}var h=location.hash||"";if(a||/(^#|&)(access_token|error_code|error_description|type)=/.test(h))return;document.documentElement.classList.add("ow-gate");var st=document.createElement("style");st.textContent="html.ow-gate .bbar,html.ow-gate #ewsNav,html.ow-gate #ewsTop{display:none!important}";document.head.appendChild(st);if(!/[?&]b=msg(&|$)/.test(location.search))history.replaceState(null,"",location.pathname+"?b=msg"+h);})();</script>
+<script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, l'appli ouvre l'inscription (Messagerie) et cache le reste ; les pages légales restent lisibles. */(function(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return;}var h=location.hash||"";if(a||/(^#|&)(access_token|error_code|error_description|type)=/.test(h))return;document.documentElement.classList.add("ow-gate");var st=document.createElement("style");st.textContent="html.ow-gate .bbar,html.ow-gate #ewsNav,html.ow-gate #ewsTop{display:none!important}";document.head.appendChild(st);if(!/[?&]b=msg(&|$)/.test(location.search))history.replaceState(null,"",location.pathname+(location.search?location.search+"&":"?")+"b=msg"+h);})();</script>
 <script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
 /* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
@@ -390,6 +390,17 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .ow-welcome-eyebrow{margin:8px 0 6px;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
   .ow-welcome h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;color:var(--text);}
   .ow-welcome-slogan{margin:6px 0 0;color:var(--muted);font-size:16px;}
+  /* Démo de l'inscription : une phrase écrite dans sa langue, lue dans la langue de l'autre (sans réseau). */
+  .ow-demo{margin:4px auto 14px;max-width:360px;padding:12px 14px;border:1px solid var(--line, rgba(255,255,255,.12));border-radius:16px;background:rgba(255,255,255,.04);text-align:left;}
+  .ow-demo-row{display:flex;align-items:center;gap:8px;font-size:15.5px;line-height:1.35;}
+  .ow-demo-row + .ow-demo-row{margin-top:8px;}
+  .ow-demo-flag{font-size:20px;flex:none;}
+  .ow-demo-txt{flex:1;min-width:0;}
+  .ow-demo-out .ow-demo-txt{font-weight:700;transition:opacity .35s;}
+  .ow-demo-out.fade .ow-demo-txt,.ow-demo-out.fade .ow-demo-flag{opacity:0;}
+  .ow-demo-play{flex:none;min-width:44px;min-height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.08);color:inherit;font-size:18px;}
+  .ow-demo-cap{margin:10px 0 0;font-size:13px;color:var(--muted);text-align:center;}
+  @media (prefers-reduced-motion: reduce){ .ow-demo-out .ow-demo-txt{transition:none;} }
   .ob{max-width:520px;margin:0 auto;padding:4px 4px 8px;}
   .ob-bar{display:flex;gap:6px;margin:4px 0 22px;}
   .ob-bar span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .3s;}
@@ -3712,6 +3723,7 @@ const UI_STRINGS = {
     tagline: "Parlez votre langue, 24h/24. 24/24 ONE WORLD fait le reste.",
     slogan: "Le monde se parle. Enfin.",
     ow_eyebrow: "Le réseau du 3e millénaire",
+    ow_demo_cap: "Vous écrivez dans votre langue, chacun lit dans la sienne.",
     promo_html: "🎁 Gratuit pour tous.",
     close: "Fermer",
     tab_home: "Accueil", tab_tr: "🌐 Traduire", tab_conv: "👥 Face à face", tab_hist: "Historique", tab_fav: "Favoris", tab_settings: "Paramètres",
@@ -3787,6 +3799,7 @@ const UI_STRINGS = {
     tagline: "Speak your language, 24/7. 24/24 ONE WORLD does the rest.",
     slogan: "The world speaks. At last.",
     ow_eyebrow: "The network of the third millennium",
+    ow_demo_cap: "You write in your language, everyone reads in theirs.",
     promo_html: "🎁 Free for everyone.",
     close: "Close",
     tab_home: "Home", tab_tr: "🌐 Translate", tab_conv: "👥 Face to face", tab_hist: "History", tab_fav: "Favorites", tab_settings: "Settings",
@@ -3862,6 +3875,7 @@ const UI_STRINGS = {
     tagline: "Habla tu idioma, 24 horas al día. 24/24 ONE WORLD se encarga del resto.",
     slogan: "El mundo conversa. Por fin.",
     ow_eyebrow: "La red del tercer milenio",
+    ow_demo_cap: "Escribes en tu idioma, cada uno lee en el suyo.",
     promo_html: "🎁 Gratis para todos.",
     close: "Cerrar",
     tab_home: "Inicio", tab_tr: "🌐 Traducir", tab_conv: "👥 Cara a cara", tab_hist: "Historial", tab_fav: "Favoritos", tab_settings: "Ajustes",
@@ -3937,6 +3951,7 @@ const UI_STRINGS = {
     tagline: "Fale a sua língua, 24 horas por dia. O 24/24 ONE WORLD faz o resto.",
     slogan: "O mundo conversa. Finalmente.",
     ow_eyebrow: "A rede do terceiro milênio",
+    ow_demo_cap: "Você escreve na sua língua, cada um lê na sua.",
     promo_html: "🎁 Grátis para todos.",
     close: "Fechar",
     tab_home: "Início", tab_tr: "🌐 Traduzir", tab_conv: "👥 Frente a frente", tab_hist: "Histórico", tab_fav: "Favoritos", tab_settings: "Configurações",
@@ -4012,6 +4027,7 @@ const UI_STRINGS = {
     tagline: "Sprich deine Sprache, rund um die Uhr. 24/24 ONE WORLD erledigt den Rest.",
     slogan: "Die Welt spricht miteinander. Endlich.",
     ow_eyebrow: "Das Netzwerk des dritten Jahrtausends",
+    ow_demo_cap: "Du schreibst in deiner Sprache, jeder liest in seiner.",
     promo_html: "🎁 Kostenlos für alle.",
     close: "Schließen",
     tab_home: "Start", tab_tr: "🌐 Übersetzen", tab_conv: "👥 Gegenüber", tab_hist: "Verlauf", tab_fav: "Favoriten", tab_settings: "Einstellungen",
@@ -4087,6 +4103,7 @@ const UI_STRINGS = {
     tagline: "Parla la tua lingua, 24 ore su 24. Al resto pensa 24/24 ONE WORLD.",
     slogan: "Il mondo dialoga. Finalmente.",
     ow_eyebrow: "La rete del terzo millennio",
+    ow_demo_cap: "Scrivi nella tua lingua, ognuno legge nella sua.",
     promo_html: "🎁 Gratis per tutti.",
     close: "Chiudi",
     tab_home: "Home", tab_tr: "🌐 Traduci", tab_conv: "👥 Faccia a faccia", tab_hist: "Cronologia", tab_fav: "Preferiti", tab_settings: "Impostazioni",
@@ -4162,6 +4179,7 @@ const UI_STRINGS = {
     tagline: "说你的语言，全天候。其余交给 24/24 ONE WORLD。",
     slogan: "世界终于能对话了。",
     ow_eyebrow: "第三个千年的网络",
+    ow_demo_cap: "你用自己的语言写，每个人用自己的语言读。",
     promo_html: "🎁 对所有人免费。",
     close: "关闭",
     tab_home: "首页", tab_tr: "🌐 翻译", tab_conv: "👥 面对面", tab_hist: "历史", tab_fav: "收藏", tab_settings: "设置",
@@ -4237,6 +4255,7 @@ const UI_STRINGS = {
     tagline: "あなたの言葉で、24時間いつでも。あとは 24/24 ONE WORLD におまかせ。",
     slogan: "世界が語り合う。ついに。",
     ow_eyebrow: "第三千年紀のネットワーク",
+    ow_demo_cap: "あなたは自分の言葉で書き、相手は自分の言葉で読みます。",
     promo_html: "🎁 すべての人に無料。",
     close: "閉じる",
     tab_home: "ホーム", tab_tr: "🌐 翻訳", tab_conv: "👥 対面", tab_hist: "履歴", tab_fav: "お気に入り", tab_settings: "設定",
@@ -4312,6 +4331,7 @@ const UI_STRINGS = {
     tagline: "تحدَّث بلغتك، على مدار الساعة. و⁦24/24 ONE WORLD⁩ يتكفّل بالباقي.",
     slogan: "العالم يتحاور. أخيرًا.",
     ow_eyebrow: "شبكة الألفية الثالثة",
+    ow_demo_cap: "تكتب بلغتك، ويقرأ كلٌّ بلغته.",
     promo_html: "🎁 مجاني للجميع.",
     close: "إغلاق",
     tab_home: "الرئيسية", tab_tr: "🌐 ترجمة", tab_conv: "👥 وجهًا لوجه", tab_hist: "السجل", tab_fav: "المفضلة", tab_settings: "الإعدادات",
@@ -4387,6 +4407,7 @@ const UI_STRINGS = {
     tagline: "Говорите на своём языке круглосуточно. Остальное сделает 24/24 ONE WORLD.",
     slogan: "Мир говорит друг с другом. Наконец-то.",
     ow_eyebrow: "Сеть третьего тысячелетия",
+    ow_demo_cap: "Вы пишете на своём языке, каждый читает на своём.",
     promo_html: "🎁 Бесплатно для всех.",
     close: "Закрыть",
     tab_home: "Главная", tab_tr: "🌐 Перевод", tab_conv: "👥 Лицом к лицу", tab_hist: "История", tab_fav: "Избранное", tab_settings: "Настройки",
@@ -4462,6 +4483,7 @@ const UI_STRINGS = {
     tagline: "Mitenena amin'ny fiteninao, 24 ora/24. Ny 24/24 ONE WORLD no mikarakara ny ambiny.",
     slogan: "Mifampiresaka izao tontolo izao. Tamin'ny farany.",
     ow_eyebrow: "Ny tambajotra amin'ny arivo taona fahatelo",
+    ow_demo_cap: "Manoratra amin'ny fiteninao ianao, samy mamaky amin'ny azy avy.",
     promo_html: "🎁 Maimaimpoana ho an'ny rehetra.",
     close: "Hidiana",
     tab_home: "Fandraisana",
@@ -5983,7 +6005,7 @@ const NET_STRINGS = {
     net_setup_title: "Créez votre compte",
     net_setup_text: "Un pseudo, votre langue et un e-mail confirmé : pas de numéro de téléphone. Vos contacts lisent vos messages déjà traduits dans leur langue.",
     net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
-    net_invited: "@{p} vous invite à discuter sur 24/24 ONE WORLD.",
+    net_invited: "@{p} vous attend. Écrivez dans votre langue, @{p} lira dans la sienne.",
     net_pseudo_ph: "pseudo (ex. : sebastien974)",
     net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point, _ ou -",
     net_my_lang: "Ma langue",
@@ -6020,7 +6042,7 @@ const NET_STRINGS = {
     net_invite: "📨 Inviter un ami",
     net_new_chat: "Nouvelle discussion",
     net_my_profile: "Mon profil",
-    net_invite_text: "📲 Rejoins-moi sur 24/24 ONE WORLD, c'est gratuit !",
+    net_invite_text: "📲 Écris-moi dans ta langue, je te lis dans la mienne. Rejoins-moi sur 24/24 ONE WORLD !",
     net_invite_step2: "📨 2/2 : envoyer la carte",
     net_invite_step2_hint: "Message envoyé. Touchez « 2/2 : envoyer la carte » et choisissez la même personne.",
     net_invite_sent: "✓ Invitation envoyée",
@@ -6176,7 +6198,7 @@ const NET_STRINGS = {
     net_setup_title: "Create your account",
     net_setup_text: "A username, your language and a confirmed email: no phone number. Your contacts read your messages already translated into their language.",
     net_have_account: "I already have an account (code by email)",
-    net_invited: "@{p} invites you to chat on 24/24 ONE WORLD.",
+    net_invited: "@{p} is waiting for you. Write in your language, @{p} will read in theirs.",
     net_pseudo_ph: "username (e.g. sebastien974)",
     net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot, _ or -",
     net_my_lang: "My language",
@@ -6213,7 +6235,7 @@ const NET_STRINGS = {
     net_invite: "📨 Invite a friend",
     net_new_chat: "New chat",
     net_my_profile: "My profile",
-    net_invite_text: "📲 Join me on 24/24 ONE WORLD, it's free!",
+    net_invite_text: "📲 Write to me in your language, I'll read you in mine. Join me on 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: send the card",
     net_invite_step2_hint: "Message sent. Tap “2/2: send the card” and choose the same person.",
     net_invite_sent: "✓ Invitation sent",
@@ -6368,7 +6390,7 @@ const NET_STRINGS = {
     net_retry: "Reintentar",
     net_setup_title: "Crea tu cuenta",
     net_setup_text: "Un nombre de usuario, tu idioma y un correo confirmado: sin número de teléfono. Tus contactos leen tus mensajes ya traducidos a su idioma.",
-    net_invited: "@{p} te invita a chatear en 24/24 ONE WORLD.",
+    net_invited: "@{p} te espera. Escribe en tu idioma, @{p} leerá en el suyo.",
     net_pseudo_ph: "usuario (ej.: sebastien974)",
     net_pseudo_rule: "De 3 a 20 caracteres: minúsculas, cifras, punto o _, -",
     net_my_lang: "Mi idioma",
@@ -6405,7 +6427,7 @@ const NET_STRINGS = {
     net_invite: "📨 Invitar a un amigo",
     net_new_chat: "Nuevo chat",
     net_my_profile: "Mi perfil",
-    net_invite_text: "📲 ¡Únete a mí en 24/24 ONE WORLD, es gratis!",
+    net_invite_text: "📲 Escríbeme en tu idioma, yo te leo en el mío. ¡Únete a mí en 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar la tarjeta",
     net_invite_step2_hint: "Mensaje enviado. Toca «2/2: enviar la tarjeta» y elige a la misma persona.",
     net_invite_sent: "✓ Invitación enviada",
@@ -6558,7 +6580,7 @@ const NET_STRINGS = {
     net_retry: "Tentar novamente",
     net_setup_title: "Crie a sua conta",
     net_setup_text: "Um nome de utilizador, o seu idioma e um e-mail confirmado: sem número de telefone. Os seus contactos leem as suas mensagens já traduzidas no idioma deles.",
-    net_invited: "@{p} convida-o a conversar no 24/24 ONE WORLD.",
+    net_invited: "@{p} está à tua espera. Escreve na tua língua, @{p} vai ler na sua.",
     net_pseudo_ph: "utilizador (ex.: sebastien974)",
     net_pseudo_rule: "3 a 20 caracteres: letras minúsculas, algarismos, ponto ou _, -",
     net_my_lang: "O meu idioma",
@@ -6595,7 +6617,7 @@ const NET_STRINGS = {
     net_invite: "📨 Convidar um amigo",
     net_new_chat: "Nova conversa",
     net_my_profile: "O meu perfil",
-    net_invite_text: "📲 Junta-te a mim no 24/24 ONE WORLD, é grátis!",
+    net_invite_text: "📲 Escreve-me na tua língua, eu leio-te na minha. Junta-te a mim no 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar o cartão",
     net_invite_step2_hint: "Mensagem enviada. Toque em «2/2: enviar o cartão» e escolha a mesma pessoa.",
     net_invite_sent: "✓ Convite enviado",
@@ -6748,7 +6770,7 @@ const NET_STRINGS = {
     net_retry: "Erneut versuchen",
     net_setup_title: "Erstelle dein Konto",
     net_setup_text: "Ein Benutzername, deine Sprache und eine bestätigte E-Mail: keine Telefonnummer. Deine Kontakte lesen deine Nachrichten schon übersetzt in ihrer Sprache.",
-    net_invited: "@{p} lädt dich zum Chatten auf 24/24 ONE WORLD ein.",
+    net_invited: "@{p} wartet auf dich. Schreib in deiner Sprache, @{p} liest in seiner.",
     net_pseudo_ph: "Benutzername (z. B. sebastien974)",
     net_pseudo_rule: "3 bis 20 Zeichen: Kleinbuchstaben, Ziffern, Punkt oder _, -",
     net_my_lang: "Meine Sprache",
@@ -6785,7 +6807,7 @@ const NET_STRINGS = {
     net_invite: "📨 Freund einladen",
     net_new_chat: "Neuer Chat",
     net_my_profile: "Mein Profil",
-    net_invite_text: "📲 Komm zu mir auf 24/24 ONE WORLD, es ist kostenlos!",
+    net_invite_text: "📲 Schreib mir in deiner Sprache, ich lese dich in meiner. Komm zu mir auf 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: Karte senden",
     net_invite_step2_hint: "Nachricht gesendet. Tippe auf „2/2: Karte senden“ und wähle dieselbe Person.",
     net_invite_sent: "✓ Einladung gesendet",
@@ -6938,7 +6960,7 @@ const NET_STRINGS = {
     net_retry: "Riprova",
     net_setup_title: "Crea il tuo account",
     net_setup_text: "Un nome utente, la tua lingua e un'e-mail confermata: niente numero di telefono. I tuoi contatti leggono i tuoi messaggi già tradotti nella loro lingua.",
-    net_invited: "@{p} ti invita a chattare su 24/24 ONE WORLD.",
+    net_invited: "@{p} ti aspetta. Scrivi nella tua lingua, @{p} leggerà nella sua.",
     net_pseudo_ph: "nome utente (es. sebastien974)",
     net_pseudo_rule: "Da 3 a 20 caratteri: lettere minuscole, cifre, punto o _, -",
     net_my_lang: "La mia lingua",
@@ -6975,7 +6997,7 @@ const NET_STRINGS = {
     net_invite: "📨 Invita un amico",
     net_new_chat: "Nuova chat",
     net_my_profile: "Il mio profilo",
-    net_invite_text: "📲 Raggiungimi su 24/24 ONE WORLD, è gratis!",
+    net_invite_text: "📲 Scrivimi nella tua lingua, io ti leggo nella mia. Raggiungimi su 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: invia la scheda",
     net_invite_step2_hint: "Messaggio inviato. Tocca «2/2: invia la scheda» e scegli la stessa persona.",
     net_invite_sent: "✓ Invito inviato",
@@ -7128,7 +7150,7 @@ const NET_STRINGS = {
     net_retry: "重试",
     net_setup_title: "创建你的账户",
     net_setup_text: "一个用户名、你的语言和一个已确认的邮箱：无需手机号。你的联系人会直接读到翻译成他们语言的消息。",
-    net_invited: "@{p} 邀请你在 24/24 ONE WORLD 上聊天。",
+    net_invited: "@{p} 在等你。用你的语言写，@{p} 会用自己的语言读。",
     net_pseudo_ph: "用户名（例如 sebastien974）",
     net_pseudo_rule: "3 到 20 个字符：小写字母、数字、点或 _, -",
     net_my_lang: "我的语言",
@@ -7165,7 +7187,7 @@ const NET_STRINGS = {
     net_invite: "📨 邀请朋友",
     net_new_chat: "新聊天",
     net_my_profile: "我的资料",
-    net_invite_text: "📲 来 24/24 ONE WORLD 找我吧，免费！",
+    net_invite_text: "📲 用你的语言给我写信，我用我的语言读你。来 24/24 ONE WORLD 找我吧！",
     net_invite_step2: "📨 2/2：发送卡片",
     net_invite_step2_hint: "消息已发送。点击“2/2：发送卡片”，选择同一个人。",
     net_invite_sent: "✓ 邀请已发送",
@@ -7318,7 +7340,7 @@ const NET_STRINGS = {
     net_retry: "再試行",
     net_setup_title: "アカウントを作成",
     net_setup_text: "ユーザー名、言語、確認済みのメールアドレス：電話番号は不要。相手はあなたのメッセージを自分の言語に翻訳された状態で読めます。",
-    net_invited: "@{p} さんが 24/24 ONE WORLD でのチャットに招待しています。",
+    net_invited: "@{p} があなたを待っています。あなたの言葉で書けば、@{p} は自分の言葉で読みます。",
     net_pseudo_ph: "ユーザー名（例：sebastien974）",
     net_pseudo_rule: "3〜20文字：小文字、数字、ピリオド、_, -",
     net_my_lang: "私の言語",
@@ -7355,7 +7377,7 @@ const NET_STRINGS = {
     net_invite: "📨 友だちを招待",
     net_new_chat: "新しいチャット",
     net_my_profile: "マイプロフィール",
-    net_invite_text: "📲 24/24 ONE WORLD で話そう、無料です！",
+    net_invite_text: "📲 あなたの言葉で書いてね、私は自分の言葉で読むよ。24/24 ONE WORLD で会おう！",
     net_invite_step2: "📨 2/2：カードを送る",
     net_invite_step2_hint: "メッセージを送りました。「2/2：カードを送る」をタップして、同じ人を選んでください。",
     net_invite_sent: "✓ 招待を送りました",
@@ -7508,7 +7530,7 @@ const NET_STRINGS = {
     net_retry: "إعادة المحاولة",
     net_setup_title: "أنشئ حسابك",
     net_setup_text: "اسم مستخدم ولغتك وبريد إلكتروني مؤكَّد: بلا رقم هاتف. يقرأ جهات اتصالك رسائلك مترجمة إلى لغتهم.",
-    net_invited: "⁦@{p}⁩ يدعوك إلى الدردشة على ⁦24/24 ONE WORLD⁩.",
+    net_invited: "@{p} بانتظارك. اكتب بلغتك، وسيقرأ @{p} بلغته.",
     net_pseudo_ph: "اسم المستخدم (مثال: sebastien974)",
     net_pseudo_rule: "من 3 إلى 20 حرفًا: أحرف لاتينية صغيرة أو أرقام أو نقطة أو _, -",
     net_my_lang: "لغتي",
@@ -7545,7 +7567,7 @@ const NET_STRINGS = {
     net_invite: "📨 ادعُ صديقًا",
     net_new_chat: "محادثة جديدة",
     net_my_profile: "ملفي الشخصي",
-    net_invite_text: "📲 انضم إليّ على ⁦24/24 ONE WORLD⁩، إنه مجاني!",
+    net_invite_text: "📲 اكتب لي بلغتك، وأقرأك بلغتي. انضم إليّ على ⁦24/24 ONE WORLD⁩!",
     net_invite_step2: "📨 2/2: إرسال البطاقة",
     net_invite_step2_hint: "تم إرسال الرسالة. المس «2/2: إرسال البطاقة» واختر الشخص نفسه.",
     net_invite_sent: "✓ تم إرسال الدعوة",
@@ -7698,7 +7720,7 @@ const NET_STRINGS = {
     net_retry: "Повторить",
     net_setup_title: "Создайте аккаунт",
     net_setup_text: "Имя пользователя, ваш язык и подтверждённый e-mail: без номера телефона. Собеседники читают ваши сообщения уже переведёнными на свой язык.",
-    net_invited: "@{p} приглашает вас пообщаться в 24/24 ONE WORLD.",
+    net_invited: "@{p} ждёт вас. Пишите на своём языке, @{p} прочитает на своём.",
     net_pseudo_ph: "имя пользователя (напр. sebastien974)",
     net_pseudo_rule: "От 3 до 20 символов: строчные латинские буквы, цифры, точка или _, -",
     net_my_lang: "Мой язык",
@@ -7735,7 +7757,7 @@ const NET_STRINGS = {
     net_invite: "📨 Пригласить друга",
     net_new_chat: "Новый чат",
     net_my_profile: "Мой профиль",
-    net_invite_text: "📲 Присоединяйся ко мне в 24/24 ONE WORLD, это бесплатно!",
+    net_invite_text: "📲 Пиши мне на своём языке, я прочитаю на своём. Присоединяйся ко мне в 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: отправить карточку",
     net_invite_step2_hint: "Сообщение отправлено. Нажмите «2/2: отправить карточку» и выберите того же человека.",
     net_invite_sent: "✓ Приглашение отправлено",
@@ -7888,7 +7910,7 @@ const NET_STRINGS = {
     net_retry: "Andramo indray",
     net_setup_title: "Amorony ny kaontinao",
     net_setup_text: "Pseudo iray, ny fiteninao ary mailaka voamarina: tsy mila laharana finday. Vakian'ny namanao efa voadika amin'ny fiteniny ny hafatrao.",
-    net_invited: "@{p} manasa anao hiresaka ao amin'ny 24/24 ONE WORLD.",
+    net_invited: "Miandry anao i @{p}. Manorata amin'ny fiteninao, hamaky amin'ny azy i @{p}.",
     net_pseudo_ph: "pseudo (ohatra: sebastien974)",
     net_pseudo_rule: "Litera 3 ka hatramin'ny 20: litera madinika, isa, teboka na _, -",
     net_my_lang: "Ny fiteniko",
@@ -7925,7 +7947,7 @@ const NET_STRINGS = {
     net_invite: "📨 Hanasa namana",
     net_new_chat: "Resaka vaovao",
     net_my_profile: "Ny mombamomba ahy",
-    net_invite_text: "📲 Midira miaraka amiko ao amin'ny 24/24 ONE WORLD, maimaimpoana io!",
+    net_invite_text: "📲 Soraty amiko amin'ny fiteninao, vakiako amin'ny ahy. Midira amiko ao amin'ny 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: handefa ny karatra",
     net_invite_step2_hint: "Lasa ny hafatra. Tsindrio « 2/2: handefa ny karatra » ary safidio ilay olona ihany.",
     net_invite_sent: "✓ Lasa ny fanasana",
@@ -9534,6 +9556,47 @@ const Reseau = (() => {
         <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
       </div>`;
   }
+  // Démo de l'inscription : la même phrase dans 15 langues, traduite d'avance (aucun envoi sur Internet).
+  const OW_DEMO = [
+    ["fr", "🇫🇷", "Coucou ! On s'appelle ce soir ?"], ["en", "🇬🇧", "Hi! Shall we call tonight?"],
+    ["es", "🇪🇸", "¡Hola! ¿Nos llamamos esta noche?"], ["pt", "🇧🇷", "Oi! A gente se fala hoje à noite?"],
+    ["de", "🇩🇪", "Hallo! Telefonieren wir heute Abend?"], ["it", "🇮🇹", "Ciao! Ci sentiamo stasera?"],
+    ["zh", "🇨🇳", "嗨！今晚通个电话吗？"], ["ja", "🇯🇵", "やあ！今夜電話しない？"],
+    ["ar", "🇸🇦", "مرحبًا! هل نتصل الليلة؟"], ["ru", "🇷🇺", "Привет! Созвонимся вечером?"],
+    ["mg", "🇲🇬", "Salama! Hifampiantso anio alina ve isika?"], ["th", "🇹🇭", "สวัสดี! คืนนี้โทรคุยกันไหม"],
+    ["ko", "🇰🇷", "안녕! 오늘 밤에 통화할까?"], ["hi", "🇮🇳", "नमस्ते! आज रात बात करें?"],
+    ["sw", "🇰🇪", "Habari! Tuongee usiku huu?"]
+  ];
+  let owDemoTimer = null;
+  function owDemoHtml() {
+    const src = OW_DEMO.find((x) => x[0] === UI_LANG) || OW_DEMO[1];
+    return `<div class="ow-demo" id="owDemo">
+        <div class="ow-demo-row"><span class="ow-demo-flag">${src[1]}</span><span class="ow-demo-txt" dir="auto">${escapeHtml(src[2])}</span></div>
+        <div class="ow-demo-row ow-demo-out" aria-live="off"><span class="ow-demo-flag" id="owDemoFlag"></span><span class="ow-demo-txt" id="owDemoTxt" dir="auto"></span>
+          <button type="button" class="ow-demo-play" id="owDemoPlay" aria-label="${escapeHtml(t("listen"))}">🔊</button></div>
+        <p class="ow-demo-cap">${escapeHtml(t("ow_demo_cap"))}</p>
+      </div>`;
+  }
+  function owDemoStart() {
+    clearInterval(owDemoTimer);
+    const box = document.getElementById("owDemo");
+    if (!box) return;
+    const src = (OW_DEMO.find((x) => x[0] === UI_LANG) || OW_DEMO[1])[0];
+    const list = OW_DEMO.filter((x) => x[0] !== src);
+    let i = Math.floor(Math.random() * list.length);
+    const out = box.querySelector(".ow-demo-out");
+    const show = () => { const x = list[i % list.length]; box.querySelector("#owDemoFlag").textContent = x[1]; box.querySelector("#owDemoTxt").textContent = x[2]; box.dataset.lang = x[0]; };
+    show();
+    box.querySelector("#owDemoPlay").addEventListener("click", () => { const x = list[i % list.length]; speak(x[2], x[0]); });
+    let reduce = false;
+    try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* ignoré */ }
+    owDemoTimer = setInterval(() => {
+      if (!document.body.contains(box)) { clearInterval(owDemoTimer); return; }
+      if (reduce) { i++; show(); return; }
+      out.classList.add("fade");
+      setTimeout(() => { i++; show(); out.classList.remove("fade"); }, 350);
+    }, 2400);
+  }
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
   let setupStep = 0;
   function renderSetup() {
@@ -9545,7 +9608,7 @@ const Reseau = (() => {
         <p class="ob-count">${i + 1} / ${steps.length}</p>
         <h2 class="ob-t">${escapeHtml(t("ob_" + k + "_t"))}</h2>
         <p class="ob-d">${escapeHtml(t("ob_" + k + "_d"))}</p>${body}</section>`;
-    root.innerHTML = `${owWelcomeHtml()}
+    root.innerHTML = `${owWelcomeHtml()}${setupStep === 0 ? owDemoHtml() : ""}
       <div class="ob">
         ${invited}
         <div class="ob-bar">${steps.map((k, i) => `<span class="${i <= setupStep ? "on" : ""}"></span>`).join("")}</div>
@@ -9561,6 +9624,7 @@ const Reseau = (() => {
         <button class="btn primary ob-go" id="netCreate">${escapeHtml(t("net_create"))}</button>
         <div class="ob-foot">${setupStep > 0 ? `<button type="button" class="link-btn" id="netBack">← ${escapeHtml(t("ob_back"))}</button>` : `<a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a>`}</div>
       </div>`;
+    owDemoStart();
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
     const input = root.querySelector("#netPseudo");
