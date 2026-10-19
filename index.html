@@ -375,6 +375,10 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-dial{flex-shrink:0;display:flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:22px;border:none;
     background:var(--ok);color:#0b0e1a;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;}
   .net-dial svg{width:18px;height:18px;}
+  /* Téléphone : bouton d'appel rond, comme dans le journal d'appels d'un téléphone */
+  body.net-full .net-dial{width:46px;height:46px;padding:0;justify-content:center;border-radius:50%;}
+  body.net-full .net-dial svg{width:21px;height:21px;}
+  body.net-full #netRoot .net-listcard .net-h3{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:14px 2px 6px;}
   nav.tabs button.net-unread::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--err);margin-left:6px;vertical-align:middle;}
   .net-lead{color:var(--muted);font-size:14px;line-height:1.5;margin:4px 0 10px;}
   #netRoot select{display:block;width:100%;max-width:100%;}
@@ -554,6 +558,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full .net-search{background:rgba(255,255,255,.06);border-color:transparent;}
   body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
   body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
+  body.net-full #netRoot .card.net-listcard.net-calllog > .net-h3{display:block;}
   body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
   /* Discussion façon messagerie : plein écran, en-tête compact, saisie collée en bas */
   .net-chat-full{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;margin:0;border:0;border-radius:0;
@@ -8525,7 +8530,7 @@ const Reseau = (() => {
           ${canCall ? `<button type="button" class="net-redial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_callback") + " " + name)}">${ICON_PHONE}</button>` : ""}
         </div>`;
     }).join("") : `<div class="empty">${escapeHtml(t("net_calllog_empty"))}</div>`;
-    return `<div class="card"><h3 class="net-h3">${escapeHtml(t("net_calllog"))}</h3><div class="net-convs">${body}</div></div>`;
+    return `<div class="card net-listcard net-calllog"><h3 class="net-h3">${escapeHtml(t("net_calllog"))}</h3><div class="net-convs">${body}</div></div>`;
   }
 
   function updateTopbar() {
@@ -9886,9 +9891,8 @@ const Reseau = (() => {
             const blocked = c.otherId && blockedIds.has(c.otherId);
             return `<div class="net-contact" data-q="${escapeHtml(p.toLowerCase())}">
                 ${avatarHtml(p, c.otherId)}
-                <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span>
-                  <button type="button" class="net-cl-chip${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" data-cl="${escapeHtml(c.id)}">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} ✎</button></span>
-                ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}<span>${escapeHtml(t("net_call_btn"))}</span></button>`}
+                <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span></span>
+                ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}</button>`}
               </div>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_contacts", { b: t("net_invite") }))}</div>`;
@@ -9977,30 +9981,19 @@ const Reseau = (() => {
         meStory.setAttribute("aria-expanded", String(!mePanel.hidden));
       });
     } else
+    // Téléphone réduit à l'essentiel : contacts avec un bouton d'appel, puis le journal des appels.
+    // Profil, langue et suppression du compte sont dans Messagerie > Mon profil ; le crayon du haut ouvre « ajouter un contact ».
     root.innerHTML = `${pushCard}
-      ${listFirst ? listCard : ""}
-      <div class="card">
-        ${photosOk ? `<div class="net-me-row">
-          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(profile.pseudo, me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span></button>
-          <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
-        </div>
-        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`}
-        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
+      <div class="net-panel" id="netNewPanel"${listFirst ? " hidden" : ""}>
         <div class="row net-add">
           <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
             placeholder="${escapeHtml(t("net_add_ph"))}" />
-          <button class="btn ghost" id="netAddBtn">${escapeHtml(t(isCall ? "net_add_contact" : "net_add_btn"))}</button>
+          <button class="btn ghost" id="netAddBtn">${escapeHtml(t("net_add_contact"))}</button>
         </div>
-        <div id="netHomeMsg">${flashHtml()}</div>
+        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
       </div>
-      ${listFirst ? "" : listCard}
-      <div class="card">
-        <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
-        <select id="netMyLang"></select>
-        ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
-          <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
-        <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
-      </div>`;
+      <div id="netHomeMsg">${flashHtml()}</div>
+      ${listCard}`;
     bindSearch();
     const photoBtn = root.querySelector("#netPhotoBtn");
     const photoFile = root.querySelector("#netPhotoFile");
@@ -10057,8 +10050,8 @@ const Reseau = (() => {
       });
     });
     const langSel = root.querySelector("#netMyLang");
-    fillLangSelect(langSel, profile.lang);
-    langSel.addEventListener("change", async () => {
+    if (langSel) fillLangSelect(langSel, profile.lang);
+    if (langSel) langSel.addEventListener("change", async () => {
       const v = langSel.value;
       const { error } = await sb.from("profiles").update({ lang: v }).eq("id", me);
       if (!error) {
@@ -10066,7 +10059,7 @@ const Reseau = (() => {
         trCache.clear();
       }
     });
-    armConfirm(root.querySelector("#netDelete"), t("net_delete_confirm"), deleteAccount);
+    if (root.querySelector("#netDelete")) armConfirm(root.querySelector("#netDelete"), t("net_delete_confirm"), deleteAccount);
   }
 
   async function deleteAccount() {
