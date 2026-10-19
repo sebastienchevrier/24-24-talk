@@ -23,7 +23,7 @@
   var STR = {
     fr: {
       idle: "Pause après 2 minutes sans parole : l'écran peut de nouveau s'éteindre. Touchez un micro pour reprendre.",
-      title: "EVERYWHERE", sub: "Traduire et connecter partout.",
+      title: "Face à face", sub: "Traduire et connecter partout.",
       face: "Conversation côte à côte", face_d: "Téléphone posé entre vous deux", call: "Appeler sur TALK", call_d: "Appel traduit avec un contact",
       trip: "Voyage", trip_d: "Phrases utiles, préparation, faible connexion", fav_group: "★ Favorites", c_also: "Parle aussi {l}",
       my_langs: "Mes langues", settings: "Configurations", settings_d: "Son, volume, texte", back: "← EVERYWHERE",
@@ -65,7 +65,7 @@
     },
     en: {
       idle: "Paused after 2 minutes without speech: the screen can turn off again. Tap a microphone to resume.",
-      title: "EVERYWHERE", sub: "Translate and connect everywhere.",
+      title: "Face to face", sub: "Translate and connect everywhere.",
       face: "Side-by-side conversation", face_d: "Phone placed between you", call: "Call on TALK", call_d: "Translated call with a contact",
       trip: "Travel", trip_d: "Useful phrases, preparation, weak connection", fav_group: "★ Favorites", c_also: "Also speaks {l}",
       my_langs: "My languages", settings: "Settings", settings_d: "Sound, volume, text", back: "← EVERYWHERE",

@@ -6,7 +6,7 @@ window.EW_SCREEN_STR = {
  "everywhere": {
   "es": {
    "idle": "En pausa tras 2 minutos sin hablar: la pantalla puede volver a apagarse. Toca un micrófono para seguir.",
-   "title": "EVERYWHERE",
+   "title": "Cara a cara",
    "sub": "Traducir y conectar en todas partes.",
    "face": "Conversación cara a cara",
    "face_d": "El teléfono entre las dos personas",
@@ -111,7 +111,7 @@ window.EW_SCREEN_STR = {
   },
   "pt": {
    "idle": "Em pausa após 2 minutos sem fala: o ecrã pode voltar a apagar-se. Toque num microfone para retomar.",
-   "title": "EVERYWHERE",
+   "title": "Frente a frente",
    "sub": "Traduzir e ligar em todo o lado.",
    "face": "Conversa lado a lado",
    "face_d": "Telemóvel pousado entre as duas pessoas",
@@ -216,7 +216,7 @@ window.EW_SCREEN_STR = {
   },
   "de": {
    "idle": "Pause nach 2 Minuten ohne Sprechen: Der Bildschirm kann wieder ausgehen. Tippe auf ein Mikrofon, um fortzufahren.",
-   "title": "EVERYWHERE",
+   "title": "Gegenüber",
    "sub": "Überall übersetzen und verbinden.",
    "face": "Gespräch von Angesicht zu Angesicht",
    "face_d": "Handy liegt zwischen euch",
@@ -321,7 +321,7 @@ window.EW_SCREEN_STR = {
   },
   "it": {
    "idle": "In pausa dopo 2 minuti senza parlare: lo schermo può di nuovo spegnersi. Tocca un microfono per riprendere.",
-   "title": "EVERYWHERE",
+   "title": "Faccia a faccia",
    "sub": "Tradurre e connettersi ovunque.",
    "face": "Conversazione faccia a faccia",
    "face_d": "Telefono appoggiato tra voi due",
@@ -426,7 +426,7 @@ window.EW_SCREEN_STR = {
   },
   "zh": {
    "idle": "2 分钟没有说话，已暂停：屏幕可以再次熄灭。点一下麦克风即可继续。",
-   "title": "EVERYWHERE",
+   "title": "面对面",
    "sub": "随时随地翻译和联系。",
    "face": "面对面对话",
    "face_d": "把手机放在你们中间",
@@ -531,7 +531,7 @@ window.EW_SCREEN_STR = {
   },
   "ja": {
    "idle": "2分間話さなかったので一時停止しました。画面は再び消えることがあります。マイクをタップすると再開します。",
-   "title": "EVERYWHERE",
+   "title": "対面",
    "sub": "どこでも翻訳し、つながる。",
    "face": "対面での会話",
    "face_d": "スマホを2人の間に置いて",
@@ -636,7 +636,7 @@ window.EW_SCREEN_STR = {
   },
   "ar": {
    "idle": "توقّف مؤقتًا بعد دقيقتين دون كلام: يمكن أن تنطفئ الشاشة من جديد. انقر على ميكروفون للاستئناف.",
-   "title": "EVERYWHERE",
+   "title": "وجهًا لوجه",
    "sub": "ترجم وتواصل في كل مكان.",
    "face": "محادثة وجهًا لوجه",
    "face_d": "الهاتف موضوع بينكما",
@@ -741,7 +741,7 @@ window.EW_SCREEN_STR = {
   },
   "ru": {
    "idle": "Пауза после 2 минут без речи: экран снова может гаснуть. Нажмите на микрофон, чтобы продолжить.",
-   "title": "EVERYWHERE",
+   "title": "Лицом к лицу",
    "sub": "Переводите и общайтесь где угодно.",
    "face": "Разговор лицом к лицу",
    "face_d": "Телефон лежит между вами",
@@ -846,7 +846,7 @@ window.EW_SCREEN_STR = {
   },
   "mg": {
    "idle": "Miato rehefa 2 minitra tsy nisy teny: afaka maty indray ny efijery. Tsindrio ny mikrô iray hanohizana.",
-   "title": "EVERYWHERE",
+   "title": "Mifanatrika",
    "sub": "Mandika sy mifandray na aiza na aiza.",
    "face": "Resaka mifanatrika",
    "face_d": "Finday apetraka eo afovoanareo",
@@ -1476,7 +1476,7 @@ window.EW_SCREEN_STR = {
  },
  "learn": {
   "es": {
-   "title": "LEARN",
+   "title": "Aprender",
    "sub": "Aprender sin límites.",
    "loading": "Cargando…",
    "load_err": "No se ha podido cargar el contenido.",
@@ -1591,7 +1591,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "Progreso"
   },
   "pt": {
-   "title": "LEARN",
+   "title": "Aprender",
    "sub": "Aprender sem limites.",
    "loading": "A carregar…",
    "load_err": "Não foi possível carregar o conteúdo.",
@@ -1706,7 +1706,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "Progresso"
   },
   "de": {
-   "title": "LEARN",
+   "title": "Lernen",
    "sub": "Lernen ohne Grenzen.",
    "loading": "Wird geladen…",
    "load_err": "Der Inhalt konnte nicht geladen werden.",
@@ -1821,7 +1821,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "Fortschritt"
   },
   "it": {
-   "title": "LEARN",
+   "title": "Imparare",
    "sub": "Imparare senza limiti.",
    "loading": "Caricamento…",
    "load_err": "Impossibile caricare il contenuto.",
@@ -1936,7 +1936,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "Progressi"
   },
   "zh": {
-   "title": "LEARN",
+   "title": "学习",
    "sub": "学习无极限。",
    "loading": "加载中…",
    "load_err": "无法加载内容。",
@@ -2051,7 +2051,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "进度"
   },
   "ja": {
-   "title": "LEARN",
+   "title": "学ぶ",
    "sub": "限界なく学ぶ。",
    "loading": "読み込み中…",
    "load_err": "内容を読み込めませんでした。",
@@ -2166,7 +2166,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "進捗"
   },
   "ar": {
-   "title": "LEARN",
+   "title": "تعلّم",
    "sub": "تعلّم بلا حدود.",
    "loading": "جارٍ التحميل…",
    "load_err": "تعذّر تحميل المحتوى.",
@@ -2281,7 +2281,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "التقدّم"
   },
   "ru": {
-   "title": "LEARN",
+   "title": "Учиться",
    "sub": "Учитесь без границ.",
    "loading": "Загрузка…",
    "load_err": "Не удалось загрузить содержимое.",
@@ -2396,7 +2396,7 @@ window.EW_SCREEN_STR = {
    "progress_lbl": "Прогресс"
   },
   "mg": {
-   "title": "LEARN",
+   "title": "Mianara",
    "sub": "Mianara tsy misy fetra.",
    "loading": "Mampiditra…",
    "load_err": "Tsy nety nampidirina ny votoaty.",
