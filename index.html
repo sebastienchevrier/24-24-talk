@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
-<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail. */(function(){var h=location.hash||"";if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
+<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
 /* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
    (même barre du haut et du bas que le portail). Retenu pour la suite de la visite (onglet). Ouvert seul, TALK ne change pas. */
@@ -384,6 +384,34 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-input{width:100%;min-width:0;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;
     padding:12px;font-size:16px;font-family:inherit;}
   .net-add .net-input{flex:1;width:auto;}
+  .ow-welcome{text-align:center;padding:18px 8px 14px;}
+  .ow-welcome img{display:block;margin:0 auto 6px;border-radius:18px;}
+  .ow-welcome-eyebrow{margin:8px 0 6px;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
+  .ow-welcome h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;color:var(--text);}
+  .ow-welcome-slogan{margin:6px 0 0;color:var(--muted);font-size:16px;}
+  .ob{max-width:520px;margin:0 auto;padding:4px 4px 8px;}
+  .ob-bar{display:flex;gap:6px;margin:4px 0 22px;}
+  .ob-bar span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .3s;}
+  .ob-bar span.on{background:var(--text);}
+  .ob-step{display:none;}
+  .ob-step.on{display:block;animation:obIn .35s ease;}
+  @keyframes obIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
+  .ob-count{margin:0 0 6px;font-size:12px;letter-spacing:.2em;color:var(--muted);}
+  .ob-t{margin:0 0 8px;font-size:28px;line-height:1.15;font-weight:800;color:var(--text);}
+  .ob-d{margin:0 0 22px;font-size:16px;color:var(--muted);}
+  .ob-field{display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--line);padding:6px 2px;transition:border-color .2s;}
+  .ob-field:focus-within{border-color:var(--text);}
+  .ob-at{font-size:22px;color:var(--muted);}
+  .ob-field input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--text);font-size:22px;padding:8px 0;}
+  .ob-hint{margin:10px 0 0;font-size:13px;color:var(--muted);}
+  .ob-select{width:100%;font-size:18px;padding:14px;border-radius:14px;background:var(--panel2);color:var(--text);border:1px solid var(--line);}
+  .ob-check{margin-top:16px;}
+  .ob-go{display:block;width:100%;margin-top:26px;padding:16px;border-radius:999px;font-size:17px;font-weight:700;}
+  .ob-go[hidden]{display:none;}
+  .ob-foot{text-align:center;margin-top:14px;font-size:14px;}
+  .ob-foot a{color:var(--muted);}
+  .link-btn{background:none;border:0;padding:4px 0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer;min-height:44px;}
   .net-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;margin:14px 2px 2px;}
   .net-check input{width:20px;height:20px;flex:0 0 auto;margin:0;}
   .net-me{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;font-size:17px;}
@@ -670,6 +698,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     :root:not([data-theme="dark"]) .home-tile{background:var(--panel);} }
   :root[data-theme="light"] .bbar{background:rgba(244,246,251,.94);}
   :root[data-theme="light"] .home-tile{background:var(--panel);}
+  /* COPIE DE TEST : bandeau orange permanent. */
 </style>
 </head>
 <body>
@@ -859,7 +888,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-cgu" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Conditions Générales d'Utilisation</h1>
-  <p class="updated">Dernière mise à jour : 30 septembre 2026</p>
+  <p class="updated">Dernière mise à jour : 19 octobre 2026</p>
 
   <h2>1. Objet</h2>
   <p>Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation de l'application web 24/24 Talk (accessible depuis un navigateur, sans installation depuis un store), éditée par Sébastien Albert Vincent CHEVRIER. L'utilisation de l'application vaut acceptation pleine et entière des présentes CGU.</p>
@@ -881,7 +910,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   </ul>
 
   <h2>4 bis. Réseau 24/24 Talk (discussions et appels traduits)</h2>
-  <p><strong>Accès.</strong> Le Réseau est réservé aux personnes de 15 ans ou plus. Il suffit de choisir un pseudo et une langue : aucun e-mail ni numéro n'est demandé. Le pseudo ne doit ni usurper l'identité d'une autre personne, ni être injurieux ou trompeur.</p>
+  <p><strong>Accès.</strong> Le Réseau est réservé aux personnes de 15 ans ou plus. Il suffit de choisir un pseudo, une langue et de confirmer une adresse e-mail ; aucun numéro de téléphone n'est demandé. Le pseudo ne doit ni usurper l'identité d'une autre personne, ni être injurieux ou trompeur.</p>
   <p><strong>Contenus interdits.</strong> Il est interdit d'envoyer, par écrit ou par la voix : des menaces, du harcèlement, des injures, des contenus haineux ou discriminatoires, des contenus à caractère sexuel impliquant des mineurs ou non sollicités, des contenus illégaux, des arnaques, du spam, ou les données personnelles d'autrui sans son accord.</p>
   <p><strong>Responsabilité.</strong> Chaque utilisateur est seul responsable des messages qu'il envoie. L'éditeur agit en qualité d'hébergeur des messages échangés : il ne les surveille pas a priori, mais retire promptement tout contenu manifestement illicite qui lui est signalé.</p>
   <p><strong>Signaler et bloquer.</strong> Dans chaque discussion, le bouton « Signaler » transmet à l'éditeur une copie des derniers messages de la personne signalée, et le bouton « Bloquer » l'empêche de vous écrire et de vous appeler. Vous pouvez aussi signaler un contenu à <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>. En cas de manquement aux présentes CGU, l'éditeur peut supprimer des messages ou le compte concerné, sans préavis.</p>
@@ -917,13 +946,13 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-privacy" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Politique de confidentialité</h1>
-  <p class="updated">Dernière mise à jour : 1er octobre 2026 (statistiques de visite anonymes, historique des appels, notifications d'appel)</p>
+  <p class="updated">Dernière mise à jour : 19 octobre 2026 (adresse e-mail confirmée pour le Réseau, envoi par Brevo)</p>
 
   <p>24/24 Talk est une application de traduction éditée par Sébastien Albert Vincent CHEVRIER, responsable du traitement. Contact : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>.</p>
   <p><strong>En bref :</strong> aucune publicité, aucun pistage, seulement des statistiques de visite anonymes que vous pouvez désactiver. Votre historique de traduction reste sur votre téléphone. Pour traduire une phrase libre ou transformer votre voix en texte, l'appli fait appel à des services extérieurs, nommés ci-dessous. Si vous utilisez le Réseau 24/24 Talk, votre pseudo, votre langue et vos messages sont hébergés sur un serveur afin d'être remis à vos contacts.</p>
 
   <h2>Données traitées</h2>
-  <p>Aucun compte n'est requis : nous ne connaissons ni votre nom, ni votre e-mail, ni votre numéro.</p>
+  <p>La traduction s'utilise sans compte. Seul le Réseau (messagerie et appels) demande un compte : un pseudo, une langue et une adresse e-mail confirmée. Nous ne demandons ni votre nom, ni votre numéro.</p>
   <table>
     <tr><th>Donnée</th><th>Où elle va</th><th>Pourquoi</th></tr>
     <tr><td>Phrase du dictionnaire intégré</td><td>Nulle part : traduite directement sur votre téléphone</td><td>Fournir la traduction</td></tr>
@@ -932,7 +961,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     <tr><td>Historique et favoris</td><td>Uniquement sur votre téléphone (stockage local du navigateur), jamais envoyés</td><td>Retrouver vos traductions</td></tr>
     <tr><td>Réglages (langue, lecture audio…)</td><td>Uniquement sur votre téléphone</td><td>Mémoriser vos choix</td></tr>
     <tr><td>Adresse IP et données techniques de connexion</td><td>Journaux de l'hébergeur GitHub (et de Supabase si vous utilisez le Réseau)</td><td>Affichage du site, sécurité</td></tr>
-    <tr><td>Réseau : pseudo, langue, identifiant de compte anonyme</td><td>Serveur Supabase (Union européenne)</td><td>Vous permettre d'échanger avec vos contacts</td></tr>
+    <tr><td>Réseau : pseudo, langue, identifiant de compte</td><td>Serveur Supabase (Union européenne)</td><td>Vous permettre d'échanger avec vos contacts</td></tr>
+    <tr><td>Réseau : adresse e-mail</td><td>Serveur Supabase (Union européenne) ; jamais affichée aux autres membres, jamais vendue ; transmise à Brevo uniquement pour envoyer l'e-mail de confirmation ou de connexion</td><td>Protéger et retrouver votre compte</td></tr>
     <tr><td>Réseau : messages écrits ou dictés</td><td>Serveur Supabase (Union européenne), visibles uniquement par les participants de la discussion</td><td>Remettre vos messages à vos contacts</td></tr>
     <tr><td>Appel traduit : phrases prononcées, transformées en texte</td><td>Transmises en direct via Supabase à votre interlocuteur, jamais enregistrées ; aucun son n'est transmis</td><td>Appel traduit</td></tr>
     <tr><td>Statistiques de visite anonymes : identifiant tiré au hasard sur votre téléphone, ouverture de l'appli, nombre de traductions, nombre et durée des appels, présence en ligne</td><td>Serveur Supabase (Union européenne), sous forme de comptes par jour ; aucun nom, aucune adresse IP, aucun texte, aucun lien avec votre compte réseau</td><td>Mesure d'audience anonyme</td></tr>
@@ -950,6 +980,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     <li><strong>Sentry</strong> (Functional Software, Inc., serveurs en Allemagne, Union européenne) : si l'appli rencontre une panne technique sur votre téléphone, un rapport anonyme part automatiquement (message d'erreur, écran concerné, langue de l'interface, modèle de navigateur), pour corriger le problème. Il ne contient jamais vos messages, votre pseudo, vos contacts ni vos traductions, et l'appli demande à Sentry de ne pas enregistrer votre adresse IP.</li>
     <li><strong>jsDelivr</strong> (cdn.jsdelivr.net) : si vous ouvrez l'onglet Réseau, le programme de connexion au serveur est téléchargé depuis ce service, qui reçoit alors votre adresse IP.</li>
     <li><strong>Service de notification de votre navigateur</strong>, seulement si vous activez les notifications d'appel : Google (Firebase Cloud Messaging, Google LLC, États-Unis) pour Chrome sur Android, Apple pour Safari, Mozilla pour Firefox. Le contenu de la notification est chiffré de bout en bout : ce service sait seulement qu'une notification est envoyée à votre téléphone, sans pouvoir la lire.</li>
+    <li><strong>Brevo</strong> (Sendinblue SAS, Paris, France) : reçoit votre adresse e-mail pour vous envoyer l'e-mail de confirmation ou de connexion, rien d'autre.</li>
     <li><strong>Vos contacts</strong> du Réseau : ils reçoivent votre pseudo, votre langue et les messages que vous leur envoyez.</li>
   </ul>
   <p>Google et GitHub étant situés aux États-Unis, ces transferts s'appuient sur le cadre de protection des données UE–États-Unis (Data Privacy Framework) prévu par le RGPD.</p>
@@ -5948,18 +5979,43 @@ const NET_STRINGS = {
     net_loading: "Connexion au réseau…",
     net_err_conn: "Impossible de joindre le réseau. Vérifiez votre connexion Internet.",
     net_retry: "Réessayer",
-    net_setup_title: "Créez votre profil",
-    net_setup_text: "Un pseudo et votre langue, c'est tout : pas d'e-mail, pas de numéro. Vos contacts lisent vos messages déjà traduits dans leur langue.",
+    net_setup_title: "Créez votre compte",
+    net_setup_text: "Un pseudo, votre langue et un e-mail confirmé : pas de numéro de téléphone. Vos contacts lisent vos messages déjà traduits dans leur langue.",
     net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
     net_invited: "@{p} vous invite à discuter sur 24/24 ONE WORLD.",
     net_pseudo_ph: "pseudo (ex. : sebastien974)",
-    net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point ou _",
+    net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point, _ ou -",
     net_my_lang: "Ma langue",
     net_age_html: "J'ai 15 ans ou plus et j'accepte les <a class=\"link\" href=\"cgu.html\">CGU</a>.",
     net_create: "Créer mon profil",
     net_pseudo_taken: "Ce pseudo est déjà pris, choisissez-en un autre.",
-    net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point ou _.",
+    net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point, _ ou -.",
     net_age_needed: "Cochez la case pour continuer.",
+    ob_pseudo_t: "Votre nom sur le réseau",
+    ob_pseudo_d: "C'est ainsi que le monde vous trouvera.",
+    ob_email_t: "Votre e-mail",
+    ob_email_d: "Il protège votre compte. Il n'est jamais affiché aux autres.",
+    ob_lang_t: "Votre langue",
+    ob_lang_d: "Tout ce que vous recevrez arrivera traduit dans cette langue.",
+    ob_next: "Continuer",
+    ob_back: "Retour",
+    net_email_lbl: "Votre adresse e-mail",
+    net_email_ph: "vous@exemple.com",
+    net_email_rule: "Obligatoire : un e-mail de confirmation vous sera envoyé. Il n'est jamais affiché aux autres.",
+    net_email_bad: "Saisissez une adresse e-mail valide.",
+    net_email_used: "Cette adresse a déjà un compte. Touchez « J'ai déjà un compte » pour vous connecter.",
+    net_email_err: "L'e-mail n'a pas pu être envoyé. Réessayez dans un instant.",
+    net_verify_title: "Confirmez votre e-mail",
+    net_verify_text: "Nous avons envoyé un e-mail à {e}. Ouvrez-le et touchez le lien de confirmation, puis revenez ici.",
+    net_verify_spam: "Rien reçu ? Regardez dans les spams.",
+    net_verify_done: "J'ai confirmé",
+    net_verify_wait: "Pas encore confirmé. Touchez le lien dans l'e-mail, puis réessayez.",
+    net_verify_code: "Ou tapez le code reçu",
+    net_verify_ok: "Valider le code",
+    net_verify_bad: "Code incorrect ou expiré.",
+    net_verify_resend: "Renvoyer l'e-mail",
+    net_verify_sent: "E-mail renvoyé.",
+    net_verify_change: "Changer d'adresse",
     net_invite: "📨 Inviter un ami",
     net_new_chat: "Nouvelle discussion",
     net_my_profile: "Mon profil",
@@ -6116,18 +6172,43 @@ const NET_STRINGS = {
     net_loading: "Connecting to the network…",
     net_err_conn: "Can't reach the network. Check your Internet connection.",
     net_retry: "Try again",
-    net_setup_title: "Create your profile",
-    net_setup_text: "Just a username and your language: no email, no phone number. Your contacts read your messages already translated into their language.",
+    net_setup_title: "Create your account",
+    net_setup_text: "A username, your language and a confirmed email: no phone number. Your contacts read your messages already translated into their language.",
     net_have_account: "I already have an account (code by email)",
     net_invited: "@{p} invites you to chat on 24/24 ONE WORLD.",
     net_pseudo_ph: "username (e.g. sebastien974)",
-    net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot or _",
+    net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot, _ or -",
     net_my_lang: "My language",
     net_age_html: "I am 15 or older and I accept the <a class=\"link\" href=\"cgu.html\">Terms</a>.",
     net_create: "Create my profile",
     net_pseudo_taken: "This username is taken, please choose another one.",
-    net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot or _.",
+    net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot, _ or -.",
     net_age_needed: "Tick the box to continue.",
+    ob_pseudo_t: "Your name on the network",
+    ob_pseudo_d: "This is how the world will find you.",
+    ob_email_t: "Your email",
+    ob_email_d: "It protects your account. It is never shown to others.",
+    ob_lang_t: "Your language",
+    ob_lang_d: "Everything you receive will arrive translated into this language.",
+    ob_next: "Continue",
+    ob_back: "Back",
+    net_email_lbl: "Your email address",
+    net_email_ph: "you@example.com",
+    net_email_rule: "Required: we will send you a confirmation email. It is never shown to others.",
+    net_email_bad: "Enter a valid email address.",
+    net_email_used: "This address already has an account. Tap “I already have an account” to sign in.",
+    net_email_err: "The email could not be sent. Try again in a moment.",
+    net_verify_title: "Confirm your email",
+    net_verify_text: "We sent an email to {e}. Open it and tap the confirmation link, then come back here.",
+    net_verify_spam: "Nothing received? Check your spam folder.",
+    net_verify_done: "I've confirmed",
+    net_verify_wait: "Not confirmed yet. Tap the link in the email, then try again.",
+    net_verify_code: "Or type the code you received",
+    net_verify_ok: "Check code",
+    net_verify_bad: "Wrong or expired code.",
+    net_verify_resend: "Send the email again",
+    net_verify_sent: "Email sent again.",
+    net_verify_change: "Change address",
     net_invite: "📨 Invite a friend",
     net_new_chat: "New chat",
     net_my_profile: "My profile",
@@ -6284,17 +6365,42 @@ const NET_STRINGS = {
     net_loading: "Conectando a la red…",
     net_err_conn: "No se puede acceder a la red. Revisa tu conexión a Internet.",
     net_retry: "Reintentar",
-    net_setup_title: "Crea tu perfil",
-    net_setup_text: "Solo un nombre de usuario y tu idioma: sin correo ni número. Tus contactos leen tus mensajes ya traducidos a su idioma.",
+    net_setup_title: "Crea tu cuenta",
+    net_setup_text: "Un nombre de usuario, tu idioma y un correo confirmado: sin número de teléfono. Tus contactos leen tus mensajes ya traducidos a su idioma.",
     net_invited: "@{p} te invita a chatear en 24/24 ONE WORLD.",
     net_pseudo_ph: "usuario (ej.: sebastien974)",
-    net_pseudo_rule: "De 3 a 20 caracteres: minúsculas, cifras, punto o _",
+    net_pseudo_rule: "De 3 a 20 caracteres: minúsculas, cifras, punto o _, -",
     net_my_lang: "Mi idioma",
     net_age_html: "Tengo 15 años o más y acepto las <a class=\"link\" href=\"cgu.html\">Condiciones</a>.",
     net_create: "Crear mi perfil",
     net_pseudo_taken: "Este usuario ya existe, elige otro.",
-    net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _.",
+    net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _, -.",
     net_age_needed: "Marca la casilla para continuar.",
+    ob_pseudo_t: "Tu nombre en la red",
+    ob_pseudo_d: "Así te encontrará el mundo.",
+    ob_email_t: "Tu correo",
+    ob_email_d: "Protege tu cuenta. Nunca se muestra a los demás.",
+    ob_lang_t: "Tu idioma",
+    ob_lang_d: "Todo lo que recibas llegará traducido a este idioma.",
+    ob_next: "Continuar",
+    ob_back: "Atrás",
+    net_email_lbl: "Tu correo electrónico",
+    net_email_ph: "tu@ejemplo.com",
+    net_email_rule: "Obligatorio: te enviaremos un correo de confirmación. Nunca se muestra a los demás.",
+    net_email_bad: "Escribe un correo válido.",
+    net_email_used: "Esta dirección ya tiene una cuenta. Toca «Ya tengo una cuenta» para entrar.",
+    net_email_err: "No se pudo enviar el correo. Inténtalo de nuevo en un momento.",
+    net_verify_title: "Confirma tu correo",
+    net_verify_text: "Hemos enviado un correo a {e}. Ábrelo, toca el enlace de confirmación y vuelve aquí.",
+    net_verify_spam: "¿No llega nada? Mira en el spam.",
+    net_verify_done: "Ya lo he confirmado",
+    net_verify_wait: "Aún no está confirmado. Toca el enlace del correo y vuelve a intentarlo.",
+    net_verify_code: "O escribe el código recibido",
+    net_verify_ok: "Validar el código",
+    net_verify_bad: "Código incorrecto o caducado.",
+    net_verify_resend: "Reenviar el correo",
+    net_verify_sent: "Correo reenviado.",
+    net_verify_change: "Cambiar de dirección",
     net_invite: "📨 Invitar a un amigo",
     net_new_chat: "Nuevo chat",
     net_my_profile: "Mi perfil",
@@ -6449,17 +6555,42 @@ const NET_STRINGS = {
     net_loading: "Ligando à rede…",
     net_err_conn: "Não foi possível aceder à rede. Verifique a sua ligação à Internet.",
     net_retry: "Tentar novamente",
-    net_setup_title: "Crie o seu perfil",
-    net_setup_text: "Só um nome de utilizador e o seu idioma: sem e-mail nem número. Os seus contactos leem as suas mensagens já traduzidas no idioma deles.",
+    net_setup_title: "Crie a sua conta",
+    net_setup_text: "Um nome de utilizador, o seu idioma e um e-mail confirmado: sem número de telefone. Os seus contactos leem as suas mensagens já traduzidas no idioma deles.",
     net_invited: "@{p} convida-o a conversar no 24/24 ONE WORLD.",
     net_pseudo_ph: "utilizador (ex.: sebastien974)",
-    net_pseudo_rule: "3 a 20 caracteres: letras minúsculas, algarismos, ponto ou _",
+    net_pseudo_rule: "3 a 20 caracteres: letras minúsculas, algarismos, ponto ou _, -",
     net_my_lang: "O meu idioma",
     net_age_html: "Tenho 15 anos ou mais e aceito os <a class=\"link\" href=\"cgu.html\">Termos</a>.",
     net_create: "Criar o meu perfil",
     net_pseudo_taken: "Este nome já está em uso, escolha outro.",
-    net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _.",
+    net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _, -.",
     net_age_needed: "Marque a caixa para continuar.",
+    ob_pseudo_t: "O seu nome na rede",
+    ob_pseudo_d: "É assim que o mundo o vai encontrar.",
+    ob_email_t: "O seu e-mail",
+    ob_email_d: "Protege a sua conta. Nunca é mostrado aos outros.",
+    ob_lang_t: "O seu idioma",
+    ob_lang_d: "Tudo o que receber chegará traduzido neste idioma.",
+    ob_next: "Continuar",
+    ob_back: "Voltar",
+    net_email_lbl: "O seu e-mail",
+    net_email_ph: "voce@exemplo.com",
+    net_email_rule: "Obrigatório: vamos enviar-lhe um e-mail de confirmação. Nunca é mostrado aos outros.",
+    net_email_bad: "Escreva um e-mail válido.",
+    net_email_used: "Este endereço já tem uma conta. Toque em «Já tenho uma conta» para entrar.",
+    net_email_err: "Não foi possível enviar o e-mail. Tente de novo daqui a pouco.",
+    net_verify_title: "Confirme o seu e-mail",
+    net_verify_text: "Enviámos um e-mail para {e}. Abra-o, toque no link de confirmação e volte aqui.",
+    net_verify_spam: "Não recebeu nada? Veja no spam.",
+    net_verify_done: "Já confirmei",
+    net_verify_wait: "Ainda não confirmado. Toque no link do e-mail e tente de novo.",
+    net_verify_code: "Ou escreva o código recebido",
+    net_verify_ok: "Validar o código",
+    net_verify_bad: "Código errado ou expirado.",
+    net_verify_resend: "Reenviar o e-mail",
+    net_verify_sent: "E-mail reenviado.",
+    net_verify_change: "Mudar de endereço",
     net_invite: "📨 Convidar um amigo",
     net_new_chat: "Nova conversa",
     net_my_profile: "O meu perfil",
@@ -6614,17 +6745,42 @@ const NET_STRINGS = {
     net_loading: "Verbindung zum Netzwerk…",
     net_err_conn: "Netzwerk nicht erreichbar. Prüfe deine Internetverbindung.",
     net_retry: "Erneut versuchen",
-    net_setup_title: "Erstelle dein Profil",
-    net_setup_text: "Nur ein Benutzername und deine Sprache: keine E-Mail, keine Telefonnummer. Deine Kontakte lesen deine Nachrichten schon übersetzt in ihrer Sprache.",
+    net_setup_title: "Erstelle dein Konto",
+    net_setup_text: "Ein Benutzername, deine Sprache und eine bestätigte E-Mail: keine Telefonnummer. Deine Kontakte lesen deine Nachrichten schon übersetzt in ihrer Sprache.",
     net_invited: "@{p} lädt dich zum Chatten auf 24/24 ONE WORLD ein.",
     net_pseudo_ph: "Benutzername (z. B. sebastien974)",
-    net_pseudo_rule: "3 bis 20 Zeichen: Kleinbuchstaben, Ziffern, Punkt oder _",
+    net_pseudo_rule: "3 bis 20 Zeichen: Kleinbuchstaben, Ziffern, Punkt oder _, -",
     net_my_lang: "Meine Sprache",
     net_age_html: "Ich bin mindestens 15 Jahre alt und akzeptiere die <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a>.",
     net_create: "Profil erstellen",
     net_pseudo_taken: "Dieser Benutzername ist vergeben, bitte wähle einen anderen.",
-    net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _.",
+    net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _, -.",
     net_age_needed: "Setze das Häkchen, um fortzufahren.",
+    ob_pseudo_t: "Dein Name im Netzwerk",
+    ob_pseudo_d: "So findet dich die Welt.",
+    ob_email_t: "Deine E-Mail",
+    ob_email_d: "Sie schützt dein Konto und wird anderen nie angezeigt.",
+    ob_lang_t: "Deine Sprache",
+    ob_lang_d: "Alles, was du erhältst, kommt in dieser Sprache übersetzt an.",
+    ob_next: "Weiter",
+    ob_back: "Zurück",
+    net_email_lbl: "Ihre E-Mail-Adresse",
+    net_email_ph: "sie@beispiel.de",
+    net_email_rule: "Pflicht: Sie erhalten eine Bestätigungs-E-Mail. Sie wird anderen nie angezeigt.",
+    net_email_bad: "Geben Sie eine gültige E-Mail-Adresse ein.",
+    net_email_used: "Diese Adresse hat bereits ein Konto. Tippen Sie auf „Ich habe schon ein Konto“.",
+    net_email_err: "Die E-Mail konnte nicht gesendet werden. Bitte gleich noch einmal versuchen.",
+    net_verify_title: "E-Mail bestätigen",
+    net_verify_text: "Wir haben eine E-Mail an {e} gesendet. Öffnen Sie sie, tippen Sie auf den Bestätigungslink und kommen Sie hierher zurück.",
+    net_verify_spam: "Nichts erhalten? Sehen Sie im Spam nach.",
+    net_verify_done: "Ich habe bestätigt",
+    net_verify_wait: "Noch nicht bestätigt. Tippen Sie auf den Link in der E-Mail und versuchen Sie es erneut.",
+    net_verify_code: "Oder geben Sie den erhaltenen Code ein",
+    net_verify_ok: "Code prüfen",
+    net_verify_bad: "Falscher oder abgelaufener Code.",
+    net_verify_resend: "E-Mail erneut senden",
+    net_verify_sent: "E-Mail erneut gesendet.",
+    net_verify_change: "Adresse ändern",
     net_invite: "📨 Freund einladen",
     net_new_chat: "Neuer Chat",
     net_my_profile: "Mein Profil",
@@ -6779,17 +6935,42 @@ const NET_STRINGS = {
     net_loading: "Connessione alla rete…",
     net_err_conn: "Impossibile raggiungere la rete. Controlla la connessione Internet.",
     net_retry: "Riprova",
-    net_setup_title: "Crea il tuo profilo",
-    net_setup_text: "Solo un nome utente e la tua lingua: niente e-mail né numero. I tuoi contatti leggono i tuoi messaggi già tradotti nella loro lingua.",
+    net_setup_title: "Crea il tuo account",
+    net_setup_text: "Un nome utente, la tua lingua e un'e-mail confermata: niente numero di telefono. I tuoi contatti leggono i tuoi messaggi già tradotti nella loro lingua.",
     net_invited: "@{p} ti invita a chattare su 24/24 ONE WORLD.",
     net_pseudo_ph: "nome utente (es. sebastien974)",
-    net_pseudo_rule: "Da 3 a 20 caratteri: lettere minuscole, cifre, punto o _",
+    net_pseudo_rule: "Da 3 a 20 caratteri: lettere minuscole, cifre, punto o _, -",
     net_my_lang: "La mia lingua",
     net_age_html: "Ho almeno 15 anni e accetto le <a class=\"link\" href=\"cgu.html\">Condizioni</a>.",
     net_create: "Crea il mio profilo",
     net_pseudo_taken: "Questo nome utente è già preso, scegline un altro.",
-    net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _.",
+    net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _, -.",
     net_age_needed: "Spunta la casella per continuare.",
+    ob_pseudo_t: "Il tuo nome nella rete",
+    ob_pseudo_d: "È così che il mondo ti troverà.",
+    ob_email_t: "La tua e-mail",
+    ob_email_d: "Protegge il tuo account. Non viene mai mostrata agli altri.",
+    ob_lang_t: "La tua lingua",
+    ob_lang_d: "Tutto ciò che riceverai arriverà tradotto in questa lingua.",
+    ob_next: "Continua",
+    ob_back: "Indietro",
+    net_email_lbl: "Il tuo indirizzo e-mail",
+    net_email_ph: "tu@esempio.it",
+    net_email_rule: "Obbligatorio: ti invieremo un'e-mail di conferma. Non viene mai mostrato agli altri.",
+    net_email_bad: "Inserisci un indirizzo e-mail valido.",
+    net_email_used: "Questo indirizzo ha già un account. Tocca «Ho già un account» per entrare.",
+    net_email_err: "Impossibile inviare l'e-mail. Riprova tra un attimo.",
+    net_verify_title: "Conferma la tua e-mail",
+    net_verify_text: "Abbiamo inviato un'e-mail a {e}. Aprila, tocca il link di conferma e torna qui.",
+    net_verify_spam: "Non è arrivato nulla? Guarda nello spam.",
+    net_verify_done: "Ho confermato",
+    net_verify_wait: "Non ancora confermato. Tocca il link nell'e-mail e riprova.",
+    net_verify_code: "Oppure scrivi il codice ricevuto",
+    net_verify_ok: "Verifica il codice",
+    net_verify_bad: "Codice errato o scaduto.",
+    net_verify_resend: "Invia di nuovo l'e-mail",
+    net_verify_sent: "E-mail inviata di nuovo.",
+    net_verify_change: "Cambia indirizzo",
     net_invite: "📨 Invita un amico",
     net_new_chat: "Nuova chat",
     net_my_profile: "Il mio profilo",
@@ -6944,17 +7125,42 @@ const NET_STRINGS = {
     net_loading: "正在连接网络…",
     net_err_conn: "无法连接网络。请检查你的网络连接。",
     net_retry: "重试",
-    net_setup_title: "创建你的个人资料",
-    net_setup_text: "只需一个用户名和你的语言：无需邮箱或手机号。你的联系人会直接读到翻译成他们语言的消息。",
+    net_setup_title: "创建你的账户",
+    net_setup_text: "一个用户名、你的语言和一个已确认的邮箱：无需手机号。你的联系人会直接读到翻译成他们语言的消息。",
     net_invited: "@{p} 邀请你在 24/24 ONE WORLD 上聊天。",
     net_pseudo_ph: "用户名（例如 sebastien974）",
-    net_pseudo_rule: "3 到 20 个字符：小写字母、数字、点或 _",
+    net_pseudo_rule: "3 到 20 个字符：小写字母、数字、点或 _, -",
     net_my_lang: "我的语言",
     net_age_html: "我已年满 15 岁并接受<a class=\"link\" href=\"cgu.html\">使用条款</a>。",
     net_create: "创建我的资料",
     net_pseudo_taken: "该用户名已被占用，请换一个。",
-    net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _。",
+    net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _, -。",
     net_age_needed: "请勾选方框后继续。",
+    ob_pseudo_t: "你在网络上的名字",
+    ob_pseudo_d: "世界将通过它找到你。",
+    ob_email_t: "你的邮箱",
+    ob_email_d: "它保护你的账户，绝不会显示给他人。",
+    ob_lang_t: "你的语言",
+    ob_lang_d: "你收到的一切都会翻译成这种语言。",
+    ob_next: "继续",
+    ob_back: "返回",
+    net_email_lbl: "您的电子邮箱",
+    net_email_ph: "you@example.com",
+    net_email_rule: "必填：我们会给您发送一封确认邮件。邮箱不会显示给他人。",
+    net_email_bad: "请输入有效的电子邮箱。",
+    net_email_used: "该邮箱已有账户。请点“我已有账户”登录。",
+    net_email_err: "邮件发送失败，请稍后再试。",
+    net_verify_title: "确认您的邮箱",
+    net_verify_text: "我们已向 {e} 发送邮件。打开邮件并点击确认链接，然后回到这里。",
+    net_verify_spam: "没收到？请查看垃圾邮件。",
+    net_verify_done: "我已确认",
+    net_verify_wait: "尚未确认。请点击邮件中的链接后再试。",
+    net_verify_code: "或输入收到的验证码",
+    net_verify_ok: "验证",
+    net_verify_bad: "验证码错误或已过期。",
+    net_verify_resend: "重新发送邮件",
+    net_verify_sent: "邮件已重新发送。",
+    net_verify_change: "更换邮箱",
     net_invite: "📨 邀请朋友",
     net_new_chat: "新聊天",
     net_my_profile: "我的资料",
@@ -7109,17 +7315,42 @@ const NET_STRINGS = {
     net_loading: "ネットワークに接続中…",
     net_err_conn: "ネットワークに接続できません。インターネット接続を確認してください。",
     net_retry: "再試行",
-    net_setup_title: "プロフィールを作成",
-    net_setup_text: "ユーザー名と言語だけ：メールも電話番号も不要。相手はあなたのメッセージを自分の言語に翻訳された状態で読めます。",
+    net_setup_title: "アカウントを作成",
+    net_setup_text: "ユーザー名、言語、確認済みのメールアドレス：電話番号は不要。相手はあなたのメッセージを自分の言語に翻訳された状態で読めます。",
     net_invited: "@{p} さんが 24/24 ONE WORLD でのチャットに招待しています。",
     net_pseudo_ph: "ユーザー名（例：sebastien974）",
-    net_pseudo_rule: "3〜20文字：小文字、数字、ピリオド、_",
+    net_pseudo_rule: "3〜20文字：小文字、数字、ピリオド、_, -",
     net_my_lang: "私の言語",
     net_age_html: "15歳以上で、<a class=\"link\" href=\"cgu.html\">利用規約</a>に同意します。",
     net_create: "プロフィールを作成",
     net_pseudo_taken: "このユーザー名は使われています。別の名前を選んでください。",
-    net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_。",
+    net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_, -。",
     net_age_needed: "続けるにはチェックを入れてください。",
+    ob_pseudo_t: "ネットワークでのあなたの名前",
+    ob_pseudo_d: "世界はこの名前であなたを見つけます。",
+    ob_email_t: "メールアドレス",
+    ob_email_d: "アカウントを守ります。他の人には表示されません。",
+    ob_lang_t: "あなたの言語",
+    ob_lang_d: "受け取るすべてがこの言語に翻訳されて届きます。",
+    ob_next: "続ける",
+    ob_back: "戻る",
+    net_email_lbl: "メールアドレス",
+    net_email_ph: "you@example.com",
+    net_email_rule: "必須：確認メールをお送りします。他の人には表示されません。",
+    net_email_bad: "有効なメールアドレスを入力してください。",
+    net_email_used: "このアドレスには既にアカウントがあります。「アカウントをお持ちの方」からログインしてください。",
+    net_email_err: "メールを送信できませんでした。少し後でもう一度お試しください。",
+    net_verify_title: "メールを確認してください",
+    net_verify_text: "{e} にメールを送りました。メールを開いて確認リンクをタップし、ここに戻ってください。",
+    net_verify_spam: "届かない場合は迷惑メールを確認してください。",
+    net_verify_done: "確認しました",
+    net_verify_wait: "まだ確認されていません。メールのリンクをタップしてからもう一度お試しください。",
+    net_verify_code: "または受け取ったコードを入力",
+    net_verify_ok: "コードを確認",
+    net_verify_bad: "コードが違うか、期限切れです。",
+    net_verify_resend: "メールを再送",
+    net_verify_sent: "メールを再送しました。",
+    net_verify_change: "アドレスを変更",
     net_invite: "📨 友だちを招待",
     net_new_chat: "新しいチャット",
     net_my_profile: "マイプロフィール",
@@ -7274,17 +7505,42 @@ const NET_STRINGS = {
     net_loading: "جارٍ الاتصال بالشبكة…",
     net_err_conn: "تعذّر الوصول إلى الشبكة. تحقّق من اتصالك بالإنترنت.",
     net_retry: "إعادة المحاولة",
-    net_setup_title: "أنشئ ملفك الشخصي",
-    net_setup_text: "اسم مستخدم ولغتك فقط: بلا بريد إلكتروني ولا رقم هاتف. يقرأ جهات اتصالك رسائلك مترجمة إلى لغتهم.",
+    net_setup_title: "أنشئ حسابك",
+    net_setup_text: "اسم مستخدم ولغتك وبريد إلكتروني مؤكَّد: بلا رقم هاتف. يقرأ جهات اتصالك رسائلك مترجمة إلى لغتهم.",
     net_invited: "⁦@{p}⁩ يدعوك إلى الدردشة على ⁦24/24 ONE WORLD⁩.",
     net_pseudo_ph: "اسم المستخدم (مثال: sebastien974)",
-    net_pseudo_rule: "من 3 إلى 20 حرفًا: أحرف لاتينية صغيرة أو أرقام أو نقطة أو _",
+    net_pseudo_rule: "من 3 إلى 20 حرفًا: أحرف لاتينية صغيرة أو أرقام أو نقطة أو _, -",
     net_my_lang: "لغتي",
     net_age_html: "عمري 15 سنة أو أكثر وأقبل <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a>.",
     net_create: "إنشاء ملفي",
     net_pseudo_taken: "اسم المستخدم هذا مأخوذ، اختر اسمًا آخر.",
-    net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _.",
+    net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _, -.",
     net_age_needed: "ضع علامة في المربع للمتابعة.",
+    ob_pseudo_t: "اسمك على الشبكة",
+    ob_pseudo_d: "هكذا سيجدك العالم.",
+    ob_email_t: "بريدك الإلكتروني",
+    ob_email_d: "يحمي حسابك ولا يظهر للآخرين أبدًا.",
+    ob_lang_t: "لغتك",
+    ob_lang_d: "كل ما تتلقاه سيصلك مترجمًا إلى هذه اللغة.",
+    ob_next: "متابعة",
+    ob_back: "رجوع",
+    net_email_lbl: "بريدك الإلكتروني",
+    net_email_ph: "you@example.com",
+    net_email_rule: "إلزامي: سنرسل إليك رسالة تأكيد. لا يظهر بريدك للآخرين أبدًا.",
+    net_email_bad: "أدخل بريدًا إلكترونيًا صالحًا.",
+    net_email_used: "هذا العنوان لديه حساب بالفعل. اضغط «لدي حساب بالفعل» لتسجيل الدخول.",
+    net_email_err: "تعذّر إرسال الرسالة. حاول مرة أخرى بعد قليل.",
+    net_verify_title: "أكّد بريدك الإلكتروني",
+    net_verify_text: "أرسلنا رسالة إلى {e}. افتحها واضغط رابط التأكيد ثم عد إلى هنا.",
+    net_verify_spam: "لم يصلك شيء؟ تحقّق من البريد المزعج.",
+    net_verify_done: "لقد أكّدت",
+    net_verify_wait: "لم يتم التأكيد بعد. اضغط الرابط في الرسالة ثم حاول مجددًا.",
+    net_verify_code: "أو اكتب الرمز الذي وصلك",
+    net_verify_ok: "تحقّق من الرمز",
+    net_verify_bad: "الرمز خاطئ أو منتهي الصلاحية.",
+    net_verify_resend: "أعد إرسال الرسالة",
+    net_verify_sent: "تمت إعادة الإرسال.",
+    net_verify_change: "تغيير العنوان",
     net_invite: "📨 ادعُ صديقًا",
     net_new_chat: "محادثة جديدة",
     net_my_profile: "ملفي الشخصي",
@@ -7439,17 +7695,42 @@ const NET_STRINGS = {
     net_loading: "Подключение к сети…",
     net_err_conn: "Не удаётся подключиться к сети. Проверьте интернет-соединение.",
     net_retry: "Повторить",
-    net_setup_title: "Создайте профиль",
-    net_setup_text: "Только имя пользователя и ваш язык: без e-mail и номера телефона. Собеседники читают ваши сообщения уже переведёнными на свой язык.",
+    net_setup_title: "Создайте аккаунт",
+    net_setup_text: "Имя пользователя, ваш язык и подтверждённый e-mail: без номера телефона. Собеседники читают ваши сообщения уже переведёнными на свой язык.",
     net_invited: "@{p} приглашает вас пообщаться в 24/24 ONE WORLD.",
     net_pseudo_ph: "имя пользователя (напр. sebastien974)",
-    net_pseudo_rule: "От 3 до 20 символов: строчные латинские буквы, цифры, точка или _",
+    net_pseudo_rule: "От 3 до 20 символов: строчные латинские буквы, цифры, точка или _, -",
     net_my_lang: "Мой язык",
     net_age_html: "Мне 15 лет или больше, и я принимаю <a class=\"link\" href=\"cgu.html\">Условия</a>.",
     net_create: "Создать профиль",
     net_pseudo_taken: "Это имя уже занято, выберите другое.",
-    net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _.",
+    net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _, -.",
     net_age_needed: "Отметьте флажок, чтобы продолжить.",
+    ob_pseudo_t: "Ваше имя в сети",
+    ob_pseudo_d: "Так мир сможет вас найти.",
+    ob_email_t: "Ваш e-mail",
+    ob_email_d: "Он защищает аккаунт и никогда не показывается другим.",
+    ob_lang_t: "Ваш язык",
+    ob_lang_d: "Всё, что вы получите, придёт переведённым на этот язык.",
+    ob_next: "Продолжить",
+    ob_back: "Назад",
+    net_email_lbl: "Ваш e-mail",
+    net_email_ph: "vy@primer.ru",
+    net_email_rule: "Обязательно: мы отправим письмо для подтверждения. Адрес никогда не показывается другим.",
+    net_email_bad: "Введите правильный e-mail.",
+    net_email_used: "У этого адреса уже есть аккаунт. Нажмите «У меня уже есть аккаунт», чтобы войти.",
+    net_email_err: "Не удалось отправить письмо. Попробуйте ещё раз чуть позже.",
+    net_verify_title: "Подтвердите e-mail",
+    net_verify_text: "Мы отправили письмо на {e}. Откройте его, нажмите ссылку подтверждения и вернитесь сюда.",
+    net_verify_spam: "Ничего не пришло? Проверьте папку «Спам».",
+    net_verify_done: "Я подтвердил(а)",
+    net_verify_wait: "Ещё не подтверждено. Нажмите ссылку в письме и попробуйте снова.",
+    net_verify_code: "Или введите полученный код",
+    net_verify_ok: "Проверить код",
+    net_verify_bad: "Неверный или устаревший код.",
+    net_verify_resend: "Отправить письмо ещё раз",
+    net_verify_sent: "Письмо отправлено ещё раз.",
+    net_verify_change: "Изменить адрес",
     net_invite: "📨 Пригласить друга",
     net_new_chat: "Новый чат",
     net_my_profile: "Мой профиль",
@@ -7605,16 +7886,41 @@ const NET_STRINGS = {
     net_err_conn: "Tsy tafiditra amin'ny tambajotra. Hamarino ny fifandraisanao amin'ny Internet.",
     net_retry: "Andramo indray",
     net_setup_title: "Amorony ny kaontinao",
-    net_setup_text: "Pseudo iray sy ny fiteninao, izay ihany: tsy mila mailaka, tsy mila laharana finday. Vakian'ny namanao efa voadika amin'ny fiteniny ny hafatrao.",
+    net_setup_text: "Pseudo iray, ny fiteninao ary mailaka voamarina: tsy mila laharana finday. Vakian'ny namanao efa voadika amin'ny fiteniny ny hafatrao.",
     net_invited: "@{p} manasa anao hiresaka ao amin'ny 24/24 ONE WORLD.",
     net_pseudo_ph: "pseudo (ohatra: sebastien974)",
-    net_pseudo_rule: "Litera 3 ka hatramin'ny 20: litera madinika, isa, teboka na _",
+    net_pseudo_rule: "Litera 3 ka hatramin'ny 20: litera madinika, isa, teboka na _, -",
     net_my_lang: "Ny fiteniko",
     net_age_html: "15 taona na mihoatra aho ary manaiky ny <a class=\"link\" href=\"cgu.html\">CGU</a>.",
     net_create: "Hamorona ny kaontiko",
     net_pseudo_taken: "Efa misy naka io pseudo io, mifidiana hafa.",
-    net_pseudo_bad: "Pseudo tsy mety: litera 3 ka hatramin'ny 20, litera madinika, isa, teboka na _.",
+    net_pseudo_bad: "Pseudo tsy mety: litera 3 ka hatramin'ny 20, litera madinika, isa, teboka na _, -.",
     net_age_needed: "Asio marika ny boaty vao afaka manohy.",
+    ob_pseudo_t: "Ny anaranao amin'ny tambajotra",
+    ob_pseudo_d: "Izany no hahitan'izao tontolo izao anao.",
+    ob_email_t: "Ny mailakao",
+    ob_email_d: "Miaro ny kaontinao izy. Tsy aseho amin'ny hafa mihitsy.",
+    ob_lang_t: "Ny fiteninao",
+    ob_lang_d: "Izay rehetra horaisinao dia ho tonga voadika amin'ity fiteny ity.",
+    ob_next: "Tohizo",
+    ob_back: "Hiverina",
+    net_email_lbl: "Ny adiresy mailakao",
+    net_email_ph: "ianao@ohatra.com",
+    net_email_rule: "Tsy maintsy atao: handefasanay mailaka fanamafisana ianao. Tsy aseho amin'ny hafa mihitsy izy.",
+    net_email_bad: "Ampidiro adiresy mailaka marina.",
+    net_email_used: "Efa manana kaonty io adiresy io. Tsindrio « Efa manana kaonty aho » hidirana.",
+    net_email_err: "Tsy lasa ny mailaka. Andramo indray afaka kelikely.",
+    net_verify_title: "Hamafiso ny mailakao",
+    net_verify_text: "Nandefa mailaka ho any amin'i {e} izahay. Sokafy, tsindrio ny rohy fanamafisana, ary miverena eto.",
+    net_verify_spam: "Tsy nahazo na inona na inona? Jereo ao amin'ny spam.",
+    net_verify_done: "Efa nanamafy aho",
+    net_verify_wait: "Mbola tsy voamafy. Tsindrio ny rohy ao amin'ny mailaka ary andramo indray.",
+    net_verify_code: "Na soraty ny kaody voaray",
+    net_verify_ok: "Hamarino ny kaody",
+    net_verify_bad: "Diso na lany daty ny kaody.",
+    net_verify_resend: "Alefaso indray ny mailaka",
+    net_verify_sent: "Lasa indray ny mailaka.",
+    net_verify_change: "Hanova adiresy",
     net_invite: "📨 Hanasa namana",
     net_new_chat: "Resaka vaovao",
     net_my_profile: "Ny mombamomba ahy",
@@ -8148,7 +8454,7 @@ const Reseau = (() => {
   }
 
   function updateTopbar() {
-    topbar.hidden = screen === "chat" || screen === "call";
+    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify";
     const full = document.body.classList.contains("net-full");
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
@@ -8200,7 +8506,7 @@ const Reseau = (() => {
   // Messenger/Facebook puis touche « Ouvrir dans Chrome », Chrome reçoit l'adresse complète.
   // Il est aussi gardé sur le téléphone (7 jours) au cas où l'ami rouvre l'appli plus tard par son icône.
   (function readInvite() {
-    const m = /[?#&](?:ajouter|add)=([a-z0-9_.]{3,20})/i.exec((location.search || "") + (location.hash || ""));
+    const m = /[?#&](?:ajouter|add)=([a-z0-9_.-]{3,20})/i.exec((location.search || "") + (location.hash || ""));
     if (m) {
       pendingAdd = m[1].toLowerCase();
       inviteFromLink = true;
@@ -8284,12 +8590,23 @@ const Reseau = (() => {
     });
   }
 
+  // Retour du lien de confirmation de l'inscription : on garde la session du lien (utile s'il s'ouvre dans un autre navigateur).
+  let linkSession = null;
+  if (/access_token=|error_description=|type=email_change/.test(location.hash)) {
+    const hp = new URLSearchParams(location.hash.slice(1));
+    if (hp.get("access_token") && hp.get("refresh_token")) linkSession = { access_token: hp.get("access_token"), refresh_token: hp.get("refresh_token") };
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignoré */ }
+  }
   async function connect() {
     const lib = await loadSdk();
     if (!sb) {
       sb = lib.createClient(NET_CONFIG.url, NET_CONFIG.key, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: "lc_net_auth" },
       });
+    }
+    if (linkSession) {
+      const ls = linkSession; linkSession = null;
+      try { await sb.auth.setSession(ls); } catch (e) { /* lien périmé : on garde la session actuelle */ }
     }
     const { data, error: sessErr } = await sb.auth.getSession();
     if (sessErr) throw sessErr; // connexion impossible : on n'écrase surtout pas le compte existant
@@ -8305,7 +8622,18 @@ const Reseau = (() => {
       safeStore.setItem("lc_net_joined", "1");
       await afterProfileReady();
     } else {
-      screen = "setup";
+      readAuthUser(session && session.user);
+      if (me && !myEmail) {
+        try { const { data: u } = await sb.auth.getUser(); readAuthUser(u && u.user); } catch (e) { /* ignoré */ }
+      }
+      const d = signupDraft();
+      if (myEmail && d.pseudo) {
+        // E-mail confirmé (lien touché) : on termine la création du profil tout de suite.
+        screen = "setup";
+        setTimeout(() => createProfile(d.pseudo, d.lang || DEFAULT_SRC, true, myEmail), 0);
+      } else {
+        screen = me && pendingEmail ? "verify" : "setup";
+      }
     }
   }
 
@@ -8478,7 +8806,7 @@ const Reseau = (() => {
 
   async function openWith(pseudo, stay) {
     const clean = String(pseudo || "").trim().replace(/^@/, "").toLowerCase();
-    if (!/^[a-z0-9_.]{3,20}$/.test(clean)) {
+    if (!/^[a-z0-9_.-]{3,20}$/.test(clean)) {
       setFlash(t("net_not_found"), "warn");
       render();
       return;
@@ -9110,7 +9438,7 @@ const Reseau = (() => {
     }
   });
   try {
-    const want = new URLSearchParams(location.search).get("b");
+    const want = new URLSearchParams(location.search).get("b") || (linkSession ? "msg" : null); // retour du lien d'inscription : Messagerie
     if (want === "msg" || want === "call" || want === "tr") {
       history.replaceState(null, "", location.pathname + location.hash);
       setTimeout(() => { const b = bar.querySelector(`button[data-b="${want}"]`); if (b) b.click(); }, 0);
@@ -9176,6 +9504,7 @@ const Reseau = (() => {
       return;
     }
     if (screen === "setup") return renderSetup();
+    if (screen === "verify") return renderVerify();
     if (screen === "home") {
       renderHome();
       if (scrollAfterRender && isActiveTab()) { scrollAfterRender = false; barScrollTo(topbar); }
@@ -9185,44 +9514,128 @@ const Reseau = (() => {
     if (screen === "call") return renderCall();
   }
 
+  // Porte d'entrée 24/24 ONE WORLD (inscription et confirmation de l'e-mail).
+  function owWelcomeHtml() {
+    return `<div class="ow-welcome">
+        <img src="everywhere/logo.svg" alt="" width="72" height="72" />
+        <p class="ow-welcome-eyebrow">${escapeHtml(t("ow_eyebrow"))}</p>
+        <h1>24/24 ONE WORLD</h1>
+        <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
+      </div>`;
+  }
+  // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
+  let setupStep = 0;
   function renderSetup() {
     const invited = pendingAdd ? `<div class="msg ok">${escapeHtml(t("net_invited", { p: pendingAdd }))}</div>` : "";
-    root.innerHTML = `
-      <div class="card">
+    const steps = myEmail ? ["pseudo", "lang"] : ["pseudo", "email", "lang"];
+    if (setupStep >= steps.length) setupStep = steps.length - 1;
+    const d0 = signupDraft();
+    const step = (k, i, body) => `<section class="ob-step${steps[setupStep] === k ? " on" : ""}" data-k="${k}">
+        <p class="ob-count">${i + 1} / ${steps.length}</p>
+        <h2 class="ob-t">${escapeHtml(t("ob_" + k + "_t"))}</h2>
+        <p class="ob-d">${escapeHtml(t("ob_" + k + "_d"))}</p>${body}</section>`;
+    root.innerHTML = `${owWelcomeHtml()}
+      <div class="ob">
         ${invited}
-        <h2 class="net-h">${escapeHtml(t("net_setup_title"))}</h2>
-        <p class="net-lead">${escapeHtml(t("net_setup_text"))}</p>
-        <div class="net-how"><div class="net-how-title">${escapeHtml(t("net_how_title"))}</div>
-          <ol><li>${escapeHtml(t("net_how_1"))}</li><li>${escapeHtml(t("net_how_2"))}</li><li>${escapeHtml(t("net_how_3"))}</li></ol></div>
-        <input type="text" id="netPseudo" class="net-input" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"
-          placeholder="${escapeHtml(t("net_pseudo_ph"))}" />
-        <p class="net-note">${escapeHtml(t("net_pseudo_rule"))}</p>
-        <label class="net-label" for="netLang">${escapeHtml(t("net_my_lang"))}</label>
-        <select id="netLang"></select>
-        <label class="net-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>
-        <div class="row"><button class="btn primary" id="netCreate">${escapeHtml(t("net_create"))}</button></div>
+        <div class="ob-bar">${steps.map((k, i) => `<span class="${i <= setupStep ? "on" : ""}"></span>`).join("")}</div>
+        ${step("pseudo", 0, `<div class="ob-field"><span class="ob-at">@</span><input type="text" id="netPseudo" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"
+          placeholder="${escapeHtml(t("net_pseudo_ph"))}" /></div>
+          <p class="ob-hint">${escapeHtml(t("net_pseudo_rule"))}</p>`)}
+        ${myEmail ? "" : step("email", 1, `<div class="ob-field"><span class="ob-at">✉</span><input type="email" id="netEmail" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false"
+          placeholder="${escapeHtml(t("net_email_ph"))}" value="${escapeHtml(d0.email || "")}" /></div>`)}
+        ${step("lang", steps.length - 1, `<select id="netLang" class="ob-select"></select>
+          <label class="net-check ob-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>`)}
         <div id="netSetupMsg">${flashHtml()}</div>
-        <p class="net-note"><a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a></p>
+        <button class="btn primary ob-go" id="netNext">${escapeHtml(t("ob_next"))}</button>
+        <button class="btn primary ob-go" id="netCreate">${escapeHtml(t("net_create"))}</button>
+        <div class="ob-foot">${setupStep > 0 ? `<button type="button" class="link-btn" id="netBack">← ${escapeHtml(t("ob_back"))}</button>` : `<a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a>`}</div>
       </div>`;
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
     const input = root.querySelector("#netPseudo");
+    const emailIn = root.querySelector("#netEmail");
+    const msg = root.querySelector("#netSetupMsg");
     input.addEventListener("input", () => {
-      const v = input.value.toLowerCase().replace(/[^a-z0-9_.]/g, "");
+      const v = input.value.toLowerCase().replace(/[+\s]/g, "-").replace(/[^a-z0-9_.-]/g, "");
       if (v !== input.value) input.value = v;
     });
-    root.querySelector("#netCreate").addEventListener("click", () => createProfile(input.value, sel.value, root.querySelector("#netAge").checked));
+    if (d0.pseudo) input.value = d0.pseudo;
+    if (d0.lang) sel.value = d0.lang;
+    const last = setupStep === steps.length - 1;
+    root.querySelector("#netNext").hidden = last;
+    root.querySelector("#netCreate").hidden = !last;
+    const save = () => safeStore.setItem("lc_signup", JSON.stringify({ pseudo: input.value.trim().toLowerCase(), lang: sel.value, email: emailIn ? emailIn.value.trim().toLowerCase() : d0.email || "" }));
+    const cur = root.querySelector(".ob-step.on input");
+    if (cur) setTimeout(() => { try { cur.focus(); } catch (e) { /* ignoré */ } }, 50);
+    const next = () => {
+      const k = steps[setupStep];
+      if (k === "pseudo" && !/^[a-z0-9_.-]{3,20}$/.test(input.value.trim().toLowerCase())) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+      if (k === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailIn.value.trim())) return showMsg(msg, escapeHtml(t("net_email_bad")), "warn");
+      save();
+      setupStep++;
+      renderSetup();
+    };
+    root.querySelector("#netNext").addEventListener("click", next);
+    root.querySelectorAll(".ob-step input").forEach((el) => el.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); if (!last) next(); } }));
+    const back = root.querySelector("#netBack");
+    if (back) back.addEventListener("click", () => { save(); setupStep--; renderSetup(); });
+    root.querySelector("#netCreate").addEventListener("click", () => createProfile(input.value, sel.value, root.querySelector("#netAge").checked, emailIn ? emailIn.value : myEmail));
     // CONNECT : se connecter à un compte existant (relié à un e-mail) se fait dans Profil d'EVERYWHERE.
-    root.querySelector("#netHaveAccount").addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
+    const have = root.querySelector("#netHaveAccount");
+    if (have) have.addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
   }
 
-  async function createProfile(pseudo, lang, ageOk) {
+  // ---------- E-mail confirmé obligatoire (comptes plus responsables) ----------
+  // Le compte reste anonyme tant que l'e-mail n'est pas confirmé ; le profil (pseudo) n'est créé qu'après.
+  let myEmail = ""; // e-mail confirmé du compte connecté
+  let pendingEmail = ""; // e-mail en attente de confirmation
+  function signupDraft() {
+    try { return JSON.parse(safeStore.getItem("lc_signup") || "{}") || {}; } catch (e) { return {}; }
+  }
+  function readAuthUser(u) {
+    myEmail = u && u.email && !u.is_anonymous && (u.email_confirmed_at || u.confirmed_at) ? u.email : "";
+    pendingEmail = u && u.new_email ? u.new_email : "";
+  }
+  async function sendConfirmEmail(email) {
+    const back = location.origin + location.pathname;
+    // email_lang : langue de l'e-mail de confirmation (le modèle Supabase choisit le texte selon cette valeur).
+    const { error } = await sb.auth.updateUser({ email, data: { email_lang: String(UI_LANG || "en").split("-")[0] } }, { emailRedirectTo: back });
+    return error;
+  }
+  async function createProfile(pseudo, lang, ageOk, email) {
     const msg = root.querySelector("#netSetupMsg");
     const clean = String(pseudo || "").trim().toLowerCase();
-    if (!/^[a-z0-9_.]{3,20}$/.test(clean)) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+    const mail = String(email || "").trim().toLowerCase();
+    if (!/^[a-z0-9_.-]{3,20}$/.test(clean)) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) return showMsg(msg, escapeHtml(t("net_email_bad")), "warn");
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
+    safeStore.setItem("lc_signup", JSON.stringify({ pseudo: clean, lang, email: mail }));
+    if (!myEmail || !me) {
+      myEmail = "";
+      // 1re étape : on envoie l'e-mail de confirmation ; le profil sera créé une fois l'e-mail confirmé.
+      try {
+        if (!me) {
+          const { data, error } = await sb.auth.signInAnonymously();
+          if (error) throw error;
+          me = data.user ? data.user.id : data.session.user.id;
+        }
+        const err = await sendConfirmEmail(mail);
+        if (err) {
+          btn.disabled = false;
+          const used = err.code === "email_exists" || /already|registered|exists/i.test(err.message || "");
+          return showMsg(msg, escapeHtml(t(used ? "net_email_used" : "net_email_err")), "warn");
+        }
+        pendingEmail = mail;
+        screen = "verify";
+        render();
+      } catch (e) {
+        btn.disabled = false;
+        showMsg(msg, escapeHtml(t("net_err_conn")), "err");
+      }
+      return;
+    }
     // Appels appli fermée = fonction de base : l'autorisation est demandée dès la création du compte
     // (le navigateur exige qu'elle soit demandée pendant l'appui sur un bouton).
     const permAsk = pushSupported && Notification.permission === "default" && safeStore.getItem("lc_push") !== "0"
@@ -9254,6 +9667,7 @@ const Reseau = (() => {
       }
       profile = { id: me, pseudo: clean, lang };
       safeStore.setItem("lc_net_joined", "1");
+      safeStore.removeItem("lc_signup");
       await afterProfileReady();
       render();
     } catch (e) {
@@ -9261,6 +9675,63 @@ const Reseau = (() => {
       showMsg(msg, escapeHtml(t("net_err_conn")), "err");
     }
   }
+
+  function renderVerify() {
+    const mail = pendingEmail || signupDraft().email || "";
+    root.innerHTML = `${owWelcomeHtml()}
+      <div class="card">
+        <h2 class="net-h">${escapeHtml(t("net_verify_title"))}</h2>
+        <p class="net-lead">${escapeHtml(t("net_verify_text", { e: mail }))}</p>
+        <p class="net-note">${escapeHtml(t("net_verify_spam"))}</p>
+        <div class="row"><button class="btn primary" id="netVerDone">${escapeHtml(t("net_verify_done"))}</button></div>
+        <label class="net-label" for="netCode">${escapeHtml(t("net_verify_code"))}</label>
+        <div class="row"><input type="text" id="netCode" class="net-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="123456" />
+          <button class="btn" id="netCodeOk">${escapeHtml(t("net_verify_ok"))}</button></div>
+        <div id="netVerMsg"></div>
+        <p class="net-note"><button type="button" class="link-btn" id="netResend">${escapeHtml(t("net_verify_resend"))}</button> ·
+          <button type="button" class="link-btn" id="netChange">${escapeHtml(t("net_verify_change"))}</button></p>
+      </div>`;
+    const m = root.querySelector("#netVerMsg");
+    const code = root.querySelector("#netCode");
+    code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 6); });
+    root.querySelector("#netVerDone").addEventListener("click", async (ev) => {
+      ev.target.disabled = true;
+      const ok = await checkConfirmed();
+      ev.target.disabled = false;
+      if (!ok) showMsg(m, escapeHtml(t("net_verify_wait")), "warn");
+    });
+    root.querySelector("#netCodeOk").addEventListener("click", async (ev) => {
+      if (!/^\d{6}$/.test(code.value)) return showMsg(m, escapeHtml(t("net_verify_bad")), "warn");
+      ev.target.disabled = true;
+      const { error } = await sb.auth.verifyOtp({ email: mail, token: code.value, type: "email_change" });
+      ev.target.disabled = false;
+      if (error) return showMsg(m, escapeHtml(t("net_verify_bad")), "warn");
+      await checkConfirmed();
+    });
+    root.querySelector("#netResend").addEventListener("click", async () => {
+      const err = await sendConfirmEmail(mail);
+      showMsg(m, escapeHtml(t(err ? "net_email_err" : "net_verify_sent")), err ? "warn" : "ok");
+    });
+    root.querySelector("#netChange").addEventListener("click", () => { screen = "setup"; render(); });
+  }
+  // L'e-mail a-t-il été confirmé (lien touché, ici ou sur un autre onglet) ? Si oui, on crée le profil.
+  async function checkConfirmed() {
+    try {
+      await sb.auth.refreshSession();
+      const { data } = await sb.auth.getUser();
+      readAuthUser(data && data.user);
+    } catch (e) { return false; }
+    if (!myEmail) return false;
+    const d = signupDraft();
+    screen = "setup";
+    render();
+    if (d.pseudo) await createProfile(d.pseudo, d.lang || DEFAULT_SRC, true, myEmail);
+    return true;
+  }
+  // Retour sur l'onglet après avoir touché le lien dans l'e-mail : on vérifie tout seul.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && screen === "verify" && sb) checkConfirmed();
+  });
 
   function renderHome() {
     const isCall = mode === "call";

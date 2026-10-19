@@ -24,8 +24,8 @@
     fr: {
       loading: "Lecture de votre profil…", error: "Impossible de joindre le serveur. Vérifiez votre connexion.", retry: "Réessayer",
       off: "La messagerie de TALK n'est pas activée sur ce site.",
-      none: "Vous n'avez pas encore de profil sur cet appareil.", none_txt: "Créez-le dans 24/24 TALK (un pseudo et votre langue suffisent), ou connectez-vous si votre compte est déjà relié à un e-mail.",
-      create: "Créer mon profil dans TALK", have: "J'ai déjà un compte", lang: "Langue parlée : {l}", chats: "Ouvrir mes discussions",
+      none: "Vous n'avez pas encore de profil sur cet appareil.", none_txt: "Créez votre compte 24/24 ONE WORLD : un pseudo, votre langue et un e-mail confirmé. Ou connectez-vous si vous avez déjà un compte.",
+      create: "Créer mon compte", have: "J'ai déjà un compte", lang: "Langue parlée : {l}", chats: "Ouvrir mes discussions",
       sec_title: "Sécurité du compte",
       sec_no: "Ce compte n'est relié à aucune adresse e-mail. Si vous perdez ou changez de téléphone, ou si les données du navigateur sont effacées, il ne pourra pas être retrouvé.",
       sec_btn: "Sécuriser mon compte",
@@ -60,8 +60,8 @@
     en: {
       loading: "Reading your profile…", error: "Can't reach the server. Check your connection.", retry: "Try again",
       off: "TALK messaging is not enabled on this site.",
-      none: "You don't have a profile on this device yet.", none_txt: "Create it in 24/24 TALK (a username and your language are enough), or sign in if your account is already linked to an email.",
-      create: "Create my profile in TALK", have: "I already have an account", lang: "Spoken language: {l}", chats: "Open my chats",
+      none: "You don't have a profile on this device yet.", none_txt: "Create your 24/24 ONE WORLD account: a username, your language and a confirmed email. Or sign in if you already have an account.",
+      create: "Create my account", have: "I already have an account", lang: "Spoken language: {l}", chats: "Open my chats",
       sec_title: "Account security",
       sec_no: "This account isn't linked to any email address. If you lose or change your phone, or if browser data is cleared, it can't be recovered.",
       sec_btn: "Secure my account",
