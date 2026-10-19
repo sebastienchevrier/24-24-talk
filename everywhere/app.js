@@ -367,6 +367,10 @@
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
     if (!h) h = "accueil";
+    // 19 oct. 2026 : une seule appli, un seul accueil (celui de 24/24 ONE WORLD, index.html à la racine).
+    if (h === "accueil" && !window.EW_PORTAL_HOME) { location.replace(CFG.basePath + "index.html"); return; }
+    // Ancienne adresse CONNECT : le compte sur plusieurs appareils se règle dans Profil.
+    if (h === "connect" || h.indexOf("connect/") === 0) { location.replace("#/profil"); return; }
     var parts = h.split("/");
     var view = parts[0], appId = parts[1];
     var target = view;
@@ -390,7 +394,7 @@
       if ("inert" in v && !v.classList.contains("view-app")) v.inert = !on;
     });
     // LEARN est présenté sous EVERYWHERE (accès depuis le hub #/everywhere) : la barre du bas allume Everywhere.
-    var navId = target === "app" ? "app/" + appId : target === "learn" ? "everywhere" : target;
+    var navId = target === "app" ? "app/" + appId : target;
     document.documentElement.classList.toggle("ew-home", target === "accueil");
     document.querySelectorAll("[data-nav]").forEach(function (n) {
       if (n.getAttribute("data-nav") === navId) n.setAttribute("aria-current", "page");

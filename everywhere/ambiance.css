@@ -1,0 +1,32 @@
+/* 24/24 ONE WORLD — ambiance commune (19 oct. 2026), la même que le site vitrine et l'accueil de l'appli :
+   bleu nuit uni, texte clair, boutons blancs, cartes discrètes, aucune couleur vive. © 2026 Sébastien Chevrier. */
+html.theme-dark, html:not(.theme-light):not(.theme-auto){
+  --bg:#070b1c; --bg2:#0b1024; --panel:#0d1329; --panel2:#121a36; --line:rgba(160,180,255,.14); --text:#eef2ff; --muted:#9aa6c8;
+  --teal:#eef2ff; --on-primary:#070b1c;
+  --ews-bg:#070b1c; --ews-bg2:rgba(7,11,28,.92); --ews-panel:#0d1329; --ews-line:rgba(160,180,255,.14); --ews-text:#eef2ff; --ews-muted:#9aa6c8; --ews-teal:#eef2ff;
+}
+@media (prefers-color-scheme: dark){
+  html.theme-auto{
+    --bg:#070b1c; --bg2:#0b1024; --panel:#0d1329; --panel2:#121a36; --line:rgba(160,180,255,.14); --text:#eef2ff; --muted:#9aa6c8;
+    --teal:#eef2ff; --on-primary:#070b1c;
+    --ews-bg:#070b1c; --ews-bg2:rgba(7,11,28,.92); --ews-panel:#0d1329; --ews-line:rgba(160,180,255,.14); --ews-text:#eef2ff; --ews-muted:#9aa6c8; --ews-teal:#eef2ff;
+  }
+}
+body{background:var(--bg) !important;}
+.topbar .brand-txt{white-space:nowrap;}
+.mainnav{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+.mainnav a[aria-current="page"]{background:transparent !important;font-weight:800;}
+/* Grandes cartes EVERYWHERE et LEARN : sobres, comme les tuiles de l'accueil. */
+.tr-big, .tr-big.face, .tr-big.trip, .tr-big.call, .tr-big.learn, .tr-big.invite{background:var(--panel) !important;border:1px solid var(--line);color:var(--text) !important;box-shadow:none !important;}
+.tr-big small{color:var(--muted);opacity:1;}
+.tr-big-ic{background:rgba(31,226,205,.10) !important;}
+.tr-big-ic svg{stroke:#1fe2cd !important;}
+/* En-têtes EVERYWHERE et LEARN : titre clair, pastille discrète (plus de vert ni de violet). */
+.tr-head h1, .lx-head h1{color:var(--text) !important;letter-spacing:.02em;}
+.tr-logo, .lx-logo{background:rgba(31,226,205,.10) !important;color:#1fe2cd;}
+.tr-logo svg, .lx-logo svg{stroke:#1fe2cd !important;}
+/* Barre du haut : le nom tient sur une ligne, comme dans l'appli. */
+.brand-txt span{color:inherit !important;font-weight:800;}
+@media (max-width:400px){ .topbar{gap:4px;padding-left:8px;padding-right:8px;} .brand-txt{font-size:13px;letter-spacing:0;} .brand img{width:30px;height:30px;} }
+.lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}
+.lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}

@@ -49,6 +49,7 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
   const PHONE = (w, h) => ({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" });
 
   // opts.fake : faux Supabase ; opts.mm : "down" | "quota" | "html" | fonction ; opts.speech : "mock" | "real" ; opts.fakeSrc : variante du faux client ; opts.init : localStorage initial
@@ -245,7 +246,7 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
     await page.evaluate(() => { window.__sayQ = ["Bonjour"]; });
     await page.tap('[data-mic="1"]');
     await page.waitForFunction(() => window.__spoken.length === 1, null, { timeout: 5000 });
-    await page.tap('#mainnav a[data-nav="accueil"]');
+    await page.tap('#mainnav a[data-nav="learn"]');
     await sleep(1500);
     const r = await page.evaluate(() => ({ sr: window.__srLangs.length, act: window.__srActive }));
     return { ok: r.sr === 1 && r.act <= 0 && !page._errors.length, detail: r.sr + " écoute en tout" };

@@ -27,7 +27,7 @@ self.addEventListener("push", function (e) {
   try { d = e.data ? e.data.json() : {}; } catch (err) { d = {}; }
   var s = txt();
   var call = String(d.call || "").replace(/[^a-z0-9]/g, "").slice(0, 40);
-  var who = d.p ? "@" + String(d.p).slice(0, 20) : "24/24 Talk";
+  var who = d.p ? "@" + String(d.p).slice(0, 20) : "24/24 ONE WORLD";
   var tag = "call-" + call;
   var scope = self.registration.scope;
   if (d.t === "cancel") {

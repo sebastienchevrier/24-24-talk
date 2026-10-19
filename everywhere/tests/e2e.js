@@ -39,6 +39,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
   const MOBILE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
 
   async function newCtx(opts, fake) {
@@ -96,23 +97,26 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const prix = /gratuit|tarif|abonnement|€|\$/i.test(r.txt);
     return { ok: !prix && !r.cd && !r.api, detail: prix ? "mention de prix trouvée" : "aucune mention de prix" };
   });
-  await step("Barre basse commune : 4 entrées Accueil, Talk, Everywhere, Profil", async () => {
+  await step("Barre basse commune : 5 entrées Accueil, Messagerie, Téléphone, Traduire, Apprendre", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.length === 4 && labels.join(",") === "Accueil,Talk,Everywhere,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.length === 5 && labels.join(",") === "Accueil,Messagerie,Téléphone,Traduire,Apprendre" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
     return { ok: sizes.every((s) => s >= 44), detail: "plus petite : " + Math.round(Math.min.apply(null, sizes)) + " px" };
   });
-  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
-    await step("Navigation : " + label, async () => {
-      await page.click('#mainnav a[href="' + route + '"]');
-      await page.waitForSelector("#" + view + ".active");
-      const cur = await page.$eval('#mainnav a[href="' + route + '"]', (a) => a.getAttribute("aria-current"));
-      return { ok: (await page.evaluate(() => location.hash)) === route && cur === "page" };
-    });
-  }
+  await step("Navigation : Apprendre (barre du bas)", async () => {
+    await page.click('#mainnav a[href="#/learn"]');
+    await page.waitForSelector("#view-learn.active");
+    const cur = await page.$eval('#mainnav a[href="#/learn"]', (a) => a.getAttribute("aria-current"));
+    return { ok: (await page.evaluate(() => location.hash)) === "#/learn" && cur === "page" };
+  });
+  await step("Navigation : Profil (bouton du haut)", async () => {
+    await page.click("#topProfile");
+    await page.waitForSelector("#view-profil.active");
+    return { ok: (await page.evaluate(() => location.hash)) === "#/profil" };
+  });
   await step("Paramètres par la roue dentée", async () => {
     await page.click("#topSettings");
     await page.waitForSelector("#view-parametres.active");
@@ -129,45 +133,42 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#tileMsg");
     const emb = await page.evaluate(() => document.documentElement.classList.contains("embedded"));
-    await page.waitForSelector("#ewsNav");
+    await page.waitForSelector(".bbar");
     await page.tap("#tileMsg");
     await page.waitForSelector("#net.view.active", { timeout: 5000 });
     await page.screenshot({ path: path.join(OUT, "telephone-talk.png") });
     return { ok: !emb, detail: "adresse " + page.url().replace(ORIGIN, "") + ", Messagerie ouverte" };
   });
-  await step("TALK dans la coquille : même barre du bas (TALK actif), barre du haut, sans grand en-tête", async () => {
+  await step("TALK dans la coquille : la même barre du bas (Messagerie active), barre du haut, une seule barre", async () => {
     const r = await page.evaluate(() => {
-      const nav = document.getElementById("ewsNav");
-      const labels = [...nav.querySelectorAll("a")].map((a) => a.textContent.trim()).join(",");
+      const nav = document.querySelector(".bbar");
+      const labels = [...nav.querySelectorAll("button > span")].map((a) => a.textContent.trim()).join(",");
       const cur = nav.querySelector('[aria-current="page"]');
       const nr = nav.getBoundingClientRect();
-      return { shell: document.documentElement.classList.contains("ew-shell"), labels, cur: cur && cur.dataset.nav,
+      return { shell: document.documentElement.classList.contains("ew-shell"), labels, cur: cur && cur.dataset.b, other: !!document.getElementById("ewsNav"),
         bottom: Math.round(nr.bottom) === innerHeight, top: !!document.getElementById("ewsTop"),
-        hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
-        sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
+        sizes: [...nav.querySelectorAll("button")].every((a) => a.getBoundingClientRect().height >= 44) };
     });
-    return { ok: r.shell && r.labels === "Accueil,Talk,Everywhere,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+    return { ok: r.shell && r.labels === "Accueil,Messagerie,Téléphone,Traduire,Apprendre" && r.cur === "msg" && !r.other && r.bottom && r.top && r.sizes, detail: r.labels + " · actif : " + r.cur };
   });
   await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
     await page.tap("#ewsSettings");
     await page.waitForSelector("#settings.view.active", { timeout: 5000 });
     return { ok: true };
   });
-  await step("Depuis TALK, la barre du bas ramène à l'accueil du portail", async () => {
-    await page.tap('#ewsNav a[data-nav="accueil"]');
-    await page.waitForSelector("#view-accueil.active", { timeout: 10000 });
-    await page.tap('#mainnav a[data-nav="talk"]');
+  await step("Depuis TALK, Apprendre ouvre LEARN, puis Messagerie ramène dans TALK", async () => {
+    await page.tap('.bbar button[data-b="learn"]');
+    await page.waitForSelector("#view-learn.active", { timeout: 10000 });
+    await page.tap('#mainnav a[data-nav="msg"]');
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
-    await page.waitForSelector("#ewsNav");
-    await page.tap('#ewsNav a[data-nav="everywhere"]');
-    await page.waitForSelector("#view-everywhere.active .tr-big", { timeout: 10000 });
-    return { ok: true, detail: "Accueil, puis TALK, puis EVERYWHERE" };
+    await page.waitForSelector("#net.view.active", { timeout: 10000 });
+    return { ok: true, detail: "TALK, puis LEARN, puis la messagerie" };
   });
-  await step("Retour arrière : TALK puis portail", async () => {
-    await page.goBack();
-    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+  await step("Retour arrière : LEARN puis TALK", async () => {
     await page.goBack();
     await page.waitForFunction(() => /everywhere/.test(location.pathname), null, { timeout: 10000 });
+    await page.goBack();
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     return { ok: true };
   });
   await step("Ancienne adresse #/app/talk → TALK en pleine page", async () => {
@@ -178,7 +179,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.goto(URL_EW + "#/accueil");
   await page.waitForSelector("#view-accueil.active");
   await step("Profil sans compte : invitation à créer son profil dans TALK", async () => {
-    await page.click('#mainnav a[href="#/profil"]');
+    await page.click("#topProfile");
     await page.waitForSelector("#profileCard #cxCreate", { timeout: 20000 });
     const txt = await page.textContent("#profileCard");
     return { ok: /pas encore de profil/.test(txt), detail: txt.trim().slice(0, 60) };
@@ -190,7 +191,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: true };
   });
   await step("Sécurité du pont : message d'une autre origine ignoré", async () => {
-    await page.click('#mainnav a[href="#/accueil"]');
+    await page.goto(URL_EW + "#/accueil");
     await page.waitForSelector("#view-accueil.active");
     await page.evaluate(() => window.dispatchEvent(new MessageEvent("message", { data: { t: "ew:ring" }, origin: "https://pirate.example" })));
     await sleep(300);
@@ -435,7 +436,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#view-learn.active #lxStart", { timeout: 10000 });
     const mods = await page.$$eval("#view-learn .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
     const soon = mods.filter((m) => /Bientôt/.test(m));
-    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
+    const cur = await page.$eval('#mainnav a[data-nav="learn"]', (a) => a.getAttribute("aria-current"));
     await page.screenshot({ path: path.join(OUT, "learn-tableau-de-bord.png") });
     return { ok: mods.length === 6 && soon.length === 2 && /Conversation avec l'IA/.test(soon[0]) && /Cultures du monde/.test(soon[1]) && cur === "page" && (await page.evaluate(() => location.hash)) === "#/learn",
       detail: "6 modules, dont 2 marqués « Bientôt » (IA, cultures)" };
@@ -597,9 +598,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const kept = await page.evaluate(() => document.documentElement.getAttribute("data-ts") === "2" && document.documentElement.classList.contains("theme-dark"));
     const sw = await page.evaluate(() => { const v = document.querySelector(".view.active"); return v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth; });
     await page.screenshot({ path: path.join(OUT, "learn-grand-texte-sombre.png") });
-    await page.tap('#mainnav a[data-nav="accueil"]');
     await page.evaluate(() => { localStorage.removeItem("ew_prefs"); });
-    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(8, 17, 31)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
+    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(7, 11, 28)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
   });
   await step("LEARN : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
   await ctx.close();
@@ -658,7 +658,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.tap("#cardEverywhere");
     await page.waitForSelector("#view-everywhere.active #trGoFace");
     const txt = (await page.textContent("#view-everywhere")).replace(/\s+/g, " ");
-    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
+    const cur = "page"; // la barre du bas n'a plus d'entrée EVERYWHERE : on y va par la tuile de l'accueil
     const learnBits = await page.$$eval("#view-everywhere .lx-mod, #view-everywhere .lx-lesson", (n) => n.length);
     const links = await page.$$eval("#view-everywhere a[href]", (n) => n.map((a) => a.getAttribute("href")));
     await page.screenshot({ path: path.join(OUT, "everywhere-accueil.png") });
@@ -832,7 +832,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: s.voice === "g-fr" && s.r === 1, detail: s.voice };
   });
   await step("Mode A : quitter l'écran coupe le micro ; aucune erreur JavaScript", async () => {
-    await page.tap('#mainnav a[data-nav="accueil"]');
+    await page.goto(URL_EW + "#/accueil");
     await page.waitForSelector("#view-accueil.active");
     return { ok: !page._errors.length && !(await page.$("#trFace")), detail: page._errors.join(" | ").slice(0, 160) || "aucune" };
   });
@@ -928,13 +928,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const ew = await page.textContent("#cardEverywhere .duo-d");
-    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile" && /Side-by-side conversation/.test(ew), detail: labels.join(", ") + " · " + ew };
+    return { ok: labels.join(",") === "Home,Messages,Phone,Translate,Learn" && /Side-by-side conversation/.test(ew), detail: labels.join(", ") + " · " + ew };
   });
   await ctx.close();
 
   // ---------- Autres langues de TALK (0.8.2) : accueil, barres et compte à rebours traduits, arabe de droite à gauche ----------
-  for (const [loc, lead, nav, rtl] of [["es-ES", "El mundo conversa. Por fin.", "Inicio,Talk,Everywhere,Perfil", false],
-    ["ar", "العالم يتحاور. أخيرًا.", "الرئيسية,Talk,Everywhere,ملفي", true], ["ko-KR", "The world speaks. At last.", "Home,Talk,Everywhere,Profile", false]]) {
+  for (const [loc, lead, nav, rtl] of [["es-ES", "El mundo conversa. Por fin.", "Inicio,Mensajes,Teléfono,Traducir,Aprender", false],
+    ["ar", "العالم يتحاور. أخيرًا.", "الرئيسية,الرسائل,الهاتف,ترجمة,تعلّم", true], ["ko-KR", "The world speaks. At last.", "Home,Messages,Phone,Translate,Learn", false]]) {
     ctx = await newCtx({ locale: loc });
     page = await openPortal(ctx);
     await step("Accueil en " + loc + " : phrase, barre du bas et sens d'écriture", async () => {

@@ -11,21 +11,22 @@
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
     learn: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
+    phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
   };
   var LABELS = {
-    fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 TALK, accueil de 24/24 ONE WORLD" },
-    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 TALK, 24/24 ONE WORLD home" },
-    es: {"home": "Inicio", "apps": "Aplicaciones", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Ajustes", "nav": "Navegación principal", "brand": "24/24 TALK, inicio de 24/24 ONE WORLD"},
-    pt: {"home": "Início", "apps": "Aplicações", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Definições", "nav": "Navegação principal", "brand": "24/24 TALK, início da 24/24 ONE WORLD"},
-    de: {"home": "Start", "apps": "Apps", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profil", "settings": "Einstellungen", "nav": "Hauptnavigation", "brand": "24/24 TALK, Startseite von 24/24 ONE WORLD"},
-    it: {"home": "Home", "apps": "App", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profilo", "settings": "Impostazioni", "nav": "Navigazione principale", "brand": "24/24 TALK, home di 24/24 ONE WORLD"},
-    zh: {"home": "首页", "apps": "应用", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "我的", "settings": "设置", "nav": "主导航", "brand": "24/24 TALK，24/24 ONE WORLD 首页"},
-    ja: {"home": "ホーム", "apps": "アプリ", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "プロフィール", "settings": "設定", "nav": "メインナビゲーション", "brand": "24/24 TALK、24/24 ONE WORLD のホーム"},
-    ar: {"home": "الرئيسية", "apps": "التطبيقات", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "ملفي", "settings": "الإعدادات", "nav": "التنقل الرئيسي", "brand": "24/24 TALK، الصفحة الرئيسية لـ 24/24 ONE WORLD"},
-    ru: {"home": "Главная", "apps": "Приложения", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Профиль", "settings": "Настройки", "nav": "Основная навигация", "brand": "24/24 TALK, главная 24/24 ONE WORLD"},
-    mg: {"home": "Fandraisana", "apps": "Rindranasa", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Momba ahy", "settings": "Fikirakirana", "nav": "Fitetezana lehibe", "brand": "24/24 TALK, fandraisana 24/24 ONE WORLD"}
+    fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 TALK, accueil de 24/24 ONE WORLD" , msg: "Messagerie", phone: "Téléphone", tr: "Traduire", learnv: "Apprendre"},
+    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 TALK, 24/24 ONE WORLD home" , msg: "Messages", phone: "Phone", tr: "Translate", learnv: "Learn"},
+    es: {"home": "Inicio", "apps": "Aplicaciones", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Ajustes", "nav": "Navegación principal", "brand": "24/24 TALK, inicio de 24/24 ONE WORLD", "msg": "Mensajes", "phone": "Teléfono", "tr": "Traducir", "learnv": "Aprender"},
+    pt: {"home": "Início", "apps": "Aplicações", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Definições", "nav": "Navegação principal", "brand": "24/24 TALK, início da 24/24 ONE WORLD", "msg": "Mensagens", "phone": "Telefone", "tr": "Traduzir", "learnv": "Aprender"},
+    de: {"home": "Start", "apps": "Apps", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profil", "settings": "Einstellungen", "nav": "Hauptnavigation", "brand": "24/24 TALK, Startseite von 24/24 ONE WORLD", "msg": "Nachrichten", "phone": "Telefon", "tr": "Übersetzen", "learnv": "Lernen"},
+    it: {"home": "Home", "apps": "App", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profilo", "settings": "Impostazioni", "nav": "Navigazione principale", "brand": "24/24 TALK, home di 24/24 ONE WORLD", "msg": "Messaggi", "phone": "Telefono", "tr": "Traduci", "learnv": "Imparare"},
+    zh: {"home": "首页", "apps": "应用", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "我的", "settings": "设置", "nav": "主导航", "brand": "24/24 TALK，24/24 ONE WORLD 首页", "msg": "消息", "phone": "电话", "tr": "翻译", "learnv": "学习"},
+    ja: {"home": "ホーム", "apps": "アプリ", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "プロフィール", "settings": "設定", "nav": "メインナビゲーション", "brand": "24/24 TALK、24/24 ONE WORLD のホーム", "msg": "メッセージ", "phone": "電話", "tr": "翻訳", "learnv": "学ぶ"},
+    ar: {"home": "الرئيسية", "apps": "التطبيقات", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "ملفي", "settings": "الإعدادات", "nav": "التنقل الرئيسي", "brand": "24/24 TALK، الصفحة الرئيسية لـ 24/24 ONE WORLD", "msg": "الرسائل", "phone": "الهاتف", "tr": "ترجمة", "learnv": "تعلّم"},
+    ru: {"home": "Главная", "apps": "Приложения", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Профиль", "settings": "Настройки", "nav": "Основная навигация", "brand": "24/24 TALK, главная 24/24 ONE WORLD", "msg": "Сообщения", "phone": "Телефон", "tr": "Перевод", "learnv": "Учиться"},
+    mg: {"home": "Fandraisana", "apps": "Rindranasa", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Momba ahy", "settings": "Fikirakirana", "nav": "Fitetezana lehibe", "brand": "24/24 TALK, fandraisana 24/24 ONE WORLD", "msg": "Hafatra", "phone": "Telefaonina", "tr": "Handika", "learnv": "Mianara"}
   };
   var VER = "0.8.5";
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
@@ -47,16 +48,17 @@
     return UI_LANGS.indexOf(l) !== -1 ? l : "en";
   }
 
-  // Les quatre entrées de la barre du bas : Accueil · Talk · Everywhere · Profil (image de référence, 0.6.2).
-  // LEARN n'est plus dans la barre : il s'ouvre depuis le hub EVERYWHERE (#/everywhere), son adresse #/learn reste valable.
+  // Barre du bas unique de 24/24 ONE WORLD (19 oct. 2026), la même que dans TALK :
+  // Accueil · Messagerie · Téléphone · Traduire · Apprendre. Le profil s'ouvre depuis la barre du haut.
   // root = chemin vers la racine du site ; inPortal = liens internes du portail (#/…).
   function items(root, inPortal) {
     var ew = inPortal ? "" : root + "everywhere/";
     return [
-      { id: "accueil", href: ew + "#/accueil", icon: "home", key: "home" },
-      { id: "talk", href: root + "index.html?ew=1", icon: "mic", key: "talk" },
-      { id: "everywhere", href: ew + "#/everywhere", icon: "globe", key: "everywhere" },
-      { id: "profil", href: ew + "#/profil", icon: "profile", key: "profile" }
+      { id: "accueil", href: root + "index.html", icon: "home", key: "home" },
+      { id: "msg", href: root + "index.html?b=msg", icon: "talk", key: "msg" },
+      { id: "call", href: root + "index.html?b=call", icon: "phone", key: "phone" },
+      { id: "tr", href: root + "index.html?b=tr", icon: "globe", key: "tr" },
+      { id: "learn", href: ew + "#/learn", icon: "learn", key: "learnv" }
     ];
   }
   function navHtml(root, inPortal, active, lang) {
@@ -77,7 +79,7 @@
     top.id = "ewsTop";
     top.innerHTML = '<a class="brand" href="' + root + 'everywhere/#/accueil" aria-label="' + L.brand + '">' +
       '<img src="' + root + 'everywhere/logo.svg" alt="" width="36" height="36">' +
-      '<span class="brand-txt"><b>24/24</b> <span>TALK</span></span></a>' +
+      '<span class="brand-txt"><b>24/24</b> <span>ONE WORLD</span></span></a>' +
       '<span class="topbar-title"></span>' +
       '<button type="button" class="icon-btn" id="ewsSettings" aria-label="' + L.settings + '">' + svg("gear") + "</button>";
     var banner = document.querySelector(".test-banner");
@@ -94,14 +96,8 @@
     nav.id = "ewsNav";
     nav.setAttribute("aria-label", L.nav);
     nav.innerHTML = navHtml(root, false, "talk", lang);
-    // Toucher TALK quand on est déjà dans TALK : retour à l'accueil de TALK, sans recharger la page.
-    nav.querySelector('[data-nav="talk"]').addEventListener("click", function (e) {
-      e.preventDefault();
-      var h = document.querySelector('nav.tabs button[data-view="home"]');
-      if (h) h.click();
-      try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (err) { window.scrollTo(0, 0); }
-    });
-    document.body.appendChild(nav);
+    // 19 oct. 2026 : TALK garde sa propre barre du bas (la même partout) ; la coquille n'ajoute que la barre du haut.
+    void nav;
     // VOICE : le même bouton micro que dans le portail (chargé seulement si le navigateur sait reconnaître la voix).
     if (window.SpeechRecognition || window.webkitSpeechRecognition) {
       var vs = document.createElement("script");

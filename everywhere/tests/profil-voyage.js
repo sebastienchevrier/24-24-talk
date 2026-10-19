@@ -40,6 +40,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
   const PHONE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
 
   // mm : "ok" (traduction imitée « [ja] texte »), "quota" (quota atteint après 3 phrases), "down"
