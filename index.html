@@ -4890,6 +4890,16 @@ function mmDecode(x) {
     return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : m;
   });
 }
+// MyMemory préfère parfois une phrase voisine de sa mémoire (souvent des sous-titres) à sa traduction automatique,
+// qui est juste : « Tu es arrivé à la maison ? » → « Siamo a casa ». Hors correspondance exacte, on prend la traduction
+// automatique (entrée « MT! » de matches) quand elle existe (mesure du 19 oct. 2026 : 2,35 → 2,52 sur 3).
+function mmBest(data) {
+  const rd = data && data.responseData;
+  const tr = rd && rd.translatedText;
+  const exact = rd && Number(rd.match) >= 1;
+  const mt = !exact && Array.isArray(data && data.matches) ? data.matches.find((m) => m && m["created-by"] === "MT!" && m.translation) : null;
+  return mt ? mt.translation : tr;
+}
 // Le quota épuisé arrive parfois comme un faux texte traduit (« MYMEMORY WARNING… », code 429 dans responseStatus) :
 // il ne doit jamais être affiché ni lu à voix haute comme une traduction.
 async function mmFetchOne(text, sourceCode, targetCode) {
@@ -4913,7 +4923,7 @@ async function mmFetchOne(text, sourceCode, targetCode) {
   if (!res.ok) throw new Error("SERVER");
   let data;
   try { data = await res.json(); } catch (e) { throw new Error("SERVER"); }
-  const translated = data && data.responseData && data.responseData.translatedText;
+  const translated = mmBest(data);
   const st = Number(data && data.responseStatus) || 0;
   const note = String((data && data.responseDetails) || "") + " " + String(translated || "");
   if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
