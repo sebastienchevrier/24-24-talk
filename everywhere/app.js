@@ -52,8 +52,8 @@
       nf_title: "Page introuvable", nf_txt: "Cette adresse n'existe pas dans 24/24 ONE WORLD.", back_home: "Revenir à l'accueil",
       loading_app: "Ouverture de {app}…", app_error: "{app} ne répond pas.", app_error_txt: "Vérifiez votre connexion, puis réessayez.", retry: "Réessayer",
       prof_loading: "Lecture de votre profil TALK…", prof_error: "Impossible de lire votre profil pour le moment.",
-      prof_none: "Vous n'avez pas encore de profil.", prof_none_txt: "Créez-le dans 24/24 TALK : un pseudo et votre langue suffisent, sans e-mail ni numéro.",
-      prof_create: "Créer mon profil dans TALK", prof_lang: "Langue parlée : {l}", prof_chats: "Ouvrir mes discussions",
+      prof_none: "Vous n'avez pas encore de profil.", prof_none_txt: "Créez votre compte 24/24 ONE WORLD : un pseudo, votre langue et un e-mail confirmé, sans numéro de téléphone.",
+      prof_create: "Créer mon compte", prof_lang: "Langue parlée : {l}", prof_chats: "Ouvrir mes discussions",
       prof_off: "La messagerie de TALK n'est pas activée sur ce site.",
       env_test: "24/24 ONE WORLD · SITE DE TEST · données fictives · ne pas partager",
       title_app: "{app}"
@@ -87,8 +87,8 @@
       nf_title: "Page not found", nf_txt: "This address does not exist in 24/24 ONE WORLD.", back_home: "Back to home",
       loading_app: "Opening {app}…", app_error: "{app} is not responding.", app_error_txt: "Check your connection, then try again.", retry: "Try again",
       prof_loading: "Reading your TALK profile…", prof_error: "Your profile can't be read right now.",
-      prof_none: "You don't have a profile yet.", prof_none_txt: "Create it in 24/24 TALK: a username and your language are enough, no email or phone number.",
-      prof_create: "Create my profile in TALK", prof_lang: "Spoken language: {l}", prof_chats: "Open my chats",
+      prof_none: "You don't have a profile yet.", prof_none_txt: "Create your 24/24 ONE WORLD account: a username, your language and a confirmed email, no phone number.",
+      prof_create: "Create my account", prof_lang: "Spoken language: {l}", prof_chats: "Open my chats",
       prof_off: "TALK messaging is not enabled on this site.",
       env_test: "24/24 ONE WORLD · TEST SITE · fake data · do not share",
       title_app: "{app}"

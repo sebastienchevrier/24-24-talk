@@ -13,7 +13,7 @@
         { id: "22222222-2222-4222-8222-222222222222", appareil: UA_PC, depuis: new Date(Date.now() - 864e5).toISOString(), vu: new Date(Date.now() - 3 * 36e5).toISOString(), actuel: false }] };
   }
   function save(s) { try { localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", s.session ? "fake" : ""); } catch (e) {} }
-  function user(s) { return { id: PROFILE.id, email: s.email, new_email: s.new_email, is_anonymous: s.anon }; }
+  function user(s) { return { id: PROFILE.id, email: s.email, new_email: s.new_email, is_anonymous: s.anon, email_confirmed_at: s.email ? "2026-10-19T00:00:00Z" : null }; }
   function err(message, code, status) { return { data: null, error: { message: message, code: code, status: status || 400 } }; }
   // EVERYWHERE (appeler sur TALK) : avec localStorage « fake_contacts » = "1", deux contacts déjà en discussion (@kenji, @maria).
   var KENJI = { id: "00000000-0000-4000-8000-0000000000b1", pseudo: "kenji", lang: "ja" };
@@ -80,6 +80,7 @@
           getSession: function () { var s = load(); return R({ data: { session: s.session ? { user: user(s), access_token: "x" } : null }, error: null }); },
           getUser: function () { var s = load(); return R({ data: { user: s.session ? user(s) : null }, error: null }); },
           signInAnonymously: function () { var s = load(); s.session = true; save(s); return R({ data: { user: user(s) }, error: null }); },
+          refreshSession: function () { return R({ data: {}, error: null }); },
           onAuthStateChange: function () { return { data: { subscription: { unsubscribe: function () {} } } }; },
           updateUser: function (a, o) {
             var s = load();

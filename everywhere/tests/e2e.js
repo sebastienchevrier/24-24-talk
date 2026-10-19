@@ -382,10 +382,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const txt = await page.textContent("#profileCard .cx-msg");
     return { ok: /expired/.test(txt) && (await page.evaluate(() => location.hash)) === "#/profil", detail: txt.trim().slice(0, 80) };
   });
-  await step("Lien de l'e-mail arrivé sur l'adresse principale (TALK) : renvoyé vers Profil", async () => {
+  await step("Lien de confirmation (email_change) arrivé sur l'adresse principale : reste dans TALK, Messagerie ouverte", async () => {
     await page.goto(ORIGIN + BASE + "#access_token=aaa.bbb.ccc&refresh_token=rrr&type=email_change");
-    await page.waitForFunction(() => /relié à/.test((document.querySelector("#profileCard") || {}).textContent || ""), null, { timeout: 15000 });
-    return { ok: /everywhere\/$/.test(new URL(page.url()).pathname) && new URL(page.url()).hash === "#/profil", detail: new URL(page.url()).pathname + new URL(page.url()).hash };
+    await page.waitForFunction(() => !/access_token/.test(location.hash) && document.querySelector('button[data-b="msg"].on, button[data-b="msg"][aria-current], button[data-b="msg"][aria-selected="true"]'), null, { timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(1500);
+    const u = new URL(page.url());
+    return { ok: !/everywhere/.test(u.pathname) && !/access_token/.test(u.hash), detail: u.pathname + u.hash };
+  });
+  await step("Lien de connexion (autre type) arrivé sur l'adresse principale : renvoyé vers Profil", async () => {
+    await page.goto("about:blank");
+    await page.goto(ORIGIN + BASE + "#access_token=aaa.bbb.ccc&refresh_token=rrr&type=magiclink");
+    await page.waitForFunction(() => /everywhere/.test(location.pathname), null, { timeout: 15000 });
+    return { ok: /everywhere\/$/.test(new URL(page.url()).pathname), detail: new URL(page.url()).pathname + new URL(page.url()).hash };
   });
   await ctx.close();
 
