@@ -21,7 +21,7 @@
 
   var STR = {
     fr: {
-      title: "LEARN", sub: "Apprendre sans limites.", loading: "Chargement…", load_err: "Le contenu n'a pas pu être chargé.", retry: "Réessayer",
+      title: "Apprendre", sub: "Apprendre sans limites.", loading: "Chargement…", load_err: "Le contenu n'a pas pu être chargé.", retry: "Réessayer",
       start_title: "Quelle langue voulez-vous apprendre ?", start_txt: "Choisissez une langue et un niveau : votre première leçon vous attend.", choose_lang: "Choisir une langue",
       continue: "Continuer", start: "Commencer", next_lesson: "Prochaine leçon", all_done: "Toutes les leçons de ce niveau sont terminées. Bravo !",
       today: "Objectif du jour", streak_1: "{n} jour d'affilée", streak_n: "{n} jours d'affilée", xp: "{n} XP",
@@ -53,7 +53,7 @@
       no_voice: "La lecture vocale n'est pas disponible sur cet appareil. Le texte à entendre :", unknown: "Leçon introuvable.", progress_lbl: "Progression"
     },
     en: {
-      title: "LEARN", sub: "Learn without limits.", loading: "Loading…", load_err: "The content could not be loaded.", retry: "Try again",
+      title: "Learn", sub: "Learn without limits.", loading: "Loading…", load_err: "The content could not be loaded.", retry: "Try again",
       start_title: "Which language do you want to learn?", start_txt: "Pick a language and a level: your first lesson is waiting.", choose_lang: "Choose a language",
       continue: "Continue", start: "Start", next_lesson: "Next lesson", all_done: "All lessons at this level are done. Well done!",
       today: "Today's goal", streak_1: "{n} day in a row", streak_n: "{n} days in a row", xp: "{n} XP",

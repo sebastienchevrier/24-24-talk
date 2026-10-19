@@ -120,7 +120,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const h1 = await page.$eval("#h-accueil", (e) => e.innerText.replace(/\s+/g, " ").trim());
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#view-accueil a.duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
-    const want = [["TALK", /Messages et appels traduits/], ["EVERYWHERE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
+    const want = [["TALK", /Messages et appels traduits/], ["FACE À FACE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
     const ok = h1 === "One world. Every voice." && lead === "Le monde se parle. Enfin." && cards.length === 4 &&
       want.every((w, i) => cards[i].t === w[0] && w[1].test(cards[i].d)) && cards.every((c) => c.w >= 330 && c.h >= 72);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
