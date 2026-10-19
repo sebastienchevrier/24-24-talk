@@ -39,7 +39,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
-  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
+  // Compte pour tout (19 oct. 2026) : sans compte, l'appli renvoie vers l'inscription. Les tests partent donc d'un appareil déjà
+  // inscrit (une seule fois par contexte : un test qui retire le compte le garde retiré), sauf quand SEED_AUTH est faux.
+  let SEED_AUTH = true;
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript((seed) => { window.EW_PORTAL_HOME = true; try { if (seed && !localStorage.getItem("e2e_seeded")) { localStorage.setItem("e2e_seeded", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } } catch (e) {} }, SEED_AUTH); return c; }; } // ancien accueil du portail, encore testé
   const MOBILE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
 
   async function newCtx(opts, fake) {
@@ -62,6 +65,32 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   async function waitTalkReady(page) {
     await page.waitForFunction(() => window.EW && EW.frames.talk && EW.frames.talk.ready, null, { timeout: 20000 });
     return talkFrame(page);
+  }
+
+  // ---------- Compte pour tout ----------
+  SEED_AUTH = false;
+  {
+    const gctx = await newCtx(); // serveur injoignable : aucun compte possible, l'écran reste celui de l'inscription
+    SEED_AUTH = true;
+    const gp = await openPortal(gctx);
+    await step("Compte pour tout : sans compte, le portail ouvre l'inscription de TALK, sans barre du bas", async () => {
+      await gp.waitForURL(/24-24-talk\/index\.html/, { timeout: 15000 });
+      await gp.waitForSelector("#net.view.active", { timeout: 20000 });
+      const r = await gp.evaluate(() => { const b = document.querySelector(".bbar"); return { gate: document.documentElement.classList.contains("ow-gate"), bar: b ? getComputedStyle(b).display : "none" }; });
+      return { ok: r.gate && r.bar === "none", detail: "Messagerie (inscription) seule, barre du bas : " + r.bar };
+    });
+    await step("Compte pour tout : « J'ai déjà un compte » reste accessible (portail #/profil)", async () => {
+      await gp.goto(URL_EW + "#/profil");
+      await gp.waitForTimeout(800);
+      if (!/everywhere\/#\/profil/.test(gp.url())) throw new Error("renvoyé vers " + gp.url());
+      return { ok: true, detail: "connexion possible" };
+    });
+    await step("Compte pour tout : un autre écran du portail sans compte renvoie vers l'inscription", async () => {
+      await gp.goto(URL_EW + "#/learn");
+      await gp.waitForURL(/24-24-talk\/index\.html/, { timeout: 15000 });
+      return { ok: true, detail: "renvoyé vers l'inscription" };
+    });
+    await gctx.close();
   }
 
   // ---------- Téléphone ----------
@@ -179,6 +208,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.goto(URL_EW + "#/accueil");
   await page.waitForSelector("#view-accueil.active");
   await step("Profil sans compte : invitation à créer son profil dans TALK", async () => {
+    await page.evaluate(() => localStorage.removeItem("lc_net_auth")); // appareil sans compte : seul #/profil reste ouvert
     await page.click("#topProfile");
     await page.waitForSelector("#profileCard #cxCreate", { timeout: 20000 });
     const txt = await page.textContent("#profileCard");
@@ -187,6 +217,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await step("« Créer mon profil » ouvre la messagerie de TALK", async () => {
     await page.click("#profileCard #cxCreate");
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.evaluate(() => localStorage.setItem("lc_net_auth", "fake")); // de nouveau inscrit pour la suite
     await page.goto(URL_EW + "#/accueil");
     return { ok: true };
   });
@@ -330,7 +361,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ctx.close();
 
   // ---------- CONNECT : nouvel appareil (aucune session enregistrée) ----------
+  SEED_AUTH = false;
   ctx = await newCtx({}, true);
+  SEED_AUTH = true;
   page = await openPortal(ctx, "#/profil");
   await step("Nouvel appareil : invitation affichée sans attendre le serveur", async () => {
     await page.waitForSelector("#cxHave", { timeout: 5000 });
@@ -357,7 +390,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await step("Lien « J'ai déjà un compte » de TALK : ouvre directement la connexion", async () => {
     await page.evaluate(() => { localStorage.removeItem("fake_sb"); localStorage.removeItem("lc_net_auth"); sessionStorage.setItem("ew_connect_login", "1"); });
-    await page.goto(URL_EW + "#/accueil");
+    await page.goto("about:blank"); // sans compte, #/accueil renverrait vers l'inscription : on recharge directement sur #/profil
     await page.goto(URL_EW + "#/profil");
     await page.waitForSelector("#cxEmail", { timeout: 5000 });
     const left = await page.evaluate(() => sessionStorage.getItem("ew_connect_login"));
