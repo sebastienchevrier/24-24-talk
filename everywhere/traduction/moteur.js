@@ -56,8 +56,16 @@
   }
   // Réponse de MyMemory : le quota épuisé arrive parfois comme un texte « traduit » (MYMEMORY WARNING…) avec un
   // code 429 dans responseStatus ; il ne doit jamais être affiché ni lu à voix haute comme une traduction.
+  // Hors correspondance exacte, la traduction automatique (« MT! ») vaut mieux que la phrase voisine de la mémoire
+  // de MyMemory (souvent des sous-titres) : même règle que TALK (mesure du 19 oct. 2026).
+  function best(data) {
+    var rd = data && data.responseData, tr = rd && rd.translatedText;
+    if (rd && Number(rd.match) >= 1) return tr;
+    var mt = data && Array.isArray(data.matches) ? data.matches.filter(function (m) { return m && m["created-by"] === "MT!" && m.translation; })[0] : null;
+    return mt ? mt.translation : tr;
+  }
   function checkAnswer(data) {
-    var tr = data && data.responseData && data.responseData.translatedText;
+    var tr = best(data);
     var st = Number(data && data.responseStatus) || 0;
     var note = String((data && data.responseDetails) || "") + " " + String(tr || "");
     if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
