@@ -509,6 +509,15 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.has-bbar main{padding-bottom:92px;}
   /* Messagerie et Téléphone en plein écran, comme une appli de messagerie : sans le grand bandeau d'accueil. */
   .net-topbar .net-tb-actions{display:none;}
+  .tr-topbar{display:none;}
+  body.tr-full .tr-topbar{display:flex;align-items:center;justify-content:space-between;margin:4px 0 12px;}
+  body.tr-full .tr-topbar .net-tb-actions{display:flex;gap:8px;}
+  body.tr-full .tr-topbar .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
+  body.tr-full .tr-topbar .net-tb-btn{border:0;background:transparent;width:44px;height:44px;}
+  body.tr-full .tr-topbar .net-tb-btn svg{width:26px;height:26px;}
+  body.tr-full header.hero-earth, body.tr-full .promo-banner, body.tr-full .trust-line, body.tr-full .install-top,
+  body.tr-full .inapp-banner, body.tr-full .site-footer{display:none !important;}
+  body.tr-full main{padding-top:10px;}
   body.net-full header.hero-earth, body.net-full .promo-banner, body.net-full .trust-line, body.net-full .install-top,
   body.net-full .inapp-banner, body.net-full .site-footer, body.net-full #netHomeBtn{display:none !important;}
   body.net-full main{padding-top:10px;}
@@ -555,6 +564,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;}
   .net-hd-btn:active{background:var(--panel2);}
   .net-hd-btn svg{width:23px;height:23px;}
+  .net-hd-tr{color:var(--muted);position:relative;}
+  .net-hd-tr.on{color:#8fe9df;}
+  .net-hd-tr:not(.on)::after{content:"";position:absolute;width:26px;height:2px;background:currentColor;transform:rotate(-45deg);border-radius:2px;}
   .net-hd-btn.net-hd-call{color:#8fb0ff;}
   .net-chat-full .net-log{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;padding:10px 2px 4px;}
   .net-chat-full .net-typing{flex-shrink:0;margin:0 6px 2px;}
@@ -6152,6 +6164,7 @@ const NET_STRINGS = {
     net_deleted_user: "compte supprimé",
     home_phone: "Téléphone",
     home_phone_sub: "Appels traduits",
+    home_ew: "Face à face",
     home_ew_sub: "Conversation côte à côte",
     home_trip: "Voyage",
     home_trip_sub: "Phrases utiles hors ligne",
@@ -6345,6 +6358,7 @@ const NET_STRINGS = {
     net_deleted_user: "deleted account",
     home_phone: "Phone",
     home_phone_sub: "Translated calls",
+    home_ew: "Face to face",
     home_ew_sub: "Side-by-side conversation",
     home_trip: "Travel",
     home_trip_sub: "Useful phrases, works offline",
@@ -6535,6 +6549,7 @@ const NET_STRINGS = {
     net_deleted_user: "cuenta eliminada",
     home_phone: "Teléfono",
     home_phone_sub: "Llamadas traducidas",
+    home_ew: "Cara a cara",
     home_ew_sub: "Conversación cara a cara",
     home_trip: "Viaje",
     home_trip_sub: "Frases útiles sin conexión",
@@ -6725,6 +6740,7 @@ const NET_STRINGS = {
     net_deleted_user: "conta eliminada",
     home_phone: "Telefone",
     home_phone_sub: "Chamadas traduzidas",
+    home_ew: "Frente a frente",
     home_ew_sub: "Conversa lado a lado",
     home_trip: "Viagem",
     home_trip_sub: "Frases úteis sem ligação",
@@ -6915,6 +6931,7 @@ const NET_STRINGS = {
     net_deleted_user: "Konto gelöscht",
     home_phone: "Telefon",
     home_phone_sub: "Übersetzte Anrufe",
+    home_ew: "Gegenüber",
     home_ew_sub: "Gespräch von Angesicht zu Angesicht",
     home_trip: "Reise",
     home_trip_sub: "Nützliche Sätze, auch offline",
@@ -7105,6 +7122,7 @@ const NET_STRINGS = {
     net_deleted_user: "account eliminato",
     home_phone: "Telefono",
     home_phone_sub: "Chiamate tradotte",
+    home_ew: "Faccia a faccia",
     home_ew_sub: "Conversazione faccia a faccia",
     home_trip: "Viaggio",
     home_trip_sub: "Frasi utili anche offline",
@@ -7295,6 +7313,7 @@ const NET_STRINGS = {
     net_deleted_user: "账户已删除",
     home_phone: "电话",
     home_phone_sub: "翻译通话",
+    home_ew: "面对面",
     home_ew_sub: "面对面对话",
     home_trip: "旅行",
     home_trip_sub: "实用短语，离线可用",
@@ -7485,6 +7504,7 @@ const NET_STRINGS = {
     net_deleted_user: "削除されたアカウント",
     home_phone: "電話",
     home_phone_sub: "翻訳通話",
+    home_ew: "対面",
     home_ew_sub: "対面での会話",
     home_trip: "旅行",
     home_trip_sub: "便利なフレーズ、オフライン対応",
@@ -7675,6 +7695,7 @@ const NET_STRINGS = {
     net_deleted_user: "حساب محذوف",
     home_phone: "الهاتف",
     home_phone_sub: "مكالمات مترجمة",
+    home_ew: "وجهًا لوجه",
     home_ew_sub: "محادثة وجهًا لوجه",
     home_trip: "السفر",
     home_trip_sub: "عبارات مفيدة دون اتصال",
@@ -7865,6 +7886,7 @@ const NET_STRINGS = {
     net_deleted_user: "аккаунт удалён",
     home_phone: "Телефон",
     home_phone_sub: "Звонки с переводом",
+    home_ew: "Лицом к лицу",
     home_ew_sub: "Разговор лицом к лицу",
     home_trip: "Путешествие",
     home_trip_sub: "Полезные фразы, работает офлайн",
@@ -8055,6 +8077,7 @@ const NET_STRINGS = {
     net_deleted_user: "kaonty voafafa",
     home_phone: "Telefaonina",
     home_phone_sub: "Antso voadika",
+    home_ew: "Mifanatrika",
     home_ew_sub: "Resaka mifanatrika",
     home_trip: "Dia",
     home_trip_sub: "Fehezanteny ilaina, na tsy misy aterineto",
@@ -8250,7 +8273,7 @@ const Reseau = (() => {
       </button>
       <a class="home-tile ew" id="tileEw" href="everywhere/#/everywhere">
         <span class="home-tile-ic">${ICON_GLOBE_EW}</span>
-        <span class="home-tile-txt"><span class="home-tile-name" dir="ltr">EVERYWHERE</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_ew"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_ew_sub"))}</span></span>
       </a>
       <a class="home-tile trip" id="tileTrip" href="everywhere/#/everywhere/voyage">
@@ -8260,7 +8283,7 @@ const Reseau = (() => {
       </a>
       <a class="home-tile learn" id="tileLearn" href="everywhere/#/learn">
         <span class="home-tile-ic">${ICON_LEARN}</span>
-        <span class="home-tile-txt"><span class="home-tile-name" dir="ltr">LEARN</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_learn"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_learn_sub"))}</span></span>
       </a>`;
     tileBadge = tilesBox.querySelector("#tileMsgBadge");
@@ -8294,6 +8317,12 @@ const Reseau = (() => {
       const on = (b.dataset.tr === "1") === trOn;
       b.classList.toggle("on", on);
       b.setAttribute("aria-pressed", String(on));
+    });
+    document.querySelectorAll(".net-hd-tr").forEach((b) => {
+      b.classList.toggle("on", trOn);
+      b.setAttribute("aria-pressed", String(trOn));
+      b.setAttribute("aria-label", t(trOn ? "tr_on" : "tr_off"));
+      b.title = t(trOn ? "tr_on" : "tr_off");
     });
     document.querySelectorAll(".tr-hint").forEach((h) => { h.textContent = t(trOn ? "tr_on_hint" : "tr_off_hint"); });
   }
@@ -8359,12 +8388,7 @@ const Reseau = (() => {
     box.querySelector("#netClSave").addEventListener("click", () =>
       apply(box.querySelector("#netClSpeak").value, box.querySelector("#netClRead").value));
   }
-  if (tilesBox) {
-    const sw = document.createElement("div");
-    sw.className = "home-tr";
-    sw.innerHTML = trSwitchHtml(false) + `<p class="tr-hint">${escapeHtml(t(trOn ? "tr_on_hint" : "tr_off_hint"))}</p>`;
-    tilesBox.parentNode.insertBefore(sw, tilesBox.nextSibling);
-  }
+  // Avec/Sans traduction : réglé dans chaque discussion (bouton ⋯) et pendant un appel, plus sur l'accueil (19 oct. 2026).
 
   // Barre du haut de l'écran réseau : retour à l'accueil + nom de la touche choisie.
   const topbar = document.createElement("div");
@@ -9438,6 +9462,18 @@ const Reseau = (() => {
   bar.className = "bbar";
   bar.setAttribute("aria-label", t("net_tabs"));
   const trLabel = String(t("tab_tr")).replace(/^[^\p{L}]+/u, "");
+  // Traduire : même en-tête que Messagerie et Téléphone (gros titre à gauche, réglages à droite), sans le grand titre du site.
+  const trView = document.getElementById("tr");
+  if (trView) {
+    const trTop = document.createElement("div");
+    trTop.className = "net-topbar tr-topbar";
+    trTop.innerHTML = `<span class="net-topbar-title">${escapeHtml(trLabel)}</span><span class="net-tb-actions"></span>`;
+    const g = topbar.querySelector("#netGearBtn").cloneNode(true);
+    g.id = "trGearBtn";
+    g.addEventListener("click", () => { const sbtn = document.getElementById("settingsBtn"); if (sbtn) sbtn.click(); });
+    trTop.lastElementChild.appendChild(g);
+    trView.insertBefore(trTop, trView.firstChild);
+  }
   bar.innerHTML = `
     <button type="button" data-b="home">${ICON_HOME}<span>${escapeHtml(t("tab_home"))}</span></button>
     <button type="button" data-b="msg">${ICON_MSG}<span>${escapeHtml(t("home_msg"))}</span><em class="bbar-n" id="bbarN" hidden></em></button>
@@ -9531,6 +9567,7 @@ const Reseau = (() => {
     const hide = id === "net" && (screen === "chat" || screen === "call");
     bar.hidden = hide;
     const full = id === "net" && !EMBEDDED;
+    document.body.classList.toggle("tr-full", id === "tr" && !EMBEDDED);
     if (document.body.classList.contains("net-full") !== full) {
       document.body.classList.toggle("net-full", full);
       updateTopbar();
@@ -10083,6 +10120,7 @@ const Reseau = (() => {
             ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
             <span class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></span>
           </button>
+          <button type="button" class="net-hd-btn net-hd-tr${trOn ? " on" : ""}" id="netTrBtn" aria-pressed="${trOn}" aria-label="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}" title="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}">${ICON_GLOBE}</button>
           ${c.otherId && !isBlocked ? `<button type="button" class="net-hd-btn net-hd-call" id="netCallBtn" aria-label="${escapeHtml(t("net_call"))}">${ICON_PHONE}</button>` : ""}
           ${c.otherId && isBlocked ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>` : ""}
           <button type="button" class="net-hd-btn" id="netMore" aria-label="${escapeHtml(t("net_more"))}"><span aria-hidden="true">⋯</span></button>
@@ -10125,6 +10163,7 @@ const Reseau = (() => {
       if (!micActive) micBtn.classList.remove("recording", "hear");
       else micActive.onend = () => { micBtn.classList.remove("recording", "hear"); micActive = null; };
     });
+    root.querySelector("#netTrBtn").addEventListener("click", () => { setTranslation(!trOn); showMsg(root.querySelector("#netChatMsg"), escapeHtml(t(trOn ? "tr_on_hint" : "tr_off_hint")), "ok"); });
     const callBtn = root.querySelector("#netCallBtn");
     if (callBtn) callBtn.addEventListener("click", () => startCall(false));
     const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight + 2, 120) + "px"; };
@@ -10173,10 +10212,9 @@ const Reseau = (() => {
       return items;
     };
     root.querySelector("#netMore").addEventListener("click", () => {
-      // Réglages de la discussion rangés ici, comme dans une messagerie : traduction et langues.
+      // Langues de la discussion rangées ici ; la traduction se règle avec le globe de l'en-tête.
       const l = convLangs(c.id);
       const items = [
-        { label: "🌐 " + t(trOn ? "tr_off" : "tr_on"), run: () => setTranslation(!trOn) },
         { label: "🗣 " + langLabel(l.speak) + " · 🌐 " + langLabel(l.read) + " ✎", run: () => convLangSheet(c) },
       ].concat(safetyItems());
       items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
