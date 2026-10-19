@@ -546,6 +546,24 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
   body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
   body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
+  /* Discussion façon messagerie : plein écran, en-tête compact, saisie collée en bas */
+  .net-chat-full{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;margin:0;border:0;border-radius:0;
+    background:var(--bg);padding:calc(6px + env(safe-area-inset-top,0px)) 8px calc(8px + env(safe-area-inset-bottom,0px));box-sizing:border-box;}
+  @media (min-width:820px){.net-chat-full{padding-left:calc(50vw - 380px);padding-right:calc(50vw - 380px);}}
+  .net-chat-full .net-chat-head{flex-shrink:0;gap:4px;margin:0 -8px;padding:0 6px 6px;border-bottom:1px solid var(--line);}
+  .net-hd-btn{flex-shrink:0;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:var(--text);font-size:24px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .net-hd-btn:active{background:var(--panel2);}
+  .net-hd-btn svg{width:23px;height:23px;}
+  .net-hd-btn.net-hd-call{color:#8fb0ff;}
+  .net-chat-full .net-log{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;padding:10px 2px 4px;}
+  .net-chat-full .net-typing{flex-shrink:0;margin:0 6px 2px;}
+  .net-chat-full #netChatMsg{flex-shrink:0;}
+  .net-compose{flex-shrink:0;display:flex;align-items:flex-end;gap:6px;}
+  .net-compose textarea{flex:1;min-height:44px;max-height:120px;margin:0;padding:11px 16px;border-radius:22px;resize:none;line-height:1.35;overflow-y:auto;box-sizing:border-box;}
+  .net-cbtn{flex-shrink:0;width:44px;height:44px;border-radius:50%;padding:0;margin:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .net-sendbtn{border:0;background:var(--cta);color:var(--cta-ink);cursor:pointer;}
+  .net-sendbtn svg{width:21px;height:21px;}
   .net-chat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
   .net-chat-title{display:flex;flex-direction:column;min-width:0;}
   .net-chat-title b{font-size:16px;}
@@ -10058,29 +10076,25 @@ const Reseau = (() => {
     const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
     const isBlocked = c.otherId && blockedIds.has(c.otherId);
     root.innerHTML = `
-      <div class="card net-chat">
+      <div class="card net-chat net-chat-full">
         <div class="net-chat-head">
-          <button class="iconbtn" id="netBack">${escapeHtml(t("net_back"))}</button>
+          <button type="button" class="net-hd-btn" id="netBack" aria-label="${escapeHtml(t("net_back"))}"><span aria-hidden="true">←</span></button>
           <button type="button" class="net-chat-who" id="netWho"${c.other ? ` aria-label="${escapeHtml(t("net_profile_see", { p: c.other.pseudo }))}"` : " disabled"}>
             ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
             <span class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></span>
           </button>
-        </div>
-        ${trSwitchHtml(true)}
-        <button type="button" class="net-langrow${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" id="netConvLang">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} <span aria-hidden="true">✎</span></button>
-        <div class="iconrow net-actions">
-          ${c.otherId && !isBlocked ? `<button class="iconbtn net-callbtn" id="netCallBtn">${escapeHtml(t("net_call"))}</button>` : ""}
+          ${c.otherId && !isBlocked ? `<button type="button" class="net-hd-btn net-hd-call" id="netCallBtn" aria-label="${escapeHtml(t("net_call"))}">${ICON_PHONE}</button>` : ""}
           ${c.otherId && isBlocked ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>` : ""}
-          <button class="iconbtn" id="netMore">${escapeHtml(t("net_more"))}</button>
+          <button type="button" class="net-hd-btn" id="netMore" aria-label="${escapeHtml(t("net_more"))}"><span aria-hidden="true">⋯</span></button>
         </div>
         <div class="conv-log net-log" id="netLog"></div>
         <div class="net-typing" id="netTyping" aria-live="polite"></div>
-        <textarea id="netInput" dir="auto" maxlength="2000" placeholder="${escapeHtml(t("net_msg_ph"))}" style="min-height:56px;"></textarea>
-        <div class="row">
-          <button class="btn primary" id="netSend">${escapeHtml(t("send"))}</button>
-          <button class="mic" id="netMic" title="${escapeHtml(t("speak_title"))}">🎤</button>
-        </div>
         <div id="netChatMsg">${chatLoading ? "" : flashHtml()}</div>
+        <div class="net-compose">
+          <textarea id="netInput" dir="auto" rows="1" maxlength="2000" placeholder="${escapeHtml(t("net_msg_ph"))}"></textarea>
+          <button class="mic net-cbtn" id="netMic" title="${escapeHtml(t("speak_title"))}" aria-label="${escapeHtml(t("speak_title"))}">🎤</button>
+          <button type="button" class="net-cbtn net-sendbtn" id="netSend" aria-label="${escapeHtml(t("send"))}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg></button>
+        </div>
       </div>`;
     renderChatMessages();
     root.querySelector("#netBack").addEventListener("click", () => {
@@ -10113,8 +10127,8 @@ const Reseau = (() => {
     });
     const callBtn = root.querySelector("#netCallBtn");
     if (callBtn) callBtn.addEventListener("click", () => startCall(false));
-    root.querySelector("#netConvLang").addEventListener("click", () => convLangSheet(c));
-    input.addEventListener("input", () => { if (input.value.trim()) notifyTyping(); });
+    const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight + 2, 120) + "px"; };
+    input.addEventListener("input", () => { grow(); if (input.value.trim()) notifyTyping(); });
     const doBlock = async () => {
       const { error } = await sb.from("blocks").insert({ blocked: c.otherId });
       if (!error || error.code === "23505") blockedIds.add(c.otherId);
@@ -10159,7 +10173,12 @@ const Reseau = (() => {
       return items;
     };
     root.querySelector("#netMore").addEventListener("click", () => {
-      const items = safetyItems();
+      // Réglages de la discussion rangés ici, comme dans une messagerie : traduction et langues.
+      const l = convLangs(c.id);
+      const items = [
+        { label: "🌐 " + t(trOn ? "tr_off" : "tr_on"), run: () => setTranslation(!trOn) },
+        { label: "🗣 " + langLabel(l.speak) + " · 🌐 " + langLabel(l.read) + " ✎", run: () => convLangSheet(c) },
+      ].concat(safetyItems());
       items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
       actionSheet(items);
     });
@@ -10285,7 +10304,7 @@ const Reseau = (() => {
       showMsg(msgEl, escapeHtml(em.includes("SUSPENDED") ? t("net_suspended") : em.includes("RATE_LIMIT") ? t("net_rate_limit") : blocked ? t("net_blocked") : t("net_send_fail")), "err");
       return;
     }
-    if (input) input.value = "";
+    if (input) { input.value = ""; input.style.height = ""; }
     if (data && !chatMsgs.some((x) => x.id === data.id)) {
       chatMsgs.push(data);
       currentConv.last = data;
