@@ -91,6 +91,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       return { ok: true, detail: "renvoyé vers l'inscription" };
     });
     await gctx.close();
+    // Nouveau venu invité par un ami : l'invitation survit à l'écran d'inscription, la démo traduite s'affiche.
+    SEED_AUTH = false;
+    const ictx = await newCtx(null, true);
+    SEED_AUTH = true;
+    await ictx.addInitScript(() => { try { if (!sessionStorage.getItem("e2e_i")) { sessionStorage.setItem("e2e_i", "1"); localStorage.setItem("fake_sb", JSON.stringify({ session: false, email: "", new_email: "", anon: true, pending: "", devices: [] })); } } catch (e) {} });
+    const ip = await ictx.newPage();
+    await ip.goto(ORIGIN + BASE + "?ajouter=kenji");
+    await step("Invitation sans compte : « @kenji vous attend » sur l'inscription (le lien garde l'invitation)", async () => {
+      await ip.waitForSelector("#netPseudo", { timeout: 20000 });
+      const txt = await ip.textContent("#net");
+      return { ok: /@kenji vous attend/.test(txt), detail: (txt.match(/@kenji[^.]*\./) || ["absent"])[0] };
+    });
+    await step("Démo d'inscription : phrase écrite en français, lue dans une autre langue, bouton 🔊, change toute seule", async () => {
+      const a1 = await ip.$eval("#owDemo", (b) => ({ src: b.querySelector(".ow-demo-row .ow-demo-txt").textContent, l: b.dataset.lang, play: !!b.querySelector("#owDemoPlay") }));
+      await ip.waitForTimeout(2900);
+      const l2 = await ip.$eval("#owDemo", (b) => b.dataset.lang);
+      return { ok: /On s'appelle ce soir/.test(a1.src) && a1.play && a1.l !== "fr" && l2 !== a1.l, detail: a1.l + " → " + l2 };
+    });
+    await ictx.close();
   }
 
   // ---------- Téléphone ----------
