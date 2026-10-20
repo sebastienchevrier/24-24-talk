@@ -490,6 +490,19 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-me-page .row{margin-top:10px;}
   .net-me-page .net-me-act{justify-content:flex-start;text-align:start;padding:15px 16px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:16px;}
   .net-me-page .net-me-del{color:#ff6b6b;}
+  .net-opt-h{margin:18px 4px 4px;font-size:14px;font-weight:600;color:var(--muted);}
+  .net-opt{display:flex;align-items:center;gap:16px;width:100%;min-height:56px;padding:8px 4px;background:none;border:0;color:var(--text);
+    font:inherit;font-size:17px;text-align:start;cursor:pointer;}
+  .net-opt:active{background:var(--panel2);border-radius:12px;}
+  .net-opt-ic{width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;}
+  .net-opt-ic svg{width:25px;height:25px;}
+  .net-opt-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .net-opt-txt small{font-size:13.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .net-opt-txt select{margin-top:2px;max-width:100%;background:transparent;border:0;padding:0;color:var(--muted);font-size:13.5px;}
+  .net-me-page .net-opt-txt select{width:auto;min-height:0;height:auto;margin:2px 0 0;padding:0;background:transparent;border:0;box-shadow:none;color:var(--muted);font-size:13.5px;font-weight:400;}
+  .net-me-page .net-opt-txt .ewl-btn{min-height:0;padding:0;margin-top:2px;border:0;background:transparent;color:var(--muted);font-size:13.5px;font-weight:400;align-self:flex-start;}
+  .net-opt .toggle{flex:none;pointer-events:none;}
+  .net-opt-del{color:#ff6b6b;margin-top:14px;}
   .net-story#netMeStory .net-av{box-shadow:0 0 0 2px var(--blue);}
   .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
     flex-shrink:0;text-transform:uppercase;}
@@ -6123,6 +6136,25 @@ const NET_STRINGS = {
     net_invite: "📨 Inviter un ami",
     net_new_chat: "Nouvelle discussion",
     net_my_profile: "Mon profil",
+    me_sec_account: "Votre compte",
+    me_name: "Nom",
+    me_handle: "Nom de profil",
+    me_handle_sub: "partager mon lien",
+    me_sec_profile: "Profil",
+    me_dark: "Mode sombre",
+    me_th_auto: "Système",
+    me_online: "Statut En ligne",
+    me_on: "Activé",
+    me_off: "Désactivé",
+    me_sec_prefs: "Préférences",
+    me_avatar: "Photo et avatar",
+    me_notif: "Sons et notifications",
+    me_a11y: "Accessibilité",
+    me_privacy: "Confidentialité et sécurité",
+    me_sec_help: "Aide et sécurité",
+    me_report: "Signaler un problème technique",
+    me_help: "Aide",
+    me_legal: "Mentions légales et politiques",
     net_invite_text: "📲 Écris-moi dans ta langue, je te lis dans la mienne. Rejoins-moi sur 24/24 ONE WORLD !",
     net_invite_step2: "📨 2/2 : envoyer la carte",
     net_invite_step2_hint: "Message envoyé. Touchez « 2/2 : envoyer la carte » et choisissez la même personne.",
@@ -6321,6 +6353,25 @@ const NET_STRINGS = {
     net_invite: "📨 Invite a friend",
     net_new_chat: "New chat",
     net_my_profile: "My profile",
+    me_sec_account: "Your account",
+    me_name: "Name",
+    me_handle: "Profile name",
+    me_handle_sub: "share my link",
+    me_sec_profile: "Profile",
+    me_dark: "Dark mode",
+    me_th_auto: "System",
+    me_online: "Active status",
+    me_on: "On",
+    me_off: "Off",
+    me_sec_prefs: "Preferences",
+    me_avatar: "Photo and avatar",
+    me_notif: "Sounds and notifications",
+    me_a11y: "Accessibility",
+    me_privacy: "Privacy and safety",
+    me_sec_help: "Help and safety",
+    me_report: "Report a technical problem",
+    me_help: "Help",
+    me_legal: "Legal and policies",
     net_invite_text: "📲 Write to me in your language, I'll read you in mine. Join me on 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: send the card",
     net_invite_step2_hint: "Message sent. Tap “2/2: send the card” and choose the same person.",
@@ -6518,6 +6569,25 @@ const NET_STRINGS = {
     net_invite: "📨 Invitar a un amigo",
     net_new_chat: "Nuevo chat",
     net_my_profile: "Mi perfil",
+    me_sec_account: "Tu cuenta",
+    me_name: "Nombre",
+    me_handle: "Nombre de perfil",
+    me_handle_sub: "compartir mi enlace",
+    me_sec_profile: "Perfil",
+    me_dark: "Modo oscuro",
+    me_th_auto: "Sistema",
+    me_online: "Estado activo",
+    me_on: "Activado",
+    me_off: "Desactivado",
+    me_sec_prefs: "Preferencias",
+    me_avatar: "Foto y avatar",
+    me_notif: "Sonidos y notificaciones",
+    me_a11y: "Accesibilidad",
+    me_privacy: "Privacidad y seguridad",
+    me_sec_help: "Ayuda y seguridad",
+    me_report: "Informar de un problema técnico",
+    me_help: "Ayuda",
+    me_legal: "Aviso legal y políticas",
     net_invite_text: "📲 Escríbeme en tu idioma, yo te leo en el mío. ¡Únete a mí en 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar la tarjeta",
     net_invite_step2_hint: "Mensaje enviado. Toca «2/2: enviar la tarjeta» y elige a la misma persona.",
@@ -6713,6 +6783,25 @@ const NET_STRINGS = {
     net_invite: "📨 Convidar um amigo",
     net_new_chat: "Nova conversa",
     net_my_profile: "O meu perfil",
+    me_sec_account: "A sua conta",
+    me_name: "Nome",
+    me_handle: "Nome de perfil",
+    me_handle_sub: "partilhar o meu link",
+    me_sec_profile: "Perfil",
+    me_dark: "Modo escuro",
+    me_th_auto: "Sistema",
+    me_online: "Estado ativo",
+    me_on: "Ativado",
+    me_off: "Desativado",
+    me_sec_prefs: "Preferências",
+    me_avatar: "Foto e avatar",
+    me_notif: "Sons e notificações",
+    me_a11y: "Acessibilidade",
+    me_privacy: "Privacidade e segurança",
+    me_sec_help: "Ajuda e segurança",
+    me_report: "Comunicar um problema técnico",
+    me_help: "Ajuda",
+    me_legal: "Aviso legal e políticas",
     net_invite_text: "📲 Escreve-me na tua língua, eu leio-te na minha. Junta-te a mim no 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar o cartão",
     net_invite_step2_hint: "Mensagem enviada. Toque em «2/2: enviar o cartão» e escolha a mesma pessoa.",
@@ -6908,6 +6997,25 @@ const NET_STRINGS = {
     net_invite: "📨 Freund einladen",
     net_new_chat: "Neuer Chat",
     net_my_profile: "Mein Profil",
+    me_sec_account: "Dein Konto",
+    me_name: "Name",
+    me_handle: "Profilname",
+    me_handle_sub: "meinen Link teilen",
+    me_sec_profile: "Profil",
+    me_dark: "Dunkelmodus",
+    me_th_auto: "System",
+    me_online: "Aktivitätsstatus",
+    me_on: "An",
+    me_off: "Aus",
+    me_sec_prefs: "Einstellungen",
+    me_avatar: "Foto und Avatar",
+    me_notif: "Töne und Mitteilungen",
+    me_a11y: "Barrierefreiheit",
+    me_privacy: "Privatsphäre und Sicherheit",
+    me_sec_help: "Hilfe und Sicherheit",
+    me_report: "Technisches Problem melden",
+    me_help: "Hilfe",
+    me_legal: "Impressum und Richtlinien",
     net_invite_text: "📲 Schreib mir in deiner Sprache, ich lese dich in meiner. Komm zu mir auf 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: Karte senden",
     net_invite_step2_hint: "Nachricht gesendet. Tippe auf „2/2: Karte senden“ und wähle dieselbe Person.",
@@ -7103,6 +7211,25 @@ const NET_STRINGS = {
     net_invite: "📨 Invita un amico",
     net_new_chat: "Nuova chat",
     net_my_profile: "Il mio profilo",
+    me_sec_account: "Il tuo account",
+    me_name: "Nome",
+    me_handle: "Nome del profilo",
+    me_handle_sub: "condividi il mio link",
+    me_sec_profile: "Profilo",
+    me_dark: "Modalità scura",
+    me_th_auto: "Sistema",
+    me_online: "Stato attività",
+    me_on: "Attivo",
+    me_off: "Disattivato",
+    me_sec_prefs: "Preferenze",
+    me_avatar: "Foto e avatar",
+    me_notif: "Suoni e notifiche",
+    me_a11y: "Accessibilità",
+    me_privacy: "Privacy e sicurezza",
+    me_sec_help: "Aiuto e sicurezza",
+    me_report: "Segnala un problema tecnico",
+    me_help: "Aiuto",
+    me_legal: "Note legali e normative",
     net_invite_text: "📲 Scrivimi nella tua lingua, io ti leggo nella mia. Raggiungimi su 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: invia la scheda",
     net_invite_step2_hint: "Messaggio inviato. Tocca «2/2: invia la scheda» e scegli la stessa persona.",
@@ -7298,6 +7425,25 @@ const NET_STRINGS = {
     net_invite: "📨 邀请朋友",
     net_new_chat: "新聊天",
     net_my_profile: "我的资料",
+    me_sec_account: "你的账户",
+    me_name: "名字",
+    me_handle: "资料名",
+    me_handle_sub: "分享我的链接",
+    me_sec_profile: "资料",
+    me_dark: "深色模式",
+    me_th_auto: "跟随系统",
+    me_online: "在线状态",
+    me_on: "开",
+    me_off: "关",
+    me_sec_prefs: "偏好设置",
+    me_avatar: "照片和头像",
+    me_notif: "声音和通知",
+    me_a11y: "无障碍",
+    me_privacy: "隐私和安全",
+    me_sec_help: "帮助和安全",
+    me_report: "报告技术问题",
+    me_help: "帮助",
+    me_legal: "法律声明和政策",
     net_invite_text: "📲 用你的语言给我写信，我用我的语言读你。来 24/24 ONE WORLD 找我吧！",
     net_invite_step2: "📨 2/2：发送卡片",
     net_invite_step2_hint: "消息已发送。点击“2/2：发送卡片”，选择同一个人。",
@@ -7493,6 +7639,25 @@ const NET_STRINGS = {
     net_invite: "📨 友だちを招待",
     net_new_chat: "新しいチャット",
     net_my_profile: "マイプロフィール",
+    me_sec_account: "アカウント",
+    me_name: "名前",
+    me_handle: "プロフィール名",
+    me_handle_sub: "リンクを共有",
+    me_sec_profile: "プロフィール",
+    me_dark: "ダークモード",
+    me_th_auto: "システム",
+    me_online: "アクティブ状況",
+    me_on: "オン",
+    me_off: "オフ",
+    me_sec_prefs: "設定",
+    me_avatar: "写真とアバター",
+    me_notif: "サウンドと通知",
+    me_a11y: "アクセシビリティ",
+    me_privacy: "プライバシーと安全",
+    me_sec_help: "ヘルプと安全",
+    me_report: "技術的な問題を報告",
+    me_help: "ヘルプ",
+    me_legal: "法的情報とポリシー",
     net_invite_text: "📲 あなたの言葉で書いてね、私は自分の言葉で読むよ。24/24 ONE WORLD で会おう！",
     net_invite_step2: "📨 2/2：カードを送る",
     net_invite_step2_hint: "メッセージを送りました。「2/2：カードを送る」をタップして、同じ人を選んでください。",
@@ -7688,6 +7853,25 @@ const NET_STRINGS = {
     net_invite: "📨 ادعُ صديقًا",
     net_new_chat: "محادثة جديدة",
     net_my_profile: "ملفي الشخصي",
+    me_sec_account: "حسابك",
+    me_name: "الاسم",
+    me_handle: "اسم الملف الشخصي",
+    me_handle_sub: "مشاركة رابطي",
+    me_sec_profile: "الملف الشخصي",
+    me_dark: "الوضع الداكن",
+    me_th_auto: "النظام",
+    me_online: "حالة النشاط",
+    me_on: "مفعّل",
+    me_off: "معطّل",
+    me_sec_prefs: "التفضيلات",
+    me_avatar: "الصورة والرمز",
+    me_notif: "الأصوات والإشعارات",
+    me_a11y: "إمكانية الوصول",
+    me_privacy: "الخصوصية والأمان",
+    me_sec_help: "المساعدة والأمان",
+    me_report: "الإبلاغ عن مشكلة تقنية",
+    me_help: "المساعدة",
+    me_legal: "الإشعارات القانونية والسياسات",
     net_invite_text: "📲 اكتب لي بلغتك، وأقرأك بلغتي. انضم إليّ على ⁦24/24 ONE WORLD⁩!",
     net_invite_step2: "📨 2/2: إرسال البطاقة",
     net_invite_step2_hint: "تم إرسال الرسالة. المس «2/2: إرسال البطاقة» واختر الشخص نفسه.",
@@ -7883,6 +8067,25 @@ const NET_STRINGS = {
     net_invite: "📨 Пригласить друга",
     net_new_chat: "Новый чат",
     net_my_profile: "Мой профиль",
+    me_sec_account: "Ваш аккаунт",
+    me_name: "Имя",
+    me_handle: "Имя профиля",
+    me_handle_sub: "поделиться ссылкой",
+    me_sec_profile: "Профиль",
+    me_dark: "Тёмная тема",
+    me_th_auto: "Системная",
+    me_online: "Статус «в сети»",
+    me_on: "Вкл.",
+    me_off: "Выкл.",
+    me_sec_prefs: "Настройки",
+    me_avatar: "Фото и аватар",
+    me_notif: "Звуки и уведомления",
+    me_a11y: "Спец. возможности",
+    me_privacy: "Конфиденциальность и безопасность",
+    me_sec_help: "Помощь и безопасность",
+    me_report: "Сообщить о технической проблеме",
+    me_help: "Помощь",
+    me_legal: "Правовая информация и политики",
     net_invite_text: "📲 Пиши мне на своём языке, я прочитаю на своём. Присоединяйся ко мне в 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: отправить карточку",
     net_invite_step2_hint: "Сообщение отправлено. Нажмите «2/2: отправить карточку» и выберите того же человека.",
@@ -8078,6 +8281,25 @@ const NET_STRINGS = {
     net_invite: "📨 Hanasa namana",
     net_new_chat: "Resaka vaovao",
     net_my_profile: "Ny mombamomba ahy",
+    me_sec_account: "Ny kaontinao",
+    me_name: "Anarana",
+    me_handle: "Anarana mombamomba",
+    me_handle_sub: "hizara ny rohiko",
+    me_sec_profile: "Mombamomba",
+    me_dark: "Endrika maizina",
+    me_th_auto: "Rafitra",
+    me_online: "Sata an-tserasera",
+    me_on: "Velona",
+    me_off: "Maty",
+    me_sec_prefs: "Safidy",
+    me_avatar: "Sary sy avatar",
+    me_notif: "Feo sy fampandrenesana",
+    me_a11y: "Fahafahana miditra",
+    me_privacy: "Fiainana manokana sy fiarovana",
+    me_sec_help: "Fanampiana sy fiarovana",
+    me_report: "Hitatitra olana ara-teknika",
+    me_help: "Fanampiana",
+    me_legal: "Fampahafantarana ara-dalàna sy politika",
     net_invite_text: "📲 Soraty amiko amin'ny fiteninao, vakiako amin'ny ahy. Midira amiko ao amin'ny 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: handefa ny karatra",
     net_invite_step2_hint: "Lasa ny hafatra. Tsindrio « 2/2: handefa ny karatra » ary safidio ilay olona ihany.",
@@ -9981,6 +10203,32 @@ const Reseau = (() => {
     if (document.visibilityState === "visible" && screen === "verify" && sb) checkConfirmed();
   });
 
+  // Mon profil façon Messenger : toutes les options en liste (icône, titre, valeur), groupées par rubrique.
+  const ME_ICO = {"user":"<path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>","at":"<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94\"/>","globe":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/>","moon":"<path d=\"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\"/>","dot":"<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"3.5\" fill=\"currentColor\"/>","smile":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01\"/>","bell":"<path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0\"/>","a11y":"<circle cx=\"12\" cy=\"4\" r=\"2\"/><path d=\"M4 8h16M12 8v6M8 22l4-8 4 8\"/>","lock":"<rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>","alert":"<path d=\"M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01\"/>","help":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01\"/>","file":"<path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8\"/>","trash":"<path d=\"M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4h6v2\"/>"};
+  function meOptions() {
+    const ic = (k) => `<span class="net-opt-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ME_ICO[k]}</svg></span>`;
+    const row = (id, k, label, sub, end, cls) => `<button type="button" class="net-opt${cls ? " " + cls : ""}" id="${id}">${ic(k)}<span class="net-opt-txt"><span dir="auto">${escapeHtml(label)}</span>${sub ? `<small dir="auto">${escapeHtml(sub)}</small>` : ""}</span>${end || ""}</button>`;
+    const sw = (on) => `<span class="toggle${on ? " on" : ""}" aria-hidden="true"></span>`;
+    const th = A11y.read().theme, thv = th === "light" ? t("me_off") : th === "auto" ? t("me_th_auto") : t("me_on");
+    const push = pushSupported ? pushState() : "unsupported";
+    return `<h4 class="net-opt-h">${escapeHtml(t("me_sec_account"))}</h4>
+          ${row("netRename", "user", t("me_name"), nm(profile), "")}
+          ${row("netMyHandle", "at", t("me_handle"), profile.pseudo + " · " + t("me_handle_sub"), "")}
+          <label class="net-opt" for="netMyLang">${ic("globe")}<span class="net-opt-txt"><span>${escapeHtml(t("net_my_lang"))}</span><select id="netMyLang"></select></span></label>
+          <h4 class="net-opt-h">${escapeHtml(t("me_sec_profile"))}</h4>
+          ${row("netMyTheme", "moon", t("me_dark"), thv, "")}
+          ${presOk ? row("netPresToggle", "dot", t("me_online"), presHidden ? t("me_off") : t("me_on"), sw(!presHidden)) : ""}
+          <h4 class="net-opt-h">${escapeHtml(t("me_sec_prefs"))}</h4>
+          ${photosOk ? row("netMyAvatar", "smile", t("me_avatar"), "", "") : ""}
+          ${push !== "unsupported" ? row("netMyPush", "bell", t("me_notif"), push === "on" ? t("me_on") : t("me_off"), sw(push === "on")) : ""}
+          ${row("netMyA11y", "a11y", t("me_a11y"), "", "")}
+          ${row("netMyPrivacy", "lock", t("me_privacy"), "", "")}
+          <h4 class="net-opt-h">${escapeHtml(t("me_sec_help"))}</h4>
+          ${row("netMyReport", "alert", t("me_report"), "", "")}
+          ${row("netMyHelp", "help", t("me_help"), "", "")}
+          ${row("netMyLegal", "file", t("me_legal"), "", "")}
+          ${row("netDelete", "trash", t("net_delete"), "", "", "net-opt-del")}`;
+  }
   function renderHome() {
     const isCall = mode === "call";
     const list = convs.filter((c) => c.otherId || c.last);
@@ -10073,12 +10321,7 @@ const Reseau = (() => {
         <div class="net-panel net-me-page" id="netMePanel" hidden role="dialog" aria-label="${escapeHtml(t("net_my_profile"))}">
           <div class="net-me-top"><button type="button" class="net-hd-btn" id="netMeClose" aria-label="${escapeHtml(t("net_back"))}"><span aria-hidden="true">←</span></button><b>${escapeHtml(t("net_my_profile"))}</b></div>
           ${meRow}
-          <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
-          <select id="netMyLang"></select>
-          ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
-            <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
-          <div class="row"><button class="btn ghost net-me-act" id="netRename" style="flex:1;">${escapeHtml(t("net_rename"))}</button></div>
-          <div class="row"><button class="btn ghost net-me-act net-me-del" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
+          ${meOptions()}
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
         ${pushBar}
@@ -10105,6 +10348,25 @@ const Reseau = (() => {
         setFlash(escapeHtml(t("net_rename_ok")), "ok");
         render();
       });
+      const leaveTo = (fn) => () => { meShow(false); fn(); };
+      const mail = (subj) => () => { location.href = "mailto:schevrier.1975@gmail.com?subject=" + encodeURIComponent("24/24 ONE WORLD — " + subj); };
+      const legal = (href) => { const a = document.createElement("a"); a.href = href; a.hidden = true; document.body.appendChild(a); a.click(); a.remove(); };
+      const on = (id, fn) => { const b = root.querySelector("#" + id); if (b) b.addEventListener("click", fn); };
+      on("netMyHandle", () => sendInvite(root.querySelector("#netHomeMsg")));
+      on("netMyTheme", () => { const th = A11y.read().theme; A11y.set("theme", th === "light" ? "auto" : th === "auto" ? "dark" : "light"); render(); });
+      on("netMyAvatar", () => { const pf = root.querySelector("#netPhotoFile"); if (pf) myProfileSheet(pf, root.querySelector("#netHomeMsg")); });
+      on("netMyPush", async () => {
+        if (pushState() === "on") await disablePush();
+        else { const [k, type] = pushMsgKey(await enablePush()); setFlash(escapeHtml(t(k)), type); }
+        const tg = document.getElementById("pushToggle");
+        if (tg) { const v = pushState() === "on"; tg.classList.toggle("on", v); tg.setAttribute("aria-pressed", String(v)); }
+        render();
+      });
+      on("netMyA11y", leaveTo(() => { const sbtn = document.getElementById("settingsBtn"); if (sbtn) sbtn.click(); }));
+      on("netMyPrivacy", leaveTo(() => legal("privacy.html")));
+      on("netMyLegal", leaveTo(() => legal("mentions-legales.html")));
+      on("netMyReport", mail(t("me_report")));
+      on("netMyHelp", mail(t("me_help")));
     } else
     // Téléphone réduit à l'essentiel : contacts avec un bouton d'appel, puis le journal des appels.
     // Profil, langue et suppression du compte sont dans Messagerie > Mon profil ; le crayon du haut ouvre « ajouter un contact ».
@@ -10135,10 +10397,9 @@ const Reseau = (() => {
     if (presTg) presTg.addEventListener("click", () => {
       presHidden = !presHidden;
       safeStore.setItem("lc_pres_hidden", presHidden ? "1" : "0");
-      presTg.classList.toggle("on", !presHidden);
-      presTg.setAttribute("aria-pressed", String(!presHidden));
       if (presHidden) { presence = {}; paintPresence(); }
       presenceTick();
+      render();
     });
     const iosBtn = root.querySelector("#netIosHow");
     if (iosBtn) iosBtn.addEventListener("click", showIosGuide);
@@ -10184,7 +10445,22 @@ const Reseau = (() => {
         trCache.clear();
       }
     });
-    if (root.querySelector("#netDelete")) armConfirm(root.querySelector("#netDelete"), t("net_delete_confirm"), deleteAccount);
+    const delBtn = root.querySelector("#netDelete");
+    if (delBtn) {
+      // Deux appuis, comme armConfirm, sans effacer l'icône : seul le texte change.
+      const lbl = delBtn.querySelector(".net-opt-txt span"), orig = lbl.textContent;
+      let armed = false, timer = null;
+      delBtn.addEventListener("click", () => {
+        if (!armed) {
+          armed = true;
+          lbl.textContent = t("net_delete_confirm");
+          timer = setTimeout(() => { armed = false; lbl.textContent = orig; }, 5000);
+          return;
+        }
+        clearTimeout(timer);
+        deleteAccount();
+      });
+    }
   }
 
   async function deleteAccount() {
