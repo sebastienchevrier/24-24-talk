@@ -129,8 +129,8 @@
   @media (max-width:700px){.hero{--gy:88%;align-items:flex-start;padding-top:120px;}.hero::after{height:14%;}}
   @media (prefers-reduced-motion:reduce){.orbit .ring.r1{animation:none;}.reveal{opacity:1;transform:none;transition:none;}html{scroll-behavior:auto;}}
 </style>
-<link rel="stylesheet" href="../ambiance-terre.css?v=6">
-<style>/* Site : la Terre de nuit reste en haut de page et défile avec elle, le texte plus bas reste net. */ html::before,html::after{position:absolute !important;} html{--ow-people-gap:0px;} #globe{display:none;}</style>
+<link rel="stylesheet" href="../ambiance-terre.css?v=7">
+<style>/* Site : la Terre de nuit reste en haut de page et défile avec elle, le texte plus bas reste net. */ html::before,html::after{position:absolute !important;} html{--ow-people-gap:0px;} #globe{display:none;} /* aucun glissement de côté sur téléphone */ html,body{overflow-x:hidden;max-width:100%;} @media (max-width:699px){.demo,.steps,.grid,.promise{grid-template-columns:minmax(0,1fr);}} .demo>*,.steps>*,.grid>*,.promise>*{min-width:0;}</style>
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -149,7 +149,6 @@
         <a class="btn main" href="../">Ouvrir l'application</a>
         <a class="btn ghost" href="#vision">Découvrir</a>
       </div>
-      <div class="faces" aria-hidden="true"><span class="ph"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇮🇩</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇫🇷</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇯🇵</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇰🇪</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇦🇷</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇵🇹</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇪🇬</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇩🇪</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇧🇷</span></span></div>
       <p class="hello" aria-live="polite"><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
     </div>
   </section>
