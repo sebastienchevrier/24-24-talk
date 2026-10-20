@@ -1,36 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="24/24 ONE WORLD">
   <defs>
-    <radialGradient id="ow-bg" cx=".5" cy=".42" r=".75">
-      <stop offset="0" stop-color="#0c2140"/><stop offset=".6" stop-color="#050d1c"/><stop offset="1" stop-color="#01040a"/>
-    </radialGradient>
-    <radialGradient id="ow-halo" cx=".5" cy=".5" r=".5">
-      <stop offset=".72" stop-color="#ffb04a" stop-opacity="0"/><stop offset=".8" stop-color="#ffb04a" stop-opacity=".35"/><stop offset=".86" stop-color="#3cf27a" stop-opacity=".22"/><stop offset="1" stop-color="#2a7bff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="ow-globe" cx=".4" cy=".3" r=".85">
-      <stop offset="0" stop-color="#3a9bff"/><stop offset=".45" stop-color="#1a5fc4"/><stop offset=".8" stop-color="#0b2d63"/><stop offset="1" stop-color="#061633"/>
-    </radialGradient>
-    <radialGradient id="ow-land" cx=".55" cy=".5" r=".6">
-      <stop offset="0" stop-color="#3cf27a" stop-opacity=".45"/><stop offset="1" stop-color="#14c96a" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="ow-rim" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#4aa8ff"/><stop offset=".5" stop-color="#5dff9e"/><stop offset="1" stop-color="#ffc36a"/>
+    <linearGradient id="ow-orbit" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset=".35" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="#ffffff"/>
     </linearGradient>
-    <radialGradient id="ow-sun" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#fffbe8"/><stop offset=".25" stop-color="#ffd27a"/><stop offset=".6" stop-color="#ff8a2e" stop-opacity=".45"/><stop offset="1" stop-color="#ff6a20" stop-opacity="0"/>
-    </radialGradient>
-    <clipPath id="ow-clip"><circle cx="256" cy="256" r="168"/></clipPath>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#ow-bg)"/>
-  <circle cx="256" cy="256" r="214" fill="url(#ow-halo)"/>
-  <circle cx="256" cy="256" r="168" fill="url(#ow-globe)"/>
-  <g clip-path="url(#ow-clip)">
-    <ellipse cx="300" cy="250" rx="120" ry="150" fill="url(#ow-land)"/>
-    <g fill="none" stroke="#ffd27a" stroke-width="5" stroke-linecap="round" stroke-opacity=".9">
-      <path d="M120 300 Q190 150 300 170"/><path d="M300 170 Q380 150 410 250"/><path d="M150 380 Q260 300 380 340"/><path d="M120 300 Q250 330 380 340"/><path d="M300 170 Q330 260 380 340"/>
-    </g>
-    <g fill="#fff3c8"><circle cx="120" cy="300" r="9"/><circle cx="300" cy="170" r="9"/><circle cx="410" cy="250" r="8"/><circle cx="150" cy="380" r="8"/><circle cx="380" cy="340" r="9"/></g>
+  <rect width="512" height="512" rx="112" fill="#000000"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".38" stroke-width="5">
+    <circle cx="256" cy="238" r="150"/>
+    <ellipse cx="256" cy="238" rx="62" ry="150"/>
+    <ellipse cx="256" cy="238" rx="118" ry="150"/>
+    <line x1="256" y1="88" x2="256" y2="388"/>
+    <ellipse cx="256" cy="238" rx="150" ry="48"/>
+    <path d="M128 160 Q256 182 384 160"/><path d="M128 316 Q256 294 384 316"/>
   </g>
-  <circle cx="256" cy="256" r="168" fill="none" stroke="url(#ow-rim)" stroke-width="9"/>
-  <circle cx="368" cy="132" r="62" fill="url(#ow-sun)"/>
-  <text x="256" y="292" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="104" fill="#ffffff" stroke="#04122a" stroke-width="12" paint-order="stroke" letter-spacing="-2">24/24</text>
+  <text x="256" y="276" text-anchor="middle" font-family="'Helvetica Neue', Arial, Helvetica, sans-serif" font-weight="300" font-size="112" letter-spacing="6" fill="#ffffff" stroke="#000" stroke-width="14" paint-order="stroke">24/24</text>
+  <path d="M60 330 C170 240 330 186 456 166" fill="none" stroke="url(#ow-orbit)" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="456" cy="166" r="11" fill="#ffffff"/>
+  <text x="256" y="446" text-anchor="middle" font-family="'Helvetica Neue', Arial, Helvetica, sans-serif" font-weight="400" font-size="30" letter-spacing="14" fill="#ffffff" fill-opacity=".85">ONE WORLD</text>
 </svg>
