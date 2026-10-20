@@ -405,6 +405,18 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .ow-demo-play{flex:none;min-width:44px;min-height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.08);color:inherit;font-size:18px;}
   .ow-demo-cap{margin:10px 0 0;font-size:13px;color:var(--muted);text-align:center;}
   @media (prefers-reduced-motion: reduce){ .ow-demo-out .ow-demo-txt{transition:none;} }
+  /* Inscription : tout tient sur un écran de téléphone (barre du bas inutile sans compte). */
+  body.ob-on .bbar{display:none;}
+  body.ob-on .ow-welcome{padding:6px 8px 6px;}
+  body.ob-on .ow-welcome img{width:52px;height:52px;}
+  body.ob-on .ow-welcome h1{font-size:28px;margin:2px 0;}
+  body.ob-on .ow-welcome-eyebrow{margin:4px 0 2px;}
+  body.ob-on .ow-demo{margin:2px auto 10px;padding:8px 12px;}
+  body.ob-on .ow-demo-cap{margin-top:4px;}
+  body.ob-on .ob-bar{margin:0 0 12px;}
+  body.ob-on .ob-t{font-size:24px;margin-bottom:4px;}
+  body.ob-on .ob-d{margin-bottom:12px;}
+  body.ob-on .ob-go{margin-top:16px;padding:14px;}
   .ob{max-width:520px;margin:0 auto;padding:4px 4px 8px;}
   .ob-bar{display:flex;gap:6px;margin:4px 0 22px;}
   .ob-bar span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .3s;}
@@ -9641,6 +9653,7 @@ const Reseau = (() => {
   } catch (e) { /* ignoré */ }
 
   function render() {
+    document.body.classList.remove("ob-on");
     dropChatHistory();
     syncBar();
     updateTopbar();
@@ -9722,7 +9735,7 @@ const Reseau = (() => {
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
   let setupStep = 0;
   function renderSetup() {
-    const invited = pendingAdd ? `<div class="msg ok">${escapeHtml(t("net_invited", { p: pendingAdd }))}</div>` : "";
+    document.body.classList.add("ob-on");
     const steps = myEmail ? ["pseudo", "lang"] : ["pseudo", "email", "lang"];
     if (setupStep >= steps.length) setupStep = steps.length - 1;
     const d0 = signupDraft();
@@ -9732,7 +9745,6 @@ const Reseau = (() => {
         <p class="ob-d">${escapeHtml(t("ob_" + k + "_d"))}</p>${body}</section>`;
     root.innerHTML = `${owWelcomeHtml()}${setupStep === 0 ? owDemoHtml() : ""}
       <div class="ob">
-        ${invited}
         <div class="ob-bar">${steps.map((k, i) => `<span class="${i <= setupStep ? "on" : ""}"></span>`).join("")}</div>
         ${step("pseudo", 0, `<div class="ob-field"><span class="ob-at">👤</span><input type="text" id="netPseudo" maxlength="40" autocomplete="name" autocapitalize="words" spellcheck="false"
           placeholder="${escapeHtml(t("net_pseudo_ph"))}" /></div>

@@ -98,10 +98,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await ictx.addInitScript(() => { try { if (!sessionStorage.getItem("e2e_i")) { sessionStorage.setItem("e2e_i", "1"); localStorage.setItem("fake_sb", JSON.stringify({ session: false, email: "", new_email: "", anon: true, pending: "", devices: [] })); } } catch (e) {} });
     const ip = await ictx.newPage();
     await ip.goto(ORIGIN + BASE + "?ajouter=kenji");
-    await step("Invitation sans compte : « @kenji vous attend » sur l'inscription (le lien garde l'invitation)", async () => {
+    await step("Invitation sans compte : inscription sans bandeau, le lien garde l'invitation", async () => {
       await ip.waitForSelector("#netPseudo", { timeout: 20000 });
       const txt = await ip.textContent("#net");
-      return { ok: /kenji vous attend/.test(txt), detail: (txt.match(/kenji[^.]*\./) || ["absent"])[0] };
+      const pend = await ip.evaluate(() => localStorage.getItem("lc_net_pending") || "");
+      return { ok: !/vous attend/.test(txt) && /kenji/.test(pend), detail: "pas de bandeau, invitation gardée : " + pend };
     });
     await step("Démo d'inscription : phrase écrite en français, lue dans une autre langue, bouton 🔊, change toute seule", async () => {
       const a1 = await ip.$eval("#owDemo", (b) => ({ src: b.querySelector(".ow-demo-row .ow-demo-txt").textContent, l: b.dataset.lang, play: !!b.querySelector("#owDemoPlay") }));
