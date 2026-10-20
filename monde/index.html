@@ -45,6 +45,14 @@
   .sub{color:var(--muted);font-size:18px;max-width:620px;}
   .manifesto p:not(.kicker){font-size:clamp(22px,5.4vw,34px);line-height:1.3;letter-spacing:-.01em;margin:0;max-width:880px;font-weight:600;}
   .manifesto p em{font-style:normal;color:var(--muted);}
+  .lead strong{color:#7dff9f;font-weight:700;}
+  .engage{list-style:none;counter-reset:en;margin:34px 0 0;padding:0;display:grid;gap:14px;max-width:880px;}
+  .engage li{counter-increment:en;position:relative;padding:16px 18px 16px 62px;border-radius:18px;background:rgba(6,26,18,.55);border:1px solid var(--line);}
+  .engage li::before{content:counter(en);position:absolute;left:16px;top:16px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#00110f;background:linear-gradient(135deg,#b4ff6e,#3cf27a 45%,#14c96a);}
+  .engage b{display:block;font-size:18px;margin-bottom:3px;}
+  .engage span{color:var(--muted);font-size:15.5px;}
+  @media (min-width:860px){.engage{grid-template-columns:repeat(3,1fr);}}
+  .manifesto p.join{font-size:clamp(17px,4.2vw,21px);font-weight:600;margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;}
   /* Démonstration */
   .demo{display:grid;gap:28px;align-items:center;}
   @media (min-width:860px){.demo{grid-template-columns:1fr 1fr;}}
@@ -135,7 +143,7 @@
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" href="#"><img src="../everywhere/logo.svg" alt="" /><span translate="no" class="notranslate">24/24 <b>ONE WORLD</b></span></a>
-  <a class="btn main small" href="../">Ouvrir<span class="long"> l'application</span></a>
+  <a class="btn main small" href="../">Rejoindre<span class="long"> le mouvement</span></a>
 </div></header>
 
 <main>
@@ -144,10 +152,10 @@
     <div class="wrap">
       <span class="eyebrow">Réseau indépendant, libre</span>
       <h1><span>Le monde</span><span>se parle.</span><span>Enfin.</span></h1>
-      <p class="lead">Écrivez, appelez, rencontrez. Chacun dans sa langue, et tout le monde se comprend.</p>
+      <p class="lead"><strong>Plus qu'une application : un mouvement.</strong> Huit milliards de personnes, une seule conversation. Ici, la langue ne sépare plus personne.</p>
       <div class="ctas">
-        <a class="btn main" href="../">Ouvrir l'application</a>
-        <a class="btn ghost" href="#vision">Découvrir</a>
+        <a class="btn main" href="../">Rejoindre le mouvement</a>
+        <a class="btn ghost" href="#vision">Lire la vision</a>
       </div>
       <p class="hello" aria-live="polite"><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
     </div>
@@ -156,6 +164,12 @@
   <section id="vision" class="manifesto"><div class="wrap reveal">
     <p class="kicker">La vision</p>
     <p>Pendant des millénaires, la langue a séparé les peuples. <em>Aujourd'hui, un seul réseau efface cette frontière :</em> vous parlez, l'autre vous comprend, où qu'il soit sur la planète.</p>
+    <ol class="engage">
+      <li><b>Plus personne n'est étranger.</b><span>Où que vous alliez, quelqu'un vous comprend.</span></li>
+      <li><b>Libre et indépendant.</b><span>Un réseau qui appartient à ceux qui le font vivre, pas aux grandes plateformes.</span></li>
+      <li><b>Chaque voix compte.</b><span>Votre langue, votre culture, votre accent : le monde entier peut enfin les entendre.</span></li>
+    </ol>
+    <p class="join">Chaque personne qui nous rejoint rapproche deux mondes. <a class="btn main" href="../">Je rejoins ONE WORLD</a></p>
   </div></section>
 
   <section><div class="wrap demo">
@@ -260,8 +274,8 @@
 
   <section class="final"><div class="wrap reveal">
     <h2>Le monde vous attend.</h2>
-    <p class="sub" style="margin:0 auto 28px;">Votre nom, un proche, et vous parlez au monde.</p>
-    <a class="btn main" href="../">Ouvrir <span translate="no" class="notranslate">24/24 ONE WORLD</span></a>
+    <p class="sub" style="margin:0 auto 28px;">Soyez de ceux qui ont commencé. Invitez un proche, et ensemble, faites parler le monde.</p>
+    <a class="btn main" href="../">Rejoindre <span translate="no" class="notranslate">24/24 ONE WORLD</span></a>
   </div></section>
 </main>
 
