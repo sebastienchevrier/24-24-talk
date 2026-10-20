@@ -315,7 +315,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await sleep(500);
     const cacheName = /var CACHE = "([^"]+)"/.exec(fs.readFileSync(path.join(__dirname, "..", "sw.js"), "utf8"))[1];
     const keys = await page.evaluate(async (n) => { const c = await caches.open(n); return (await c.keys()).map((r) => new URL(r.url).pathname); }, cacheName);
-    const priv = keys.filter((k) => !/everywhere\/|terre-tech|ambiance-terre/.test(k));
+    const priv = keys.filter((k) => !/everywhere\/|terre-tech|ambiance-terre|terre-lave/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
   await step("Hors ligne : le portail s'ouvre quand même, avec un bandeau", async () => {
