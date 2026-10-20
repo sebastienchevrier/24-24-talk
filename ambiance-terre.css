@@ -31,7 +31,7 @@ html:not([data-theme="light"])::before{
   top:0;height:100vh;
   background:
     /* fondu vers le noir au-dessus de l'image, et voile pour la lisibilité */
-    linear-gradient(to top, rgba(1,4,9,.38) 0, rgba(1,4,9,.38) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 170px), var(--bg) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 10px)),
+    linear-gradient(to top, rgba(1,4,9,.22) 0, rgba(1,4,9,.22) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 170px), var(--bg) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 10px)),
     /* fondu du bas : aucun bord visible sous l'image */
     linear-gradient(to top, var(--bg) 0, var(--bg) var(--ow-people-gap,62px), transparent calc(var(--ow-people-gap,62px) + 40px)),
     url("terre-lave.webp") no-repeat center bottom var(--ow-people-gap,62px) / max(100vw, 64vh) auto,
@@ -52,7 +52,7 @@ body{background:transparent !important;}
 html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .card, html:not([data-theme="light"]) .tr-big,
 html:not([data-theme="light"]) .net-panel:not(.net-me-page), html:not([data-theme="light"]) .duo-card, html:not([data-theme="light"]) .lx-mod{
   background:linear-gradient(160deg,rgba(6,26,18,.66),rgba(4,20,12,.62)) !important;border-color:rgba(60,240,150,.22) !important;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
 }
 html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{
   background:linear-gradient(135deg,rgba(150,255,110,.16),rgba(40,230,120,.14)) !important;color:#4dfc8a !important;box-shadow:0 0 18px rgba(50,250,150,.22) !important;
