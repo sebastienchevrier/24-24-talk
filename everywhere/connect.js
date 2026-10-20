@@ -23,7 +23,7 @@
   var S = {
     fr: {
       loading: "Lecture de votre profil…", error: "Impossible de joindre le serveur. Vérifiez votre connexion.", retry: "Réessayer",
-      off: "La messagerie de TALK n'est pas activée sur ce site.",
+      off: "La messagerie n'est pas activée sur ce site.",
       none: "Vous n'avez pas encore de profil sur cet appareil.", none_txt: "Créez votre compte 24/24 ONE WORLD : un pseudo, votre langue et un e-mail confirmé. Ou connectez-vous si vous avez déjà un compte.",
       create: "Créer mon compte", have: "J'ai déjà un compte", lang: "Langue parlée : {l}", chats: "Ouvrir mes discussions",
       sec_title: "Sécurité du compte",
@@ -59,7 +59,7 @@
     },
     en: {
       loading: "Reading your profile…", error: "Can't reach the server. Check your connection.", retry: "Try again",
-      off: "TALK messaging is not enabled on this site.",
+      off: "Messaging is not enabled on this site.",
       none: "You don't have a profile on this device yet.", none_txt: "Create your 24/24 ONE WORLD account: a username, your language and a confirmed email. Or sign in if you already have an account.",
       create: "Create my account", have: "I already have an account", lang: "Spoken language: {l}", chats: "Open my chats",
       sec_title: "Account security",

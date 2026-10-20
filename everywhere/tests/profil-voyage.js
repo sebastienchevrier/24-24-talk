@@ -247,7 +247,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await pg.waitForSelector("#lpMsg .cx-msg");
     const saved = !!(await ls(pg, "ow_profile_v1"));
     await c.close();
-    return { ok: r.s === "false" && r.d === "true" && /compte TALK/.test(r.n) && saved, detail: r.n };
+    return { ok: r.s === "false" && r.d === "true" && /compte 24\/24 ONE WORLD/.test(r.n) && saved, detail: r.n };
   });
   await step("Nouvel appareil : le profil sauvegardé sur le compte est retrouvé", async () => {
     const row = { user_id: "00000000-0000-4000-8000-0000000000aa", display_name: "Seb", native_lang: "fr", spoken: [{ code: "de", level: "B2" }], ui_lang: "auto", favorites: ["de"],
