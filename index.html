@@ -473,6 +473,23 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-newchat .net-h3{margin-bottom:8px;}
   .net-panel{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 12px;}
   .net-panel .net-me-row{margin-bottom:10px;}
+  /* Mon profil façon Messenger : page plein écran, grande photo centrée, nom, puis les réglages. */
+  .net-panel.net-me-page{position:fixed;inset:0;z-index:45;margin:0;border:0;border-radius:0;background:var(--bg);overflow-y:auto;
+    padding:calc(8px + env(safe-area-inset-top,0px)) 18px calc(28px + env(safe-area-inset-bottom,0px));}
+  .net-me-page[hidden]{display:none;}
+  body.net-me-open{overflow:hidden;}
+  body.net-me-open .bbar{display:none;}
+  .net-me-top{display:flex;align-items:center;gap:6px;margin:0 -6px 8px;font-size:18px;}
+  .net-me-page .net-me-row{flex-direction:column;align-items:center;text-align:center;gap:12px;margin:8px 0 22px;}
+  .net-me-page .net-photo-btn .net-av{width:132px;height:132px;font-size:54px;}
+  .net-me-page .net-photo-cam{width:38px;height:38px;right:2px;bottom:2px;}
+  .net-me-page .net-photo-cam svg{width:20px;height:20px;}
+  .net-me-page .net-me{flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .net-me-page .net-me b{font-size:24px;font-weight:800;}
+  .net-me-page .net-label{display:block;margin:6px 2px 6px;}
+  .net-me-page .row{margin-top:10px;}
+  .net-me-page .net-me-act{justify-content:flex-start;text-align:start;padding:15px 16px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:16px;}
+  .net-me-page .net-me-del{color:#ff6b6b;}
   .net-story#netMeStory .net-av{box-shadow:0 0 0 2px var(--blue);}
   .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
     flex-shrink:0;text-transform:uppercase;}
@@ -9654,7 +9671,9 @@ const Reseau = (() => {
     new MutationObserver(syncBar).observe(document.querySelector("main"), { subtree: true, attributes: true, attributeFilter: ["class"] });
   } catch (e) { /* ignoré */ }
 
+  let mePageOpen = false;
   function render() {
+    document.body.classList.remove("net-me-open");
     document.body.classList.remove("ob-on");
     dropChatHistory();
     syncBar();
@@ -10051,23 +10070,30 @@ const Reseau = (() => {
             <button class="btn ghost" id="netAddBtn">${escapeHtml(t("net_add_btn"))}</button>
           </div>
         </div>
-        <div class="net-panel" id="netMePanel" hidden>
+        <div class="net-panel net-me-page" id="netMePanel" hidden role="dialog" aria-label="${escapeHtml(t("net_my_profile"))}">
+          <div class="net-me-top"><button type="button" class="net-hd-btn" id="netMeClose" aria-label="${escapeHtml(t("net_back"))}"><span aria-hidden="true">←</span></button><b>${escapeHtml(t("net_my_profile"))}</b></div>
           ${meRow}
           <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
           <select id="netMyLang"></select>
           ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
             <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
-          <div class="row"><button class="btn ghost" id="netRename" style="flex:1;">${escapeHtml(t("net_rename"))}</button></div>
-          <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
+          <div class="row"><button class="btn ghost net-me-act" id="netRename" style="flex:1;">${escapeHtml(t("net_rename"))}</button></div>
+          <div class="row"><button class="btn ghost net-me-act net-me-del" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
         ${pushBar}
         <div class="net-convs net-flat">${items}</div>`;
       const meStory = root.querySelector("#netMeStory"), mePanel = root.querySelector("#netMePanel");
-      meStory.addEventListener("click", () => {
-        mePanel.hidden = !mePanel.hidden;
-        meStory.setAttribute("aria-expanded", String(!mePanel.hidden));
-      });
+      // Comme Messenger : « Mon profil » ouvre une page à part (grande photo, nom, réglages), ← pour revenir.
+      const meShow = (on) => {
+        mePageOpen = on;
+        mePanel.hidden = !on;
+        document.body.classList.toggle("net-me-open", on);
+        meStory.setAttribute("aria-expanded", String(on));
+      };
+      meStory.addEventListener("click", () => meShow(mePanel.hidden));
+      root.querySelector("#netMeClose").addEventListener("click", () => meShow(false));
+      if (mePageOpen) meShow(true); // reste ouverte après un changement de photo, de nom ou de langue
       root.querySelector("#netRename").addEventListener("click", async () => {
         const v = prompt(t("net_rename_q"), nm(profile));
         if (v === null) return;
