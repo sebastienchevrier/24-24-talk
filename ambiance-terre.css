@@ -3,21 +3,21 @@
    Tout est dessiné en CSS (aucune image) : rien à télécharger, aucun droit d'image. Thème clair inchangé.
    © 2026 Sébastien Chevrier. Tous droits réservés. */
 html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
-  --bg:#010409; --bg2:#020a10; --panel:rgba(9,22,30,.78); --panel2:#0a1922; --line:rgba(70,230,210,.16);
-  --text:#ecfdff; --muted:#8fb4bd; --blue:#0fb5a8; --blue2:#3ff0dc; --link:#5ff3e2; --cta:#3ff0dc; --cta-ink:#00110f;
-  --teal:#3ff0dc; --on-primary:#00110f;
-  --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#0a1922; --ews-line:rgba(70,230,210,.16);
-  --ews-text:#ecfdff; --ews-muted:#8fb4bd; --ews-teal:#3ff0dc; --ews-teal2:#3ff0dc;
-  --ow-glow:63,240,220;
+  --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
+  --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
+  --teal:#4dfc8a; --on-primary:#00110f;
+  --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
+  --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
+  --ow-glow:60,250,130;
 }
 @media (prefers-color-scheme: dark){
   html.theme-auto:not([data-theme="light"]){
-    --bg:#010409; --bg2:#020a10; --panel:rgba(9,22,30,.78); --panel2:#0a1922; --line:rgba(70,230,210,.16);
-    --text:#ecfdff; --muted:#8fb4bd; --blue:#0fb5a8; --blue2:#3ff0dc; --link:#5ff3e2; --cta:#3ff0dc; --cta-ink:#00110f;
-    --teal:#3ff0dc; --on-primary:#00110f;
-    --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#0a1922; --ews-line:rgba(70,230,210,.16);
-    --ews-text:#ecfdff; --ews-muted:#8fb4bd; --ews-teal:#3ff0dc; --ews-teal2:#3ff0dc;
-    --ow-glow:63,240,220;
+    --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
+    --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
+    --teal:#4dfc8a; --on-primary:#00110f;
+    --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
+    --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
+    --ow-glow:60,250,130;
   }
 }
 
@@ -29,14 +29,17 @@ html:not([data-theme="light"])::before{
   top:0;height:100vh;
   background:
     /* halo de l'atmosphère */
-    radial-gradient(160% 70% at 50% 108%, transparent 61%, rgba(var(--ow-glow,63,240,220),.55) 62.2%, rgba(var(--ow-glow,63,240,220),.16) 64.5%, rgba(var(--ow-glow,63,240,220),.04) 69%, transparent 76%),
+    radial-gradient(160% 70% at 50% 108%, transparent 61%, rgba(170,255,120,.75) 61.7%, rgba(40,255,150,.6) 62.5%, rgba(60,250,130,.28) 64%, rgba(20,200,120,.12) 66.5%, rgba(10,140,90,.05) 70%, transparent 77%),
+    /* reflet vert sur les côtés de l'horizon */
+    radial-gradient(60% 18% at 15% 58%, rgba(60,255,140,.10), transparent 70%),
+    radial-gradient(60% 18% at 85% 58%, rgba(40,220,110,.10), transparent 70%),
     /* le globe, sombre, avec un reflet turquoise au sommet */
-    radial-gradient(160% 70% at 50% 108%, #031820 0%, #021016 45%, #01080d 60%, transparent 61.6%),
+    radial-gradient(160% 70% at 50% 108%, #022014 0%, #03241c 30%, #021a14 50%, #010d0a 60%, transparent 61.6%),
     /* étoiles */
     radial-gradient(1px 1px at 12% 8%, rgba(255,255,255,.55), transparent 60%),
     radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.45), transparent 60%),
     radial-gradient(1px 1px at 44% 14%, rgba(255,255,255,.35), transparent 60%),
-    radial-gradient(1.5px 1.5px at 90% 18%, rgba(160,255,245,.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 90% 18%, rgba(170,255,180,.5), transparent 60%),
     radial-gradient(1px 1px at 25% 22%, rgba(255,255,255,.3), transparent 60%),
     radial-gradient(1px 1px at 62% 26%, rgba(255,255,255,.3), transparent 60%),
     var(--bg);
@@ -45,9 +48,9 @@ html:not([data-theme="light"])::before{
 html:not([data-theme="light"])::after{
   top:0;height:100vh;opacity:.55;
   background-image:
-    radial-gradient(rgba(120,255,240,.9) .8px, transparent 1.4px),
-    radial-gradient(rgba(63,240,220,.7) .6px, transparent 1.2px),
-    radial-gradient(rgba(200,255,250,.6) .7px, transparent 1.3px);
+    radial-gradient(rgba(170,255,120,.9) .8px, transparent 1.4px),
+    radial-gradient(rgba(40,255,150,.8) .6px, transparent 1.2px),
+    radial-gradient(rgba(150,255,150,.7) .7px, transparent 1.3px);
   background-size:23px 19px, 37px 29px, 53px 41px;
   background-position:0 0, 11px 7px, 5px 17px;
   -webkit-mask-image:radial-gradient(160% 70% at 50% 108%, #000 40%, rgba(0,0,0,.6) 55%, #000 60.5%, transparent 61.5%);
@@ -60,21 +63,21 @@ body{background:transparent !important;}
 /* Les surfaces laissent deviner la Terre : verre sombre, bord turquoise discret. */
 html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .card, html:not([data-theme="light"]) .tr-big,
 html:not([data-theme="light"]) .net-panel:not(.net-me-page), html:not([data-theme="light"]) .duo-card, html:not([data-theme="light"]) .lx-mod{
-  background:rgba(6,18,24,.62) !important;border-color:rgba(70,230,210,.18) !important;
+  background:linear-gradient(160deg,rgba(6,26,18,.66),rgba(4,20,12,.62)) !important;border-color:rgba(60,240,150,.22) !important;
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
 }
 html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{
-  background:rgba(63,240,220,.12) !important;color:#3ff0dc !important;box-shadow:0 0 18px rgba(63,240,220,.18) !important;
+  background:linear-gradient(135deg,rgba(150,255,110,.16),rgba(40,230,120,.14)) !important;color:#4dfc8a !important;box-shadow:0 0 18px rgba(50,250,150,.22) !important;
 }
-html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:#3ff0dc !important;}
+html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:#4dfc8a !important;}
 /* Barre du bas : verre noir, onglet actif turquoise lumineux. */
-html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(1,6,10,.82) !important;border-top:1px solid rgba(70,230,210,.14) !important;}
-html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:#3ff0dc !important;text-shadow:0 0 12px rgba(63,240,220,.55);}
+html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(1,6,10,.82) !important;border-top:1px solid rgba(60,240,140,.14) !important;}
+html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:#5dff9e !important;text-shadow:0 0 12px rgba(60,255,150,.55);}
 /* Titres : légère lueur, comme l'horizon. */
-html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 0 22px rgba(63,240,220,.28);}
+html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 0 22px rgba(60,255,150,.3);}
 /* Boutons principaux : turquoise lumineux. */
 html:not([data-theme="light"]) .primary, html:not([data-theme="light"]) .net-dial, html:not([data-theme="light"]) .net-callbtn, html:not([data-theme="light"]) .install-top-btn, html:not([data-theme="light"]) .btn.primary{
-  background:linear-gradient(180deg,#5ff6e6,#22d6c4) !important;border-color:transparent !important;color:#00110f !important;box-shadow:0 0 22px rgba(63,240,220,.25);
+  background:linear-gradient(135deg,#b4ff6e,#3cf27a 45%,#14c96a) !important;border-color:transparent !important;color:#00110f !important;box-shadow:0 0 22px rgba(60,255,150,.3);
 }
 /* Ancien globe en filigrane de la Messagerie : remplacé par la Terre de nuit. */
 body.net-full::before{display:none !important;}
