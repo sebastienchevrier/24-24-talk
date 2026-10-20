@@ -1,7 +1,7 @@
 // 24/24 ONE WORLD — site vitrine dans la langue du visiteur. © 2026 Sébastien Chevrier. Tous droits réservés.
-// 11 langues traduites à la main (mêmes langues que l'application). Les 101 autres langues de l'application
-// sont traduites automatiquement depuis l'anglais par le même moteur gratuit (MyMemory), mises en cache
-// sur l'appareil, et signalées comme « traduction automatique ». {OW} = nom protégé 24/24 ONE WORLD.
+// 11 langues ici (mêmes langues que l'application) ; les autres langues de l'application sont écrites dans
+// monde/lang/<code>.json (même ordre que K). Si un fichier manque, traduction automatique depuis l'anglais par le
+// même moteur gratuit (MyMemory), mise en cache sur l'appareil et signalée comme telle. {OW} = nom protégé 24/24 ONE WORLD.
 (function () {
   "use strict";
   var K = [
@@ -1244,7 +1244,7 @@
     return CODES.indexOf(base) >= 0 ? base : null;
   }
   // Langue du dictionnaire écrit à la main (pt-BR → pt, zh-TW → zh, es-MX → es), sinon null.
-  function handOf(c) { var b = c.split("-")[0]; return HAND.indexOf(b) >= 0 && (c === b || c === "pt-BR" || c === "es-MX" || c === "zh-TW") ? b : null; }
+  function handOf(c) { var b = c.split("-")[0]; return HAND.indexOf(b) >= 0 && (c === b || c === "pt-BR" || c === "es-MX") ? b : null; }
 
   function pick() {
     var q = /[?&]lang=([A-Za-z-]{2,10})/.exec(location.search);
@@ -1287,7 +1287,13 @@
       render(function (k) { return arr[IDX[k]]; });
       if (auto) auto.hidden = true;
     } else {
-      machine(code);
+      // Traduction écrite pour cette langue (monde/lang/<code>.json) ; à défaut seulement, traduction automatique.
+      fetch("lang/" + code + ".json?v=1").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
+        if (cur !== code) return;
+        if (!Array.isArray(arr) || arr.length !== K.length) throw 0;
+        render(function (k) { return arr[IDX[k]]; });
+        if (auto) auto.hidden = true;
+      }).catch(function () { if (cur === code) machine(code); });
     }
     document.dispatchEvent(new CustomEvent("ow:lang", { detail: code }));
   }
