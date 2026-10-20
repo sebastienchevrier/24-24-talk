@@ -47,7 +47,7 @@
       c_nomatch: "Aucun contact ne correspond.", c_err: "Impossible de lire vos contacts pour le moment.", retry: "Réessayer",
       c_off: "La messagerie de TALK n'est pas activée sur ce site.", c_noprof: "Il faut d'abord un compte 24/24 ONE WORLD (un pseudo, votre langue et un e-mail confirmé).",
       c_create: "Créer mon compte", c_link_copied: "Lien copié : collez-le dans un SMS ou WhatsApp.", c_link_txt: "Copiez ce lien et envoyez-le : {u}",
-      c_before: "Appeler @{p}", c_i_speak: "Je parle", c_i_read: "Je lis et j'écoute", c_go: "📞 Appeler @{p}", cancel: "Annuler",
+      c_before: "Appeler {p}", c_i_speak: "Je parle", c_i_read: "Je lis et j'écoute", c_go: "📞 Appeler {p}", cancel: "Annuler",
       c_how: "L'appel s'ouvre dans TALK, avec la traduction : chacun parle sa langue, l'autre lit et entend la traduction. À la fin, vous revenez ici.",
       c_lang_of: "Parle {l}",
       out_btn_sp: "Haut-parleur", out_btn_ea: "Écouteurs", hands_btn: "Mains libres", replay: "Répéter la dernière traduction",
@@ -89,7 +89,7 @@
       c_nomatch: "No matching contact.", c_err: "Your contacts can't be read right now.", retry: "Try again",
       c_off: "TALK messaging is not enabled on this site.", c_noprof: "You need a 24/24 ONE WORLD account first (a username, your language and a confirmed email).",
       c_create: "Create my account", c_link_copied: "Link copied: paste it in an SMS or WhatsApp.", c_link_txt: "Copy this link and send it: {u}",
-      c_before: "Call @{p}", c_i_speak: "I speak", c_i_read: "I read and listen in", c_go: "📞 Call @{p}", cancel: "Cancel",
+      c_before: "Call {p}", c_i_speak: "I speak", c_i_read: "I read and listen in", c_go: "📞 Call {p}", cancel: "Cancel",
       c_how: "The call opens in TALK, with translation: each person speaks their language, the other reads and hears the translation. At the end, you come back here.",
       c_lang_of: "Speaks {l}",
       out_btn_sp: "Speaker", out_btn_ea: "Earbuds", hands_btn: "Hands-free", replay: "Repeat the last translation",
@@ -476,11 +476,11 @@
           var mine = mems.filter(function (m) { return m.user_id === me; }).map(function (m) { return m.conversation_id; });
           var others = mems.filter(function (m) { return m.user_id !== me && mine.indexOf(m.conversation_id) !== -1 && blocked.indexOf(m.user_id) === -1; });
           var ids = others.map(function (m) { return m.user_id; }).filter(function (x, i, a) { return a.indexOf(x) === i; });
-          return (ids.length ? sb.from("profiles").select("id,pseudo,lang").in("id", ids) : Promise.resolve({ data: [] })).then(function (pr) {
+          return (ids.length ? sb.from("profiles").select("id,pseudo,lang,nom").in("id", ids) : Promise.resolve({ data: [] })).then(function (pr) {
             var profs = (pr && pr.data) || [];
             var contacts = others.map(function (m) {
               var p = profs.filter(function (x) { return x.id === m.user_id; })[0];
-              return p ? { convId: m.conversation_id, id: p.id, pseudo: p.pseudo, lang: p.lang } : null;
+              return p ? { convId: m.conversation_id, id: p.id, pseudo: p.nom || p.pseudo, lang: p.lang } : null;
             }).filter(Boolean).sort(function (a, b) { return a.pseudo < b.pseudo ? -1 : 1; });
             // Langues que mes contacts ont choisi de montrer (profil linguistique « visible par mes contacts ») ; sinon rien.
             return sb.rpc("langues_de_mes_contacts").then(function (lr) {
@@ -511,7 +511,7 @@
       body.querySelector("#trSearch").value = vq || "";
       paintContacts(vq || "");
       if (vq) {
-        var hits = callState.contacts.filter(function (c) { return c.pseudo.indexOf(String(vq).toLowerCase()) !== -1; });
+        var hits = callState.contacts.filter(function (c) { return c.pseudo.toLowerCase().indexOf(String(vq).toLowerCase()) !== -1; });
         if (hits.length === 1) callSheet(hits[0].convId);
       }
       body.querySelector("#trSearch").addEventListener("input", function (e) { paintContacts(e.target.value); });
@@ -528,14 +528,14 @@
     var ul = document.getElementById("trContacts");
     if (!ul || !callState) return;
     q = String(q || "").trim().replace(/^@/, "").toLowerCase();
-    var list = callState.contacts.filter(function (c) { return !q || c.pseudo.indexOf(q) !== -1; });
+    var list = callState.contacts.filter(function (c) { return !q || c.pseudo.toLowerCase().indexOf(q) !== -1; });
     if (!callState.contacts.length) { ul.innerHTML = '<li class="muted tr-none">' + esc(t("c_none")) + "</li>"; return; }
     if (!list.length) { ul.innerHTML = '<li class="muted tr-none">' + esc(t("c_nomatch")) + "</li>"; return; }
     ul.innerHTML = list.map(function (c) {
       return '<li class="tr-ct"><span class="tr-av" aria-hidden="true">' + esc(c.pseudo.charAt(0).toUpperCase()) + "</span>" +
-        "<span><b>@" + esc(c.pseudo) + "</b><small>" + esc(t("c_lang_of", { l: langName(c.lang) })) +
+        "<span><b dir=\"auto\">" + esc(c.pseudo) + "</b><small>" + esc(t("c_lang_of", { l: langName(c.lang) })) +
         (c.also && c.also.length ? " · " + esc(t("c_also", { l: c.also.map(langName).join(", ") })) : "") + "</small></span>" +
-        '<button type="button" class="btn tr-callbtn" data-call="' + esc(c.convId) + '" aria-label="' + esc(t("c_call") + " @" + c.pseudo) + '">' + esc(t("c_call")) + "</button></li>";
+        '<button type="button" class="btn tr-callbtn" data-call="' + esc(c.convId) + '" aria-label="' + esc(t("c_call") + " " + c.pseudo) + '">' + esc(t("c_call")) + "</button></li>";
     }).join("");
   }
   // Langues de la discussion, au même endroit que TALK (lc_convlang_<discussion>) : TALK les utilise pour l'appel.

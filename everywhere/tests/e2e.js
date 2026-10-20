@@ -101,7 +101,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await step("Invitation sans compte : « @kenji vous attend » sur l'inscription (le lien garde l'invitation)", async () => {
       await ip.waitForSelector("#netPseudo", { timeout: 20000 });
       const txt = await ip.textContent("#net");
-      return { ok: /@kenji vous attend/.test(txt), detail: (txt.match(/@kenji[^.]*\./) || ["absent"])[0] };
+      return { ok: /kenji vous attend/.test(txt), detail: (txt.match(/kenji[^.]*\./) || ["absent"])[0] };
     });
     await step("Démo d'inscription : phrase écrite en français, lue dans une autre langue, bouton 🔊, change toute seule", async () => {
       const a1 = await ip.$eval("#owDemo", (b) => ({ src: b.querySelector(".ow-demo-row .ow-demo-txt").textContent, l: b.dataset.lang, play: !!b.querySelector("#owDemoPlay") }));
@@ -326,7 +326,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ctx.addInitScript(() => { try { localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } catch (e) {} });
   page = await openPortal(ctx, "#/profil");
   await step("Profil connecté : pseudo et langue lus dans TALK (pas de copie)", async () => {
-    await page.waitForFunction(() => /@sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 25000 });
+    await page.waitForFunction(() => /sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 25000 });
     const txt = (await page.textContent("#profileCard")).trim();
     const keys = await page.evaluate(() => Object.keys(localStorage));
     const copies = keys.filter((k) => /^ew/i.test(k));
@@ -398,7 +398,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#cxCode");
     await page.fill("#cxCode", "123456");
     await page.click("#cxVerify");
-    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    await page.waitForFunction(() => /Connecté : bienvenue sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
     const joined = await page.evaluate(() => localStorage.getItem("lc_net_joined"));
     return { ok: joined === "1" && /Compte sécurisé/.test(await card(page)), detail: "TALK se reconnectera à ce compte" };
   });
@@ -422,7 +422,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   ctx = await newCtx({}, true);
   page = await openPortal(ctx, "#access_token=aaa.bbb.ccc&expires_in=3600&refresh_token=rrr&token_type=bearer&type=magiclink");
   await step("Lien de l'e-mail (nouvel appareil) : compte retrouvé, jeton effacé de l'adresse", async () => {
-    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    await page.waitForFunction(() => /Connecté : bienvenue sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
     const r = await page.evaluate(() => ({ h: location.hash, j: localStorage.getItem("lc_net_joined") }));
     return { ok: r.h === "#/profil" && r.j === "1" && !page._errors.length, detail: "adresse : " + r.h };
   });
@@ -940,7 +940,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.fill("#trSearch", "mar");
     const filtered = await page.$$eval(".tr-ct b", (n) => n.map((b) => b.textContent));
     await page.fill("#trSearch", "");
-    return { ok: names.join() === "@kenji,@maria" && filtered.join() === "@maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
+    return { ok: names.join() === "kenji,maria" && filtered.join() === "maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
   });
   await step("Inviter un contact : le lien TALK (?ajouter=<mon pseudo>) part par le partage du téléphone", async () => {
     await page.tap("#trInvite");
@@ -966,7 +966,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const cl = await page.evaluate(() => localStorage.getItem("lc_convlang_aaaaaaaa-0000-4000-8000-000000000001"));
     const url = page.url();
     await page.screenshot({ path: path.join(OUT, "everywhere-appel-dans-talk.png") });
-    return { ok: /Sonnerie chez @kenji/.test(txt) && JSON.parse(cl).read === "en" && !/ew_appel/.test(url), detail: "« Sonnerie chez @kenji… », langue de lecture : anglais, adresse nettoyée" };
+    return { ok: /Sonnerie chez kenji/.test(txt) && JSON.parse(cl).read === "en" && !/ew_appel/.test(url), detail: "« Sonnerie chez @kenji… », langue de lecture : anglais, adresse nettoyée" };
   });
   await step("Fin de l'appel : retour dans EVERYWHERE (Appeler sur TALK)", async () => {
     await page.tap("#netHangup");
