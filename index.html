@@ -10035,7 +10035,7 @@ const Reseau = (() => {
       const people = list.filter((c) => c.other);
       // Comme Messenger : moi en premier (profil et réglages), puis « Inviter », puis les contacts.
       const stories = `<div class="net-stories" role="list">
-          <button type="button" class="net-story" id="netMeStory" role="listitem" aria-expanded="false" aria-controls="netMePanel">${avatarCore(nm(profile), me)}<span class="net-story-name">${escapeHtml(t("net_my_profile"))}</span></button>
+          <button type="button" class="net-story" id="netMeStory" role="listitem" aria-label="${escapeHtml(t("net_my_profile"))}" aria-expanded="false" aria-controls="netMePanel">${avatarCore(nm(profile), me)}<span class="net-story-name" dir="auto">${escapeHtml(nm(profile) || t("net_my_profile"))}</span></button>
           <button type="button" class="net-story" id="netInvite" role="listitem"><span class="net-story-plus" aria-hidden="true">+</span><span class="net-story-name net-story-inv">${escapeHtml(String(t("net_invite")).replace(/^[^\p{L}]+/u, ""))}</span></button>
           ${people.map((c) => `<button type="button" class="net-story net-conv" data-id="${escapeHtml(c.id)}" role="listitem">${avatarHtml(nm(c.other), c.otherId)}<span class="net-story-name" dir="auto">${escapeHtml(nm(c.other))}</span></button>`).join("")}
         </div>`;
