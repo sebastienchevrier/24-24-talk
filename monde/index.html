@@ -56,6 +56,40 @@
   .bub.in{background:rgba(255,255,255,.07);border-bottom-left-radius:6px;}
   .bub.out{background:#2f4bd6;margin-left:auto;border-bottom-right-radius:6px;}
   .fade{opacity:0;}
+  /* Profils d'exemple (fictifs), photos Unsplash libres de droits */
+  .ph{position:relative;flex:none;border-radius:50%;}
+  .ph img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:#1b2547;}
+  .ph i{position:absolute;right:1px;bottom:1px;width:24%;height:24%;min-width:10px;min-height:10px;border-radius:50%;background:#31d158;border:2px solid var(--bg);}
+  .ph .fl{position:absolute;left:-4px;bottom:-2px;font-size:15px;line-height:1;}
+  .faces{display:flex;justify-content:center;margin:30px auto 0;}
+  .faces .ph{width:46px;height:46px;margin-left:-10px;box-shadow:0 0 0 3px var(--bg);animation:bob 6s ease-in-out infinite;}
+  .faces .ph:first-child{margin-left:0;}
+  .faces .ph:nth-child(2n){animation-delay:-2s;} .faces .ph:nth-child(3n){animation-delay:-4s;}
+  @keyframes bob{50%{transform:translateY(-5px);}}
+  .faces-cap{margin:10px 0 0;font-size:14px;color:var(--muted);}
+  .ex{display:inline-block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.8;margin-top:12px;}
+  .phone .who .ph{width:38px;height:38px;}
+  .phone .who small{display:block;font-weight:500;font-size:12.5px;color:#31d158;}
+  .msgr{border:1px solid var(--line);background:#05081a;border-radius:34px;padding:18px 14px 10px;max-width:380px;width:100%;margin:0 auto;box-shadow:0 30px 80px rgba(47,75,214,.25);}
+  .msgr h4{margin:2px 6px 12px;font-size:24px;letter-spacing:-.02em;}
+  .msgr .srch{margin:0 4px 14px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--muted);font-size:14px;}
+  .stories{display:flex;gap:14px;overflow:hidden;padding:0 4px 14px;}
+  .stories div{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12px;color:#c8d1ee;}
+  .stories .ph{width:54px;height:54px;}
+  .row{display:flex;align-items:center;gap:12px;padding:9px 4px;}
+  .row .ph{width:52px;height:52px;}
+  .row div{flex:1;min-width:0;}
+  .row b{display:block;font-weight:600;font-size:15.5px;}
+  .row span{display:block;color:var(--muted);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row.unread b,.row.unread span{color:var(--ink);font-weight:700;}
+  .row em{font-style:normal;color:var(--muted);font-size:12px;align-self:flex-start;margin-top:6px;}
+  .row .seen{width:16px;height:16px;flex:none;}
+  .row .dot{width:10px;height:10px;border-radius:50%;background:#2f6ae6;flex:none;}
+  .steps{display:grid;gap:14px;margin-top:30px;counter-reset:st;}
+  @media (min-width:800px){.steps{grid-template-columns:repeat(3,1fr);}}
+  .steps div{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;}
+  .steps div::before{counter-increment:st;content:counter(st);display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#0a0f24;font-weight:800;margin-bottom:14px;}
+  .steps h3{margin:0 0 4px;font-size:18px;} .steps p{margin:0;color:var(--muted);font-size:15px;}
   /* Espaces */
   .grid{display:grid;gap:14px;margin-top:34px;}
   @media (min-width:700px){.grid{grid-template-columns:repeat(2,1fr);}}
@@ -113,6 +147,8 @@
         <a class="btn main" href="../">Ouvrir l'application</a>
         <a class="btn ghost" href="#vision">Découvrir</a>
       </div>
+      <div class="faces" aria-hidden="true"><span class="ph"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇮🇩</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇫🇷</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇯🇵</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇰🇪</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇦🇷</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇵🇹</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇪🇬</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇩🇪</span></span><span class="ph"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><span class="fl">🇧🇷</span></span></div>
+      <p class="faces-cap">9 pays, 9 langues, une seule conversation.</p>
       <p class="hello" aria-live="polite"><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
     </div>
   </section>
@@ -125,14 +161,41 @@
   <section><div class="wrap demo">
     <div class="reveal">
       <p class="kicker">Comment ça marche</p>
-      <h2>Vous écrivez en français.<br />Il lit en japonais.</h2>
+      <h2>Vous écrivez en français.<br />Elle lit en japonais.</h2>
       <p class="sub">Chaque message, chaque appel est traduit dans la langue de la personne qui le reçoit. Vous n'avez rien à faire : vous parlez simplement.</p>
     </div>
     <div class="phone reveal" aria-label="Exemple de discussion traduite">
-      <div class="who"><span class="av">K</span>kenji</div>
-      <div class="bub in" id="b1">Bonjour depuis Tokyo !<small>écrit en japonais : こんにちは、東京から！</small></div>
-      <div class="bub out" id="b2">Bonjour Kenji, je t'appelle ce soir ?<small>lu en japonais par Kenji</small></div>
+      <div class="who"><span class="ph"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span><span>Aiko<small>En ligne · Tokyo</small></span></div>
+      <div class="bub in" id="b1">Bonjour depuis Tokyo ! 🌸<small>écrit en japonais : こんにちは、東京から！</small></div>
+      <div class="bub out" id="b2">Bonjour Aiko, je t'appelle ce soir ?<small>lu en japonais par Aiko</small></div>
       <div class="bub in" id="b3">Avec plaisir, à ce soir.<small>écrit en japonais : 喜んで、また今夜。</small></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap demo">
+    <div class="reveal">
+      <p class="kicker">Votre messagerie</p>
+      <h2>Simple comme vos messages.<br />Ouverte sur le monde.</h2>
+      <p class="sub">Vos discussions, les photos de vos proches, qui est en ligne, qui a lu. Tout ce que vous connaissez déjà, sauf qu'ici chacun vous écrit dans sa langue et vous lisez dans la vôtre.</p>
+    </div>
+    <div class="msgr reveal" aria-label="Exemple de liste de discussions">
+      <h4>Discussions</h4>
+      <div class="srch">🔍 Rechercher</div>
+      <div class="stories"><div><span class="ph"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span>Lucas</div><div><span class="ph"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span>Anna</div><div><span class="ph"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span>Rafael</div><div><span class="ph"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span>Aiko</div></div>
+      <div class="row"><span class="ph"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span><div><b>Maya</b><span>Vous : On se voit à Ubud demain ?</span></div><em>14:02</em><img class="seen" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&q=70" alt="" style="border-radius:50%;object-fit:cover" referrerpolicy="no-referrer" /></div><div class="row unread"><span class="ph"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span><div><b>Mateo</b><span>Le match commence à 20 h, tu regardes ? ⚽</span></div><em>13:47</em><span class="dot"></span></div><div class="row"><span class="ph"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /><i></i></span><div><b>Amara</b><span>Merci pour la recette, c'était délicieux !</span></div><em>12:15</em></div><div class="row"><span class="ph"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /></span><div><b>Sofia</b><span>Photo envoyée 📷</span></div><em>lun.</em></div><div class="row"><span class="ph"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" loading="lazy" referrerpolicy="no-referrer" /></span><div><b>Omar</b><span>Vous : Bonne fête à toute ta famille 🎉</span></div><em>lun.</em><img class="seen" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&q=70" alt="" style="border-radius:50%;object-fit:cover" referrerpolicy="no-referrer" /></div>
+      <p class="ex" style="text-align:center;display:block">Profils d'exemple</p>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="reveal">
+      <p class="kicker">En 3 gestes</p>
+      <h2>Aussi simple que ça.</h2>
+    </div>
+    <div class="steps">
+      <div class="reveal"><h3>Ouvrez l'application</h3><p>Un appui, rien à télécharger. Votre nom, votre langue, c'est prêt.</p></div>
+      <div class="reveal"><h3>Invitez un proche</h3><p>Envoyez votre lien par SMS ou par message. Il vous retrouve en un appui.</p></div>
+      <div class="reveal"><h3>Parlez</h3><p>Écrivez ou appelez dans votre langue. L'autre vous lit et vous entend dans la sienne.</p></div>
     </div>
   </div></section>
 
@@ -197,13 +260,14 @@
 
   <section class="final"><div class="wrap reveal">
     <h2>Le monde vous attend.</h2>
-    <p class="sub" style="margin:0 auto 28px;">Choisissez un pseudo, invitez un proche, et parlez.</p>
+    <p class="sub" style="margin:0 auto 28px;">Votre nom, un proche, et vous parlez au monde.</p>
     <a class="btn main" href="../">Ouvrir <span translate="no" class="notranslate">24/24 ONE WORLD</span></a>
   </div></section>
 </main>
 
 <footer><div class="wrap">
   <span>© 2026 Sébastien Chevrier. Tous droits réservés.</span>
+  <span>Profils d'exemple fictifs · photos <a href="https://unsplash.com/license" rel="noopener">Unsplash</a> (libres de droits)</span>
   <span><a href="../#cgv">Conditions</a> · <a href="../presentation.html">Présentation</a></span>
 </div></footer>
 
