@@ -479,7 +479,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-me-page[hidden]{display:none;}
   body.net-me-open{overflow:hidden;}
   body.net-me-open .bbar{display:none;}
-  .net-me-top{display:flex;align-items:center;gap:6px;margin:0 -6px 8px;font-size:18px;}
+  .net-me-top{display:flex;align-items:center;gap:6px;margin:0 -6px 8px;font-size:28px;font-weight:800;letter-spacing:-.4px;}
+  .net-me-top .net-hd-btn{font-size:26px;}
   .net-me-page .net-me-row{flex-direction:column;align-items:center;text-align:center;gap:12px;margin:8px 0 22px;}
   .net-me-page .net-photo-btn .net-av{width:132px;height:132px;font-size:54px;}
   .net-me-page .net-photo-cam{width:38px;height:38px;right:2px;bottom:2px;}
@@ -574,6 +575,17 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full .net-topbar{justify-content:space-between;margin:4px 0 12px;}
   body.net-full .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
   body.net-full .net-topbar .net-tb-actions{display:flex;gap:8px;}
+  /* Flèche retour en haut de chaque écran (20 oct. 2026) : même place, même taille partout. */
+  .net-topbar .net-back,body.net-full #netHomeBtn.net-back{display:flex !important;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;padding:0;
+    border:0;background:transparent;color:var(--text);font-size:26px;line-height:1;margin-inline-start:-8px;}
+  body.net-full .net-topbar .net-topbar-title,body.tr-full .tr-topbar .net-topbar-title{margin-inline-end:auto;}
+  body.net-full .net-topbar{justify-content:flex-start;}
+  [dir="rtl"] .net-back span{display:inline-block;transform:scaleX(-1);}
+  body.set-full header.hero-earth, body.set-full .promo-banner, body.set-full .trust-line, body.set-full .install-top,
+  body.set-full .inapp-banner, body.set-full .site-footer, body.set-full #settingsBtn{display:none !important;}
+  body.set-full main{padding-top:10px;}
+  body.set-full #settings > .net-topbar{margin:4px 0 12px;}
+  body.set-full #settings > .net-topbar .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
   .net-tb-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);
     display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
   .net-tb-btn svg{width:20px;height:20px;}
@@ -5206,6 +5218,8 @@ tabs.forEach((btn) => {
   const btn = document.getElementById("settingsBtn");
   if (!btn) return;
   btn.addEventListener("click", () => {
+    // Comme Messenger : la roue dentée ouvre « Mon profil » (photo, nom et toutes les options).
+    if (typeof window.OW_openProfile === "function" && window.OW_openProfile()) return;
     const tab = document.querySelector('nav.tabs button[data-view="settings"]');
     if (tab) tab.click();
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
@@ -6155,6 +6169,8 @@ const NET_STRINGS = {
     me_report: "Signaler un problème technique",
     me_help: "Aide",
     me_legal: "Mentions légales et politiques",
+    me_devices: "Compte et appareils",
+    me_devices_sub: "Sécurité, e-mail, appareils connectés",
     net_invite_text: "📲 Écris-moi dans ta langue, je te lis dans la mienne. Rejoins-moi sur 24/24 ONE WORLD !",
     net_invite_step2: "📨 2/2 : envoyer la carte",
     net_invite_step2_hint: "Message envoyé. Touchez « 2/2 : envoyer la carte » et choisissez la même personne.",
@@ -6372,6 +6388,8 @@ const NET_STRINGS = {
     me_report: "Report a technical problem",
     me_help: "Help",
     me_legal: "Legal and policies",
+    me_devices: "Account and devices",
+    me_devices_sub: "Security, email, signed-in devices",
     net_invite_text: "📲 Write to me in your language, I'll read you in mine. Join me on 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: send the card",
     net_invite_step2_hint: "Message sent. Tap “2/2: send the card” and choose the same person.",
@@ -6588,6 +6606,8 @@ const NET_STRINGS = {
     me_report: "Informar de un problema técnico",
     me_help: "Ayuda",
     me_legal: "Aviso legal y políticas",
+    me_devices: "Cuenta y dispositivos",
+    me_devices_sub: "Seguridad, e-mail, dispositivos conectados",
     net_invite_text: "📲 Escríbeme en tu idioma, yo te leo en el mío. ¡Únete a mí en 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar la tarjeta",
     net_invite_step2_hint: "Mensaje enviado. Toca «2/2: enviar la tarjeta» y elige a la misma persona.",
@@ -6802,6 +6822,8 @@ const NET_STRINGS = {
     me_report: "Comunicar um problema técnico",
     me_help: "Ajuda",
     me_legal: "Aviso legal e políticas",
+    me_devices: "Conta e dispositivos",
+    me_devices_sub: "Segurança, e-mail, dispositivos ligados",
     net_invite_text: "📲 Escreve-me na tua língua, eu leio-te na minha. Junta-te a mim no 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: enviar o cartão",
     net_invite_step2_hint: "Mensagem enviada. Toque em «2/2: enviar o cartão» e escolha a mesma pessoa.",
@@ -7016,6 +7038,8 @@ const NET_STRINGS = {
     me_report: "Technisches Problem melden",
     me_help: "Hilfe",
     me_legal: "Impressum und Richtlinien",
+    me_devices: "Konto und Geräte",
+    me_devices_sub: "Sicherheit, E-Mail, angemeldete Geräte",
     net_invite_text: "📲 Schreib mir in deiner Sprache, ich lese dich in meiner. Komm zu mir auf 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: Karte senden",
     net_invite_step2_hint: "Nachricht gesendet. Tippe auf „2/2: Karte senden“ und wähle dieselbe Person.",
@@ -7230,6 +7254,8 @@ const NET_STRINGS = {
     me_report: "Segnala un problema tecnico",
     me_help: "Aiuto",
     me_legal: "Note legali e normative",
+    me_devices: "Account e dispositivi",
+    me_devices_sub: "Sicurezza, e-mail, dispositivi collegati",
     net_invite_text: "📲 Scrivimi nella tua lingua, io ti leggo nella mia. Raggiungimi su 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: invia la scheda",
     net_invite_step2_hint: "Messaggio inviato. Tocca «2/2: invia la scheda» e scegli la stessa persona.",
@@ -7444,6 +7470,8 @@ const NET_STRINGS = {
     me_report: "报告技术问题",
     me_help: "帮助",
     me_legal: "法律声明和政策",
+    me_devices: "账户和设备",
+    me_devices_sub: "安全、邮箱、已登录设备",
     net_invite_text: "📲 用你的语言给我写信，我用我的语言读你。来 24/24 ONE WORLD 找我吧！",
     net_invite_step2: "📨 2/2：发送卡片",
     net_invite_step2_hint: "消息已发送。点击“2/2：发送卡片”，选择同一个人。",
@@ -7658,6 +7686,8 @@ const NET_STRINGS = {
     me_report: "技術的な問題を報告",
     me_help: "ヘルプ",
     me_legal: "法的情報とポリシー",
+    me_devices: "アカウントとデバイス",
+    me_devices_sub: "セキュリティ、メール、ログイン中のデバイス",
     net_invite_text: "📲 あなたの言葉で書いてね、私は自分の言葉で読むよ。24/24 ONE WORLD で会おう！",
     net_invite_step2: "📨 2/2：カードを送る",
     net_invite_step2_hint: "メッセージを送りました。「2/2：カードを送る」をタップして、同じ人を選んでください。",
@@ -7872,6 +7902,8 @@ const NET_STRINGS = {
     me_report: "الإبلاغ عن مشكلة تقنية",
     me_help: "المساعدة",
     me_legal: "الإشعارات القانونية والسياسات",
+    me_devices: "الحساب والأجهزة",
+    me_devices_sub: "الأمان، البريد الإلكتروني، الأجهزة المتصلة",
     net_invite_text: "📲 اكتب لي بلغتك، وأقرأك بلغتي. انضم إليّ على ⁦24/24 ONE WORLD⁩!",
     net_invite_step2: "📨 2/2: إرسال البطاقة",
     net_invite_step2_hint: "تم إرسال الرسالة. المس «2/2: إرسال البطاقة» واختر الشخص نفسه.",
@@ -8086,6 +8118,8 @@ const NET_STRINGS = {
     me_report: "Сообщить о технической проблеме",
     me_help: "Помощь",
     me_legal: "Правовая информация и политики",
+    me_devices: "Аккаунт и устройства",
+    me_devices_sub: "Безопасность, e-mail, подключённые устройства",
     net_invite_text: "📲 Пиши мне на своём языке, я прочитаю на своём. Присоединяйся ко мне в 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: отправить карточку",
     net_invite_step2_hint: "Сообщение отправлено. Нажмите «2/2: отправить карточку» и выберите того же человека.",
@@ -8300,6 +8334,8 @@ const NET_STRINGS = {
     me_report: "Hitatitra olana ara-teknika",
     me_help: "Fanampiana",
     me_legal: "Fampahafantarana ara-dalàna sy politika",
+    me_devices: "Kaonty sy fitaovana",
+    me_devices_sub: "Fiarovana, mailaka, fitaovana mifandray",
     net_invite_text: "📲 Soraty amiko amin'ny fiteninao, vakiako amin'ny ahy. Midira amiko ao amin'ny 24/24 ONE WORLD!",
     net_invite_step2: "📨 2/2: handefa ny karatra",
     net_invite_step2_hint: "Lasa ny hafatra. Tsindrio « 2/2: handefa ny karatra » ary safidio ilay olona ihany.",
@@ -8697,7 +8733,7 @@ const Reseau = (() => {
   // Barre du haut de l'écran réseau : retour à l'accueil + nom de la touche choisie.
   const topbar = document.createElement("div");
   topbar.className = "net-topbar";
-  topbar.innerHTML = `<button type="button" class="iconbtn" id="netHomeBtn">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title" id="netTopTitle"></span>
+  topbar.innerHTML = `<button type="button" class="iconbtn net-back" id="netHomeBtn" aria-label="${escapeHtml(t("tab_home"))}"><span aria-hidden="true">←</span></button><span class="net-topbar-title" id="netTopTitle"></span>
     <span class="net-tb-actions">
       <button type="button" class="net-tb-btn" id="netNewBtn" aria-label="${escapeHtml(t("net_add_ph"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
       <button type="button" class="net-tb-btn" id="netGearBtn" aria-label="${escapeHtml(t("tab_settings"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
@@ -8725,9 +8761,11 @@ const Reseau = (() => {
   if (settingsView) {
     const st = document.createElement("div");
     st.className = "net-topbar";
-    st.innerHTML = `<button type="button" class="iconbtn" id="settingsBack">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title">⚙️ ${escapeHtml(t("tab_settings"))}</span>`;
+    st.innerHTML = `<button type="button" class="iconbtn net-back" id="settingsBack" aria-label="${escapeHtml(t("net_back").replace(/^[^\p{L}]+/u, ""))}"><span aria-hidden="true">←</span></button><span class="net-topbar-title">${escapeHtml(t("tab_settings"))}</span>`;
     settingsView.insertBefore(st, settingsView.firstChild);
     st.querySelector("#settingsBack").addEventListener("click", () => {
+      // Les Paramètres s'ouvrent depuis « Mon profil » : la flèche y ramène.
+      if (typeof window.OW_openProfile === "function" && window.OW_openProfile()) return;
       if (homeTabBtn) homeTabBtn.click();
       try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
     });
@@ -9777,7 +9815,8 @@ const Reseau = (() => {
   if (trView) {
     const trTop = document.createElement("div");
     trTop.className = "net-topbar tr-topbar";
-    trTop.innerHTML = `<span class="net-topbar-title">${escapeHtml(trLabel)}</span><span class="net-tb-actions"></span>`;
+    trTop.innerHTML = `<button type="button" class="iconbtn net-back" id="trBackBtn" aria-label="${escapeHtml(t("tab_home"))}"><span aria-hidden="true">←</span></button><span class="net-topbar-title">${escapeHtml(trLabel)}</span><span class="net-tb-actions"></span>`;
+    trTop.querySelector("#trBackBtn").addEventListener("click", () => { const h = document.querySelector('nav.tabs button[data-view="home"]'); if (h) h.click(); try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ } });
     const g = topbar.querySelector("#netGearBtn").cloneNode(true);
     g.id = "trGearBtn";
     g.addEventListener("click", () => { const sbtn = document.getElementById("settingsBtn"); if (sbtn) sbtn.click(); });
@@ -9837,7 +9876,13 @@ const Reseau = (() => {
   });
   try {
     const want = new URLSearchParams(location.search).get("b") || (linkSession ? "msg" : null); // retour du lien d'inscription : Messagerie
-    if (want === "msg" || want === "call" || want === "tr") {
+    if (want === "me") {
+      history.replaceState(null, "", location.pathname + location.hash);
+      // La Messagerie d'abord (jamais un écran vide), puis « Mon profil » dès que le compte est chargé.
+      setTimeout(() => { const b = bar.querySelector('button[data-b="msg"]'); if (b) b.click(); }, 0);
+      let tries = 0;
+      const t2 = setInterval(() => { if ((window.OW_openProfile && window.OW_openProfile()) || ++tries > 100) clearInterval(t2); }, 200);
+    } else if (want === "msg" || want === "call" || want === "tr") {
       history.replaceState(null, "", location.pathname + location.hash);
       setTimeout(() => { const b = bar.querySelector(`button[data-b="${want}"]`); if (b) b.click(); }, 0);
     }
@@ -9878,6 +9923,7 @@ const Reseau = (() => {
     bar.hidden = hide;
     const full = id === "net" && !EMBEDDED;
     document.body.classList.toggle("tr-full", id === "tr" && !EMBEDDED);
+    document.body.classList.toggle("set-full", id === "settings" && !EMBEDDED);
     if (document.body.classList.contains("net-full") !== full) {
       document.body.classList.toggle("net-full", full);
       updateTopbar();
@@ -9894,6 +9940,15 @@ const Reseau = (() => {
   } catch (e) { /* ignoré */ }
 
   let mePageOpen = false;
+  // Roue dentée (partout) et flèche des Paramètres : ouvrent « Mon profil » dans la Messagerie.
+  window.OW_openProfile = () => {
+    if (!me || !profile) return false;
+    mePageOpen = true;
+    const b = bar.querySelector('button[data-b="msg"]');
+    if (mode === "msg" && isActiveTab() && screen === "home") render();
+    else if (b) b.click();
+    return true;
+  };
   function render() {
     document.body.classList.remove("net-me-open");
     document.body.classList.remove("ob-on");
@@ -10204,7 +10259,7 @@ const Reseau = (() => {
   });
 
   // Mon profil façon Messenger : toutes les options en liste (icône, titre, valeur), groupées par rubrique.
-  const ME_ICO = {"user":"<path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>","at":"<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94\"/>","globe":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/>","moon":"<path d=\"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\"/>","dot":"<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"3.5\" fill=\"currentColor\"/>","smile":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01\"/>","bell":"<path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0\"/>","a11y":"<circle cx=\"12\" cy=\"4\" r=\"2\"/><path d=\"M4 8h16M12 8v6M8 22l4-8 4 8\"/>","lock":"<rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>","alert":"<path d=\"M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01\"/>","help":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01\"/>","file":"<path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8\"/>","trash":"<path d=\"M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4h6v2\"/>"};
+  const ME_ICO = {"user":"<path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>","at":"<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94\"/>","globe":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/>","moon":"<path d=\"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\"/>","dot":"<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"3.5\" fill=\"currentColor\"/>","smile":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01\"/>","bell":"<path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0\"/>","a11y":"<circle cx=\"12\" cy=\"4\" r=\"2\"/><path d=\"M4 8h16M12 8v6M8 22l4-8 4 8\"/>","lock":"<rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>","alert":"<path d=\"M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01\"/>","help":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01\"/>","file":"<path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8\"/>","shield":"<path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/>","trash":"<path d=\"M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4h6v2\"/>"};
   function meOptions() {
     const ic = (k) => `<span class="net-opt-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ME_ICO[k]}</svg></span>`;
     const row = (id, k, label, sub, end, cls) => `<button type="button" class="net-opt${cls ? " " + cls : ""}" id="${id}">${ic(k)}<span class="net-opt-txt"><span dir="auto">${escapeHtml(label)}</span>${sub ? `<small dir="auto">${escapeHtml(sub)}</small>` : ""}</span>${end || ""}</button>`;
@@ -10223,6 +10278,7 @@ const Reseau = (() => {
           ${push !== "unsupported" ? row("netMyPush", "bell", t("me_notif"), push === "on" ? t("me_on") : t("me_off"), sw(push === "on")) : ""}
           ${row("netMyA11y", "a11y", t("me_a11y"), "", "")}
           ${row("netMyPrivacy", "lock", t("me_privacy"), "", "")}
+          ${row("netMyDevices", "shield", t("me_devices"), t("me_devices_sub"), "")}
           <h4 class="net-opt-h">${escapeHtml(t("me_sec_help"))}</h4>
           ${row("netMyReport", "alert", t("me_report"), "", "")}
           ${row("netMyHelp", "help", t("me_help"), "", "")}
@@ -10362,8 +10418,9 @@ const Reseau = (() => {
         if (tg) { const v = pushState() === "on"; tg.classList.toggle("on", v); tg.setAttribute("aria-pressed", String(v)); }
         render();
       });
-      on("netMyA11y", leaveTo(() => { const sbtn = document.getElementById("settingsBtn"); if (sbtn) sbtn.click(); }));
+      on("netMyA11y", leaveTo(() => { const tab = document.querySelector('nav.tabs button[data-view="settings"]'); if (tab) tab.click(); try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ } }));
       on("netMyPrivacy", leaveTo(() => legal("privacy.html")));
+      on("netMyDevices", () => { location.href = "everywhere/#/profil"; });
       on("netMyLegal", leaveTo(() => legal("mentions-legales.html")));
       on("netMyReport", mail(t("me_report")));
       on("netMyHelp", mail(t("me_help")));

@@ -25,71 +25,71 @@
   var STR = {
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
-      home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
+      home: "Accueil", apps: "Applications", profile: "Compte et appareils", settings: "Paramètres", open_full: "Ouvrir en plein écran",
       lead: "Le monde se parle. Enfin.", langs_n: "112 langues, 1 application", your_apps: "Vos applications",
       talk_tag: "Messages et appels traduits", ew_tag: "Conversation côte à côte", learn_tag: "Apprendre sans limites.",
       talk_name: "MESSAGERIE", ew_name: "FACE À FACE", trip_name: "VOYAGE", trip_tag: "Phrases utiles hors ligne",
       learn_name: "APPRENDRE", learn_tag2: "Leçons et révisions",
       free_all: "Gratuit pour tous",
-      hub_sub: "Traduire, connecter et apprendre partout.", hub_learn_h: "Apprendre",
+      hub_sub: "Parler avec quelqu'un qui ne parle pas votre langue.", hub_learn_h: "Apprendre",
       hub_learn: "Apprendre une langue", hub_learn_d: "Leçons, exercices, révision, progression",
       kicker: "Une seule application. Trois interfaces. Un seul compte.",
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "Apprendre",
       ailab_tag: "Innover avec l'IA.", soon: "Bientôt", soon_badge: "BIENTÔT", ailab: "AI LAB", lp_title: "Profil linguistique",
       a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé", motion: "Réduire les animations",
       th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", brand_a: "24/24 ONE WORLD, accueil", main_nav: "Navigation principale", everywhere: "Face à face",
-      apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte. AI LAB arrive bientôt.",
+      apps_lead: "Messagerie, Face à face et Apprendre : une seule application, un seul compte. AI LAB arrive bientôt.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
-      ui_lang: "Langue de l'interface", set_in_talk: "Régler dans TALK", theme: "Thème", theme_auto: "Suit votre appareil",
+      ui_lang: "Langue de l'interface", set_in_talk: "Régler dans Paramètres", theme: "Thème", theme_auto: "Suit votre appareil",
       stats: "Statistiques de visite anonymes", calls_closed: "Appels quand l'appli est fermée",
       push_on: "Activés", push_denied: "Bloqués par le navigateur", push_off: "Pas encore activés", push_unsup: "Non disponibles ici",
       install_title: "Installer 24/24 ONE WORLD", install_btn: "📲 Installer sur l'écran d'accueil",
       install_ios: "Sur iPhone : touchez Partager, puis « Sur l'écran d'accueil ».",
       install_other: "Dans Chrome : menu ⋮, puis « Ajouter à l'écran d'accueil » ou « Installer l'application ».",
       install_done: "Installé ✓",
-      talk_settings: "Réglages de 24/24 TALK", version: "Version",
+      talk_settings: "Réglages de la Messagerie", version: "Version",
       nf_title: "Page introuvable", nf_txt: "Cette adresse n'existe pas dans 24/24 ONE WORLD.", back_home: "Revenir à l'accueil",
       loading_app: "Ouverture de {app}…", app_error: "{app} ne répond pas.", app_error_txt: "Vérifiez votre connexion, puis réessayez.", retry: "Réessayer",
-      prof_loading: "Lecture de votre profil TALK…", prof_error: "Impossible de lire votre profil pour le moment.",
+      prof_loading: "Lecture de votre profil…", prof_error: "Impossible de lire votre profil pour le moment.",
       prof_none: "Vous n'avez pas encore de profil.", prof_none_txt: "Créez votre compte 24/24 ONE WORLD : un pseudo, votre langue et un e-mail confirmé, sans numéro de téléphone.",
       prof_create: "Créer mon compte", prof_lang: "Langue parlée : {l}", prof_chats: "Ouvrir mes discussions",
-      prof_off: "La messagerie de TALK n'est pas activée sur ce site.",
+      prof_off: "La messagerie n'est pas activée sur ce site.",
       env_test: "24/24 ONE WORLD · SITE DE TEST · données fictives · ne pas partager",
       title_app: "{app}"
     },
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
-      home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
+      home: "Home", apps: "Apps", profile: "Account and devices", settings: "Settings", open_full: "Open full screen",
       lead: "The world speaks. At last.", langs_n: "112 languages, 1 app", your_apps: "Your apps",
       talk_tag: "Translated messages and calls", ew_tag: "Side-by-side conversation", learn_tag: "Learn without limits.",
       talk_name: "MESSAGES", ew_name: "FACE TO FACE", trip_name: "TRAVEL", trip_tag: "Useful phrases, works offline",
       learn_name: "LEARN", learn_tag2: "Lessons and reviews",
       free_all: "Free for everyone",
-      hub_sub: "Translate, connect and learn everywhere.", hub_learn_h: "Learn",
+      hub_sub: "Talk with someone who doesn't speak your language.", hub_learn_h: "Learn",
       hub_learn: "Learn a language", hub_learn_d: "Lessons, exercises, review, progress",
       kicker: "One app. Three interfaces. One account.",
       signature: "One world. One connection. No language borders.", learn: "Learn",
       ailab_tag: "Innovating with AI.", soon: "Coming soon", soon_badge: "COMING SOON", ailab: "AI LAB", lp_title: "Language profile",
       a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast", motion: "Reduce motion",
       th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", brand_a: "24/24 ONE WORLD, home", main_nav: "Main navigation", everywhere: "Face to face",
-      apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account. AI LAB is coming soon.",
+      apps_lead: "Messages, Face to face and Learn: one app, one account. AI LAB is coming soon.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
       reserved_txt: "This slot will host a future 24/24 ONE WORLD app. It does not exist yet.",
-      ui_lang: "Interface language", set_in_talk: "Set in TALK", theme: "Theme", theme_auto: "Follows your device",
+      ui_lang: "Interface language", set_in_talk: "Change in Settings", theme: "Theme", theme_auto: "Follows your device",
       stats: "Anonymous visit statistics", calls_closed: "Calls when the app is closed",
       push_on: "On", push_denied: "Blocked by the browser", push_off: "Not on yet", push_unsup: "Not available here",
       install_title: "Install 24/24 ONE WORLD", install_btn: "📲 Add to home screen",
       install_ios: "On iPhone: tap Share, then “Add to Home Screen”.",
       install_other: "In Chrome: menu ⋮, then “Add to home screen” or “Install app”.",
       install_done: "Installed ✓",
-      talk_settings: "24/24 TALK settings", version: "Version",
+      talk_settings: "Messages settings", version: "Version",
       nf_title: "Page not found", nf_txt: "This address does not exist in 24/24 ONE WORLD.", back_home: "Back to home",
       loading_app: "Opening {app}…", app_error: "{app} is not responding.", app_error_txt: "Check your connection, then try again.", retry: "Try again",
-      prof_loading: "Reading your TALK profile…", prof_error: "Your profile can't be read right now.",
+      prof_loading: "Reading your profile…", prof_error: "Your profile can't be read right now.",
       prof_none: "You don't have a profile yet.", prof_none_txt: "Create your 24/24 ONE WORLD account: a username, your language and a confirmed email, no phone number.",
       prof_create: "Create my account", prof_lang: "Spoken language: {l}", prof_chats: "Open my chats",
-      prof_off: "TALK messaging is not enabled on this site.",
+      prof_off: "Messaging is not enabled on this site.",
       env_test: "24/24 ONE WORLD · TEST SITE · fake data · do not share",
       title_app: "{app}"
     }
@@ -342,11 +342,12 @@
   // Roue dentée : dans une application, ouvre ses propres réglages ; ailleurs, les paramètres du portail.
   // VOICE : bouton micro de la barre du haut (voix.js), absent si le navigateur ne reconnaît pas la voix.
   if (window.EWVoix) window.EWVoix.mount({ root: "../", portal: true, lang: lang, before: $("topSettings") });
-  $("topSettings").addEventListener("click", function () {
-    var m = /^#\/app\/([^/]+)/.exec(location.hash || "");
-    var a = m && appById(m[1]);
-    if (a && a.status === "available") sendWhenReady(a.id, { t: "ew:view", view: "settings" });
-    else location.hash = "#/parametres";
+  // 20 oct. 2026 : comme partout dans 24/24 ONE WORLD, la roue dentée ouvre « Mon profil » (toutes les options).
+  $("topSettings").addEventListener("click", function () { location.href = CFG.basePath + "index.html?b=me"; });
+  // Flèche retour en haut de chaque écran : écran précédent, sinon l'accueil de 24/24 ONE WORLD.
+  $("topBack").addEventListener("click", function (e) {
+    var ref = document.referrer || "";
+    if (history.length > 1 && (ref.indexOf(location.origin) === 0 || /^#\/.+/.test(location.hash || ""))) { e.preventDefault(); history.back(); }
   });
 
   // ---------- Routes internes (#/accueil, #/applications, #/everywhere/…, #/app/<id>, #/profil, #/parametres) ----------
@@ -411,7 +412,7 @@
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";
     if (target === "everywhere" && window.EWEverywhere) {
       title = window.EWEverywhere.show($("ewTr"), parts.slice(1), ui) || t("everywhere");
-      if (!parts[1]) addLearnToHub($("ewTr"));
+      // 20 oct. 2026 : Apprendre a sa propre place (barre du bas) ; Face à face ne mélange plus les deux.
     }
     else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], ui); } // quitte la conversation : micro et voix coupés
     if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), ui) || t("learn");

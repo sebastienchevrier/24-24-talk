@@ -233,3 +233,16 @@ html.ew-home .shell>.topbar :focus-visible, html.ew-home .shell>.mainnav :focus-
 .ai-badge{vertical-align:middle;margin:0 0 0 6px;background:#8a3f08;color:#fff;}
 .ai-list{margin:4px 0;padding-left:20px;}
 .ai-list li{margin:6px 0;}
+
+/* 20 oct. 2026 : flèche retour en haut de chaque écran (remplace le logo) ; les anciens liens « ← … » dans la page sont retirés. */
+.topbar .ew-back{margin-inline-end:auto;}
+.topbar .ew-back svg{width:26px;height:26px;}
+[dir="rtl"] .topbar .ew-back svg{transform:scaleX(-1);}
+.topbar .topbar-title{display:none;}
+.tr-back,:not(.lx-run-top) > .lx-back{display:none !important;}
+/* Titre de l'écran : pas de cadre blanc quand il reçoit le focus après un changement d'écran. */
+.view h1[tabindex="-1"]:focus{outline:none;}
+/* Mêmes boutons du haut que la Messagerie : sans cadre, icônes un peu plus grandes. */
+.shell>.topbar{border-bottom:0;background:transparent;}
+.shell>.topbar .icon-btn{border:0;background:transparent;}
+.shell>.topbar .icon-btn svg{width:26px;height:26px;}

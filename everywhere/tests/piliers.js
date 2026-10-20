@@ -212,7 +212,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForFunction(() => /pas compris/.test(document.getElementById("ewvTxt").textContent));
     await sleep(1100);
     const r = await page.evaluate(() => ({ t: document.getElementById("ewvTxt").textContent, h: location.hash }));
-    return { ok: /« quelle heure est-il ».*Ouvre TALK.*Traduis en anglais.*Appelle maria/.test(r.t) && r.h === before, detail: r.t.slice(0, 90) };
+    return { ok: /« quelle heure est-il ».*Ouvre la messagerie.*Traduis en anglais.*Appelle maria/.test(r.t) && r.h === before, detail: r.t.slice(0, 90) };
   });
   await step("Voice : 2e alternative de la dictée utilisée si la 1re ne veut rien dire (« ouvre tolk » / « ouvre talk »)", async () => {
     await say(page, [{ text: ["ouvre le tolkien", "ouvre talk"] }]);

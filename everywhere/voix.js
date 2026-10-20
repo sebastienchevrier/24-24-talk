@@ -11,29 +11,29 @@
 
   var STR = {
     fr: { btn: "Commande vocale", listening: "Je vous écoute…", stop: "Arrêter", heard: "Compris : « {t} »",
-      not_understood: "Je n'ai pas compris « {t} ». Essayez : « Ouvre TALK », « Traduis en anglais », « Appelle maria ».",
-      help: "Vous pouvez dire : « Ouvre TALK », « Ouvre la messagerie », « Ouvre EVERYWHERE », « Ouvre mon profil », « Traduis en anglais », « Appelle maria », « Lis mon dernier message », « Arrête ».",
+      not_understood: "Je n'ai pas compris « {t} ». Essayez : « Ouvre la messagerie », « Traduis en anglais », « Appelle maria ».",
+      help: "Vous pouvez dire : « Ouvre la messagerie », « Ouvre Face à face », « Ouvre Apprendre », « Ouvre mon profil », « Traduis en anglais », « Appelle maria », « Lis mon dernier message », « Arrête ».",
       no_speech: "Je n'ai rien entendu. Touchez le micro et parlez juste après.",
       denied: "Le micro est bloqué. Dans Chrome : cadenas à gauche de l'adresse, Autorisations, Micro, Autoriser.",
       network: "La reconnaissance vocale a besoin d'Internet. Réessayez quand vous êtes connecté.",
       busy: "Le micro est déjà utilisé par une autre fonction. Terminez-la, puis réessayez.",
       opening: "J'ouvre {x}", translating: "Traduction vers : {x}", calling: "Je cherche @{x} pour l'appeler (vous confirmerez)",
-      stopped: "Arrêté.", reading: "Je lis le dernier message.", no_msg: "Aucun message reçu dans cette discussion.", no_read: "Ouvrez une discussion dans TALK, puis dites « Lis mon dernier message ».",
+      stopped: "Arrêté.", reading: "Je lis le dernier message.", no_msg: "Aucun message reçu dans cette discussion.", no_read: "Ouvrez une discussion dans la Messagerie, puis dites « Lis mon dernier message ».",
       unknown_lang: "Je ne connais pas la langue « {x} ». Choisissez-la dans Mes langues.",
-      names: { accueil: "l'accueil", talk: "TALK", msg: "la messagerie", everywhere: "EVERYWHERE", learn: "LEARN", profil: "votre profil",
-        parametres: "les paramètres", face: "la conversation côte à côte", appel: "Appeler sur TALK", langues: "Mes langues" } },
+      names: { accueil: "l'accueil", talk: "la messagerie", msg: "la messagerie", everywhere: "Face à face", learn: "Apprendre", profil: "votre profil",
+        parametres: "les paramètres", face: "la conversation côte à côte", appel: "Appeler un contact", langues: "Mes langues" } },
     en: { btn: "Voice command", listening: "Listening…", stop: "Stop", heard: "Understood: “{t}”",
-      not_understood: "I didn't understand “{t}”. Try: “Open TALK”, “Translate to Spanish”, “Call maria”.",
-      help: "You can say: “Open TALK”, “Open messages”, “Open EVERYWHERE”, “Open my profile”, “Translate to Spanish”, “Call maria”, “Read my last message”, “Stop”.",
+      not_understood: "I didn't understand “{t}”. Try: “Open messages”, “Translate to Spanish”, “Call maria”.",
+      help: "You can say: “Open messages”, “Open Face to face”, “Open Learn”, “Open my profile”, “Translate to Spanish”, “Call maria”, “Read my last message”, “Stop”.",
       no_speech: "I didn't hear anything. Tap the microphone and speak right after.",
       denied: "The microphone is blocked. In Chrome: padlock left of the address, Permissions, Microphone, Allow.",
       network: "Voice recognition needs the Internet. Try again when you are online.",
       busy: "The microphone is already in use by another feature. Finish it, then try again.",
       opening: "Opening {x}", translating: "Translating to: {x}", calling: "Looking for @{x} to call (you will confirm)",
-      stopped: "Stopped.", reading: "Reading the last message.", no_msg: "No message received in this chat.", no_read: "Open a chat in TALK, then say “Read my last message”.",
+      stopped: "Stopped.", reading: "Reading the last message.", no_msg: "No message received in this chat.", no_read: "Open a chat in Messages, then say “Read my last message”.",
       unknown_lang: "I don't know the language “{x}”. Choose it in My languages.",
-      names: { accueil: "home", talk: "TALK", msg: "messages", everywhere: "EVERYWHERE", learn: "LEARN", profil: "your profile",
-        parametres: "settings", face: "side-by-side conversation", appel: "Call on TALK", langues: "My languages" } }
+      names: { accueil: "home", talk: "messages", msg: "messages", everywhere: "Face to face", learn: "Learn", profil: "your profile",
+        parametres: "settings", face: "side-by-side conversation", appel: "Call a contact", langues: "My languages" } }
   };
 
   // Langues que l'on peut nommer à voix haute (noms français et anglais) → code de TALK / EVERYWHERE.

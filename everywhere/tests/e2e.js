@@ -161,13 +161,29 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const cur = await page.$eval('#mainnav a[href="#/learn"]', (a) => a.getAttribute("aria-current"));
     return { ok: (await page.evaluate(() => location.hash)) === "#/learn" && cur === "page" };
   });
-  await step("Navigation : Profil (bouton du haut)", async () => {
-    await page.click("#topProfile");
+  await step("Navigation : Compte et appareils (#/profil, ouvert depuis Mon profil)", async () => {
+    await page.goto(URL_EW + "#/profil");
     await page.waitForSelector("#view-profil.active");
     return { ok: (await page.evaluate(() => location.hash)) === "#/profil" };
   });
-  await step("Paramètres par la roue dentée", async () => {
+  await step("Flèche retour en haut : revient à l'écran précédent", async () => {
+    await page.goto(URL_EW + "#/learn");
+    await page.waitForSelector("#view-learn.active");
+    await page.goto(URL_EW + "#/everywhere");
+    await page.waitForSelector("#view-everywhere.active");
+    await page.click("#topBack");
+    await page.waitForSelector("#view-learn.active");
+    return { ok: (await page.evaluate(() => location.hash)) === "#/learn" };
+  });
+  await step("Roue dentée : ouvre « Mon profil » (comme Messenger)", async () => {
     await page.click("#topSettings");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    // Avec un compte : la page « Mon profil » ; sans serveur ici : la Messagerie (inscription), jamais un écran vide.
+    await page.waitForSelector("#netMePanel:not([hidden]), #net.view.active", { timeout: 15000 });
+    return { ok: true, detail: (await page.$("#netMePanel:not([hidden])")) ? "Mon profil ouvert" : "Messagerie ouverte (pas de compte sur ce faux appareil)" };
+  });
+  await step("Paramètres du portail (#/parametres)", async () => {
+    await page.goto(URL_EW + "#/parametres");
     await page.waitForSelector("#view-parametres.active");
     const push = await page.textContent("#pushState");
     return { ok: !!push, detail: "état des appels affiché : « " + push + " »" };
@@ -229,7 +245,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.waitForSelector("#view-accueil.active");
   await step("Profil sans compte : invitation à créer son profil dans TALK", async () => {
     await page.evaluate(() => localStorage.removeItem("lc_net_auth")); // appareil sans compte : seul #/profil reste ouvert
-    await page.click("#topProfile");
+    await page.goto(URL_EW + "#/profil");
     await page.waitForSelector("#profileCard #cxCreate", { timeout: 20000 });
     const txt = await page.textContent("#profileCard");
     return { ok: /pas encore de profil/.test(txt), detail: txt.trim().slice(0, 60) };
@@ -261,7 +277,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const names = await page.$$eval("#appList .app-card b", (n) => n.map((b) => b.textContent));
     await page.goto(URL_EW + "#/app/everywhere");
     await page.waitForSelector("#view-everywhere.active");
-    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN,24/24 AI LAB" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
+    return { ok: names.join(",") === "Messagerie,Face à face,Apprendre,24/24 AI LAB" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
   });
   await step("Pas de défilement horizontal (téléphone, tous les écrans)", async () => {
     const bad = [];
@@ -490,10 +506,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     for (const o of opts) if ((await o.textContent()).trim() === target) { await o.tap(); return; }
     throw new Error("option introuvable : " + target);
   }
-  await step("Hub EVERYWHERE → « Apprendre une langue » → tableau de bord LEARN (modules, invitation à choisir une langue)", async () => {
-    await page.tap("#cardEverywhere");
-    await page.waitForSelector("#view-everywhere.active #ewGoLearn");
-    await page.tap("#ewGoLearn");
+  await step("Barre du bas « Apprendre » → tableau de bord (modules, invitation à choisir une langue)", async () => {
+    await page.tap('#mainnav a[data-nav="learn"]');
     await page.waitForSelector("#view-learn.active #lxStart", { timeout: 10000 });
     const mods = await page.$$eval("#view-learn .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
     const soon = mods.filter((m) => /Bientôt/.test(m));
@@ -715,7 +729,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   ctx = await ewCtx();
   page = await openPortal(ctx, "#/accueil");
   const ewLog = (p, who) => p.$$eval('[data-log="' + who + '"] .tr-line', (n) => n.map((l) => ({ big: l.querySelector(".tr-big-txt").textContent, small: (l.querySelector(".tr-small-txt") || {}).textContent || "" })));
-  await step("Tuile EVERYWHERE de l'accueil → hub EVERYWHERE : traduction (côte à côte, appeler sur TALK, mes langues, configurations) ET accès à LEARN", async () => {
+  await step("Tuile Face à face de l'accueil → hub Face à face : côte à côte, appeler un contact, mes langues, configurations, sans Apprendre", async () => {
     await page.tap("#cardEverywhere");
     await page.waitForSelector("#view-everywhere.active #trGoFace");
     const txt = (await page.textContent("#view-everywhere")).replace(/\s+/g, " ");
@@ -723,18 +737,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const learnBits = await page.$$eval("#view-everywhere .lx-mod, #view-everywhere .lx-lesson", (n) => n.length);
     const links = await page.$$eval("#view-everywhere a[href]", (n) => n.map((a) => a.getAttribute("href")));
     await page.screenshot({ path: path.join(OUT, "everywhere-accueil.png") });
-    return { ok: /Conversation côte à côte/.test(txt) && /Appeler un contact/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && /Apprendre une langue/.test(txt) && cur === "page" && learnBits === 0 &&
-      ["#/everywhere/face", "#/everywhere/appel", "#/learn"].every((h) => links.includes(h)),
+    return { ok: /Conversation côte à côte/.test(txt) && /Appeler un contact/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && !/Apprendre une langue/.test(txt) && cur === "page" && learnBits === 0 &&
+      ["#/everywhere/face", "#/everywhere/appel"].every((h) => links.includes(h)) && !links.includes("#/learn"),
       detail: "liens : " + links.join(", ") };
   });
-  await step("Hub EVERYWHERE : le lien LEARN disparaît dans la conversation côte à côte et revient au retour", async () => {
+  await step("Face à face ne mélange pas Apprendre (aucun lien vers Apprendre dans le hub ni ses écrans)", async () => {
     await page.goto(URL_EW + "#/everywhere/langues");
     await page.waitForSelector("#view-everywhere.active h1");
     const inSub = await page.$("#ewGoLearn");
     await page.goto(URL_EW + "#/everywhere");
-    await page.waitForSelector("#view-everywhere.active #ewGoLearn");
+    await page.waitForSelector("#view-everywhere.active #trGoFace");
     const n = await page.$$eval("#ewGoLearn", (x) => x.length);
-    return { ok: !inSub && n === 1, detail: "un seul lien LEARN, seulement sur le hub" };
+    return { ok: !inSub && n === 0, detail: "aucun lien Apprendre dans Face à face" };
   });
   await step("Mode A : écran coupé en deux, personne 1 en haut, personne 2 en bas, même sens de lecture, un micro chacun", async () => {
     await page.tap("#trGoFace");
