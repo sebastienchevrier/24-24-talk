@@ -138,7 +138,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       sky: getComputedStyle(document.querySelector("#view-accueil .home-head")).backgroundImage,
       talk: getComputedStyle(document.querySelector("#cardTalk .duo-ic")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
       act: getComputedStyle(document.querySelector('#mainnav a[aria-current="page"]') || document.querySelector("#mainnav a")).color }));
-    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
+    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgba(1, 6, 10, 0.82)" /* ambiance Terre de nuit, 20 oct. 2026 */,
       detail: "fond " + c.home + " · barre du bas " + c.nav };
   });
   await step("Accueil : aucune mention de prix, ni compte à rebours ni date de fin (17 oct. 2026)", async () => {
@@ -315,7 +315,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await sleep(500);
     const cacheName = /var CACHE = "([^"]+)"/.exec(fs.readFileSync(path.join(__dirname, "..", "sw.js"), "utf8"))[1];
     const keys = await page.evaluate(async (n) => { const c = await caches.open(n); return (await c.keys()).map((r) => new URL(r.url).pathname); }, cacheName);
-    const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
+    const priv = keys.filter((k) => !/everywhere\/|terre-tech|ambiance-terre|terre-lave/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
   await step("Hors ligne : le portail s'ouvre quand même, avec un bandeau", async () => {
@@ -674,7 +674,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const sw = await page.evaluate(() => { const v = document.querySelector(".view.active"); return v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth; });
     await page.screenshot({ path: path.join(OUT, "learn-grand-texte-sombre.png") });
     await page.evaluate(() => { localStorage.removeItem("ew_prefs"); });
-    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(7, 11, 28)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
+    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && (r.bg === "rgb(7, 11, 28)" || r.bg === "rgba(0, 0, 0, 0)") /* fond transparent : la Terre de nuit dessinée derrière */ && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
   });
   await step("LEARN : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
   await ctx.close();

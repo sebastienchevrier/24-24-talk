@@ -1,0 +1,71 @@
+/* 24/24 ONE WORLD — ambiance « Terre de nuit » (20 oct. 2026), commune à l'appli, au portail et au site.
+   Noir profond, la Terre vue de l'espace avec son horizon turquoise lumineux et des points de lumière.
+   Tout est dessiné en CSS (aucune image) : rien à télécharger, aucun droit d'image. Thème clair inchangé.
+   © 2026 Sébastien Chevrier. Tous droits réservés. */
+html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
+  --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
+  --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
+  --teal:#4dfc8a; --on-primary:#00110f;
+  --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
+  --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
+  --ow-glow:60,250,130;
+}
+@media (prefers-color-scheme: dark){
+  html.theme-auto:not([data-theme="light"]){
+    --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
+    --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
+    --teal:#4dfc8a; --on-primary:#00110f;
+    --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
+    --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
+    --ow-glow:60,250,130;
+  }
+}
+
+/* La Terre vue de l'espace, d'après l'affiche créée par Sébastien Chevrier (terre-lave.webp) : villes reliées par des liens
+   de lumière, soleil de lave sur l'horizon, amis de dos bras dessus bras dessous. En bas de chaque écran, fondue dans le noir
+   vers le haut et assombrie pour que le texte reste lisible. Fixe, derrière tout, sans bloquer le toucher. */
+html[style], html{background:var(--bg);}
+html::before, html::after{content:"";position:fixed;left:0;right:0;pointer-events:none;z-index:-1;}
+html:not([data-theme="light"])::before{
+  --ow-img-h:calc(max(100vw, 64vh) / 1.155);
+  top:0;height:100vh;
+  background:
+    /* fondu vers le noir au-dessus de l'image, et voile pour la lisibilité */
+    linear-gradient(to top, rgba(1,4,9,.22) 0, rgba(1,4,9,.22) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 170px), var(--bg) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 10px)),
+    /* fondu du bas : aucun bord visible sous l'image */
+    linear-gradient(to top, var(--bg) 0, var(--bg) var(--ow-people-gap,62px), transparent calc(var(--ow-people-gap,62px) + 40px)),
+    url("terre-lave.webp") no-repeat center bottom var(--ow-people-gap,62px) / max(100vw, 64vh) auto,
+    /* étoiles */
+    radial-gradient(1px 1px at 12% 8%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.45), transparent 60%),
+    radial-gradient(1px 1px at 44% 14%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(1.5px 1.5px at 90% 18%, rgba(170,255,180,.5), transparent 60%),
+    radial-gradient(1px 1px at 25% 22%, rgba(255,255,255,.3), transparent 60%),
+    var(--bg);
+}
+html:not([data-theme="light"])::after{display:none;}
+@media (prefers-color-scheme: light){ html.theme-auto::before, html.theme-auto::after{display:none;} }
+html.theme-light::before, html.theme-light::after, html[data-theme="light"]::after{display:none;}
+body{background:transparent !important;}
+
+/* Les surfaces laissent deviner la Terre : verre sombre, bord turquoise discret. */
+html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .card, html:not([data-theme="light"]) .tr-big,
+html:not([data-theme="light"]) .net-panel:not(.net-me-page), html:not([data-theme="light"]) .duo-card, html:not([data-theme="light"]) .lx-mod{
+  background:linear-gradient(160deg,rgba(6,26,18,.66),rgba(4,20,12,.62)) !important;border-color:rgba(60,240,150,.22) !important;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{
+  background:linear-gradient(135deg,rgba(150,255,110,.16),rgba(40,230,120,.14)) !important;color:#4dfc8a !important;box-shadow:0 0 18px rgba(50,250,150,.22) !important;
+}
+html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:#4dfc8a !important;}
+/* Barre du bas : verre noir, onglet actif turquoise lumineux. */
+html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(1,6,10,.82) !important;border-top:1px solid rgba(60,240,140,.14) !important;}
+html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:#5dff9e !important;text-shadow:0 0 12px rgba(60,255,150,.55);}
+/* Titres : légère lueur, comme l'horizon. */
+html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 0 22px rgba(60,255,150,.3);}
+/* Boutons principaux : turquoise lumineux. */
+html:not([data-theme="light"]) .primary, html:not([data-theme="light"]) .net-dial, html:not([data-theme="light"]) .net-callbtn, html:not([data-theme="light"]) .install-top-btn, html:not([data-theme="light"]) .btn.primary{
+  background:linear-gradient(135deg,#b4ff6e,#3cf27a 45%,#14c96a) !important;border-color:transparent !important;color:#00110f !important;box-shadow:0 0 22px rgba(60,255,150,.3);
+}
+/* Ancien globe en filigrane de la Messagerie : remplacé par la Terre de nuit. */
+body.net-full::before{display:none !important;}
