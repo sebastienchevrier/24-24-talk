@@ -36,8 +36,8 @@
       login_txt: "Saisissez l'adresse e-mail reliée à votre compte : nous y envoyons un e-mail de connexion.",
       code_lbl: "Si l'e-mail contient un code à 6 chiffres, saisissez-le ici", code_sent: "E-mail envoyé à {e}. Ouvrez-le sur ce téléphone et appuyez sur le lien : il ramène ici, dans Chrome. Pensez à regarder dans les courriers indésirables.", verify: "Valider",
       refresh: "J'ai appuyé sur le lien : actualiser", ret_err: "Le lien de l'e-mail n'a pas fonctionné ({m}). Demandez un nouvel e-mail.", ret_half: "Première confirmation reçue. Confirmez aussi avec le lien envoyé à votre autre adresse.",
-      linked_ok: "C'est fait : votre compte est relié à {e}.", login_ok: "Connecté : bienvenue @{p} !",
-      replace_warn: "Attention : cet appareil a déjà le compte @{p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, @{p} sera perdu définitivement.",
+      linked_ok: "C'est fait : votre compte est relié à {e}.", login_ok: "Connecté : bienvenue {p} !",
+      replace_warn: "Attention : cet appareil a déjà le compte {p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, {p} sera perdu définitivement.",
       replace_ok: "Je comprends, continuer",
       other_account: "Se connecter à un autre compte",
       dev_title: "Mes appareils", dev_this: "Cet appareil", dev_seen: "Vu {d}", dev_since: "Connecté {d}", dev_out: "Déconnecter", dev_out_sure: "Confirmer", dev_out_all: "Déconnecter tous les autres appareils",
@@ -48,7 +48,7 @@
       e_unknown: "Aucun compte n'est relié à cette adresse.", e_rate: "Trop d'e-mails envoyés pour le moment. Réessayez dans une heure.",
       e_notauth: "Site de test : seules les adresses des membres de l'équipe du projet reçoivent les e-mails.",
       e_net: "Pas de connexion. Réessayez.", e_other: "Ça n'a pas marché ({m}). Réessayez.",
-      del_title: "Supprimer mon compte", del_txt: "Votre compte @{p} sera effacé du serveur : pseudo, contacts, conversations, appareils connectés, profil linguistique synchronisé et adresse e-mail reliée. C'est définitif : personne ne pourra le récupérer, pas même l'équipe.",
+      del_title: "Supprimer mon compte", del_txt: "Votre compte {p} sera effacé du serveur : pseudo, contacts, conversations, appareils connectés, profil linguistique synchronisé et adresse e-mail reliée. C'est définitif : personne ne pourra le récupérer, pas même l'équipe.",
       del_local: "Les réglages enregistrés seulement sur cet appareil (préférences, phrases préparées) restent ici ; vous pouvez les effacer dans Paramètres.",
       del_btn: "Supprimer mon compte…", del_type: "Pour confirmer, écrivez votre pseudo : {p}", del_go: "Supprimer définitivement", del_wrong: "Le pseudo ne correspond pas.",
       del_wait: "Suppression en cours…", del_done: "Votre compte a été supprimé du serveur. Cet appareil n'est plus connecté.",
@@ -72,8 +72,8 @@
       login_txt: "Enter the email address linked to your account: we send a sign-in email to it.",
       code_lbl: "If the email contains a 6-digit code, enter it here", code_sent: "Email sent to {e}. Open it on this phone and tap the link: it brings you back here, in Chrome. Check your spam folder too.", verify: "Confirm",
       refresh: "I tapped the link: refresh", ret_err: "The email link didn't work ({m}). Ask for a new email.", ret_half: "First confirmation received. Also confirm with the link sent to your other address.",
-      linked_ok: "Done: your account is linked to {e}.", login_ok: "Signed in: welcome @{p}!",
-      replace_warn: "Warning: this device already has the account @{p}, which isn't linked to any email. If you sign in to another account, @{p} will be lost for good.",
+      linked_ok: "Done: your account is linked to {e}.", login_ok: "Signed in: welcome {p}!",
+      replace_warn: "Warning: this device already has the account {p}, which isn't linked to any email. If you sign in to another account, {p} will be lost for good.",
       replace_ok: "I understand, continue",
       other_account: "Sign in to another account",
       dev_title: "My devices", dev_this: "This device", dev_seen: "Seen {d}", dev_since: "Signed in {d}", dev_out: "Sign out", dev_out_sure: "Confirm", dev_out_all: "Sign out all other devices",
@@ -84,7 +84,7 @@
       e_unknown: "No account is linked to this address.", e_rate: "Too many emails sent for now. Try again in an hour.",
       e_notauth: "Test site: only addresses of the project's team members receive emails.",
       e_net: "No connection. Try again.", e_other: "That didn't work ({m}). Try again.",
-      del_title: "Delete my account", del_txt: "Your account @{p} will be erased from the server: username, contacts, chats, signed-in devices, synced language profile and linked email address. This is final: nobody can recover it, not even the team.",
+      del_title: "Delete my account", del_txt: "Your account {p} will be erased from the server: username, contacts, chats, signed-in devices, synced language profile and linked email address. This is final: nobody can recover it, not even the team.",
       del_local: "Settings saved only on this device (preferences, prepared phrases) stay here; you can erase them in Settings.",
       del_btn: "Delete my account…", del_type: "To confirm, type your username: {p}", del_go: "Delete for good", del_wrong: "The username doesn't match.",
       del_wait: "Deleting…", del_done: "Your account has been deleted from the server. This device is no longer signed in.",
@@ -325,7 +325,7 @@
       return c.auth.getUser().then(function (u) { if (u && u.data && u.data.user) user = u.data.user; }, function () { /* on garde la session */ });
     }).then(function () {
       if (!user) return null;
-      return c.from("profiles").select("id,pseudo,lang").eq("id", user.id).maybeSingle().then(function (p) {
+      return c.from("profiles").select("id,pseudo,lang,nom").eq("id", user.id).maybeSingle().then(function (p) {
         if (p.error) throw p.error;
         return p.data;
       });
@@ -368,10 +368,10 @@
     var l = LANG_NAMES[prof.lang] || String(prof.lang || "").toUpperCase();
     var email = user.email || "", pending = user.new_email || "";
     var secured = !!email && user.is_anonymous !== true;
-    var html = noteHtml(opts) + (opts.flash === "login" ? '<p class="cx-msg ok" role="status">' + esc(t("login_ok", { p: prof.pseudo })) + "</p>" : "") +
+    var html = noteHtml(opts) + (opts.flash === "login" ? '<p class="cx-msg ok" role="status">' + esc(t("login_ok", { p: prof.nom || prof.pseudo })) + "</p>" : "") +
       (opts.flash === "linked" ? '<p class="cx-msg ok" role="status">' + esc(t("linked_ok", { e: maskEmail(email || pending) })) + "</p>" : "") +
-      '<div class="profile-head"><span class="avatar" aria-hidden="true">' + esc(prof.pseudo.charAt(0).toUpperCase()) + "</span>" +
-      '<span><b dir="ltr">@' + esc(prof.pseudo) + '</b><span class="muted">' + esc(t("lang", { l: l })) + "</span></span></div>" +
+      '<div class="profile-head"><span class="avatar" aria-hidden="true">' + esc((prof.nom || prof.pseudo).charAt(0).toUpperCase()) + "</span>" +
+      '<span><b dir="auto">' + esc(prof.nom || prof.pseudo) + '</b><span class="muted">' + esc(t("lang", { l: l })) + "</span></span></div>" +
       '<button type="button" class="btn primary wide" id="cxChats">' + esc(t("chats")) + "</button>" +
       '<section class="cx-sec"><h2 class="cx-h">' + esc(t("sec_title")) + "</h2>";
     if (secured) html += '<p class="cx-ok">✅ ' + esc(t("sec_yes", { e: maskEmail(email) })) + '</p><p class="muted">' + esc(t("sync")) + "</p>";

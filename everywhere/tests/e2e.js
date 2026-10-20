@@ -98,10 +98,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await ictx.addInitScript(() => { try { if (!sessionStorage.getItem("e2e_i")) { sessionStorage.setItem("e2e_i", "1"); localStorage.setItem("fake_sb", JSON.stringify({ session: false, email: "", new_email: "", anon: true, pending: "", devices: [] })); } } catch (e) {} });
     const ip = await ictx.newPage();
     await ip.goto(ORIGIN + BASE + "?ajouter=kenji");
-    await step("Invitation sans compte : « @kenji vous attend » sur l'inscription (le lien garde l'invitation)", async () => {
+    await step("Invitation sans compte : inscription sans bandeau, le lien garde l'invitation", async () => {
       await ip.waitForSelector("#netPseudo", { timeout: 20000 });
       const txt = await ip.textContent("#net");
-      return { ok: /@kenji vous attend/.test(txt), detail: (txt.match(/@kenji[^.]*\./) || ["absent"])[0] };
+      const pend = await ip.evaluate(() => localStorage.getItem("lc_net_pending") || "");
+      return { ok: !/vous attend/.test(txt) && /kenji/.test(pend), detail: "pas de bandeau, invitation gardée : " + pend };
     });
     await step("Démo d'inscription : phrase écrite en français, lue dans une autre langue, bouton 🔊, change toute seule", async () => {
       const a1 = await ip.$eval("#owDemo", (b) => ({ src: b.querySelector(".ow-demo-row .ow-demo-txt").textContent, l: b.dataset.lang, play: !!b.querySelector("#owDemoPlay") }));
@@ -120,7 +121,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const h1 = await page.$eval("#h-accueil", (e) => e.innerText.replace(/\s+/g, " ").trim());
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#view-accueil a.duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
-    const want = [["TALK", /Messages et appels traduits/], ["FACE À FACE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
+    const want = [["MESSAGERIE", /Messages et appels traduits/], ["FACE À FACE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
     const ok = h1 === "One world. Every voice." && lead === "Le monde se parle. Enfin." && cards.length === 4 &&
       want.every((w, i) => cards[i].t === w[0] && w[1].test(cards[i].d)) && cards.every((c) => c.w >= 330 && c.h >= 72);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
@@ -326,7 +327,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ctx.addInitScript(() => { try { localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } catch (e) {} });
   page = await openPortal(ctx, "#/profil");
   await step("Profil connecté : pseudo et langue lus dans TALK (pas de copie)", async () => {
-    await page.waitForFunction(() => /@sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 25000 });
+    await page.waitForFunction(() => /sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 25000 });
     const txt = (await page.textContent("#profileCard")).trim();
     const keys = await page.evaluate(() => Object.keys(localStorage));
     const copies = keys.filter((k) => /^ew/i.test(k));
@@ -398,7 +399,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#cxCode");
     await page.fill("#cxCode", "123456");
     await page.click("#cxVerify");
-    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    await page.waitForFunction(() => /Connecté : bienvenue sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
     const joined = await page.evaluate(() => localStorage.getItem("lc_net_joined"));
     return { ok: joined === "1" && /Compte sécurisé/.test(await card(page)), detail: "TALK se reconnectera à ce compte" };
   });
@@ -422,7 +423,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   ctx = await newCtx({}, true);
   page = await openPortal(ctx, "#access_token=aaa.bbb.ccc&expires_in=3600&refresh_token=rrr&token_type=bearer&type=magiclink");
   await step("Lien de l'e-mail (nouvel appareil) : compte retrouvé, jeton effacé de l'adresse", async () => {
-    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    await page.waitForFunction(() => /Connecté : bienvenue sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
     const r = await page.evaluate(() => ({ h: location.hash, j: localStorage.getItem("lc_net_joined") }));
     return { ok: r.h === "#/profil" && r.j === "1" && !page._errors.length, detail: "adresse : " + r.h };
   });
@@ -722,7 +723,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const learnBits = await page.$$eval("#view-everywhere .lx-mod, #view-everywhere .lx-lesson", (n) => n.length);
     const links = await page.$$eval("#view-everywhere a[href]", (n) => n.map((a) => a.getAttribute("href")));
     await page.screenshot({ path: path.join(OUT, "everywhere-accueil.png") });
-    return { ok: /Conversation côte à côte/.test(txt) && /Appeler sur TALK/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && /Apprendre une langue/.test(txt) && cur === "page" && learnBits === 0 &&
+    return { ok: /Conversation côte à côte/.test(txt) && /Appeler un contact/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && /Apprendre une langue/.test(txt) && cur === "page" && learnBits === 0 &&
       ["#/everywhere/face", "#/everywhere/appel", "#/learn"].every((h) => links.includes(h)),
       detail: "liens : " + links.join(", ") };
   });
@@ -940,7 +941,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.fill("#trSearch", "mar");
     const filtered = await page.$$eval(".tr-ct b", (n) => n.map((b) => b.textContent));
     await page.fill("#trSearch", "");
-    return { ok: names.join() === "@kenji,@maria" && filtered.join() === "@maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
+    return { ok: names.join() === "kenji,maria" && filtered.join() === "maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
   });
   await step("Inviter un contact : le lien TALK (?ajouter=<mon pseudo>) part par le partage du téléphone", async () => {
     await page.tap("#trInvite");
@@ -966,7 +967,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const cl = await page.evaluate(() => localStorage.getItem("lc_convlang_aaaaaaaa-0000-4000-8000-000000000001"));
     const url = page.url();
     await page.screenshot({ path: path.join(OUT, "everywhere-appel-dans-talk.png") });
-    return { ok: /Sonnerie chez @kenji/.test(txt) && JSON.parse(cl).read === "en" && !/ew_appel/.test(url), detail: "« Sonnerie chez @kenji… », langue de lecture : anglais, adresse nettoyée" };
+    return { ok: /Sonnerie chez kenji/.test(txt) && JSON.parse(cl).read === "en" && !/ew_appel/.test(url), detail: "« Sonnerie chez @kenji… », langue de lecture : anglais, adresse nettoyée" };
   });
   await step("Fin de l'appel : retour dans EVERYWHERE (Appeler sur TALK)", async () => {
     await page.tap("#netHangup");

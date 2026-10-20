@@ -405,6 +405,18 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .ow-demo-play{flex:none;min-width:44px;min-height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.08);color:inherit;font-size:18px;}
   .ow-demo-cap{margin:10px 0 0;font-size:13px;color:var(--muted);text-align:center;}
   @media (prefers-reduced-motion: reduce){ .ow-demo-out .ow-demo-txt{transition:none;} }
+  /* Inscription : tout tient sur un écran de téléphone (barre du bas inutile sans compte). */
+  body.ob-on .bbar{display:none;}
+  body.ob-on .ow-welcome{padding:6px 8px 6px;}
+  body.ob-on .ow-welcome img{width:52px;height:52px;}
+  body.ob-on .ow-welcome h1{font-size:28px;margin:2px 0;}
+  body.ob-on .ow-welcome-eyebrow{margin:4px 0 2px;}
+  body.ob-on .ow-demo{margin:2px auto 10px;padding:8px 12px;}
+  body.ob-on .ow-demo-cap{margin-top:4px;}
+  body.ob-on .ob-bar{margin:0 0 12px;}
+  body.ob-on .ob-t{font-size:24px;margin-bottom:4px;}
+  body.ob-on .ob-d{margin-bottom:12px;}
+  body.ob-on .ob-go{margin-top:16px;padding:14px;}
   .ob{max-width:520px;margin:0 auto;padding:4px 4px 8px;}
   .ob-bar{display:flex;gap:6px;margin:4px 0 22px;}
   .ob-bar span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .3s;}
@@ -484,7 +496,11 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-row-when{flex:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
   .net-row-l2{display:flex;align-items:center;gap:6px;min-width:0;}
   .net-row-l2 .net-conv-prev{flex:1;min-width:0;font-size:14px;}
-  .net-row-flag{flex:none;font-size:14px;line-height:1;}
+  .net-indep{margin:-4px 0 12px;font-size:13.5px;line-height:1.35;color:var(--muted);}
+  .net-row-you{flex:none;color:var(--muted);font-size:inherit;}
+  .net-row-seen{flex:none;width:18px;height:18px;border-radius:50%;overflow:hidden;display:inline-flex;}
+  .net-row-seen .net-av{width:18px !important;height:18px !important;font-size:9px !important;border-width:0 !important;}
+  .net-row-l2 .net-conv-prev{color:var(--muted);}
   .net-row-count{flex:none;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--blue);color:#fff;
     font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
   .net-row.unread .net-row-l1 b,.net-row.unread .net-conv-prev{color:var(--text);font-weight:700;}
@@ -582,8 +598,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-sendbtn{border:0;background:var(--cta);color:var(--cta-ink);cursor:pointer;}
   .net-sendbtn svg{width:21px;height:21px;}
   .net-chat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-  .net-chat-title{display:flex;flex-direction:column;min-width:0;}
-  .net-chat-title b{font-size:16px;}
+  .net-chat-title{display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+  .net-chat-title b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .net-chat-title span{font-size:12.5px;color:var(--muted);}
   .net-actions{margin:0 0 10px;}
   .net-callbtn{background:var(--ok);border-color:var(--ok);color:#0b0e1a;font-weight:700;}
@@ -6019,7 +6035,7 @@ const NET_STRINGS = {
     net_cl_reset: "Revenir à ma langue habituelle",
     net_seen: "Vu",
     net_sent: "Envoyé",
-    net_typing: "@{p} est en train d'écrire…",
+    net_typing: "{p} est en train d'écrire…",
     net_m_original: "Voir l'original",
     net_m_translation: "Voir la traduction",
     net_m_del_all: "🗑 Supprimer pour tout le monde",
@@ -6030,7 +6046,7 @@ const NET_STRINGS = {
     net_more: "⋯ Plus",
     net_cancel: "Annuler",
     net_m_deleted: "Message supprimé.",
-    net_in_voice: "En communication avec @{p}",
+    net_in_voice: "En communication avec {p}",
     net_mode_voice: "Voix réelle",
     net_voice_live: "🗣 Voix réelle : vous vous entendez directement, sans traduction.",
     net_voice_connecting: "Connexion de la voix…",
@@ -6050,14 +6066,17 @@ const NET_STRINGS = {
     net_setup_title: "Créez votre compte",
     net_setup_text: "Un pseudo, votre langue et un e-mail confirmé : pas de numéro de téléphone. Vos contacts lisent vos messages déjà traduits dans leur langue.",
     net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
-    net_invited: "@{p} vous attend. Écrivez dans votre langue, @{p} lira dans la sienne.",
-    net_pseudo_ph: "pseudo (ex. : sebastien974)",
-    net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point, _ ou -",
+    net_invited: "{p} vous attend. Écrivez dans votre langue, {p} lira dans la sienne.",
+    net_pseudo_ph: "ex. : Sébastien Chevrier",
+    net_pseudo_rule: "Votre prénom et votre nom, comme vous voulez qu'on vous voie.",
     net_my_lang: "Ma langue",
     net_age_html: "J'ai 15 ans ou plus et j'accepte les <a class=\"link\" href=\"cgu.html\">CGU</a>.",
     net_create: "Créer mon profil",
     net_pseudo_taken: "Ce pseudo est déjà pris, choisissez-en un autre.",
-    net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point, _ ou -.",
+    net_pseudo_bad: "Écrivez votre nom (2 à 40 caractères).",
+    net_rename: "✏️ Changer mon nom",
+    net_rename_q: "Votre nom :",
+    net_rename_ok: "Nom changé.",
     net_age_needed: "Cochez la case pour continuer.",
     ob_pseudo_t: "Votre nom sur le réseau",
     ob_pseudo_d: "C'est ainsi que le monde vous trouvera.",
@@ -6144,28 +6163,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Choisir une photo",
     net_avatar_pick: "😀 Choisir un avatar",
     net_avatar_title: "Choisissez votre avatar",
-    net_profile_see: "Voir le profil de @{p}",
+    net_profile_see: "Voir le profil de {p}",
     net_delete: "Supprimer mon compte réseau",
     net_delete_confirm: "Appuyez encore : profil et messages supprimés",
     net_deleted: "Votre compte réseau a été supprimé.",
     net_voice_badge: "🎙 message vocal",
-    net_ringing: "Sonnerie chez @{p}…",
-    net_incoming: "📞 @{p} vous appelle (appel traduit)",
+    net_ringing: "Sonnerie chez {p}…",
+    net_incoming: "📞 {p} vous appelle (appel traduit)",
     net_accept: "Répondre",
     net_decline: "Refuser",
     net_hangup: "Raccrocher",
     net_mute: "Sourdine",
     net_speaker: "Haut-parleur",
-    net_remote_muted: "🔇 @{p} a coupé son micro",
+    net_remote_muted: "🔇 {p} a coupé son micro",
     net_you_muted: "🔇 Votre micro est coupé",
-    net_in_call: "Appel traduit avec @{p} : parlez, il vous entend dans sa langue.",
-    net_call_declined: "@{p} a refusé l'appel.",
+    net_in_call: "Appel traduit avec {p} : parlez, il vous entend dans sa langue.",
+    net_call_declined: "{p} a refusé l'appel.",
     net_call_noanswer: "Pas de réponse.",
-    net_call_busy: "@{p} est déjà en appel.",
+    net_call_busy: "{p} est déjà en appel.",
     net_call_ended: "Appel terminé.",
     net_call_type_ph: "Ou écrivez ici…",
     net_call_mic_off: "Micro indisponible : écrivez vos phrases, votre contact les entendra traduites.",
     net_you: "Vous",
+    net_indep: "Un réseau libre et indépendant",
     net_deleted_user: "compte supprimé",
     home_phone: "Téléphone",
     home_phone_sub: "Appels traduits",
@@ -6193,7 +6213,7 @@ const NET_STRINGS = {
     net_call_btn: "Appeler",
     net_unread: "{n} non lus",
     net_add_contact: "Ajouter",
-    net_added: "@{p} est dans vos contacts.",
+    net_added: "{p} est dans vos contacts.",
     tr_label: "Traduction",
     tr_on: "Avec traduction",
     tr_off: "Sans traduction",
@@ -6213,7 +6233,7 @@ const NET_STRINGS = {
     net_cl_reset: "Back to my usual language",
     net_seen: "Seen",
     net_sent: "Sent",
-    net_typing: "@{p} is typing…",
+    net_typing: "{p} is typing…",
     net_m_original: "Show original",
     net_m_translation: "Show translation",
     net_m_del_all: "🗑 Unsend for everyone",
@@ -6224,7 +6244,7 @@ const NET_STRINGS = {
     net_more: "⋯ More",
     net_cancel: "Cancel",
     net_m_deleted: "Message deleted.",
-    net_in_voice: "On a call with @{p}",
+    net_in_voice: "On a call with {p}",
     net_mode_voice: "Real voice",
     net_voice_live: "🗣 Real voice: you hear each other directly, without translation.",
     net_voice_connecting: "Connecting the voice…",
@@ -6244,14 +6264,17 @@ const NET_STRINGS = {
     net_setup_title: "Create your account",
     net_setup_text: "A username, your language and a confirmed email: no phone number. Your contacts read your messages already translated into their language.",
     net_have_account: "I already have an account (code by email)",
-    net_invited: "@{p} is waiting for you. Write in your language, @{p} will read in theirs.",
-    net_pseudo_ph: "username (e.g. sebastien974)",
-    net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot, _ or -",
+    net_invited: "{p} is waiting for you. Write in your language, {p} will read in theirs.",
+    net_pseudo_ph: "e.g. Sébastien Chevrier",
+    net_pseudo_rule: "Your first and last name, as you want others to see you.",
     net_my_lang: "My language",
     net_age_html: "I am 15 or older and I accept the <a class=\"link\" href=\"cgu.html\">Terms</a>.",
     net_create: "Create my profile",
     net_pseudo_taken: "This username is taken, please choose another one.",
-    net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot, _ or -.",
+    net_pseudo_bad: "Type your name (2 to 40 characters).",
+    net_rename: "✏️ Change my name",
+    net_rename_q: "Your name:",
+    net_rename_ok: "Name changed.",
     net_age_needed: "Tick the box to continue.",
     ob_pseudo_t: "Your name on the network",
     ob_pseudo_d: "This is how the world will find you.",
@@ -6338,28 +6361,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Choose a photo",
     net_avatar_pick: "😀 Choose an avatar",
     net_avatar_title: "Choose your avatar",
-    net_profile_see: "See @{p}'s profile",
+    net_profile_see: "See {p}'s profile",
     net_delete: "Delete my network account",
     net_delete_confirm: "Tap again: profile and messages deleted",
     net_deleted: "Your network account has been deleted.",
     net_voice_badge: "🎙 voice message",
-    net_ringing: "Ringing @{p}…",
-    net_incoming: "📞 @{p} is calling you (translated call)",
+    net_ringing: "Ringing {p}…",
+    net_incoming: "📞 {p} is calling you (translated call)",
     net_accept: "Answer",
     net_decline: "Decline",
     net_hangup: "Hang up",
     net_mute: "Mute",
     net_speaker: "Speaker",
-    net_remote_muted: "🔇 @{p} muted their mic",
+    net_remote_muted: "🔇 {p} muted their mic",
     net_you_muted: "🔇 Your mic is muted",
-    net_in_call: "Translated call with @{p}: speak, they hear you in their language.",
-    net_call_declined: "@{p} declined the call.",
+    net_in_call: "Translated call with {p}: speak, they hear you in their language.",
+    net_call_declined: "{p} declined the call.",
     net_call_noanswer: "No answer.",
-    net_call_busy: "@{p} is already on a call.",
+    net_call_busy: "{p} is already on a call.",
     net_call_ended: "Call ended.",
     net_call_type_ph: "Or type here…",
     net_call_mic_off: "Microphone unavailable: type your sentences, your contact will hear them translated.",
     net_you: "You",
+    net_indep: "A free, independent network",
     net_deleted_user: "deleted account",
     home_phone: "Phone",
     home_phone_sub: "Translated calls",
@@ -6387,7 +6411,7 @@ const NET_STRINGS = {
     net_call_btn: "Call",
     net_unread: "{n} unread",
     net_add_contact: "Add",
-    net_added: "@{p} is now in your contacts.",
+    net_added: "{p} is now in your contacts.",
     tr_label: "Translation",
     tr_on: "With translation",
     tr_off: "Without translation",
@@ -6407,7 +6431,7 @@ const NET_STRINGS = {
     net_cl_reset: "Volver a mi idioma habitual",
     net_seen: "Visto",
     net_sent: "Enviado",
-    net_typing: "@{p} está escribiendo…",
+    net_typing: "{p} está escribiendo…",
     net_m_original: "Ver el original",
     net_m_translation: "Ver la traducción",
     net_m_del_all: "🗑 Eliminar para todos",
@@ -6418,7 +6442,7 @@ const NET_STRINGS = {
     net_more: "⋯ Más",
     net_cancel: "Cancelar",
     net_m_deleted: "Mensaje eliminado.",
-    net_in_voice: "En llamada con @{p}",
+    net_in_voice: "En llamada con {p}",
     net_mode_voice: "Voz real",
     net_voice_live: "🗣 Voz real: os oís directamente, sin traducción.",
     net_voice_connecting: "Conectando la voz…",
@@ -6437,14 +6461,17 @@ const NET_STRINGS = {
     net_retry: "Reintentar",
     net_setup_title: "Crea tu cuenta",
     net_setup_text: "Un nombre de usuario, tu idioma y un correo confirmado: sin número de teléfono. Tus contactos leen tus mensajes ya traducidos a su idioma.",
-    net_invited: "@{p} te espera. Escribe en tu idioma, @{p} leerá en el suyo.",
-    net_pseudo_ph: "usuario (ej.: sebastien974)",
-    net_pseudo_rule: "De 3 a 20 caracteres: minúsculas, cifras, punto o _, -",
+    net_invited: "{p} te espera. Escribe en tu idioma, {p} leerá en el suyo.",
+    net_pseudo_ph: "ej.: Sébastien Chevrier",
+    net_pseudo_rule: "Tu nombre y apellido, como quieres que te vean.",
     net_my_lang: "Mi idioma",
     net_age_html: "Tengo 15 años o más y acepto las <a class=\"link\" href=\"cgu.html\">Condiciones</a>.",
     net_create: "Crear mi perfil",
     net_pseudo_taken: "Este usuario ya existe, elige otro.",
-    net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _, -.",
+    net_pseudo_bad: "Escribe tu nombre (de 2 a 40 caracteres).",
+    net_rename: "✏️ Cambiar mi nombre",
+    net_rename_q: "Tu nombre:",
+    net_rename_ok: "Nombre cambiado.",
     net_age_needed: "Marca la casilla para continuar.",
     ob_pseudo_t: "Tu nombre en la red",
     ob_pseudo_d: "Así te encontrará el mundo.",
@@ -6529,28 +6556,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Elegir una foto",
     net_avatar_pick: "😀 Elegir un avatar",
     net_avatar_title: "Elige tu avatar",
-    net_profile_see: "Ver el perfil de @{p}",
+    net_profile_see: "Ver el perfil de {p}",
     net_delete: "Eliminar mi cuenta de la red",
     net_delete_confirm: "Pulsa otra vez: perfil y mensajes eliminados",
     net_deleted: "Tu cuenta de la red se ha eliminado.",
     net_voice_badge: "🎙 mensaje de voz",
-    net_ringing: "Llamando a @{p}…",
-    net_incoming: "📞 @{p} te llama (llamada traducida)",
+    net_ringing: "Llamando a {p}…",
+    net_incoming: "📞 {p} te llama (llamada traducida)",
     net_accept: "Responder",
     net_decline: "Rechazar",
     net_hangup: "Colgar",
     net_mute: "Silenciar",
     net_speaker: "Altavoz",
-    net_remote_muted: "🔇 @{p} ha silenciado su micro",
+    net_remote_muted: "🔇 {p} ha silenciado su micro",
     net_you_muted: "🔇 Tu micro está silenciado",
-    net_in_call: "Llamada traducida con @{p}: habla, te oye en su idioma.",
-    net_call_declined: "@{p} ha rechazado la llamada.",
+    net_in_call: "Llamada traducida con {p}: habla, te oye en su idioma.",
+    net_call_declined: "{p} ha rechazado la llamada.",
     net_call_noanswer: "Sin respuesta.",
-    net_call_busy: "@{p} ya está en una llamada.",
+    net_call_busy: "{p} ya está en una llamada.",
     net_call_ended: "Llamada terminada.",
     net_call_type_ph: "O escribe aquí…",
     net_call_mic_off: "Micrófono no disponible: escribe tus frases, tu contacto las oirá traducidas.",
     net_you: "Tú",
+    net_indep: "Una red libre e independiente",
     net_deleted_user: "cuenta eliminada",
     home_phone: "Teléfono",
     home_phone_sub: "Llamadas traducidas",
@@ -6578,7 +6606,7 @@ const NET_STRINGS = {
     net_call_btn: "Llamar",
     net_unread: "{n} sin leer",
     net_add_contact: "Añadir",
-    net_added: "@{p} ya está en tus contactos.",
+    net_added: "{p} ya está en tus contactos.",
     tr_label: "Traducción",
     tr_on: "Con traducción",
     tr_off: "Sin traducción",
@@ -6598,7 +6626,7 @@ const NET_STRINGS = {
     net_cl_reset: "Voltar ao meu idioma habitual",
     net_seen: "Visto",
     net_sent: "Enviado",
-    net_typing: "@{p} está digitando…",
+    net_typing: "{p} está digitando…",
     net_m_original: "Ver o original",
     net_m_translation: "Ver a tradução",
     net_m_del_all: "🗑 Apagar para todos",
@@ -6609,7 +6637,7 @@ const NET_STRINGS = {
     net_more: "⋯ Mais",
     net_cancel: "Cancelar",
     net_m_deleted: "Mensagem apagada.",
-    net_in_voice: "Em chamada com @{p}",
+    net_in_voice: "Em chamada com {p}",
     net_mode_voice: "Voz real",
     net_voice_live: "🗣 Voz real: vocês se ouvem diretamente, sem tradução.",
     net_voice_connecting: "Conectando a voz…",
@@ -6628,14 +6656,17 @@ const NET_STRINGS = {
     net_retry: "Tentar novamente",
     net_setup_title: "Crie a sua conta",
     net_setup_text: "Um nome de utilizador, o seu idioma e um e-mail confirmado: sem número de telefone. Os seus contactos leem as suas mensagens já traduzidas no idioma deles.",
-    net_invited: "@{p} está à tua espera. Escreve na tua língua, @{p} vai ler na sua.",
-    net_pseudo_ph: "utilizador (ex.: sebastien974)",
-    net_pseudo_rule: "3 a 20 caracteres: letras minúsculas, algarismos, ponto ou _, -",
+    net_invited: "{p} está à tua espera. Escreve na tua língua, {p} vai ler na sua.",
+    net_pseudo_ph: "ex.: Sébastien Chevrier",
+    net_pseudo_rule: "O seu nome e apelido, como quer que o vejam.",
     net_my_lang: "O meu idioma",
     net_age_html: "Tenho 15 anos ou mais e aceito os <a class=\"link\" href=\"cgu.html\">Termos</a>.",
     net_create: "Criar o meu perfil",
     net_pseudo_taken: "Este nome já está em uso, escolha outro.",
-    net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _, -.",
+    net_pseudo_bad: "Escreva o seu nome (2 a 40 caracteres).",
+    net_rename: "✏️ Mudar o meu nome",
+    net_rename_q: "O seu nome:",
+    net_rename_ok: "Nome alterado.",
     net_age_needed: "Marque a caixa para continuar.",
     ob_pseudo_t: "O seu nome na rede",
     ob_pseudo_d: "É assim que o mundo o vai encontrar.",
@@ -6720,28 +6751,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Escolher uma foto",
     net_avatar_pick: "😀 Escolher um avatar",
     net_avatar_title: "Escolha seu avatar",
-    net_profile_see: "Ver o perfil de @{p}",
+    net_profile_see: "Ver o perfil de {p}",
     net_delete: "Eliminar a minha conta da rede",
     net_delete_confirm: "Toque outra vez: perfil e mensagens eliminados",
     net_deleted: "A sua conta da rede foi eliminada.",
     net_voice_badge: "🎙 mensagem de voz",
-    net_ringing: "A chamar @{p}…",
-    net_incoming: "📞 @{p} está a ligar (chamada traduzida)",
+    net_ringing: "A chamar {p}…",
+    net_incoming: "📞 {p} está a ligar (chamada traduzida)",
     net_accept: "Atender",
     net_decline: "Recusar",
     net_hangup: "Desligar",
     net_mute: "Silêncio",
     net_speaker: "Altifalante",
-    net_remote_muted: "🔇 @{p} desligou o microfone",
+    net_remote_muted: "🔇 {p} desligou o microfone",
     net_you_muted: "🔇 O seu microfone está desligado",
-    net_in_call: "Chamada traduzida com @{p}: fale, ele ouve no idioma dele.",
-    net_call_declined: "@{p} recusou a chamada.",
+    net_in_call: "Chamada traduzida com {p}: fale, ele ouve no idioma dele.",
+    net_call_declined: "{p} recusou a chamada.",
     net_call_noanswer: "Sem resposta.",
-    net_call_busy: "@{p} já está numa chamada.",
+    net_call_busy: "{p} já está numa chamada.",
     net_call_ended: "Chamada terminada.",
     net_call_type_ph: "Ou escreva aqui…",
     net_call_mic_off: "Microfone indisponível: escreva as suas frases, o seu contacto vai ouvi-las traduzidas.",
     net_you: "Você",
+    net_indep: "Uma rede livre e independente",
     net_deleted_user: "conta eliminada",
     home_phone: "Telefone",
     home_phone_sub: "Chamadas traduzidas",
@@ -6769,7 +6801,7 @@ const NET_STRINGS = {
     net_call_btn: "Ligar",
     net_unread: "{n} não lidas",
     net_add_contact: "Adicionar",
-    net_added: "@{p} agora está nos seus contatos.",
+    net_added: "{p} agora está nos seus contatos.",
     tr_label: "Tradução",
     tr_on: "Com tradução",
     tr_off: "Sem tradução",
@@ -6789,7 +6821,7 @@ const NET_STRINGS = {
     net_cl_reset: "Zurück zu meiner üblichen Sprache",
     net_seen: "Gesehen",
     net_sent: "Gesendet",
-    net_typing: "@{p} schreibt…",
+    net_typing: "{p} schreibt…",
     net_m_original: "Original anzeigen",
     net_m_translation: "Übersetzung anzeigen",
     net_m_del_all: "🗑 Für alle löschen",
@@ -6800,7 +6832,7 @@ const NET_STRINGS = {
     net_more: "⋯ Mehr",
     net_cancel: "Abbrechen",
     net_m_deleted: "Nachricht gelöscht.",
-    net_in_voice: "Im Gespräch mit @{p}",
+    net_in_voice: "Im Gespräch mit {p}",
     net_mode_voice: "Echte Stimme",
     net_voice_live: "🗣 Echte Stimme: Ihr hört euch direkt, ohne Übersetzung.",
     net_voice_connecting: "Stimme wird verbunden…",
@@ -6819,14 +6851,17 @@ const NET_STRINGS = {
     net_retry: "Erneut versuchen",
     net_setup_title: "Erstelle dein Konto",
     net_setup_text: "Ein Benutzername, deine Sprache und eine bestätigte E-Mail: keine Telefonnummer. Deine Kontakte lesen deine Nachrichten schon übersetzt in ihrer Sprache.",
-    net_invited: "@{p} wartet auf dich. Schreib in deiner Sprache, @{p} liest in seiner.",
-    net_pseudo_ph: "Benutzername (z. B. sebastien974)",
-    net_pseudo_rule: "3 bis 20 Zeichen: Kleinbuchstaben, Ziffern, Punkt oder _, -",
+    net_invited: "{p} wartet auf dich. Schreib in deiner Sprache, {p} liest in seiner.",
+    net_pseudo_ph: "z. B. Sébastien Chevrier",
+    net_pseudo_rule: "Vor- und Nachname, so wie andere dich sehen sollen.",
     net_my_lang: "Meine Sprache",
     net_age_html: "Ich bin mindestens 15 Jahre alt und akzeptiere die <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a>.",
     net_create: "Profil erstellen",
     net_pseudo_taken: "Dieser Benutzername ist vergeben, bitte wähle einen anderen.",
-    net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _, -.",
+    net_pseudo_bad: "Gib deinen Namen ein (2 bis 40 Zeichen).",
+    net_rename: "✏️ Namen ändern",
+    net_rename_q: "Dein Name:",
+    net_rename_ok: "Name geändert.",
     net_age_needed: "Setze das Häkchen, um fortzufahren.",
     ob_pseudo_t: "Dein Name im Netzwerk",
     ob_pseudo_d: "So findet dich die Welt.",
@@ -6911,28 +6946,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Foto wählen",
     net_avatar_pick: "😀 Avatar wählen",
     net_avatar_title: "Wählen Sie Ihren Avatar",
-    net_profile_see: "Profil von @{p} ansehen",
+    net_profile_see: "Profil von {p} ansehen",
     net_delete: "Mein Netzwerkkonto löschen",
     net_delete_confirm: "Nochmal tippen: Profil und Nachrichten gelöscht",
     net_deleted: "Dein Netzwerkkonto wurde gelöscht.",
     net_voice_badge: "🎙 Sprachnachricht",
-    net_ringing: "Es klingelt bei @{p}…",
-    net_incoming: "📞 @{p} ruft dich an (übersetzter Anruf)",
+    net_ringing: "Es klingelt bei {p}…",
+    net_incoming: "📞 {p} ruft dich an (übersetzter Anruf)",
     net_accept: "Annehmen",
     net_decline: "Ablehnen",
     net_hangup: "Auflegen",
     net_mute: "Stumm",
     net_speaker: "Lautsprecher",
-    net_remote_muted: "🔇 @{p} hat das Mikrofon stummgeschaltet",
+    net_remote_muted: "🔇 {p} hat das Mikrofon stummgeschaltet",
     net_you_muted: "🔇 Dein Mikrofon ist stumm",
-    net_in_call: "Übersetzter Anruf mit @{p}: Sprich, er hört dich in seiner Sprache.",
-    net_call_declined: "@{p} hat den Anruf abgelehnt.",
+    net_in_call: "Übersetzter Anruf mit {p}: Sprich, er hört dich in seiner Sprache.",
+    net_call_declined: "{p} hat den Anruf abgelehnt.",
     net_call_noanswer: "Keine Antwort.",
-    net_call_busy: "@{p} telefoniert bereits.",
+    net_call_busy: "{p} telefoniert bereits.",
     net_call_ended: "Anruf beendet.",
     net_call_type_ph: "Oder hier tippen…",
     net_call_mic_off: "Mikrofon nicht verfügbar: Tippe deine Sätze, dein Kontakt hört sie übersetzt.",
     net_you: "Du",
+    net_indep: "Ein freies, unabhängiges Netzwerk",
     net_deleted_user: "Konto gelöscht",
     home_phone: "Telefon",
     home_phone_sub: "Übersetzte Anrufe",
@@ -6960,7 +6996,7 @@ const NET_STRINGS = {
     net_call_btn: "Anrufen",
     net_unread: "{n} ungelesen",
     net_add_contact: "Hinzufügen",
-    net_added: "@{p} ist jetzt in deinen Kontakten.",
+    net_added: "{p} ist jetzt in deinen Kontakten.",
     tr_label: "Übersetzung",
     tr_on: "Mit Übersetzung",
     tr_off: "Ohne Übersetzung",
@@ -6980,7 +7016,7 @@ const NET_STRINGS = {
     net_cl_reset: "Torna alla mia lingua abituale",
     net_seen: "Visualizzato",
     net_sent: "Inviato",
-    net_typing: "@{p} sta scrivendo…",
+    net_typing: "{p} sta scrivendo…",
     net_m_original: "Mostra l'originale",
     net_m_translation: "Mostra la traduzione",
     net_m_del_all: "🗑 Elimina per tutti",
@@ -6991,7 +7027,7 @@ const NET_STRINGS = {
     net_more: "⋯ Altro",
     net_cancel: "Annulla",
     net_m_deleted: "Messaggio eliminato.",
-    net_in_voice: "In chiamata con @{p}",
+    net_in_voice: "In chiamata con {p}",
     net_mode_voice: "Voce reale",
     net_voice_live: "🗣 Voce reale: vi sentite direttamente, senza traduzione.",
     net_voice_connecting: "Collegamento della voce…",
@@ -7010,14 +7046,17 @@ const NET_STRINGS = {
     net_retry: "Riprova",
     net_setup_title: "Crea il tuo account",
     net_setup_text: "Un nome utente, la tua lingua e un'e-mail confermata: niente numero di telefono. I tuoi contatti leggono i tuoi messaggi già tradotti nella loro lingua.",
-    net_invited: "@{p} ti aspetta. Scrivi nella tua lingua, @{p} leggerà nella sua.",
-    net_pseudo_ph: "nome utente (es. sebastien974)",
-    net_pseudo_rule: "Da 3 a 20 caratteri: lettere minuscole, cifre, punto o _, -",
+    net_invited: "{p} ti aspetta. Scrivi nella tua lingua, {p} leggerà nella sua.",
+    net_pseudo_ph: "es. Sébastien Chevrier",
+    net_pseudo_rule: "Nome e cognome, come vuoi che ti vedano.",
     net_my_lang: "La mia lingua",
     net_age_html: "Ho almeno 15 anni e accetto le <a class=\"link\" href=\"cgu.html\">Condizioni</a>.",
     net_create: "Crea il mio profilo",
     net_pseudo_taken: "Questo nome utente è già preso, scegline un altro.",
-    net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _, -.",
+    net_pseudo_bad: "Scrivi il tuo nome (da 2 a 40 caratteri).",
+    net_rename: "✏️ Cambia il mio nome",
+    net_rename_q: "Il tuo nome:",
+    net_rename_ok: "Nome cambiato.",
     net_age_needed: "Spunta la casella per continuare.",
     ob_pseudo_t: "Il tuo nome nella rete",
     ob_pseudo_d: "È così che il mondo ti troverà.",
@@ -7102,28 +7141,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Scegli una foto",
     net_avatar_pick: "😀 Scegli un avatar",
     net_avatar_title: "Scegli il tuo avatar",
-    net_profile_see: "Vedi il profilo di @{p}",
+    net_profile_see: "Vedi il profilo di {p}",
     net_delete: "Elimina il mio account di rete",
     net_delete_confirm: "Tocca di nuovo: profilo e messaggi eliminati",
     net_deleted: "Il tuo account di rete è stato eliminato.",
     net_voice_badge: "🎙 messaggio vocale",
-    net_ringing: "Squilla da @{p}…",
-    net_incoming: "📞 @{p} ti sta chiamando (chiamata tradotta)",
+    net_ringing: "Squilla da {p}…",
+    net_incoming: "📞 {p} ti sta chiamando (chiamata tradotta)",
     net_accept: "Rispondi",
     net_decline: "Rifiuta",
     net_hangup: "Riaggancia",
     net_mute: "Muto",
     net_speaker: "Vivavoce",
-    net_remote_muted: "🔇 @{p} ha disattivato il microfono",
+    net_remote_muted: "🔇 {p} ha disattivato il microfono",
     net_you_muted: "🔇 Il tuo microfono è disattivato",
-    net_in_call: "Chiamata tradotta con @{p}: parla, ti sente nella sua lingua.",
-    net_call_declined: "@{p} ha rifiutato la chiamata.",
+    net_in_call: "Chiamata tradotta con {p}: parla, ti sente nella sua lingua.",
+    net_call_declined: "{p} ha rifiutato la chiamata.",
     net_call_noanswer: "Nessuna risposta.",
-    net_call_busy: "@{p} è già in chiamata.",
+    net_call_busy: "{p} è già in chiamata.",
     net_call_ended: "Chiamata terminata.",
     net_call_type_ph: "Oppure scrivi qui…",
     net_call_mic_off: "Microfono non disponibile: scrivi le tue frasi, il tuo contatto le sentirà tradotte.",
     net_you: "Tu",
+    net_indep: "Una rete libera e indipendente",
     net_deleted_user: "account eliminato",
     home_phone: "Telefono",
     home_phone_sub: "Chiamate tradotte",
@@ -7151,7 +7191,7 @@ const NET_STRINGS = {
     net_call_btn: "Chiama",
     net_unread: "{n} non letti",
     net_add_contact: "Aggiungi",
-    net_added: "@{p} è ora tra i tuoi contatti.",
+    net_added: "{p} è ora tra i tuoi contatti.",
     tr_label: "Traduzione",
     tr_on: "Con traduzione",
     tr_off: "Senza traduzione",
@@ -7171,7 +7211,7 @@ const NET_STRINGS = {
     net_cl_reset: "恢复为我的常用语言",
     net_seen: "已读",
     net_sent: "已发送",
-    net_typing: "@{p} 正在输入…",
+    net_typing: "{p} 正在输入…",
     net_m_original: "查看原文",
     net_m_translation: "查看译文",
     net_m_del_all: "🗑 为所有人删除",
@@ -7182,7 +7222,7 @@ const NET_STRINGS = {
     net_more: "⋯ 更多",
     net_cancel: "取消",
     net_m_deleted: "消息已删除。",
-    net_in_voice: "正在与 @{p} 通话",
+    net_in_voice: "正在与 {p} 通话",
     net_mode_voice: "真实语音",
     net_voice_live: "🗣 真实语音：双方直接听到对方，不经翻译。",
     net_voice_connecting: "正在连接语音…",
@@ -7201,14 +7241,17 @@ const NET_STRINGS = {
     net_retry: "重试",
     net_setup_title: "创建你的账户",
     net_setup_text: "一个用户名、你的语言和一个已确认的邮箱：无需手机号。你的联系人会直接读到翻译成他们语言的消息。",
-    net_invited: "@{p} 在等你。用你的语言写，@{p} 会用自己的语言读。",
-    net_pseudo_ph: "用户名（例如 sebastien974）",
-    net_pseudo_rule: "3 到 20 个字符：小写字母、数字、点或 _, -",
+    net_invited: "{p} 在等你。用你的语言写，{p} 会用自己的语言读。",
+    net_pseudo_ph: "例如 Sébastien Chevrier",
+    net_pseudo_rule: "你的名字和姓氏，别人看到的就是它。",
     net_my_lang: "我的语言",
     net_age_html: "我已年满 15 岁并接受<a class=\"link\" href=\"cgu.html\">使用条款</a>。",
     net_create: "创建我的资料",
     net_pseudo_taken: "该用户名已被占用，请换一个。",
-    net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _, -。",
+    net_pseudo_bad: "请输入你的名字（2 到 40 个字符）。",
+    net_rename: "✏️ 修改我的名字",
+    net_rename_q: "你的名字：",
+    net_rename_ok: "名字已修改。",
     net_age_needed: "请勾选方框后继续。",
     ob_pseudo_t: "你在网络上的名字",
     ob_pseudo_d: "世界将通过它找到你。",
@@ -7293,28 +7336,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 选择照片",
     net_avatar_pick: "😀 选择头像",
     net_avatar_title: "选择你的头像",
-    net_profile_see: "查看 @{p} 的资料",
+    net_profile_see: "查看 {p} 的资料",
     net_delete: "删除我的社交账户",
     net_delete_confirm: "再点一次：资料和消息将被删除",
     net_deleted: "你的社交账户已删除。",
     net_voice_badge: "🎙 语音消息",
-    net_ringing: "正在呼叫 @{p}…",
-    net_incoming: "📞 @{p} 来电（翻译通话）",
+    net_ringing: "正在呼叫 {p}…",
+    net_incoming: "📞 {p} 来电（翻译通话）",
     net_accept: "接听",
     net_decline: "拒绝",
     net_hangup: "挂断",
     net_mute: "静音",
     net_speaker: "扬声器",
-    net_remote_muted: "🔇 @{p} 已关闭麦克风",
+    net_remote_muted: "🔇 {p} 已关闭麦克风",
     net_you_muted: "🔇 你的麦克风已关闭",
-    net_in_call: "与 @{p} 的翻译通话：请说话，对方会听到他的语言。",
-    net_call_declined: "@{p} 拒绝了通话。",
+    net_in_call: "与 {p} 的翻译通话：请说话，对方会听到他的语言。",
+    net_call_declined: "{p} 拒绝了通话。",
     net_call_noanswer: "无人接听。",
-    net_call_busy: "@{p} 正在通话中。",
+    net_call_busy: "{p} 正在通话中。",
     net_call_ended: "通话已结束。",
     net_call_type_ph: "或在这里输入…",
     net_call_mic_off: "麦克风不可用：请输入你的句子，对方会听到翻译后的语音。",
     net_you: "你",
+    net_indep: "自由、独立的网络",
     net_deleted_user: "账户已删除",
     home_phone: "电话",
     home_phone_sub: "翻译通话",
@@ -7342,7 +7386,7 @@ const NET_STRINGS = {
     net_call_btn: "呼叫",
     net_unread: "{n} 条未读",
     net_add_contact: "添加",
-    net_added: "@{p} 已加入你的联系人。",
+    net_added: "{p} 已加入你的联系人。",
     tr_label: "翻译",
     tr_on: "开启翻译",
     tr_off: "关闭翻译",
@@ -7362,7 +7406,7 @@ const NET_STRINGS = {
     net_cl_reset: "いつもの言語に戻す",
     net_seen: "既読",
     net_sent: "送信済み",
-    net_typing: "@{p} が入力中…",
+    net_typing: "{p} が入力中…",
     net_m_original: "原文を表示",
     net_m_translation: "翻訳を表示",
     net_m_del_all: "🗑 全員から削除",
@@ -7373,7 +7417,7 @@ const NET_STRINGS = {
     net_more: "⋯ その他",
     net_cancel: "キャンセル",
     net_m_deleted: "メッセージを削除しました。",
-    net_in_voice: "@{p} と通話中",
+    net_in_voice: "{p} と通話中",
     net_mode_voice: "実際の声",
     net_voice_live: "🗣 実際の声：翻訳なしで直接お互いの声が聞こえます。",
     net_voice_connecting: "音声を接続中…",
@@ -7392,14 +7436,17 @@ const NET_STRINGS = {
     net_retry: "再試行",
     net_setup_title: "アカウントを作成",
     net_setup_text: "ユーザー名、言語、確認済みのメールアドレス：電話番号は不要。相手はあなたのメッセージを自分の言語に翻訳された状態で読めます。",
-    net_invited: "@{p} があなたを待っています。あなたの言葉で書けば、@{p} は自分の言葉で読みます。",
-    net_pseudo_ph: "ユーザー名（例：sebastien974）",
-    net_pseudo_rule: "3〜20文字：小文字、数字、ピリオド、_, -",
+    net_invited: "{p} があなたを待っています。あなたの言葉で書けば、{p} は自分の言葉で読みます。",
+    net_pseudo_ph: "例：Sébastien Chevrier",
+    net_pseudo_rule: "名前と名字。相手にはこの名前が表示されます。",
     net_my_lang: "私の言語",
     net_age_html: "15歳以上で、<a class=\"link\" href=\"cgu.html\">利用規約</a>に同意します。",
     net_create: "プロフィールを作成",
     net_pseudo_taken: "このユーザー名は使われています。別の名前を選んでください。",
-    net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_, -。",
+    net_pseudo_bad: "名前を入力してください（2〜40文字）。",
+    net_rename: "✏️ 名前を変更",
+    net_rename_q: "あなたの名前：",
+    net_rename_ok: "名前を変更しました。",
     net_age_needed: "続けるにはチェックを入れてください。",
     ob_pseudo_t: "ネットワークでのあなたの名前",
     ob_pseudo_d: "世界はこの名前であなたを見つけます。",
@@ -7484,28 +7531,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 写真を選ぶ",
     net_avatar_pick: "😀 アバターを選ぶ",
     net_avatar_title: "アバターを選んでください",
-    net_profile_see: "@{p} のプロフィールを見る",
+    net_profile_see: "{p} のプロフィールを見る",
     net_delete: "ネットワークのアカウントを削除",
     net_delete_confirm: "もう一度タップ：プロフィールとメッセージを削除",
     net_deleted: "ネットワークのアカウントを削除しました。",
     net_voice_badge: "🎙 音声メッセージ",
-    net_ringing: "@{p} さんを呼び出し中…",
-    net_incoming: "📞 @{p} さんから着信（翻訳通話）",
+    net_ringing: "{p} さんを呼び出し中…",
+    net_incoming: "📞 {p} さんから着信（翻訳通話）",
     net_accept: "応答",
     net_decline: "拒否",
     net_hangup: "終了",
     net_mute: "ミュート",
     net_speaker: "スピーカー",
-    net_remote_muted: "🔇 @{p} がマイクをミュートしました",
+    net_remote_muted: "🔇 {p} がマイクをミュートしました",
     net_you_muted: "🔇 マイクはミュート中です",
-    net_in_call: "@{p} さんと翻訳通話中：話すと、相手には相手の言語で聞こえます。",
-    net_call_declined: "@{p} さんが通話を拒否しました。",
+    net_in_call: "{p} さんと翻訳通話中：話すと、相手には相手の言語で聞こえます。",
+    net_call_declined: "{p} さんが通話を拒否しました。",
     net_call_noanswer: "応答がありません。",
-    net_call_busy: "@{p} さんは通話中です。",
+    net_call_busy: "{p} さんは通話中です。",
     net_call_ended: "通話を終了しました。",
     net_call_type_ph: "またはここに入力…",
     net_call_mic_off: "マイクが使えません：文を入力すると、相手には翻訳された音声で届きます。",
     net_you: "あなた",
+    net_indep: "自由で独立したネットワーク",
     net_deleted_user: "削除されたアカウント",
     home_phone: "電話",
     home_phone_sub: "翻訳通話",
@@ -7533,7 +7581,7 @@ const NET_STRINGS = {
     net_call_btn: "発信",
     net_unread: "未読 {n} 件",
     net_add_contact: "追加",
-    net_added: "@{p} を連絡先に追加しました。",
+    net_added: "{p} を連絡先に追加しました。",
     tr_label: "翻訳",
     tr_on: "翻訳あり",
     tr_off: "翻訳なし",
@@ -7553,7 +7601,7 @@ const NET_STRINGS = {
     net_cl_reset: "العودة إلى لغتي المعتادة",
     net_seen: "تمت المشاهدة",
     net_sent: "تم الإرسال",
-    net_typing: "@{p} يكتب…",
+    net_typing: "{p} يكتب…",
     net_m_original: "عرض الأصل",
     net_m_translation: "عرض الترجمة",
     net_m_del_all: "🗑 حذف لدى الجميع",
@@ -7564,7 +7612,7 @@ const NET_STRINGS = {
     net_more: "⋯ المزيد",
     net_cancel: "إلغاء",
     net_m_deleted: "تم حذف الرسالة.",
-    net_in_voice: "في مكالمة مع @{p}",
+    net_in_voice: "في مكالمة مع {p}",
     net_mode_voice: "الصوت الحقيقي",
     net_voice_live: "🗣 الصوت الحقيقي: تسمعان بعضكما مباشرة، دون ترجمة.",
     net_voice_connecting: "جارٍ توصيل الصوت…",
@@ -7583,14 +7631,17 @@ const NET_STRINGS = {
     net_retry: "إعادة المحاولة",
     net_setup_title: "أنشئ حسابك",
     net_setup_text: "اسم مستخدم ولغتك وبريد إلكتروني مؤكَّد: بلا رقم هاتف. يقرأ جهات اتصالك رسائلك مترجمة إلى لغتهم.",
-    net_invited: "@{p} بانتظارك. اكتب بلغتك، وسيقرأ @{p} بلغته.",
-    net_pseudo_ph: "اسم المستخدم (مثال: sebastien974)",
-    net_pseudo_rule: "من 3 إلى 20 حرفًا: أحرف لاتينية صغيرة أو أرقام أو نقطة أو _, -",
+    net_invited: "{p} بانتظارك. اكتب بلغتك، وسيقرأ {p} بلغته.",
+    net_pseudo_ph: "مثال: Sébastien Chevrier",
+    net_pseudo_rule: "اسمك الأول واسم العائلة، كما تريد أن يراك الآخرون.",
     net_my_lang: "لغتي",
     net_age_html: "عمري 15 سنة أو أكثر وأقبل <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a>.",
     net_create: "إنشاء ملفي",
     net_pseudo_taken: "اسم المستخدم هذا مأخوذ، اختر اسمًا آخر.",
-    net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _, -.",
+    net_pseudo_bad: "اكتب اسمك (من 2 إلى 40 حرفًا).",
+    net_rename: "✏️ تغيير اسمي",
+    net_rename_q: "اسمك:",
+    net_rename_ok: "تم تغيير الاسم.",
     net_age_needed: "ضع علامة في المربع للمتابعة.",
     ob_pseudo_t: "اسمك على الشبكة",
     ob_pseudo_d: "هكذا سيجدك العالم.",
@@ -7675,28 +7726,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 اختر صورة",
     net_avatar_pick: "😀 اختر صورة رمزية",
     net_avatar_title: "اختر صورتك الرمزية",
-    net_profile_see: "عرض ملف @{p}",
+    net_profile_see: "عرض ملف {p}",
     net_delete: "حذف حسابي في الشبكة",
     net_delete_confirm: "اضغط مرة أخرى: سيُحذف الملف والرسائل",
     net_deleted: "تم حذف حسابك في الشبكة.",
     net_voice_badge: "🎙 رسالة صوتية",
-    net_ringing: "جارٍ الاتصال بـ ⁦@{p}⁩…",
-    net_incoming: "📞 ⁦@{p}⁩ يتصل بك (مكالمة مترجمة)",
+    net_ringing: "جارٍ الاتصال بـ ⁦{p}⁩…",
+    net_incoming: "📞 ⁦{p}⁩ يتصل بك (مكالمة مترجمة)",
     net_accept: "رد",
     net_decline: "رفض",
     net_hangup: "إنهاء",
     net_mute: "كتم",
     net_speaker: "مكبّر الصوت",
-    net_remote_muted: "🔇 ⁦@{p}⁩ كتم الميكروفون",
+    net_remote_muted: "🔇 ⁦{p}⁩ كتم الميكروفون",
     net_you_muted: "🔇 الميكروفون مكتوم",
-    net_in_call: "مكالمة مترجمة مع ⁦@{p}⁩: تحدَّث، وسيسمعك بلغته.",
-    net_call_declined: "رفض ⁦@{p}⁩ المكالمة.",
+    net_in_call: "مكالمة مترجمة مع ⁦{p}⁩: تحدَّث، وسيسمعك بلغته.",
+    net_call_declined: "رفض ⁦{p}⁩ المكالمة.",
     net_call_noanswer: "لا يوجد رد.",
-    net_call_busy: "⁦@{p}⁩ في مكالمة أخرى.",
+    net_call_busy: "⁦{p}⁩ في مكالمة أخرى.",
     net_call_ended: "انتهت المكالمة.",
     net_call_type_ph: "أو اكتب هنا…",
     net_call_mic_off: "الميكروفون غير متاح: اكتب جملك وسيسمعها مترجمة.",
     net_you: "أنت",
+    net_indep: "شبكة حرة ومستقلة",
     net_deleted_user: "حساب محذوف",
     home_phone: "الهاتف",
     home_phone_sub: "مكالمات مترجمة",
@@ -7724,7 +7776,7 @@ const NET_STRINGS = {
     net_call_btn: "اتصال",
     net_unread: "{n} غير مقروءة",
     net_add_contact: "إضافة",
-    net_added: "أصبح @{p} ضمن جهات اتصالك.",
+    net_added: "أصبح {p} ضمن جهات اتصالك.",
     tr_label: "الترجمة",
     tr_on: "مع الترجمة",
     tr_off: "بدون ترجمة",
@@ -7744,7 +7796,7 @@ const NET_STRINGS = {
     net_cl_reset: "Вернуть мой обычный язык",
     net_seen: "Просмотрено",
     net_sent: "Отправлено",
-    net_typing: "@{p} печатает…",
+    net_typing: "{p} печатает…",
     net_m_original: "Показать оригинал",
     net_m_translation: "Показать перевод",
     net_m_del_all: "🗑 Удалить у всех",
@@ -7755,7 +7807,7 @@ const NET_STRINGS = {
     net_more: "⋯ Ещё",
     net_cancel: "Отмена",
     net_m_deleted: "Сообщение удалено.",
-    net_in_voice: "Разговор с @{p}",
+    net_in_voice: "Разговор с {p}",
     net_mode_voice: "Живой голос",
     net_voice_live: "🗣 Живой голос: вы слышите друг друга напрямую, без перевода.",
     net_voice_connecting: "Подключение голоса…",
@@ -7774,14 +7826,17 @@ const NET_STRINGS = {
     net_retry: "Повторить",
     net_setup_title: "Создайте аккаунт",
     net_setup_text: "Имя пользователя, ваш язык и подтверждённый e-mail: без номера телефона. Собеседники читают ваши сообщения уже переведёнными на свой язык.",
-    net_invited: "@{p} ждёт вас. Пишите на своём языке, @{p} прочитает на своём.",
-    net_pseudo_ph: "имя пользователя (напр. sebastien974)",
-    net_pseudo_rule: "От 3 до 20 символов: строчные латинские буквы, цифры, точка или _, -",
+    net_invited: "{p} ждёт вас. Пишите на своём языке, {p} прочитает на своём.",
+    net_pseudo_ph: "напр. Sébastien Chevrier",
+    net_pseudo_rule: "Имя и фамилия — так вас будут видеть другие.",
     net_my_lang: "Мой язык",
     net_age_html: "Мне 15 лет или больше, и я принимаю <a class=\"link\" href=\"cgu.html\">Условия</a>.",
     net_create: "Создать профиль",
     net_pseudo_taken: "Это имя уже занято, выберите другое.",
-    net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _, -.",
+    net_pseudo_bad: "Введите имя (от 2 до 40 символов).",
+    net_rename: "✏️ Изменить имя",
+    net_rename_q: "Ваше имя:",
+    net_rename_ok: "Имя изменено.",
     net_age_needed: "Отметьте флажок, чтобы продолжить.",
     ob_pseudo_t: "Ваше имя в сети",
     ob_pseudo_d: "Так мир сможет вас найти.",
@@ -7866,28 +7921,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Выбрать фото",
     net_avatar_pick: "😀 Выбрать аватар",
     net_avatar_title: "Выберите аватар",
-    net_profile_see: "Профиль @{p}",
+    net_profile_see: "Профиль {p}",
     net_delete: "Удалить мой аккаунт в сети",
     net_delete_confirm: "Нажмите ещё раз: профиль и сообщения будут удалены",
     net_deleted: "Ваш аккаунт в сети удалён.",
     net_voice_badge: "🎙 голосовое сообщение",
-    net_ringing: "Вызов @{p}…",
-    net_incoming: "📞 @{p} звонит вам (звонок с переводом)",
+    net_ringing: "Вызов {p}…",
+    net_incoming: "📞 {p} звонит вам (звонок с переводом)",
     net_accept: "Ответить",
     net_decline: "Отклонить",
     net_hangup: "Завершить",
     net_mute: "Без звука",
     net_speaker: "Динамик",
-    net_remote_muted: "🔇 @{p} выключил(а) микрофон",
+    net_remote_muted: "🔇 {p} выключил(а) микрофон",
     net_you_muted: "🔇 Ваш микрофон выключен",
-    net_in_call: "Звонок с переводом с @{p}: говорите, собеседник слышит вас на своём языке.",
-    net_call_declined: "@{p} отклонил звонок.",
+    net_in_call: "Звонок с переводом с {p}: говорите, собеседник слышит вас на своём языке.",
+    net_call_declined: "{p} отклонил звонок.",
     net_call_noanswer: "Нет ответа.",
-    net_call_busy: "@{p} уже разговаривает.",
+    net_call_busy: "{p} уже разговаривает.",
     net_call_ended: "Звонок завершён.",
     net_call_type_ph: "Или напишите здесь…",
     net_call_mic_off: "Микрофон недоступен: пишите фразы, собеседник услышит их в переводе.",
     net_you: "Вы",
+    net_indep: "Свободная независимая сеть",
     net_deleted_user: "аккаунт удалён",
     home_phone: "Телефон",
     home_phone_sub: "Звонки с переводом",
@@ -7915,7 +7971,7 @@ const NET_STRINGS = {
     net_call_btn: "Позвонить",
     net_unread: "{n} непрочитанных",
     net_add_contact: "Добавить",
-    net_added: "@{p} теперь в ваших контактах.",
+    net_added: "{p} теперь в ваших контактах.",
     tr_label: "Перевод",
     tr_on: "С переводом",
     tr_off: "Без перевода",
@@ -7935,7 +7991,7 @@ const NET_STRINGS = {
     net_cl_reset: "Hiverina amin'ny fiteniko mahazatra",
     net_seen: "Hita",
     net_sent: "Lasa",
-    net_typing: "@{p} manoratra…",
+    net_typing: "{p} manoratra…",
     net_m_original: "Hijery ny tany am-boalohany",
     net_m_translation: "Hijery ny fandikana",
     net_m_del_all: "🗑 Hamafa ho an'ny rehetra",
@@ -7946,7 +8002,7 @@ const NET_STRINGS = {
     net_more: "⋯ Hafa",
     net_cancel: "Hanafoana",
     net_m_deleted: "Voafafa ny hafatra.",
-    net_in_voice: "Miresaka amin'i @{p}",
+    net_in_voice: "Miresaka amin'i {p}",
     net_mode_voice: "Feo tena izy",
     net_voice_live: "🗣 Feo tena izy: mifandre mivantana ianareo, tsy misy fandikana.",
     net_voice_connecting: "Mampifandray ny feo…",
@@ -7965,14 +8021,17 @@ const NET_STRINGS = {
     net_retry: "Andramo indray",
     net_setup_title: "Amorony ny kaontinao",
     net_setup_text: "Pseudo iray, ny fiteninao ary mailaka voamarina: tsy mila laharana finday. Vakian'ny namanao efa voadika amin'ny fiteniny ny hafatrao.",
-    net_invited: "Miandry anao i @{p}. Manorata amin'ny fiteninao, hamaky amin'ny azy i @{p}.",
-    net_pseudo_ph: "pseudo (ohatra: sebastien974)",
-    net_pseudo_rule: "Litera 3 ka hatramin'ny 20: litera madinika, isa, teboka na _, -",
+    net_invited: "Miandry anao i {p}. Manorata amin'ny fiteninao, hamaky amin'ny azy i {p}.",
+    net_pseudo_ph: "ohatra: Sébastien Chevrier",
+    net_pseudo_rule: "Ny anaranao sy ny fanampin'anaranao, araka izay tianao hahitana anao.",
     net_my_lang: "Ny fiteniko",
     net_age_html: "15 taona na mihoatra aho ary manaiky ny <a class=\"link\" href=\"cgu.html\">CGU</a>.",
     net_create: "Hamorona ny kaontiko",
     net_pseudo_taken: "Efa misy naka io pseudo io, mifidiana hafa.",
-    net_pseudo_bad: "Pseudo tsy mety: litera 3 ka hatramin'ny 20, litera madinika, isa, teboka na _, -.",
+    net_pseudo_bad: "Soraty ny anaranao (litera 2 ka hatramin'ny 40).",
+    net_rename: "✏️ Ovay ny anarako",
+    net_rename_q: "Ny anaranao:",
+    net_rename_ok: "Voaova ny anarana.",
     net_age_needed: "Asio marika ny boaty vao afaka manohy.",
     ob_pseudo_t: "Ny anaranao amin'ny tambajotra",
     ob_pseudo_d: "Izany no hahitan'izao tontolo izao anao.",
@@ -8057,28 +8116,29 @@ const NET_STRINGS = {
     net_photo_pick: "📷 Hisafidy sary",
     net_avatar_pick: "😀 Hisafidy avatar",
     net_avatar_title: "Fidio ny avatar-nao",
-    net_profile_see: "Jereo ny mombamomba an'i @{p}",
+    net_profile_see: "Jereo ny mombamomba an'i {p}",
     net_delete: "Hamafa ny kaontiko amin'ny tambajotra",
     net_delete_confirm: "Tsindrio indray: ho voafafa ny kaonty sy ny hafatra",
     net_deleted: "Voafafa ny kaontinao amin'ny tambajotra.",
     net_voice_badge: "🎙 hafatra feo",
-    net_ringing: "Maneno any amin'i @{p}…",
-    net_incoming: "📞 @{p} miantso anao (antso voadika)",
+    net_ringing: "Maneno any amin'i {p}…",
+    net_incoming: "📞 {p} miantso anao (antso voadika)",
     net_accept: "Hamaly",
     net_decline: "Handà",
     net_hangup: "Hanapaka",
     net_mute: "Hampangina",
     net_speaker: "Fanamafisam-peo",
-    net_remote_muted: "🔇 Nanapaka ny mikrô-ny i @{p}",
+    net_remote_muted: "🔇 Nanapaka ny mikrô-ny i {p}",
     net_you_muted: "🔇 Tapaka ny mikrô-nao",
-    net_in_call: "Antso voadika miaraka amin'i @{p}: mitenena, henony amin'ny fiteniny ianao.",
-    net_call_declined: "Nolavin'i @{p} ny antso.",
+    net_in_call: "Antso voadika miaraka amin'i {p}: mitenena, henony amin'ny fiteniny ianao.",
+    net_call_declined: "Nolavin'i {p} ny antso.",
     net_call_noanswer: "Tsy misy mamaly.",
-    net_call_busy: "Efa an-tariby i @{p}.",
+    net_call_busy: "Efa an-tariby i {p}.",
     net_call_ended: "Vita ny antso.",
     net_call_type_ph: "Na soraty eto…",
     net_call_mic_off: "Tsy azo ampiasaina ny mikrô: soraty ny fehezanteninao, ho ren'ny namanao voadika izany.",
     net_you: "Ianao",
+    net_indep: "Tambajotra malalaka sy mahaleo tena",
     net_deleted_user: "kaonty voafafa",
     home_phone: "Telefaonina",
     home_phone_sub: "Antso voadika",
@@ -8106,7 +8166,7 @@ const NET_STRINGS = {
     net_call_btn: "Hiantso",
     net_unread: "{n} tsy voavaky",
     net_add_contact: "Hanampy",
-    net_added: "Ao amin'ireo namanao i @{p}.",
+    net_added: "Ao amin'ireo namanao i {p}.",
     tr_label: "Fandikana",
     tr_on: "Misy fandikana",
     tr_off: "Tsy misy fandikana",
@@ -8521,7 +8581,7 @@ const Reseau = (() => {
     rows.sort((a, b) => b.r.t - a.r.t);
     const list = rows.slice(0, 40);
     const body = list.length ? list.map(({ r, c }) => {
-      const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
+      const name = c.other ? nm(c.other) : t("net_deleted_user");
       const ic = r.s === "missed" ? "↙" : r.out ? "↗" : "↙";
       const canCall = c.other && !(c.otherId && blockedIds.has(c.otherId));
       return `<div class="net-logrow${callMissed(r) ? " missed" : ""}">
@@ -8694,7 +8754,7 @@ const Reseau = (() => {
     me = session ? session.user.id : null;
     profile = null;
     if (me) {
-      const { data: p, error } = await sb.from("profiles").select("id,pseudo,lang").eq("id", me).maybeSingle();
+      const { data: p, error } = await sb.from("profiles").select("id,pseudo,lang,nom").eq("id", me).maybeSingle();
       if (error) throw error;
       profile = p || null;
     }
@@ -8834,7 +8894,7 @@ const Reseau = (() => {
     const ids = [...new Set(others.map((r) => r.user_id))];
     // Profils des contacts et derniers messages demandés en même temps (un seul aller-retour).
     const [profRes, lasts] = await Promise.all([
-      ids.length ? sb.from("profiles").select("id,pseudo,lang").in("id", ids) : Promise.resolve({ data: [] }),
+      ids.length ? sb.from("profiles").select("id,pseudo,lang,nom").in("id", ids) : Promise.resolve({ data: [] }),
       Promise.all(
         mine.map((r) =>
           sb.from("messages").select("id,conversation_id,sender_id,body,lang,kind,created_at")
@@ -8907,7 +8967,7 @@ const Reseau = (() => {
     await loadConversations();
     const c = convs.find((x) => x.id === data);
     if (stay) {
-      if (c && c.other) setFlash(escapeHtml(t("net_added", { p: c.other.pseudo })), "ok");
+      if (c && c.other) setFlash(escapeHtml(t("net_added", { p: nm(c.other) })), "ok");
       screen = "home";
       render();
       return;
@@ -9080,7 +9140,7 @@ const Reseau = (() => {
     const c = currentConv;
     const el = root.querySelector("#netTyping");
     if (!c || c.id !== convId || !el) return;
-    el.textContent = t("net_typing", { p: c.other ? c.other.pseudo : "" });
+    el.textContent = t("net_typing", { p: c.other ? nm(c.other) : "" });
     clearTimeout(typingTimer);
     typingTimer = setTimeout(() => { const e2 = root.querySelector("#netTyping"); if (e2) e2.textContent = ""; }, 4500);
   }
@@ -9166,6 +9226,10 @@ const Reseau = (() => {
   // ---------- Rendu ----------
   // ---------- Liste façon messagerie : rond coloré, heure du dernier message, recherche ----------
   const AV_COLORS = ["#3d7bff", "#2ecf8e", "#ffb020", "#ff7aa8", "#9d7bff", "#4fc3f7", "#e8b46a", "#ff8a5c"];
+  // Nom affiché : le nom choisi (« Sébastien Chevrier »), sinon l'identifiant du lien d'invitation.
+  function nm(o) {
+    return (o && (o.nom || o.pseudo)) || "";
+  }
   function avatarCore(pseudo, uid) {
     const img = photoOf(uid);
     if (img) return `<img class="net-av" src="${img}" alt="" aria-hidden="true" decoding="async" />`;
@@ -9205,7 +9269,7 @@ const Reseau = (() => {
       if (old) old.outerHTML = avatarCore(w.dataset.p, w.dataset.uid);
     });
     const mine = root.querySelector("#netPhotoBtn .net-av");
-    if (mine && profile) mine.outerHTML = avatarCore(profile.pseudo, me);
+    if (mine && profile) mine.outerHTML = avatarCore(nm(profile), me);
   }
   async function photosTick(force) {
     if (!sb || !profile || !photosOk) return;
@@ -9292,7 +9356,7 @@ const Reseau = (() => {
   // L'avatar est une image 256 px (emoji sur fond de couleur) enregistrée comme une photo : rien à changer dans la base.
   const AVATAR_EMOJIS = ["😀", "😎", "🥳", "🤓", "😺", "🐶", "🦊", "🐼", "🦁", "🐸", "🐵", "🦄", "🌍", "🌸", "⚽", "🎧", "🚀", "⭐"];
   function profileHead(pseudo, uid, line) {
-    return `<div class="net-prof">${avatarCore(pseudo, uid)}<b dir="ltr">@${escapeHtml(pseudo || "?")}</b>${line ? `<span class="net-prof-line">${escapeHtml(line)}</span>` : ""}</div>`;
+    return `<div class="net-prof">${avatarCore(pseudo, uid)}<b dir="auto">${escapeHtml(pseudo || "?")}</b>${line ? `<span class="net-prof-line">${escapeHtml(line)}</span>` : ""}</div>`;
   }
   function avatarImage(emoji, color) {
     const S = 256;
@@ -9353,7 +9417,7 @@ const Reseau = (() => {
       { label: t("net_avatar_pick"), run: () => avatarPicker(msgEl) }
     ];
     if (photoOf(me)) items.push({ label: t("net_photo_remove"), danger: true, confirm: t("net_photo_remove_confirm"), run: () => removeMyPhoto(msgEl) });
-    actionSheet(items, profileHead(profile.pseudo, me, langLabel(profile.lang) + " · " + t("net_photo_hint")));
+    actionSheet(items, profileHead(nm(profile), me, langLabel(profile.lang) + " · " + t("net_photo_hint")));
   }
 
   // ---------- Présence « en ligne / vu il y a » (seulement entre contacts, réciproque, désactivable) ----------
@@ -9589,6 +9653,7 @@ const Reseau = (() => {
   } catch (e) { /* ignoré */ }
 
   function render() {
+    document.body.classList.remove("ob-on");
     dropChatHistory();
     syncBar();
     updateTopbar();
@@ -9670,7 +9735,7 @@ const Reseau = (() => {
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
   let setupStep = 0;
   function renderSetup() {
-    const invited = pendingAdd ? `<div class="msg ok">${escapeHtml(t("net_invited", { p: pendingAdd }))}</div>` : "";
+    document.body.classList.add("ob-on");
     const steps = myEmail ? ["pseudo", "lang"] : ["pseudo", "email", "lang"];
     if (setupStep >= steps.length) setupStep = steps.length - 1;
     const d0 = signupDraft();
@@ -9680,9 +9745,8 @@ const Reseau = (() => {
         <p class="ob-d">${escapeHtml(t("ob_" + k + "_d"))}</p>${body}</section>`;
     root.innerHTML = `${owWelcomeHtml()}${setupStep === 0 ? owDemoHtml() : ""}
       <div class="ob">
-        ${invited}
         <div class="ob-bar">${steps.map((k, i) => `<span class="${i <= setupStep ? "on" : ""}"></span>`).join("")}</div>
-        ${step("pseudo", 0, `<div class="ob-field"><span class="ob-at">@</span><input type="text" id="netPseudo" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"
+        ${step("pseudo", 0, `<div class="ob-field"><span class="ob-at">👤</span><input type="text" id="netPseudo" maxlength="40" autocomplete="name" autocapitalize="words" spellcheck="false"
           placeholder="${escapeHtml(t("net_pseudo_ph"))}" /></div>
           <p class="ob-hint">${escapeHtml(t("net_pseudo_rule"))}</p>`)}
         ${myEmail ? "" : step("email", 1, `<div class="ob-field"><span class="ob-at">✉</span><input type="email" id="netEmail" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false"
@@ -9700,21 +9764,17 @@ const Reseau = (() => {
     const input = root.querySelector("#netPseudo");
     const emailIn = root.querySelector("#netEmail");
     const msg = root.querySelector("#netSetupMsg");
-    input.addEventListener("input", () => {
-      const v = input.value.toLowerCase().replace(/[+\s]/g, "-").replace(/[^a-z0-9_.-]/g, "");
-      if (v !== input.value) input.value = v;
-    });
     if (d0.pseudo) input.value = d0.pseudo;
     if (d0.lang) sel.value = d0.lang;
     const last = setupStep === steps.length - 1;
     root.querySelector("#netNext").hidden = last;
     root.querySelector("#netCreate").hidden = !last;
-    const save = () => safeStore.setItem("lc_signup", JSON.stringify({ pseudo: input.value.trim().toLowerCase(), lang: sel.value, email: emailIn ? emailIn.value.trim().toLowerCase() : d0.email || "" }));
+    const save = () => safeStore.setItem("lc_signup", JSON.stringify({ pseudo: cleanName(input.value), lang: sel.value, email: emailIn ? emailIn.value.trim().toLowerCase() : d0.email || "" }));
     const cur = root.querySelector(".ob-step.on input");
     if (cur) setTimeout(() => { try { cur.focus(); } catch (e) { /* ignoré */ } }, 50);
     const next = () => {
       const k = steps[setupStep];
-      if (k === "pseudo" && !/^[a-z0-9_.-]{3,20}$/.test(input.value.trim().toLowerCase())) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+      if (k === "pseudo" && !nameOk(input.value)) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
       if (k === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailIn.value.trim())) return showMsg(msg, escapeHtml(t("net_email_bad")), "warn");
       save();
       setupStep++;
@@ -9747,16 +9807,31 @@ const Reseau = (() => {
     const { error } = await sb.auth.updateUser({ email, data: { email_lang: String(UI_LANG || "en").split("-")[0] } }, { emailRedirectTo: back });
     return error;
   }
+  function cleanName(v) {
+    return String(v || "").replace(/[\u0000-\u001f<>@]/g, "").replace(/\s+/g, " ").trim().slice(0, 40);
+  }
+  function nameOk(v) {
+    const c = cleanName(v);
+    return c.length >= 2 && /\p{L}/u.test(c);
+  }
+  function nameSlug(v) {
+    let s = cleanName(v).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, ".").replace(/^\.+|\.+$/g, "").slice(0, 20).replace(/\.+$/, "");
+    if (s.length < 3) s = (s + ".membre").replace(/^\./, "").slice(0, 12) + Math.floor(100 + Math.random() * 900);
+    return s;
+  }
   async function createProfile(pseudo, lang, ageOk, email) {
     const msg = root.querySelector("#netSetupMsg");
-    const clean = String(pseudo || "").trim().toLowerCase();
+    // On choisit un nom (« Sébastien Chevrier ») ; l'identifiant du lien d'invitation en est tiré (sebastien.chevrier).
+    const nom = cleanName(pseudo);
+    let clean = nameSlug(nom);
     const mail = String(email || "").trim().toLowerCase();
-    if (!/^[a-z0-9_.-]{3,20}$/.test(clean)) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+    if (!nameOk(nom)) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) return showMsg(msg, escapeHtml(t("net_email_bad")), "warn");
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
-    safeStore.setItem("lc_signup", JSON.stringify({ pseudo: clean, lang, email: mail }));
+    safeStore.setItem("lc_signup", JSON.stringify({ pseudo: nom, lang, email: mail }));
     if (!myEmail || !me) {
       myEmail = "";
       // 1re étape : on envoie l'e-mail de confirmation ; le profil sera créé une fois l'e-mail confirmé.
@@ -9793,11 +9868,18 @@ const Reseau = (() => {
         if (error) throw error;
         me = data.user ? data.user.id : data.session.user.id;
       }
-      const { error } = await sb.from("profiles").insert({ id: me, pseudo: clean, lang });
+      let { error } = await sb.from("profiles").insert({ id: me, pseudo: clean, lang, nom });
+      // Identifiant déjà pris par quelqu'un d'autre : on ajoute un numéro (sebastien.chevrier2…).
+      for (let k = 2; error && (error.code === "23505" || /duplicate|unique/i.test(error.message || "")) && k < 8; k++) {
+        const mine0 = await sb.from("profiles").select("id").eq("id", me).maybeSingle();
+        if (mine0.data) break;
+        clean = nameSlug(nom).slice(0, 17) + (k < 4 ? k : Math.floor(100 + Math.random() * 900));
+        ({ error } = await sb.from("profiles").insert({ id: me, pseudo: clean, lang, nom }));
+      }
       if (error) {
         if (error.code === "23505" || /duplicate|unique/i.test(error.message || "")) {
           // Profil peut-être déjà créé (réponse perdue en route) : on le reprend au lieu de bloquer.
-          const mine = await sb.from("profiles").select("id,pseudo,lang").eq("id", me).maybeSingle();
+          const mine = await sb.from("profiles").select("id,pseudo,lang,nom").eq("id", me).maybeSingle();
           if (mine.data) {
             profile = mine.data;
             safeStore.setItem("lc_net_joined", "1");
@@ -9810,7 +9892,7 @@ const Reseau = (() => {
         }
         throw error;
       }
-      profile = { id: me, pseudo: clean, lang };
+      profile = { id: me, pseudo: clean, lang, nom };
       safeStore.setItem("lc_net_joined", "1");
       safeStore.removeItem("lc_signup");
       await afterProfileReady();
@@ -9887,12 +9969,12 @@ const Reseau = (() => {
       const contacts = list.filter((c) => c.other);
       const rows = contacts.length
         ? contacts.map((c) => {
-            const p = c.other.pseudo;
+            const p = nm(c.other);
             const blocked = c.otherId && blockedIds.has(c.otherId);
-            return `<div class="net-contact" data-q="${escapeHtml(p.toLowerCase())}">
+            return `<div class="net-contact" data-q="${escapeHtml((p + " " + c.other.pseudo).toLowerCase())}">
                 ${avatarHtml(p, c.otherId)}
-                <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span></span>
-                ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}</button>`}
+                <span class="net-contact-name"><b dir="auto">${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span></span>
+                ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " " + p)}">${ICON_PHONE}</button>`}
               </div>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_contacts", { b: t("net_invite") }))}</div>`;
@@ -9907,21 +9989,24 @@ const Reseau = (() => {
     if (!isCall) {
       items = list.length
         ? list.map((c) => {
-            const name = c.other ? c.other.pseudo : t("net_deleted_user");
+            const name = c.other ? nm(c.other) : t("net_deleted_user");
             const lang = c.other ? langLabel(c.other.lang) : "";
             const blocked = c.otherId && blockedIds.has(c.otherId) ? " 🚫" : "";
             const prev = !(c.last && visibleForMe(c.last)) ? ""
               : c.last.kind === "call" ? callRecTitle(parseCallMsg(c.last))
               : (c.last.kind === "voice" ? "🎙 " : "") + c.last.body;
-            const l = c.other && typeof langByCode === "function" ? langByCode(c.other.lang) : null;
-            const flag = l && l.flag ? `<span class="net-row-flag" title="${escapeHtml(lang)}" aria-label="${escapeHtml(lang)}">${l.flag}</span>` : "";
+            // Comme Messenger : « Vous : » devant mon dernier message, et la petite photo du contact quand il l'a lu.
+            const mineLast = !!(prev && c.last.sender_id === me);
+            const seen = mineLast && c.otherId && c.otherRead && new Date(c.otherRead) >= new Date(c.last.created_at);
+            const flag = mineLast ? `<span class="net-row-you">${escapeHtml(t("net_you"))} : </span>` : "";
+            const seenHtml = seen ? `<span class="net-row-seen" aria-label="${escapeHtml(t("net_seen", { t: "" }).trim())}">${avatarCore(name, c.otherId)}</span>` : "";
             const n = c.unread ? Math.max(1, c.unreadN || 0) : 0;
             const when = c.last && visibleForMe(c.last) ? whenLabel(c.last.created_at) : "";
             return `<button class="net-conv net-row${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}" data-q="${escapeHtml((name + " " + prev).toLowerCase())}">
-                ${avatarHtml(c.other ? c.other.pseudo : "?", c.other ? c.otherId : null)}
+                ${avatarHtml(c.other ? nm(c.other) : "?", c.other ? c.otherId : null)}
                 <span class="net-row-mid">
                   <span class="net-row-l1"><b dir="ltr">${escapeHtml(name)}${blocked}</b><span class="net-row-when">${escapeHtml(when)}</span></span>
-                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
+                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${seenHtml}${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
                 </span>
               </button>`;
           }).join("")
@@ -9940,21 +10025,21 @@ const Reseau = (() => {
     const listFirst = isCall ? list.some((c) => c.other) : list.length > 0;
     // Messagerie façon Messenger : recherche, rangée de contacts, discussions ; profil et réglages en bas.
     const meRow = photosOk ? `<div class="net-me-row">
-          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(profile.pseudo, me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span></button>
-          <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
+          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(nm(profile), me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span></button>
+          <div class="net-me"><b dir="auto">${escapeHtml(nm(profile))}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
         </div>
-        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`;
+        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="auto">${escapeHtml(nm(profile))}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`;
     if (!isCall) {
       const people = list.filter((c) => c.other);
       // Comme Messenger : moi en premier (profil et réglages), puis « Inviter », puis les contacts.
       const stories = `<div class="net-stories" role="list">
-          <button type="button" class="net-story" id="netMeStory" role="listitem" aria-expanded="false" aria-controls="netMePanel">${avatarCore(profile.pseudo, me)}<span class="net-story-name">${escapeHtml(t("net_my_profile"))}</span></button>
+          <button type="button" class="net-story" id="netMeStory" role="listitem" aria-expanded="false" aria-controls="netMePanel">${avatarCore(nm(profile), me)}<span class="net-story-name">${escapeHtml(t("net_my_profile"))}</span></button>
           <button type="button" class="net-story" id="netInvite" role="listitem"><span class="net-story-plus" aria-hidden="true">+</span><span class="net-story-name net-story-inv">${escapeHtml(String(t("net_invite")).replace(/^[^\p{L}]+/u, ""))}</span></button>
-          ${people.map((c) => `<button type="button" class="net-story net-conv" data-id="${escapeHtml(c.id)}" role="listitem">${avatarHtml(c.other.pseudo, c.otherId)}<span class="net-story-name" dir="ltr">${escapeHtml(c.other.pseudo)}</span></button>`).join("")}
+          ${people.map((c) => `<button type="button" class="net-story net-conv" data-id="${escapeHtml(c.id)}" role="listitem">${avatarHtml(nm(c.other), c.otherId)}<span class="net-story-name" dir="auto">${escapeHtml(nm(c.other))}</span></button>`).join("")}
         </div>`;
       const pushBar = pushCard ? pushCard.replace('class="card net-pushcard"', 'class="net-pushbar"') : "";
       // Nouvelle discussion (crayon en haut) et profil (mon rond) : fermés par défaut, la liste prend tout l'écran.
-      root.innerHTML = `${searchHtml()}
+      root.innerHTML = `<p class="net-indep"><span aria-hidden="true">🌍</span> ${escapeHtml(t("net_indep"))}</p>${searchHtml()}
         ${stories}
         <div class="net-panel" id="netNewPanel"${list.length ? " hidden" : ""}>
           <h3 class="net-h3">${escapeHtml(t("net_new_chat"))}</h3>
@@ -9970,6 +10055,7 @@ const Reseau = (() => {
           <select id="netMyLang"></select>
           ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
             <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
+          <div class="row"><button class="btn ghost" id="netRename" style="flex:1;">${escapeHtml(t("net_rename"))}</button></div>
           <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
@@ -9979,6 +10065,17 @@ const Reseau = (() => {
       meStory.addEventListener("click", () => {
         mePanel.hidden = !mePanel.hidden;
         meStory.setAttribute("aria-expanded", String(!mePanel.hidden));
+      });
+      root.querySelector("#netRename").addEventListener("click", async () => {
+        const v = prompt(t("net_rename_q"), nm(profile));
+        if (v === null) return;
+        if (!nameOk(v)) return setFlash(escapeHtml(t("net_pseudo_bad")), "warn"), render();
+        const nom = cleanName(v);
+        const { error } = await sb.from("profiles").update({ nom }).eq("id", me);
+        if (error) return setFlash(escapeHtml(t("net_err_conn")), "err"), render();
+        profile.nom = nom;
+        setFlash(escapeHtml(t("net_rename_ok")), "ok");
+        render();
       });
     } else
     // Téléphone réduit à l'essentiel : contacts avec un bouton d'appel, puis le journal des appels.
@@ -10103,15 +10200,15 @@ const Reseau = (() => {
 
   function renderChat() {
     const c = currentConv;
-    const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
+    const name = c.other ? nm(c.other) : t("net_deleted_user");
     const isBlocked = c.otherId && blockedIds.has(c.otherId);
     root.innerHTML = `
       <div class="card net-chat net-chat-full">
         <div class="net-chat-head">
           <button type="button" class="net-hd-btn" id="netBack" aria-label="${escapeHtml(t("net_back"))}"><span aria-hidden="true">←</span></button>
-          <button type="button" class="net-chat-who" id="netWho"${c.other ? ` aria-label="${escapeHtml(t("net_profile_see", { p: c.other.pseudo }))}"` : " disabled"}>
-            ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
-            <span class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></span>
+          <button type="button" class="net-chat-who" id="netWho"${c.other ? ` aria-label="${escapeHtml(t("net_profile_see", { p: nm(c.other) }))}"` : " disabled"}>
+            ${c.other ? avatarHtml(nm(c.other), c.otherId) : ""}
+            <span class="net-chat-title"><b dir="auto">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></span>
           </button>
           <button type="button" class="net-hd-btn net-hd-tr${trOn ? " on" : ""}" id="netTrBtn" aria-pressed="${trOn}" aria-label="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}" title="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}">${ICON_GLOBE}</button>
           ${c.otherId && !isBlocked ? `<button type="button" class="net-hd-btn net-hd-call" id="netCallBtn" aria-label="${escapeHtml(t("net_call"))}">${ICON_PHONE}</button>` : ""}
@@ -10219,7 +10316,7 @@ const Reseau = (() => {
       const pres = presenceText(c.otherId);
       const items = [];
       if (c.otherId && !isBlocked) items.push({ label: t("net_call"), run: () => startCall(false) });
-      actionSheet(items.concat(safetyItems()), profileHead(c.other.pseudo, c.otherId, langLabel(c.other.lang) + (pres ? " · " + pres : "")));
+      actionSheet(items.concat(safetyItems()), profileHead(nm(c.other), c.otherId, langLabel(c.other.lang) + (pres ? " · " + pres : "")));
     });
   }
 
@@ -10252,7 +10349,7 @@ const Reseau = (() => {
         const el = wrap.firstElementChild;
         el.style.cursor = "pointer";
         el.addEventListener("click", () => actionSheet([
-          { label: t("net_call_btn") + " @" + (currentConv.other ? currentConv.other.pseudo : ""), run: () => { if (!call && currentConv && currentConv.otherId && !blockedIds.has(currentConv.otherId)) startCall(false); } },
+          { label: t("net_call_btn") + " " + (currentConv.other ? nm(currentConv.other) : ""), run: () => { if (!call && currentConv && currentConv.otherId && !blockedIds.has(currentConv.otherId)) startCall(false); } },
           { label: t("net_m_del_me"), run: () => { hideForMe(m.id); chatMsgs = chatMsgs.filter((x) => x.id !== m.id); renderChatMessages(); } },
         ]));
         log.appendChild(el);
@@ -10672,14 +10769,14 @@ const Reseau = (() => {
     if (call || !currentConv || !currentConv.otherId || !currentConv.other) return;
     const c = currentConv;
     call = {
-      id: rid(), convId: c.id, otherId: c.otherId, otherPseudo: c.other.pseudo, otherLang: c.other.lang,
+      id: rid(), convId: c.id, otherId: c.otherId, otherPseudo: nm(c.other), otherLang: c.other.lang,
       role: "caller", state: "ringing", tStart: Date.now(), lines: [], listener: null, interim: "", micOff: false, fromList: fromList === true,
       muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
     };
     screen = "call";
     render();
     startRing(false);
-    const ringMsg = { t: "ring", callId: call.id, convId: c.id, pseudo: profile.pseudo, lang: mySpeak(c.id) };
+    const ringMsg = { t: "ring", callId: call.id, convId: c.id, pseudo: nm(profile), lang: mySpeak(c.id) };
     sendSignal(call.otherId, ringMsg);
     notifyCall("ring", call);
     const id = call.id;
@@ -10715,7 +10812,7 @@ const Reseau = (() => {
         return;
       }
       call = {
-        id: p.callId, convId: c.id, otherId: p.from, otherPseudo: (c.other && c.other.pseudo) || p.pseudo,
+        id: p.callId, convId: c.id, otherId: p.from, otherPseudo: (c.other && nm(c.other)) || p.pseudo,
         otherLang: p.lang || (c.other && c.other.lang), role: "callee", state: "incoming", tStart: Date.now(), lines: [], listener: null, interim: "", micOff: false,
         muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
       };
@@ -11080,7 +11177,7 @@ const Reseau = (() => {
       <div class="net-call" role="dialog" aria-label="${escapeHtml(status)}">
         <div class="net-call-top">
           <div class="net-call-avatar${call.state === "active" ? " live" : ""}" aria-hidden="true">${photoOf(call.otherId) ? `<img src="${photoOf(call.otherId)}" alt="" />` : escapeHtml((call.otherPseudo || "?").charAt(0))}</div>
-          <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
+          <div class="net-call-name" dir="auto">${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
           ${call.state === "active" ? `<div class="net-call-timer" id="netCallTimer"></div><div class="net-call-info" id="netCallInfo"></div>` : ""}
           <div class="net-call-lang">${escapeHtml(langLabel(mySpeak(call.convId)))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
