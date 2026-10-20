@@ -8807,7 +8807,9 @@ const Reseau = (() => {
     if (pendingAdd) {
       const p = pendingAdd;
       inviteUsed();
-      if (p !== profile.pseudo) await openWith(p);
+      // Lien d'invitation : le contact est ajouté en coulisses, puis on arrive sur l'accueil (pas dans la discussion).
+      if (p !== profile.pseudo) await openWith(p, true);
+      if (inviteFromLink && homeTabBtn) homeTabBtn.click();
     }
     if (pendingEwCall) {
       const id = pendingEwCall;
@@ -11323,7 +11325,8 @@ const Reseau = (() => {
     setTimeout(() => ensureConnected(), 600);
   }
   // Arrivé par un lien d'invitation : on ouvre directement l'onglet Réseau.
-  if ((pendingAdd && inviteFromLink) || pendingEwCall) {
+  // Sans compte, le lien mène à l'inscription ; avec un compte, on reste sur l'accueil.
+  if ((pendingAdd && inviteFromLink && safeStore.getItem("lc_net_joined") !== "1") || pendingEwCall) {
     setTimeout(() => goToTab(), 300);
   }
   // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------
