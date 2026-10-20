@@ -484,7 +484,10 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-row-when{flex:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
   .net-row-l2{display:flex;align-items:center;gap:6px;min-width:0;}
   .net-row-l2 .net-conv-prev{flex:1;min-width:0;font-size:14px;}
-  .net-row-flag{flex:none;font-size:14px;line-height:1;}
+  .net-row-you{flex:none;color:var(--muted);font-size:inherit;}
+  .net-row-seen{flex:none;width:18px;height:18px;border-radius:50%;overflow:hidden;display:inline-flex;}
+  .net-row-seen .net-av{width:18px !important;height:18px !important;font-size:9px !important;border-width:0 !important;}
+  .net-row-l2 .net-conv-prev{color:var(--muted);}
   .net-row-count{flex:none;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--blue);color:#fff;
     font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
   .net-row.unread .net-row-l1 b,.net-row.unread .net-conv-prev{color:var(--text);font-weight:700;}
@@ -9968,15 +9971,18 @@ const Reseau = (() => {
             const prev = !(c.last && visibleForMe(c.last)) ? ""
               : c.last.kind === "call" ? callRecTitle(parseCallMsg(c.last))
               : (c.last.kind === "voice" ? "🎙 " : "") + c.last.body;
-            const l = c.other && typeof langByCode === "function" ? langByCode(c.other.lang) : null;
-            const flag = l && l.flag ? `<span class="net-row-flag" title="${escapeHtml(lang)}" aria-label="${escapeHtml(lang)}">${l.flag}</span>` : "";
+            // Comme Messenger : « Vous : » devant mon dernier message, et la petite photo du contact quand il l'a lu.
+            const mineLast = !!(prev && c.last.sender_id === me);
+            const seen = mineLast && c.otherId && c.otherRead && new Date(c.otherRead) >= new Date(c.last.created_at);
+            const flag = mineLast ? `<span class="net-row-you">${escapeHtml(t("net_you"))} : </span>` : "";
+            const seenHtml = seen ? `<span class="net-row-seen" aria-label="${escapeHtml(t("net_seen", { t: "" }).trim())}">${avatarCore(name, c.otherId)}</span>` : "";
             const n = c.unread ? Math.max(1, c.unreadN || 0) : 0;
             const when = c.last && visibleForMe(c.last) ? whenLabel(c.last.created_at) : "";
             return `<button class="net-conv net-row${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}" data-q="${escapeHtml((name + " " + prev).toLowerCase())}">
                 ${avatarHtml(c.other ? nm(c.other) : "?", c.other ? c.otherId : null)}
                 <span class="net-row-mid">
                   <span class="net-row-l1"><b dir="ltr">${escapeHtml(name)}${blocked}</b><span class="net-row-when">${escapeHtml(when)}</span></span>
-                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
+                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${seenHtml}${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
                 </span>
               </button>`;
           }).join("")
