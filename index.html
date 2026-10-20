@@ -11684,6 +11684,11 @@ const Reseau = (() => {
     if (map[href]) { e.preventDefault(); showView(map[href]); }
     else if (href === "index.html" && a.closest(".legal-view")) { e.preventDefault(); showView("home"); }
   });
+  // Liens du site vitrine (monde/) : ../#cgu, ../#confidentialite, ../#mentions ouvrent la page légale, même sans compte.
+  var hm = { "#cgu": "legal-cgu", "#cgv": "legal-cgu", "#confidentialite": "legal-privacy", "#mentions": "legal-mentions" };
+  function fromHash() { if (hm[location.hash]) setTimeout(function () { showView(hm[location.hash]); }, 0); }
+  window.addEventListener("load", fromHash);
+  window.addEventListener("hashchange", fromHash);
 })();
 </script>
 </body>
