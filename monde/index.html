@@ -154,7 +154,7 @@
   @media (max-width:700px){.hero{--gy:88%;align-items:flex-start;padding-top:120px;}.hero::after{height:14%;}}
   @media (prefers-reduced-motion:reduce){.orbit .ring.r1{animation:none;}.reveal{opacity:1;transform:none;transition:none;}html{scroll-behavior:auto;}}
 </style>
-<link rel="stylesheet" href="../ambiance-terre.css?v=7">
+<link rel="stylesheet" href="../ambiance-terre.css?v=8">
 <style>/* Site : la Terre de nuit reste en haut de page et défile avec elle, le texte plus bas reste net. */ html::before,html::after{position:absolute !important;} html{--ow-people-gap:0px;} #globe{display:none;} /* aucun glissement de côté sur téléphone */ html,body{overflow-x:hidden;max-width:100%;} @media (max-width:699px){.demo,.steps,.grid,.promise{grid-template-columns:minmax(0,1fr);}} .demo>*,.steps>*,.grid>*,.promise>*{min-width:0;}</style>
 </head>
 <body>
@@ -308,7 +308,7 @@
   // « Bonjour » dans plusieurs langues, sous le titre.
   const hi = [["Bonjour","fr"],["Hello","en"],["こんにちは","ja"],["Hola","es"],["مرحبا","ar"],["Salama","mg"],["สวัสดี","th"],["Olá","pt"],["你好","zh"],["Привет","ru"],["Hallo","de"],["Ciao","it"]];
   // Nom de la langue écrit dans la langue du visiteur (« japonais », « Japanese », « 日本語 »…).
-  const nm = (c) => { try { return new Intl.DisplayNames([window.owSiteLang || "fr"], { type: "language" }).of(c) || c; } catch (e) { return c; } };
+  const nm = (c) => { let n = ""; try { n = new Intl.DisplayNames([window.owSiteLang || "fr"], { type: "language" }).of(c) || ""; } catch (e) { /* téléphone ancien */ } return n && n !== c ? n : (window.owNativeName ? window.owNativeName(c) : c); };
   const w = document.getElementById("helloWord"), l = document.getElementById("helloLang");
   let i = 0;
   const show = () => { w.textContent = hi[i][0]; l.textContent = nm(hi[i][1]); };

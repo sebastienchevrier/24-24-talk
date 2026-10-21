@@ -69,3 +69,10 @@ html:not([data-theme="light"]) .primary, html:not([data-theme="light"]) .net-dia
 }
 /* Ancien globe en filigrane de la Messagerie : remplacé par la Terre de nuit. */
 body.net-full::before{display:none !important;}
+
+/* Contraste élevé (Accessibilité) : le texte secondaire devient aussi clair que le texte principal et les traits plus
+   visibles. Écrit ici, après l'ambiance, sinon les couleurs de l'ambiance l'emporteraient (contrôle du 21 oct. 2026). */
+html.contrast-high, html.contrast-high:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
+  --muted:var(--text) !important; --ews-muted:var(--ews-text) !important;
+}
+html.contrast-high:not([data-theme="light"]):not(.theme-light){ --line:rgba(120,255,180,.55) !important; --ews-line:rgba(120,255,180,.55) !important; }

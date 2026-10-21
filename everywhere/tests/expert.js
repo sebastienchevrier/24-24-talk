@@ -49,7 +49,7 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
-  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; try { if (!localStorage.getItem("e2e_seeded")) { localStorage.setItem("e2e_seeded", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } } catch (e) {} }); return c; }; } // ancien accueil du portail, encore testé
   const PHONE = (w, h) => ({ viewport: { width: w, height: h }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" });
 
   // opts.fake : faux Supabase ; opts.mm : "down" | "quota" | "html" | fonction ; opts.speech : "mock" | "real" ; opts.fakeSrc : variante du faux client ; opts.init : localStorage initial

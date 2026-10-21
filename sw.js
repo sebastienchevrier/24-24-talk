@@ -13,9 +13,31 @@ var TXT = {
   ar: ["يتصل بك", "المس للرد", "مكالمة فائتة"],
   ru: ["звонит вам", "Нажмите, чтобы ответить", "Пропущенный звонок"],
   mg: ["miantso anao", "Tsindrio raha hamaly", "Antso tsy voaray"],
+  nl: ["belt je", "Tik om op te nemen", "Gemiste oproep"],
+  pl: ["dzwoni do ciebie", "Dotknij, aby odebrać", "Nieodebrane połączenie"],
+  ro: ["te sună", "Atinge pentru a răspunde", "Apel pierdut"],
+  tr: ["seni arıyor", "Cevaplamak için dokun", "Cevapsız arama"],
+  id: ["menelepon kamu", "Ketuk untuk menjawab", "Panggilan tak terjawab"],
+  ms: ["sedang memanggil anda", "Ketik untuk menjawab", "Panggilan tidak dijawab"],
+  vi: ["đang gọi cho bạn", "Chạm để trả lời", "Cuộc gọi nhỡ"],
+  sw: ["anakupigia simu", "Gusa ili kujibu", "Simu ambayo hukujibu"],
+  ht: ["ap rele w", "Peze pou reponn", "Apèl ou rate"],
+  uk: ["телефонує вам", "Торкніться, щоб відповісти", "Пропущений дзвінок"],
+  ko: ["님이 전화했습니다", "탭하여 받기", "부재중 전화"],
+  th: ["กำลังโทรหาคุณ", "แตะเพื่อรับสาย", "สายที่ไม่ได้รับ"],
+  he: ["מתקשר אליך", "הקש כדי לענות", "שיחה שלא נענתה"],
+  fa: ["با شما تماس می‌گیرد", "برای پاسخ بزنید", "تماس بی‌پاسخ"],
+  hi: ["आपको कॉल कर रहे हैं", "जवाब देने के लिए टैप करें", "छूटी हुई कॉल"],
+  bn: ["আপনাকে কল করছেন", "উত্তর দিতে চাপুন", "মিসড কল"],
+  ta: ["உங்களை அழைக்கிறார்", "பதிலளிக்கத் தொடவும்", "தவறிய அழைப்பு"],
+  ur: ["آپ کو کال کر رہے ہیں", "جواب دینے کے لیے ٹیپ کریں", "مسڈ کال"],
+  tl: ["tumatawag sa iyo", "I-tap para sagutin", "Hindi nasagot na tawag"],
 };
 function txt() {
-  var l = String((self.navigator && self.navigator.language) || "en").slice(0, 2).toLowerCase();
+  var l = String((self.navigator && self.navigator.language) || "en").toLowerCase();
+  if (l.slice(0, 3) === "fil") l = "tl";
+  else if (l.slice(0, 2) === "iw") l = "he";
+  else l = l.slice(0, 2);
   return TXT[l] || TXT.en;
 }
 
@@ -27,7 +49,7 @@ self.addEventListener("push", function (e) {
   try { d = e.data ? e.data.json() : {}; } catch (err) { d = {}; }
   var s = txt();
   var call = String(d.call || "").replace(/[^a-z0-9]/g, "").slice(0, 40);
-  var who = d.p ? "@" + String(d.p).slice(0, 20) : "24/24 ONE WORLD";
+  var who = d.p ? String(d.p).slice(0, 20) : "24/24 ONE WORLD"; // noms sans @ depuis le 20 oct. 2026
   var tag = "call-" + call;
   var scope = self.registration.scope;
   if (d.t === "cancel") {
