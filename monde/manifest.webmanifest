@@ -1,0 +1,16 @@
+{
+  "name": "24/24 ONE WORLD — Le monde se parle. Enfin.",
+  "short_name": "ONE WORLD",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#010409",
+  "theme_color": "#070b1c",
+  "lang": "fr",
+  "icons": [
+    { "src": "../everywhere/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "../everywhere/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "../everywhere/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
