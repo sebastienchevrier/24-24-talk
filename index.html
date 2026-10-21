@@ -86,7 +86,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   }
   var code = pick();
   window.UI_PICK = code;
-  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=2"><\/script>');
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=3"><\/script>');
 })();
 </script>
 <script>
@@ -572,6 +572,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full header.hero-earth, body.net-full .promo-banner, body.net-full .trust-line, body.net-full .install-top,
   body.net-full .inapp-banner, body.net-full .site-footer, body.net-full #netHomeBtn{display:none !important;}
   body.net-full main{padding-top:10px;}
+  /* Discussion ouverte en plein écran : la barre du haut de la coquille ne doit pas se voir en transparence derrière l'en-tête. */
+  body:has(.net-chat-full) #ewsTop{visibility:hidden;}
   body.net-full .net-topbar{justify-content:space-between;margin:4px 0 12px;}
   body.net-full .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
   body.net-full .net-topbar .net-tb-actions{display:flex;gap:8px;}
@@ -805,7 +807,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   :root[data-theme="light"] .home-tile{background:var(--panel);}
   /* COPIE DE TEST : bandeau orange permanent. */
 </style>
-<link rel="stylesheet" href="ambiance-terre.css?v=6" />
+<link rel="stylesheet" href="ambiance-terre.css?v=8" />
 </head>
 <body>
 <div id="ewsTopSlot" aria-hidden="true"></div>
@@ -6519,6 +6521,9 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_have_account: "Ya tengo una cuenta (código por e-mail)",
+    net_suspended: "Tu cuenta está suspendida. Para hablarlo: schevrier.1975@gmail.com",
+    net_rate_limit: "Demasiados envíos a la vez. Espera un minuto y vuelve a intentarlo.",
     net_cl_title: "Idiomas de esta conversación",
     net_cl_speak: "🗣 Hablo y escribo en",
     net_cl_read: "🌐 Leo y escucho en",
@@ -6735,6 +6740,9 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_have_account: "Já tenho uma conta (código por e-mail)",
+    net_suspended: "Sua conta está suspensa. Para falar sobre isso: schevrier.1975@gmail.com",
+    net_rate_limit: "Envios demais de uma vez. Aguarde um minuto e tente de novo.",
     net_cl_title: "Idiomas desta conversa",
     net_cl_speak: "🗣 Falo e escrevo em",
     net_cl_read: "🌐 Leio e ouço em",
@@ -6951,6 +6959,9 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_have_account: "Ich habe schon ein Konto (Code per E-Mail)",
+    net_suspended: "Dein Konto ist gesperrt. Kontakt: schevrier.1975@gmail.com",
+    net_rate_limit: "Zu viele Nachrichten auf einmal. Warte eine Minute und versuche es erneut.",
     net_cl_title: "Sprachen für diese Unterhaltung",
     net_cl_speak: "🗣 Ich spreche und schreibe auf",
     net_cl_read: "🌐 Ich lese und höre auf",
@@ -7167,6 +7178,9 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_have_account: "Ho già un account (codice via e-mail)",
+    net_suspended: "Il tuo account è sospeso. Per parlarne: schevrier.1975@gmail.com",
+    net_rate_limit: "Troppi invii in una volta. Attendi un minuto e riprova.",
     net_cl_title: "Lingue di questa conversazione",
     net_cl_speak: "🗣 Parlo e scrivo in",
     net_cl_read: "🌐 Leggo e ascolto in",
@@ -7383,6 +7397,9 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_have_account: "我已有账户（通过电子邮件获取验证码）",
+    net_suspended: "你的账户已被暂停。如需沟通：schevrier.1975@gmail.com",
+    net_rate_limit: "发送过于频繁。请等待一分钟后再试。",
     net_cl_title: "此对话的语言",
     net_cl_speak: "🗣 我说和写的语言",
     net_cl_read: "🌐 我读和听的语言",
@@ -7599,6 +7616,9 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_have_account: "アカウントをお持ちの方（メールでコードを受け取る）",
+    net_suspended: "アカウントは停止されています。お問い合わせ：schevrier.1975@gmail.com",
+    net_rate_limit: "一度に送信しすぎです。1分待ってからもう一度お試しください。",
     net_cl_title: "この会話の言語",
     net_cl_speak: "🗣 話す・書く言語",
     net_cl_read: "🌐 読む・聞く言語",
@@ -7815,6 +7835,9 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_have_account: "لديّ حساب بالفعل (رمز عبر البريد الإلكتروني)",
+    net_suspended: "حسابك معلّق. للتواصل: schevrier.1975@gmail.com",
+    net_rate_limit: "إرسال كثير دفعة واحدة. انتظر دقيقة ثم أعد المحاولة.",
     net_cl_title: "لغات هذه المحادثة",
     net_cl_speak: "🗣 أتحدث وأكتب بـ",
     net_cl_read: "🌐 أقرأ وأستمع بـ",
@@ -8031,6 +8054,9 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_have_account: "У меня уже есть аккаунт (код по e-mail)",
+    net_suspended: "Ваш аккаунт заблокирован. Связаться: schevrier.1975@gmail.com",
+    net_rate_limit: "Слишком много отправок сразу. Подождите минуту и попробуйте снова.",
     net_cl_title: "Языки этой переписки",
     net_cl_speak: "🗣 Я говорю и пишу на",
     net_cl_read: "🌐 Я читаю и слушаю на",
@@ -8247,6 +8273,9 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_have_account: "Efa manana kaonty aho (kaody amin'ny mailaka)",
+    net_suspended: "Nampiatoina ny kaontinao. Raha hiresaka: schevrier.1975@gmail.com",
+    net_rate_limit: "Be loatra ny nalefa indray mandeha. Miandrasa iray minitra dia andramo indray.",
     net_cl_title: "Fiteny amin'ity resaka ity",
     net_cl_speak: "🗣 Miteny sy manoratra amin'ny",
     net_cl_read: "🌐 Mamaky sy mihaino amin'ny",

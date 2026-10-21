@@ -40,7 +40,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
-  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; try { if (!localStorage.getItem("e2e_seeded")) { localStorage.setItem("e2e_seeded", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } } catch (e) {} }); return c; }; } // ancien accueil du portail, encore testé
   const PHONE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
 
   // mm : "ok" (traduction imitée « [ja] texte »), "quota" (quota atteint après 3 phrases), "down"
@@ -237,17 +237,16 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       fallback && log === "upsert,delete" && !left;
     return { ok, detail: "refus sans accord : " + refused + " · ligne envoyée : " + Object.keys(row).filter((k) => k !== "updated_at").join(",") + " · journal : " + log };
   });
-  await step("Sans compte TALK : impossible d'activer la sauvegarde sur le compte (message), le profil marche sur l'appareil", async () => {
+  // Depuis le 19 oct. 2026 (« tout avec compte »), sans compte le portail n'ouvre que l'inscription : plus de profil sans compte.
+  await step("Sans compte : le profil linguistique renvoie vers l'inscription (tout avec compte)", async () => {
     const c = await ctxFor({});
-    const pg = await open(c, "#/profil/linguistique");
-    await pg.waitForSelector("#lpSave");
-    await pg.$eval("#lpSync", (b) => b.click()); // interrupteur grisé (aria-disabled) : on le touche quand même
-    const r = await pg.evaluate(() => ({ s: document.getElementById("lpSync").getAttribute("aria-checked"), d: document.getElementById("lpSync").getAttribute("aria-disabled"), n: document.getElementById("lpSyncNote").textContent }));
-    await pg.tap("#lpSave");
-    await pg.waitForSelector("#lpMsg .cx-msg");
-    const saved = !!(await ls(pg, "ow_profile_v1"));
+    const pg = await open(c, "#/accueil");
+    await pg.evaluate(() => { localStorage.setItem("fake_sb", JSON.stringify({ session: false, email: "", new_email: "", anon: true, pending: "", devices: [] })); localStorage.setItem("lc_net_auth", ""); });
+    await pg.goto(URL_EW + "#/profil/linguistique");
+    await pg.waitForURL(/24-24-talk\/index\.html/, { timeout: 15000 });
+    await pg.waitForSelector("#net.view.active", { timeout: 15000 });
     await c.close();
-    return { ok: r.s === "false" && r.d === "true" && /compte 24\/24 ONE WORLD/.test(r.n) && saved, detail: r.n };
+    return { ok: true, detail: "renvoyé vers l'inscription" };
   });
   await step("Nouvel appareil : le profil sauvegardé sur le compte est retrouvé", async () => {
     const row = { user_id: "00000000-0000-4000-8000-0000000000aa", display_name: "Seb", native_lang: "fr", spoken: [{ code: "de", level: "B2" }], ui_lang: "auto", favorites: ["de"],
@@ -293,7 +292,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await pg.waitForSelector(".tr-ct");
     const rows = await pg.$$eval(".tr-ct", (n) => n.map((x) => x.textContent.replace(/\s+/g, " ").trim()));
     await c.close();
-    const maria = rows.find((r) => /@maria/.test(r)) || "", kenji = rows.find((r) => /@kenji/.test(r)) || "";
+    const maria = rows.find((r) => /@?maria/.test(r)) || "", kenji = rows.find((r) => /@?kenji/.test(r)) || ""; // noms sans @ depuis le 20 oct. 2026
     return { ok: /Parle aussi Français, Anglais/.test(maria) && !/Parle aussi/.test(kenji), detail: maria + " | " + kenji };
   });
 

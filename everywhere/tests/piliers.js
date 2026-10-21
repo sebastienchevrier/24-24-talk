@@ -40,7 +40,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const URL_TALK = ORIGIN + BASE + "index.html";
   const browser = await chromium.launch();
-  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; try { if (!localStorage.getItem("e2e_seeded")) { localStorage.setItem("e2e_seeded", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } } catch (e) {} }); return c; }; } // ancien accueil du portail, encore testé
   const MOBILE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
   async function newCtx(opts, fake, init) {
     const ctx = await browser.newContext(Object.assign({}, MOBILE, opts || {}));
