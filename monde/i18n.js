@@ -1226,7 +1226,35 @@
   K.forEach(function (k, i) { IDX[k] = i; });
 
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  // Nom de chaque langue écrit dans la langue elle-même (même liste que l'application) : certains téléphones
+  // ne connaissent pas tous ces noms et afficheraient sinon le code brut (« sm », « sn », « tg »…).
+  var NATIVE = {
+    fr: "Français", en: "English", es: "Español", de: "Deutsch", it: "Italiano", pt: "Português",
+    "pt-BR": "Português (Brasil)", nl: "Nederlands", pl: "Polski", ro: "Română", el: "Ελληνικά",
+    cs: "Čeština", sv: "Svenska", da: "Dansk", nb: "Norsk bokmål", fi: "Suomi", hu: "Magyar",
+    bg: "Български", hr: "Hrvatski", sk: "Slovenčina", sl: "Slovenščina", lt: "Lietuvių",
+    lv: "Latviešu", et: "Eesti", is: "Íslenska", ga: "Gaeilge", mt: "Malti", sq: "Shqip",
+    mk: "Македонски", sr: "Српски", bs: "Bosanski", uk: "Українська", be: "Беларуская",
+    ru: "Русский", ca: "Català", eu: "Euskara", gl: "Galego", cy: "Cymraeg", lb: "Lëtzebuergesch",
+    ar: "العربية", he: "עברית", fa: "فارسی", tr: "Türkçe", ku: "Kurdî", ps: "پښتو",
+    az: "Azərbaycanca", hy: "Հայերեն", ka: "ქართული",
+    sw: "Kiswahili", am: "አማርኛ", ha: "Hausa", yo: "Yorùbá", ig: "Igbo", zu: "isiZulu",
+    xh: "isiXhosa", af: "Afrikaans", st: "Sesotho", so: "Soomaali", rw: "Ikinyarwanda",
+    rn: "Ikirundi", ln: "Lingála", sn: "chiShona", ny: "Chichewa", wo: "Wolof", ti: "ትግርኛ",
+    om: "Afaan Oromoo", mg: "Malagasy", mos: "Mooré",
+    zh: "中文（简体）", "zh-TW": "中文（繁體）", ja: "日本語", ko: "한국어", vi: "Tiếng Việt",
+    th: "ไทย", id: "Bahasa Indonesia", ms: "Bahasa Melayu", tl: "Filipino", hi: "हिन्दी",
+    bn: "বাংলা", ta: "தமிழ்", te: "తెలుగు", ml: "മലയാളം", kn: "ಕನ್ನಡ", mr: "मराठी",
+    gu: "ગુજરાતી", pa: "ਪੰਜਾਬੀ", or: "ଓଡ଼ିଆ", as: "অসমীয়া", ur: "اردو", ne: "नेपाली",
+    si: "සිංහල", my: "မြန်မာ", km: "ខ្មែរ", lo: "ລາວ", mn: "Монгол", ceb: "Sinugboanon",
+    jv: "Basa Jawa", su: "Basa Sunda",
+    kk: "Қазақша", ky: "Кыргызча", uz: "Oʻzbekcha", tg: "Тоҷикӣ", tk: "Türkmençe",
+    "es-MX": "Español (México)", ht: "Kreyòl ayisyen", qu: "Runa Simi", gn: "Avañeʼẽ",
+    mi: "Te Reo Māori", sm: "Gagana Sāmoa", to: "Lea faka-Tonga", fj: "Vosa Vakaviti",
+    haw: "ʻŌlelo Hawaiʻi",
+  };
   function nativeName(c) {
+    if (NATIVE[c]) return NATIVE[c];
     try { var n = new Intl.DisplayNames([c], { type: "language" }).of(c); if (n && n !== c) return n.charAt(0).toLocaleUpperCase(c) + n.slice(1); } catch (e) {}
     return c;
   }
