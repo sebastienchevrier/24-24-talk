@@ -65,7 +65,7 @@
 <script>
 /* 24/24 ONE WORLD — langue de l'interface. 11 langues sont incluses dans l'appli ; les autres sont de petits
    fichiers (i18n/xx.js) téléchargés seulement par les téléphones réglés dans cette langue. */
-window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "ro", "sw", "ta", "th", "tl", "tr", "uk", "ur", "vi", "zh-TW"];
+window.UI_PACKS = ["bg", "bn", "cs", "da", "el", "et", "fa", "fi", "he", "hi", "hr", "ht", "hu", "id", "ko", "lt", "lv", "ms", "nb", "nl", "pl", "ro", "sk", "sl", "sv", "sw", "ta", "th", "tl", "tr", "uk", "ur", "vi", "zh-TW"];
 (function () {
   var BUILTIN = ["fr", "en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"];
   var pref = "auto";
@@ -86,7 +86,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   }
   var code = pick();
   window.UI_PICK = code;
-  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=3"><\/script>');
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=4"><\/script>');
 })();
 </script>
 <script>
@@ -633,6 +633,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-hd-tr.on{color:#8fe9df;}
   .net-hd-tr:not(.on)::after{content:"";position:absolute;width:26px;height:2px;background:currentColor;transform:rotate(-45deg);border-radius:2px;}
   .net-hd-btn.net-hd-call{color:#8fb0ff;}
+  .net-hd-voice svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+  .net-hd-voice.on{background:#d92d4b;color:#fff;}
   .net-chat-full .net-log{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;padding:10px 2px 4px;}
   .net-chat-full .net-typing{flex-shrink:0;margin:0 6px 2px;}
   .net-chat-full #netChatMsg{flex-shrink:0;}
@@ -10602,6 +10604,8 @@ const Reseau = (() => {
     const c = currentConv;
     const name = c.other ? nm(c.other) : t("net_deleted_user");
     const isBlocked = c.otherId && blockedIds.has(c.otherId);
+    // Commande vocale : la barre du haut est cachée derrière la discussion, l'en-tête en porte une copie.
+    const voiceBtn = document.getElementById("ewvBtn");
     root.innerHTML = `
       <div class="card net-chat net-chat-full">
         <div class="net-chat-head">
@@ -10613,6 +10617,7 @@ const Reseau = (() => {
           <button type="button" class="net-hd-btn net-hd-tr${trOn ? " on" : ""}" id="netTrBtn" aria-pressed="${trOn}" aria-label="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}" title="${escapeHtml(t(trOn ? "tr_on" : "tr_off"))}">${ICON_GLOBE}</button>
           ${c.otherId && !isBlocked ? `<button type="button" class="net-hd-btn net-hd-call" id="netCallBtn" aria-label="${escapeHtml(t("net_call"))}">${ICON_PHONE}</button>` : ""}
           ${c.otherId && isBlocked ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>` : ""}
+          ${voiceBtn ? `<button type="button" class="net-hd-btn net-hd-voice" id="netVoiceBtn" aria-label="${escapeHtml(voiceBtn.getAttribute("aria-label") || "")}">${voiceBtn.innerHTML}</button>` : ""}
           <button type="button" class="net-hd-btn" id="netMore" aria-label="${escapeHtml(t("net_more"))}"><span aria-hidden="true">⋯</span></button>
         </div>
         <div class="conv-log net-log" id="netLog"></div>
@@ -10625,6 +10630,13 @@ const Reseau = (() => {
         </div>
       </div>`;
     renderChatMessages();
+    const vBtn = root.querySelector("#netVoiceBtn");
+    if (vBtn && voiceBtn) {
+      vBtn.addEventListener("click", () => voiceBtn.click());
+      const sync = () => { vBtn.classList.toggle("on", voiceBtn.classList.contains("on")); vBtn.setAttribute("aria-pressed", voiceBtn.getAttribute("aria-pressed") || "false"); };
+      sync();
+      new MutationObserver(sync).observe(voiceBtn, { attributes: true, attributeFilter: ["class", "aria-pressed"] });
+    }
     root.querySelector("#netBack").addEventListener("click", () => {
       // TOUCH : même chemin que le geste « retour » d'Android (une seule entrée d'historique par discussion).
       if (history.state && history.state.ewNet === "chat") history.back();
