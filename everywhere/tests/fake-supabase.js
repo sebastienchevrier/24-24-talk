@@ -35,11 +35,45 @@
   // Profil linguistique : la ligne du compte est gardée dans localStorage « fake_lp » ; chaque écriture est notée dans « fake_lp_log ».
   function lpGet() { try { return JSON.parse(localStorage.getItem("fake_lp") || "null"); } catch (e) { return null; } }
   function lpLog(op, row) { try { var l = JSON.parse(localStorage.getItem("fake_lp_log") || "[]"); l.push({ op: op, row: row || null }); localStorage.setItem("fake_lp_log", JSON.stringify(l)); } catch (e) {} }
+  // Espaces COMMUNITY, LIVE, BUSINESS (tables ow_*) : petite base en mémoire gardée dans localStorage « fake_ow »,
+  // avec ce que font les déclencheurs du vrai serveur (nom affiché, propriétaire, compteur de membres).
+  function owLoad() { try { return JSON.parse(localStorage.getItem("fake_ow") || "null") || { ow_rooms: [], ow_room_members: [], ow_room_msgs: [], ow_listings: [], seq: 0 }; } catch (e) { return { ow_rooms: [], ow_room_members: [], ow_room_msgs: [], ow_listings: [], seq: 0 }; } }
+  function owSave(d) { try { localStorage.setItem("fake_ow", JSON.stringify(d)); } catch (e) {} }
+  function owRun(table, op, payload, filters, single) {
+    var d = owLoad(), rows = d[table] || [], now = new Date().toISOString();
+    function match(r) { return filters.every(function (f) { return f[0] === "eq" ? String(r[f[1]]) === String(f[2]) : f[0] === "gt" ? r[f[1]] > f[2] : true; }); }
+    var out;
+    if (op === "insert") {
+      var r = Object.assign({}, payload);
+      if (table === "ow_rooms") Object.assign(r, { id: "cccccccc-0000-4000-8000-" + String(1e11 + (++d.seq)).slice(1), owner_id: PROFILE.id, owner_name: PROFILE.pseudo, members: 1, live_on: false, created_at: now, last_at: now });
+      if (table === "ow_room_msgs") Object.assign(r, { id: ++d.seq, sender_id: PROFILE.id, sender_name: PROFILE.pseudo, kind: r.kind || "text", created_at: now });
+      if (table === "ow_listings") Object.assign(r, { id: "dddddddd-0000-4000-8000-" + String(1e11 + (++d.seq)).slice(1), seller_id: PROFILE.id, seller_name: PROFILE.pseudo, seller_pseudo: PROFILE.pseudo, status: "open", created_at: now });
+      rows.push(r);
+      if (table === "ow_rooms") d.ow_room_members.push({ room_id: r.id, user_id: PROFILE.id });
+      if (table === "ow_room_members") d.ow_rooms.forEach(function (x) { if (x.id === r.room_id) x.members++; });
+      out = [r];
+    } else if (op === "update") {
+      out = rows.filter(match); out.forEach(function (r) { Object.assign(r, payload); });
+    } else if (op === "delete") {
+      out = rows.filter(match);
+      d[table] = rows.filter(function (r) { return !match(r); });
+      if (table === "ow_room_members") out.forEach(function (m) { d.ow_rooms.forEach(function (x) { if (x.id === m.room_id) x.members--; }); });
+    } else {
+      out = rows.filter(match).slice().reverse();
+    }
+    d[table] = d[table] || rows;
+    owSave(d);
+    return single ? (out[0] || null) : out;
+  }
   function builder(table) {
-    var single = false, op = "select", payload = null;
+    var single = false, op = "select", payload = null, filters = [];
     var b = {
       then: function (ok, ko) {
         var data;
+        if (table.indexOf("ow_") === 0) {
+          if (localStorage.getItem("fake_ow_fail") === "1") return Promise.resolve({ data: null, error: { message: "Failed to fetch" } }).then(ok, ko);
+          return Promise.resolve({ data: owRun(table, op, payload, filters, single), error: null }).then(ok, ko);
+        }
         if (table === "language_profiles") {
           if (localStorage.getItem("fake_lp_fail") === "1" && op !== "select") return Promise.resolve({ data: null, error: { message: "permission denied", code: "42501" } }).then(ok, ko);
           if (op === "upsert") { localStorage.setItem("fake_lp", JSON.stringify(Object.assign({ updated_at: new Date().toISOString() }, payload))); lpLog("upsert", payload); data = null; }
@@ -57,7 +91,11 @@
     ["select", "eq", "neq", "in", "or", "order", "limit", "gt", "lt", "gte", "lte", "is", "insert", "update", "upsert", "delete", "match", "range", "not", "filter"]
       .forEach(function (m) { if (!b[m]) b[m] = function () { return b; }; });
     // Les ajouts sont notés (window.__inserts) pour que les tests puissent les vérifier.
-    b.insert = function (v) { (window.__inserts = window.__inserts || []).push({ table: table, row: v }); return b; };
+    b.insert = function (v) { (window.__inserts = window.__inserts || []).push({ table: table, row: v }); op = "insert"; payload = v; return b; };
+    b.update = function (v) { op = "update"; payload = v; return b; };
+    b.eq = function (k, v) { filters.push(["eq", k, v]); return b; };
+    b.gt = function (k, v) { filters.push(["gt", k, v]); return b; };
+    b.select = function () { return b; };
     return b;
   }
   function channel() {

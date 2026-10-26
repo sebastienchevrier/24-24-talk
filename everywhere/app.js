@@ -384,7 +384,8 @@
         ensureFrame(a);
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
       }
-    } else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
+    } else if (["community", "live", "business", "avantages"].indexOf(view) !== -1) target = "espaces";
+    else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
     else if (view === "profil" && appId && appId !== "linguistique") target = "404";
     document.querySelectorAll(".view").forEach(function (v) {
       var on = v.getAttribute("data-route") === target;
@@ -417,6 +418,9 @@
     else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], ui); } // quitte la conversation : micro et voix coupés
     if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), ui) || t("learn");
     if (target === "ailab" && window.EWAilab) title = window.EWAilab.show($("ewAilab"), lang) || t("ailab");
+    // COMMUNITY, LIVE, BUSINESS, Avantages (26 oct. 2026) ; en quittant l'écran : micro, caméra et temps réel coupés.
+    if (target === "espaces" && window.EWEspaces) title = window.EWEspaces.show($("ewEspaces"), parts, ui) || "";
+    else if (window.EWEspaces) window.EWEspaces.leave();
     if (target === "profil" && appId === "linguistique") title = t("lp_title");
     $("topTitle").textContent = title;
     document.title = (title ? title + " · " : "") + "24/24 ONE WORLD";
