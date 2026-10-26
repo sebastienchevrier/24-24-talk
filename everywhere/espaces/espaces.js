@@ -28,8 +28,8 @@
       live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).",
       live_no_mic: "Ce navigateur ne sait pas écouter : écrivez vos sous-titres ci-dessous.", caption_ph: "Sous-titre à envoyer…",
       live_viewers: "{n} spectateur(s) en vidéo", cam_fail: "Caméra indisponible : autorisez-la dans Chrome.",
-      b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_partner: "Partenariat",
-      b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé, emploi",
+      b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_partner: "Partenariat",
+      b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé", b_kind_job: "J'embauche (offre d'emploi)", b_kind_mission: "Mission ou travail à distance (j'offre ou je cherche)",
       mk_t: "📈 Marchés et trading", mk_d: "Discutez des marchés avec le monde entier dans les communautés, et apprenez les bases dans Apprendre. 24/24 ONE WORLD n'exécute aucun ordre et ne donne aucun conseil en investissement.",
       mk_c: "Communautés", mk_l: "Apprendre", b_new: "＋ Publier une annonce",
       b_none: "Aucune annonce pour l'instant. Publiez la première !", b_contact: "💬 Contacter", b_mine: "Votre annonce", b_close: "Retirer",
@@ -46,7 +46,7 @@
       retry: "Réessayer", loading: "Chargement…", auto_tr: "Traduction automatique : vérifiez les informations importantes.",
       open_new: "{b} (s'ouvre dans un nouvel onglet)",
       tp_all: "Tous", tp_friends: "Amitié", tp_women: "Femmes", tp_support: "Soutien et écoute", tp_family: "Familles et parents", tp_culture: "Culture et passions",
-      tp_languages: "Langues", tp_faith: "Foi et spiritualité", tp_work: "Travail et études", tp_markets: "Marchés et business", tp_travel: "Voyage", tp_other: "Autre",
+      tp_languages: "Langues", tp_faith: "Foi et spiritualité", tp_work: "Travail et études", tp_markets: "Marchés et business", tp_travel: "Voyage", tp_school: "École et classes jumelées", tp_other: "Autre",
       f_topic: "Thème", speak: "🔊 Écouter", more: "Plus d'actions", report: "🚩 Signaler", block: "⛔ Bloquer cette personne",
       report_done: "Merci : signalement envoyé à la modération.", block_q: "Bloquer {n} ? Vous ne verrez plus ses messages, ici ni dans la Messagerie.", block_done: "{n} est bloqué(e).",
       mic: "🎤", mic_t: "Dicter dans ma langue",
@@ -61,6 +61,8 @@
       sos_112: "Votre pays n'est pas dans la liste : sur un téléphone mobile, le 112 fonctionne dans de nombreux pays. Vérifiez le numéro local dès que possible.",
       sos_phr: "Montrer ou faire écouter", sos_phr_sub: "Phrases traduites dans la langue du pays choisi.",
       sp1: "J'ai besoin d'aide, s'il vous plaît.", sp2: "Appelez une ambulance.", sp3: "Appelez la police.", sp4: "Je suis en danger.", sp5: "Où est l'hôpital le plus proche ?", sp6: "Je suis perdu(e).",
+      sos_med: "🩺 Chez le médecin ou à la pharmacie", sos_med_sub: "Traduction seulement : ce n'est pas un avis médical.",
+      hp1: "J'ai mal ici.", hp2: "Je suis allergique à ce médicament.", hp3: "Je prends ce traitement tous les jours.", hp4: "Je suis enceinte.", hp5: "Je suis diabétique.", hp6: "Je ne comprends pas. Pouvez-vous l'écrire, s'il vous plaît ?",
       sos_tr_lang: "Langue des phrases", sos_offline: "Sans connexion, les phrases ne peuvent pas être traduites : montrez les numéros ci-dessus.",
       call: "Appeler {n}",
     },
@@ -82,8 +84,8 @@
       live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.",
       live_no_mic: "This browser can't listen: type your subtitles below.", caption_ph: "Subtitle to send…",
       live_viewers: "{n} viewer(s) on video", cam_fail: "Camera unavailable: allow it in your browser settings.",
-      b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_partner: "Partnership",
-      b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate, job",
+      b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_partner: "Partnership",
+      b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate", b_kind_job: "I'm hiring (job offer)", b_kind_mission: "Remote job or gig (offering or looking)",
       mk_t: "📈 Markets and trading", mk_d: "Talk about the markets with the whole world in the communities, and learn the basics in Learn. 24/24 ONE WORLD executes no orders and gives no investment advice.",
       mk_c: "Communities", mk_l: "Learn", b_new: "＋ Post a listing",
       b_none: "No listing yet. Post the first one!", b_contact: "💬 Contact", b_mine: "Your listing", b_close: "Remove",
@@ -100,7 +102,7 @@
       retry: "Try again", loading: "Loading…", auto_tr: "Machine translation: check important information.",
       open_new: "{b} (opens in a new tab)",
       tp_all: "All", tp_friends: "Friendship", tp_women: "Women", tp_support: "Support and listening", tp_family: "Families and parents", tp_culture: "Culture and hobbies",
-      tp_languages: "Languages", tp_faith: "Faith and spirituality", tp_work: "Work and studies", tp_markets: "Markets and business", tp_travel: "Travel", tp_other: "Other",
+      tp_languages: "Languages", tp_faith: "Faith and spirituality", tp_work: "Work and studies", tp_markets: "Markets and business", tp_travel: "Travel", tp_school: "School and twinned classes", tp_other: "Other",
       f_topic: "Topic", speak: "🔊 Listen", more: "More actions", report: "🚩 Report", block: "⛔ Block this person",
       report_done: "Thank you: report sent to moderation.", block_q: "Block {n}? You will no longer see their messages, here or in Messages.", block_done: "{n} is blocked.",
       mic: "🎤", mic_t: "Dictate in my language",
@@ -115,13 +117,15 @@
       sos_112: "Your country is not listed: on a mobile phone, 112 works in many countries. Check the local number as soon as you can.",
       sos_phr: "Show or play aloud", sos_phr_sub: "Sentences translated into the language of the chosen country.",
       sp1: "I need help, please.", sp2: "Call an ambulance.", sp3: "Call the police.", sp4: "I am in danger.", sp5: "Where is the nearest hospital?", sp6: "I am lost.",
+      sos_med: "🩺 At the doctor or the pharmacy", sos_med_sub: "Translation only: this is not medical advice.",
+      hp1: "It hurts here.", hp2: "I am allergic to this medicine.", hp3: "I take this treatment every day.", hp4: "I am pregnant.", hp5: "I am diabetic.", hp6: "I don't understand. Could you write it down, please?",
       sos_tr_lang: "Language of the sentences", sos_offline: "Without a connection the sentences cannot be translated: show the numbers above.",
       call: "Call {n}",
     }
   };
   var CUR = ["EUR", "USD", "GBP", "CHF", "CAD", "AUD", "JPY", "CNY", "INR", "BRL", "MXN", "MGA", "MUR", "XOF", "XAF", "MAD", "IDR", "THB", "AED", "RUB"];
   var MAX_VIEWERS = 12;
-  var TOPICS = ["friends", "women", "support", "family", "culture", "languages", "faith", "work", "markets", "travel", "other"];
+  var TOPICS = ["friends", "women", "support", "family", "culture", "languages", "faith", "work", "school", "markets", "travel", "other"];
   // SOS : numéros d'urgence publics (g = général, p = police, a = ambulance, f = pompiers, w = violences faites aux femmes, s = urgence par SMS).
   // l = langue des phrases traduites. Pays de l'Union européenne : 112 partout.
   var SOS = {
@@ -636,13 +640,13 @@
     if (l.price == null) return "";
     try { return new Intl.NumberFormat(ui, { style: "currency", currency: l.currency, maximumFractionDigits: 2 }).format(l.price); } catch (e) { return l.price + " " + l.currency; }
   }
-  var HELP = ["help_need", "help_offer", "give"];
+  var HELP = ["help_need", "help_offer", "give"], BIZ = ["sell", "buy", "wholesale", "sourcing", "service", "job", "mission", "partner"];
   function business(root, filter, help) {
     var tok = cur.token, sp = help ? "entraide" : "business";
     filter = filter || "all";
     root.innerHTML = head(sp) +
       '<a class="tr-big es-new ' + sp + '" href="#/' + sp + '/new"><span class="tr-big-ic">＋</span><span><b>' + esc(t(help ? "h_new" : "b_new").replace(/^＋ /, "")) + "</b></span></a>" +
-      '<div class="es-chips" role="tablist">' + ["all"].concat(help ? HELP : ["sell", "buy", "wholesale", "sourcing", "service", "partner"]).map(function (k) {
+      '<div class="es-chips" role="tablist">' + ["all"].concat(help ? HELP : BIZ).map(function (k) {
         return '<button type="button" role="tab" class="es-chip" data-f="' + k + '" aria-selected="' + (k === filter) + '">' + esc(t("b_" + k)) + "</button>";
       }).join("") + "</div>" +
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + '</p></div>' +
@@ -653,7 +657,7 @@
       if (!r[1]) { noAccount(root.querySelector("#esList")); return; }
       var q = r[0].from("ow_listings").select("*").eq("status", "open");
       if (filter !== "all") q = q.eq("kind", filter);
-      else q = q.in("kind", help ? HELP : ["sell", "buy", "wholesale", "sourcing", "service", "partner"]);
+      else q = q.in("kind", help ? HELP : BIZ);
       return q.order("created_at", { ascending: false }).limit(80).then(function (res) {
         if (!cur || cur.token !== tok) return;
         if (res.error) throw res.error;
@@ -695,7 +699,7 @@
       '<form class="card es-form" id="esAd"><h1 id="h-es">' + esc(t(help ? "h_new" : "b_new").replace(/^＋ /, "")) + "</h1>" +
       '<label class="tr-field">' + esc(t("b_kind")) + '<select id="adKind">' + (help
         ? '<option value="help_need">' + esc(t("h_kind_need")) + '</option><option value="help_offer">' + esc(t("h_kind_offer")) + '</option><option value="give">' + esc(t("h_kind_give")) + "</option></select></label>"
-        : '<option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>") +
+        : '<option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="job">' + esc(t("b_kind_job")) + '</option><option value="mission">' + esc(t("b_kind_mission")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>") +
       '<label class="tr-field">' + esc(t("b_ttl")) + '<input id="adTitle" required minlength="3" maxlength="90" placeholder="' + esc(t(help ? "h_ttl_ph" : "b_ttl_ph")) + '"></label>' +
       '<label class="tr-field">' + esc(t("b_body")) + '<textarea id="adBody" maxlength="1500" rows="4"></textarea></label>' +
       '<div class="es-row"' + (help ? " hidden" : "") + '><label class="tr-field es-grow">' + esc(t("b_price")) + '<input id="adPrice" type="number" inputmode="decimal" min="0" step="0.01"></label>' +
@@ -772,7 +776,8 @@
     function phrases() {
       var to = sel.value, box = root.querySelector("#sosPhr"), tok = cur.token, msg = root.querySelector("#sosMsg");
       msg.textContent = "";
-      box.innerHTML = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"].map(function (k) {
+      box.innerHTML = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6", "-", "hp1", "hp2", "hp3", "hp4", "hp5", "hp6"].map(function (k) {
+        if (k === "-") return '<h3 class="tr-h2 es-sosmed">' + esc(t("sos_med")) + '</h3><p class="muted es-small">' + esc(t("sos_med_sub")) + "</p>";
         return '<div class="es-sosph" data-k="' + k + '"><b dir="auto" class="es-sosbig">' + esc(t(k)) + '</b><small class="muted">' + esc(t(k)) + '</small><span class="es-row"><button type="button" class="btn es-say">' + esc(t("speak")) + "</button></span></div>";
       }).join("");
       box.querySelectorAll(".es-sosph").forEach(function (el) {

@@ -176,6 +176,19 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     const href = await page.$eval('.es-ad a.btn.primary', (a) => a.getAttribute("href"));
     return { ok: href === "../index.html?ajouter=maria", detail: href };
   });
+  await step("Business : publier une mission à distance, rangée sous « Mission à distance »", async () => {
+    await page.goto(EW + "#/business/new");
+    await page.waitForSelector("#esAd", { timeout: 10000 });
+    await page.selectOption("#adKind", "mission");
+    await page.fill("#adTitle", "Traduction de site web, travail à distance");
+    await page.tap("#esAd button[type=submit]");
+    await page.waitForSelector(".es-ad", { timeout: 10000 });
+    await page.tap('.es-chip[data-f="mission"]');
+    await page.waitForFunction(() => document.querySelectorAll("#esList .es-ad").length === 1, null, { timeout: 5000 });
+    const txt = (await page.textContent("#esList")).replace(/\s+/g, " ");
+    const job = await page.$('.es-chip[data-f="job"]');
+    return { ok: /Mission à distance/.test(txt) && /Traduction de site/.test(txt) && !!job, detail: txt.trim().slice(0, 80) };
+  });
   await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
     await page.goto(EW + "#/entraide/new");
     await page.waitForSelector("#esAd", { timeout: 10000 });
@@ -191,7 +204,7 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     const biz = await page.textContent("#esList");
     return { ok: priceHidden && /Besoin d'aide/.test(txt) && !/papier en anglais/.test(biz), detail: "prix caché, rangée dans Entraide seulement" };
   });
-  await step("SOS (France) : 112, 15, 17, 18, 3919 (violences femmes), 114 par SMS ; phrases traduites", async () => {
+  await step("SOS (France) : 112, 15, 17, 18, 3919 (violences femmes), 114 par SMS ; phrases traduites, dont le soignant", async () => {
     await page.goto(EW + "#/sos");
     await page.waitForSelector(".es-sosnum", { timeout: 10000 });
     const nums = await page.$$eval(".es-sosnum", (a) => a.map((x) => x.getAttribute("href")));
@@ -200,7 +213,9 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-sos.png"), fullPage: true });
     await page.selectOption("#sosCc", "JP");
     await page.waitForFunction(() => [...document.querySelectorAll(".es-sosnum")].some((a) => a.getAttribute("href") === "tel:119"), null, { timeout: 5000 });
-    return { ok: nums.join() === "tel:112,tel:17,tel:15,tel:18,tel:3919,sms:114", detail: nums.join(" ") + " ; Japon → 110 / 119" };
+    const med = await page.$$eval("#sosPhr .es-sosph", (a) => a.length);
+    const medTitle = !!(await page.$(".es-sosmed"));
+    return { ok: nums.join() === "tel:112,tel:17,tel:15,tel:18,tel:3919,sms:114" && med === 12 && medTitle, detail: nums.join(" ") + " ; Japon → 110 / 119 ; " + med + " phrases dont 6 pour le soignant" };
   });
   await step("Avantages : partenaires (liens partenaires) et partage de mon lien d'invitation", async () => {
     await page.evaluate(() => { navigator.share = (d) => { window.__shared = d; return Promise.resolve(); }; });
