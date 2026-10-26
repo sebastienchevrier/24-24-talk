@@ -32,6 +32,15 @@ var TXT = {
   ta: ["உங்களை அழைக்கிறார்", "பதிலளிக்கத் தொடவும்", "தவறிய அழைப்பு"],
   ur: ["آپ کو کال کر رہے ہیں", "جواب دینے کے لیے ٹیپ کریں", "مسڈ کال"],
   tl: ["tumatawag sa iyo", "I-tap para sagutin", "Hindi nasagot na tawag"],
+  bg: ["Те призовава.", "Докоснете, за да отговорите", "Пропуснато повикване"],
+  cs: ["Volá tě", "Klepnutím odpovězte", "Zmeškaný hovor"],
+  da: ["Gud kalder på dig", "Tryk for at besvare", "Et ubesvaret opkald"],
+  et: ["Ta kutsub sind", "Puudutage, et vastata", "Vastamata kõne"],
+  is: ["Er að kalla þig", "Pikkaðu til að svara", "Ósvarað símtal"],
+  lt: ["Dievas tave šaukia", "Bakstelėkite, jei norite atsakyti", "Praleistas skambutis"],
+  lv: ["Dievs tevi sauc", "Pieskarieties, lai atbildētu", "Neatbildētais zvans"],
+  sk: ["Volá ťa", "Ťuknite na odpoveď", "Zmeškaný hovor"],
+  sl: ["Te kliče", "Tapnite za odgovor", "Neodgovorjeni klic"],
 };
 function txt() {
   var l = String((self.navigator && self.navigator.language) || "en").toLowerCase();

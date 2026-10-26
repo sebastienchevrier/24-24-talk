@@ -43,9 +43,14 @@
     var p = null;
     try { p = localStorage.getItem("lc_uilang"); } catch (e) { p = null; }
     var l = String(p && p !== "auto" ? p : (navigator.language || "fr")).toLowerCase();
-    if (/^zh-(tw|hk|mo|hant)/.test(l)) return "en"; // chinois traditionnel : pas encore traduit ici
-    l = l.slice(0, 2);
-    return UI_LANGS.indexOf(l) !== -1 ? l : "en";
+    var c = /^zh-(tw|hk|mo|hant)/.test(l) ? "zh-TW" : l.split("-")[0];
+    if (c === "fil") c = "tl";
+    if (c === "no" || c === "nn") c = "nb";
+    if (c === "iw") c = "he";
+    if (UI_LANGS.indexOf(c) !== -1) return c;
+    // Langue en plus (26 oct. 2026) : seulement si son fichier est bien arrivé (portail : everywhere/i18n, TALK : i18n), sinon anglais.
+    if (window.EW_PACK_LOADED === c || (window.I18N_PACK && window.I18N_PACK.code === c)) return c;
+    return "en";
   }
 
   // Barre du bas unique de 24/24 ONE WORLD (19 oct. 2026), la même que dans TALK :
@@ -62,7 +67,8 @@
     ];
   }
   function navHtml(root, inPortal, active, lang) {
-    var L = LABELS[lang] || LABELS[uiLangOf()] || LABELS.en;
+    var X = window.EW_SHELL_LABELS || {}, u = uiLangOf();
+    var L = Object.assign({}, LABELS.en, LABELS[lang] || X[lang] || LABELS[u] || X[u] || {});
     return items(root, inPortal).map(function (n) {
       return '<a href="' + n.href + '" data-nav="' + n.id + '"' + (n.id === active ? ' aria-current="page"' : "") + ">" +
         svg(n.icon) + "<span>" + L[n.key] + "</span></a>";
@@ -73,7 +79,7 @@
   function mountTalk() {
     if (document.getElementById("ewsTop")) return;
     var root = "./";
-    var lang = uiLangOf(), L = LABELS[lang] || LABELS.en;
+    var lang = uiLangOf(), L = Object.assign({}, LABELS.en, LABELS[lang] || (window.EW_SHELL_LABELS || {})[lang] || {});
     var top = document.createElement("header");
     top.className = "topbar ews-top";
     top.id = "ewsTop";

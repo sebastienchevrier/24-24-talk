@@ -21,7 +21,7 @@
   // lang (« fr » ou « en ») reste celle des modules pas encore traduits (voix, AI LAB).
   var ui = window.EWShell && window.EWShell.uiLang ? window.EWShell.uiLang() : lang;
   document.documentElement.lang = ui;
-  document.documentElement.dir = ui === "ar" ? "rtl" : "ltr";
+  document.documentElement.dir = ["ar", "he", "fa", "ur", "ps"].indexOf(ui) !== -1 ? "rtl" : "ltr";
   var STR = {
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
