@@ -240,6 +240,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .result .label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
   .result .txt{font-size:17px;line-height:1.4;white-space:pre-wrap;}
   .iconrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .send-label{margin-top:14px;} .send-row a.iconbtn{text-decoration:none;display:inline-flex;align-items:center;}
   .iconbtn{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;
     padding:9px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;}
   .iconbtn.fav.active{color:var(--err);border-color:var(--err);}
@@ -730,6 +731,14 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .net-call-timer{text-align:center;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;}
   .net-voice-toggle{margin:12px auto 0;display:flex;align-items:center;gap:6px;min-height:42px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);font-weight:700;font-size:15px;cursor:pointer;}
   .net-voice-toggle.on{background:var(--ok);border-color:var(--ok);color:#0b0e1a;}
+  .net-video{position:relative;width:100%;max-width:520px;margin:8px auto 0;aspect-ratio:3/4;max-height:52vh;background:#000;border-radius:16px;overflow:hidden;}
+  .net-video .net-sub{position:absolute;left:8px;right:8px;bottom:12px;z-index:2;text-align:center;color:#fff;font-size:17px;line-height:1.35;font-weight:600;text-shadow:0 1px 3px #000,0 0 8px #000;}
+  .net-video .net-sub:empty{display:none;}
+  .net-call.has-video .net-log{max-height:18vh;}
+  .net-call.has-video .net-call-avatar,.net-call.has-video .net-call-lang{display:none;}
+  .net-video .net-rvideo{width:100%;height:100%;object-fit:cover;display:block;}
+  .net-video .net-lvideo{position:absolute;right:10px;top:10px;z-index:3;width:30%;max-width:130px;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:2px solid #fff;transform:scaleX(-1);}
+  .net-video:not(:has(.net-rvideo)) .net-lvideo{position:static;width:100%;max-width:none;height:100%;border:0;border-radius:0;}
   .net-voice-info{margin-top:10px;text-align:center;color:var(--ok);font-size:14px;font-weight:700;min-height:1px;}
   .net-call-info{text-align:center;color:var(--warn);font-size:13.5px;font-weight:700;min-height:1px;}
   .net-call-status{font-weight:700;font-size:15px;text-align:center;line-height:1.4;}
@@ -879,6 +888,16 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
           <button class="iconbtn" id="shareBtn" data-i18n="share">↗ Partager</button>
           <button class="iconbtn" id="listenBtn" data-i18n="listen">🔊 Écouter</button>
           <button class="iconbtn fav" id="favBtn" data-i18n="fav">❤️ Favori</button>
+        </div>
+        <!-- Envoyer partout (26 oct. 2026) : la traduction part dans l'appli choisie, rien ne passe par nos serveurs. -->
+        <div class="label send-label" data-i18n="send_via">Envoyer la traduction par</div>
+        <div class="iconrow send-row" id="sendRow">
+          <a class="iconbtn" data-send="sms" href="#">💬 SMS</a>
+          <a class="iconbtn" data-send="wa" href="#">🟢 WhatsApp</a>
+          <a class="iconbtn" data-send="tg" href="#">✈️ Telegram</a>
+          <a class="iconbtn" data-send="mail" href="#">✉️ E-mail</a>
+          <a class="iconbtn" data-send="x" href="#">𝕏 X</a>
+          <button class="iconbtn" data-send="other" data-i18n="send_other">↗ Autres applis</button>
         </div>
       </div>
     </div>
@@ -3867,6 +3886,8 @@ const UI_STRINGS = {
     pron: "Prononciation : {p}", badge_verified: "✓ Phrase courante vérifiée", badge_auto: "Traduction automatique",
     copied: "Copié.", copy_fail: "Impossible de copier automatiquement. Sélectionnez le texte manuellement.",
     share_copied: "Partage non disponible ici : texte copié, collez-le où vous voulez.",
+    send_via: "Envoyer la traduction par",
+    send_other: "↗ Autres applis",
     share_fail: "Partage non disponible ici. Sélectionnez le texte pour le copier.",
     tts_unavail: "La lecture audio n'est pas disponible sur cet appareil.",
     stt_unavail: "La reconnaissance vocale n'est pas disponible sur ce navigateur.",
@@ -3943,6 +3964,8 @@ const UI_STRINGS = {
     pron: "Pronunciation: {p}", badge_verified: "✓ Verified common phrase", badge_auto: "Automatic translation",
     copied: "Copied.", copy_fail: "Couldn't copy automatically. Select the text manually.",
     share_copied: "Sharing isn't available here: text copied, paste it wherever you like.",
+    send_via: "Send the translation via",
+    send_other: "↗ Other apps",
     share_fail: "Sharing isn't available here. Select the text to copy it.",
     tts_unavail: "Audio playback isn't available on this device.",
     stt_unavail: "Speech recognition isn't available in this browser.",
@@ -4019,6 +4042,8 @@ const UI_STRINGS = {
     pron: "Pronunciación: {p}", badge_verified: "✓ Frase común verificada", badge_auto: "Traducción automática",
     copied: "Copiado.", copy_fail: "No se pudo copiar automáticamente. Selecciona el texto manualmente.",
     share_copied: "Compartir no está disponible aquí: texto copiado, pégalo donde quieras.",
+    send_via: "Enviar la traducción por",
+    send_other: "↗ Otras apps",
     share_fail: "Compartir no está disponible aquí. Selecciona el texto para copiarlo.",
     tts_unavail: "La lectura en voz alta no está disponible en este dispositivo.",
     stt_unavail: "El reconocimiento de voz no está disponible en este navegador.",
@@ -4095,6 +4120,8 @@ const UI_STRINGS = {
     pron: "Pronúncia: {p}", badge_verified: "✓ Frase comum verificada", badge_auto: "Tradução automática",
     copied: "Copiado.", copy_fail: "Não foi possível copiar automaticamente. Selecione o texto manualmente.",
     share_copied: "Compartilhar não está disponível aqui: texto copiado, cole onde quiser.",
+    send_via: "Enviar a tradução por",
+    send_other: "↗ Outras apps",
     share_fail: "Compartilhar não está disponível aqui. Selecione o texto para copiá-lo.",
     tts_unavail: "A leitura em voz alta não está disponível neste aparelho.",
     stt_unavail: "O reconhecimento de voz não está disponível neste navegador.",
@@ -4171,6 +4198,8 @@ const UI_STRINGS = {
     pron: "Aussprache: {p}", badge_verified: "✓ Geprüfter gängiger Satz", badge_auto: "Automatische Übersetzung",
     copied: "Kopiert.", copy_fail: "Automatisches Kopieren nicht möglich. Markiere den Text manuell.",
     share_copied: "Teilen ist hier nicht verfügbar: Text kopiert, füge ihn ein, wo du möchtest.",
+    send_via: "Übersetzung senden über",
+    send_other: "↗ Andere Apps",
     share_fail: "Teilen ist hier nicht verfügbar. Markiere den Text, um ihn zu kopieren.",
     tts_unavail: "Vorlesen ist auf diesem Gerät nicht verfügbar.",
     stt_unavail: "Spracherkennung ist in diesem Browser nicht verfügbar.",
@@ -4247,6 +4276,8 @@ const UI_STRINGS = {
     pron: "Pronuncia: {p}", badge_verified: "✓ Frase comune verificata", badge_auto: "Traduzione automatica",
     copied: "Copiato.", copy_fail: "Impossibile copiare automaticamente. Seleziona il testo manualmente.",
     share_copied: "Condivisione non disponibile qui: testo copiato, incollalo dove vuoi.",
+    send_via: "Invia la traduzione con",
+    send_other: "↗ Altre app",
     share_fail: "Condivisione non disponibile qui. Seleziona il testo per copiarlo.",
     tts_unavail: "La lettura ad alta voce non è disponibile su questo dispositivo.",
     stt_unavail: "Il riconoscimento vocale non è disponibile in questo browser.",
@@ -4323,6 +4354,8 @@ const UI_STRINGS = {
     pron: "发音：{p}", badge_verified: "✓ 已核实的常用语", badge_auto: "自动翻译",
     copied: "已复制。", copy_fail: "无法自动复制。请手动选择文字。",
     share_copied: "此处无法分享：文字已复制，可以粘贴到任何地方。",
+    send_via: "通过以下方式发送译文",
+    send_other: "↗ 其他应用",
     share_fail: "此处无法分享。请选择文字进行复制。",
     tts_unavail: "此设备不支持朗读。",
     stt_unavail: "此浏览器不支持语音识别。",
@@ -4399,6 +4432,8 @@ const UI_STRINGS = {
     pron: "発音：{p}", badge_verified: "✓ 確認済みの定番フレーズ", badge_auto: "自動翻訳",
     copied: "コピーしました。", copy_fail: "自動でコピーできませんでした。テキストを手動で選択してください。",
     share_copied: "ここでは共有できません。テキストをコピーしたので、好きな場所に貼り付けてください。",
+    send_via: "翻訳を送る",
+    send_other: "↗ ほかのアプリ",
     share_fail: "ここでは共有できません。テキストを選択してコピーしてください。",
     tts_unavail: "この端末では読み上げを利用できません。",
     stt_unavail: "このブラウザでは音声認識を利用できません。",
@@ -4475,6 +4510,8 @@ const UI_STRINGS = {
     pron: "النطق: {p}", badge_verified: "✓ عبارة شائعة موثّقة", badge_auto: "ترجمة آلية",
     copied: "تم النسخ.", copy_fail: "تعذّر النسخ تلقائيًا. حدّد النص يدويًا.",
     share_copied: "المشاركة غير متاحة هنا: تم نسخ النص، الصقه حيث تشاء.",
+    send_via: "أرسل الترجمة عبر",
+    send_other: "↗ تطبيقات أخرى",
     share_fail: "المشاركة غير متاحة هنا. حدّد النص لنسخه.",
     tts_unavail: "القراءة الصوتية غير متاحة على هذا الجهاز.",
     stt_unavail: "التعرّف على الصوت غير متاح في هذا المتصفح.",
@@ -4551,6 +4588,8 @@ const UI_STRINGS = {
     pron: "Произношение: {p}", badge_verified: "✓ Проверенная распространённая фраза", badge_auto: "Автоматический перевод",
     copied: "Скопировано.", copy_fail: "Не удалось скопировать автоматически. Выделите текст вручную.",
     share_copied: "Здесь нельзя поделиться: текст скопирован, вставьте его куда нужно.",
+    send_via: "Отправить перевод через",
+    send_other: "↗ Другие приложения",
     share_fail: "Здесь нельзя поделиться. Выделите текст, чтобы скопировать его.",
     tts_unavail: "Озвучивание недоступно на этом устройстве.",
     stt_unavail: "Распознавание речи недоступно в этом браузере.",
@@ -4651,6 +4690,8 @@ const UI_STRINGS = {
     copied: "Voatahaka.",
     copy_fail: "Tsy afaka maka tahaka ho azy. Fidio amin'ny tanana ny lahatsoratra.",
     share_copied: "Tsy azo atao eto ny fizarana: voatahaka ny lahatsoratra, apetaho amin'izay tianao.",
+    send_via: "Alefaso amin'ny",
+    send_other: "↗ Rindranasa hafa",
     share_fail: "Tsy azo atao eto ny fizarana. Fidio ny lahatsoratra hakana tahaka azy.",
     tts_unavail: "Tsy azo atao amin'ity fitaovana ity ny famakiana feo.",
     stt_unavail: "Tsy azo atao amin'ity navigateur ity ny famantarana feo.",
@@ -5317,6 +5358,22 @@ document.getElementById("shareBtn").addEventListener("click", () => {
 document.getElementById("listenBtn").addEventListener("click", () => {
   if (!lastEntry) return;
   speak(lastEntry.translated, lastEntry.target);
+});
+// Envoyer partout : chaque touche ouvre l'appli choisie avec la traduction déjà écrite (liens publics des applis).
+function sendLink(kind, text) {
+  const q = encodeURIComponent(text);
+  return { sms: "sms:?body=" + q, wa: "https://wa.me/?text=" + q, tg: "https://t.me/share/url?url=" + q,
+    mail: "mailto:?body=" + q, x: "https://x.com/intent/post?text=" + q }[kind] || "";
+}
+document.getElementById("sendRow").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-send]");
+  if (!b) return;
+  e.preventDefault();
+  if (!lastEntry) return;
+  const kind = b.getAttribute("data-send");
+  if (kind === "other") { shareText(lastEntry.translated, homeMsg); return; }
+  const url = sendLink(kind, lastEntry.translated);
+  if (/^https:/.test(url)) window.open(url, "_blank", "noopener"); else location.href = url;
 });
 document.getElementById("favBtn").addEventListener("click", () => {
   if (!lastEntry) return;
@@ -6254,6 +6311,8 @@ const NET_STRINGS = {
     net_hangup: "Raccrocher",
     net_mute: "Sourdine",
     net_speaker: "Haut-parleur",
+    net_cam: "Caméra",
+    net_cam_fail: "Caméra indisponible : autorisez-la dans Chrome (cadenas ▸ Autorisations).",
     net_remote_muted: "🔇 {p} a coupé son micro",
     net_you_muted: "🔇 Votre micro est coupé",
     net_in_call: "Appel traduit avec {p} : parlez, il vous entend dans sa langue.",
@@ -6473,6 +6532,8 @@ const NET_STRINGS = {
     net_hangup: "Hang up",
     net_mute: "Mute",
     net_speaker: "Speaker",
+    net_cam: "Camera",
+    net_cam_fail: "Camera unavailable: allow it in your browser settings.",
     net_remote_muted: "🔇 {p} muted their mic",
     net_you_muted: "🔇 Your mic is muted",
     net_in_call: "Translated call with {p}: speak, they hear you in their language.",
@@ -6692,6 +6753,7 @@ const NET_STRINGS = {
     net_hangup: "Colgar",
     net_mute: "Silenciar",
     net_speaker: "Altavoz",
+    net_cam: "Cámara",
     net_remote_muted: "🔇 {p} ha silenciado su micro",
     net_you_muted: "🔇 Tu micro está silenciado",
     net_in_call: "Llamada traducida con {p}: habla, te oye en su idioma.",
@@ -6911,6 +6973,7 @@ const NET_STRINGS = {
     net_hangup: "Desligar",
     net_mute: "Silêncio",
     net_speaker: "Altifalante",
+    net_cam: "Câmara",
     net_remote_muted: "🔇 {p} desligou o microfone",
     net_you_muted: "🔇 O seu microfone está desligado",
     net_in_call: "Chamada traduzida com {p}: fale, ele ouve no idioma dele.",
@@ -7130,6 +7193,7 @@ const NET_STRINGS = {
     net_hangup: "Auflegen",
     net_mute: "Stumm",
     net_speaker: "Lautsprecher",
+    net_cam: "Kamera",
     net_remote_muted: "🔇 {p} hat das Mikrofon stummgeschaltet",
     net_you_muted: "🔇 Dein Mikrofon ist stumm",
     net_in_call: "Übersetzter Anruf mit {p}: Sprich, er hört dich in seiner Sprache.",
@@ -7349,6 +7413,7 @@ const NET_STRINGS = {
     net_hangup: "Riaggancia",
     net_mute: "Muto",
     net_speaker: "Vivavoce",
+    net_cam: "Fotocamera",
     net_remote_muted: "🔇 {p} ha disattivato il microfono",
     net_you_muted: "🔇 Il tuo microfono è disattivato",
     net_in_call: "Chiamata tradotta con {p}: parla, ti sente nella sua lingua.",
@@ -7568,6 +7633,7 @@ const NET_STRINGS = {
     net_hangup: "挂断",
     net_mute: "静音",
     net_speaker: "扬声器",
+    net_cam: "摄像头",
     net_remote_muted: "🔇 {p} 已关闭麦克风",
     net_you_muted: "🔇 你的麦克风已关闭",
     net_in_call: "与 {p} 的翻译通话：请说话，对方会听到他的语言。",
@@ -7787,6 +7853,7 @@ const NET_STRINGS = {
     net_hangup: "終了",
     net_mute: "ミュート",
     net_speaker: "スピーカー",
+    net_cam: "カメラ",
     net_remote_muted: "🔇 {p} がマイクをミュートしました",
     net_you_muted: "🔇 マイクはミュート中です",
     net_in_call: "{p} さんと翻訳通話中：話すと、相手には相手の言語で聞こえます。",
@@ -8006,6 +8073,7 @@ const NET_STRINGS = {
     net_hangup: "إنهاء",
     net_mute: "كتم",
     net_speaker: "مكبّر الصوت",
+    net_cam: "الكاميرا",
     net_remote_muted: "🔇 ⁦{p}⁩ كتم الميكروفون",
     net_you_muted: "🔇 الميكروفون مكتوم",
     net_in_call: "مكالمة مترجمة مع ⁦{p}⁩: تحدَّث، وسيسمعك بلغته.",
@@ -8225,6 +8293,7 @@ const NET_STRINGS = {
     net_hangup: "Завершить",
     net_mute: "Без звука",
     net_speaker: "Динамик",
+    net_cam: "Камера",
     net_remote_muted: "🔇 {p} выключил(а) микрофон",
     net_you_muted: "🔇 Ваш микрофон выключен",
     net_in_call: "Звонок с переводом с {p}: говорите, собеседник слышит вас на своём языке.",
@@ -8444,6 +8513,7 @@ const NET_STRINGS = {
     net_hangup: "Hanapaka",
     net_mute: "Hampangina",
     net_speaker: "Fanamafisam-peo",
+    net_cam: "Fakan-tsary",
     net_remote_muted: "🔇 Nanapaka ny mikrô-ny i {p}",
     net_you_muted: "🔇 Tapaka ny mikrô-nao",
     net_in_call: "Antso voadika miaraka amin'i {p}: mitenena, henony amin'ny fiteniny ianao.",
@@ -11265,6 +11335,10 @@ const Reseau = (() => {
       updateCallInfo();
     } else if (p.t === "line" && call.state === "active") {
       onRemoteLine(p);
+    } else if (p.t === "cam" && call.state === "active") {
+      call.remoteCam = !!p.on;
+      if (p.on && !call.voice) { call.wantVideo = true; call.videoOfferer = false; startVoice(); }
+      placeVideos();
     } else if (p.t === "rtc" && call.state === "active") {
       onRtc(p);
     } else if (p.t === "mode" && call.state === "active" && (p.mode === "voice" || p.mode === "translate")) {
@@ -11360,12 +11434,15 @@ const Reseau = (() => {
   }
   async function startVoice() {
     const c = call;
-    if (!c || c.voice || c.mode !== "voice") return;
-    const v = { pc: null, stream: null, audio: null, pendingIce: [], ok: false, timer: null };
+    // Appel traduit + caméra : liaison vidéo seule (le micro reste à la traduction), voix réelle : voix + place pour la vidéo.
+    if (!c || c.voice || (c.mode !== "voice" && !c.wantVideo)) return;
+    const videoOnly = c.mode !== "voice";
+    const offerer = videoOnly ? !!c.videoOfferer : c.role === "caller";
+    const v = { pc: null, stream: null, audio: null, pendingIce: [], ok: false, timer: null, videoOnly };
     c.voice = v;
-    setVoiceInfo(t("net_voice_connecting"));
+    if (!videoOnly) setVoiceInfo(t("net_voice_connecting"));
     try {
-      v.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+      v.stream = videoOnly ? new MediaStream() : await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
     } catch (e) {
       if (c.voice === v) voiceFailed(c);
       return;
@@ -11376,11 +11453,19 @@ const Reseau = (() => {
     try { pc = new RTCPeerConnection({ iceServers: RTC_ICE_SERVERS }); } catch (e) { voiceFailed(c); return; }
     v.pc = pc;
     v.stream.getTracks().forEach((tr) => pc.addTrack(tr, v.stream));
+    // Visio (26 oct. 2026) : une place pour la vidéo est réservée dès le départ ; la caméra s'y branche ensuite sans tout renégocier.
+    if (offerer) { try { v.vtx = pc.addTransceiver("video", { direction: "sendrecv" }); } catch (e) { /* vidéo indisponible */ } }
     pc.onicecandidate = (e) => {
       if (e.candidate && c.voice === v) sendSignal(c.otherId, { t: "rtc", callId: c.id, ice: e.candidate.toJSON ? e.candidate.toJSON() : e.candidate });
     };
     pc.ontrack = (e) => {
       if (c.voice !== v) return;
+      if (e.track.kind === "video") {
+        if (!v.rvideo) { v.rvideo = document.createElement("video"); v.rvideo.className = "net-rvideo"; v.rvideo.autoplay = true; v.rvideo.muted = true; v.rvideo.setAttribute("playsinline", ""); }
+        v.rvideo.srcObject = new MediaStream([e.track]);
+        placeVideos();
+        return;
+      }
       if (!v.audio) {
         v.audio = document.createElement("audio");
         v.audio.autoplay = true;
@@ -11398,15 +11483,15 @@ const Reseau = (() => {
         const first = !v.ok;
         v.ok = true;
         clearTimeout(v.timer);
-        setVoiceInfo(t("net_voice_live"));
-        if (first && c.role === "caller") countVoicePath(pc);
+        if (!videoOnly) setVoiceInfo(t("net_voice_live"));
+        if (first && c.role === "caller" && !videoOnly) countVoicePath(pc);
       } else if (pc.connectionState === "failed") {
         voiceFailed(c);
       }
     };
     // Pas de voix au bout de 15 s (réseau qui bloque le direct) : on repasse en appel traduit.
     v.timer = setTimeout(() => { if (c.voice === v && !v.ok) voiceFailed(c); }, 15000);
-    if (c.role === "caller") {
+    if (offerer) {
       try {
         await pc.setLocalDescription(await pc.createOffer());
         sendSignal(c.otherId, { t: "rtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
@@ -11426,6 +11511,8 @@ const Reseau = (() => {
       if (p.sdp) {
         await pc.setRemoteDescription(p.sdp);
         if (p.sdp.type === "offer") {
+          const vt = pc.getTransceivers().find((x) => x.receiver && x.receiver.track && x.receiver.track.kind === "video");
+          if (vt) { try { vt.direction = "sendrecv"; } catch (e) { /* ignoré */ } v.vtx = vt; }
           await pc.setLocalDescription(await pc.createAnswer());
           sendSignal(c.otherId, { t: "rtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
         }
@@ -11438,6 +11525,48 @@ const Reseau = (() => {
       voiceFailed(c);
     }
   }
+  // Visio : allumer / éteindre sa caméra pendant un appel en voix réelle (vidéo directe d'un téléphone à l'autre).
+  async function toggleCam() {
+    const c = call;
+    if (!c || c.state !== "active") return;
+    if (!c.voice && !c.camOn) { c.wantVideo = true; c.videoOfferer = true; await startVoice(); }
+    const v = c.voice;
+    if (!v || !v.vtx) return;
+    if (c.camOn) {
+      try { await v.vtx.sender.replaceTrack(null); } catch (e) { /* ignoré */ }
+      if (v.cam) v.cam.getTracks().forEach((tr) => tr.stop());
+      v.cam = null; c.camOn = false;
+      sendSignal(c.otherId, { t: "cam", callId: c.id, on: false });
+      renderCall();
+      return;
+    }
+    try {
+      v.cam = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } });
+      await v.vtx.sender.replaceTrack(v.cam.getVideoTracks()[0]);
+    } catch (e) {
+      if (v.cam) v.cam.getTracks().forEach((tr) => tr.stop());
+      v.cam = null;
+      const el = root.querySelector("#netCallMsg");
+      if (el) el.innerHTML = `<div class="msg warn">${escapeHtml(t("net_cam_fail"))}</div>`;
+      return;
+    }
+    if (call !== c || c.voice !== v) { v.cam.getTracks().forEach((tr) => tr.stop()); return; }
+    if (!v.lvideo) { v.lvideo = document.createElement("video"); v.lvideo.className = "net-lvideo"; v.lvideo.autoplay = true; v.lvideo.muted = true; v.lvideo.setAttribute("playsinline", ""); }
+    v.lvideo.srcObject = v.cam;
+    c.camOn = true;
+    sendSignal(c.otherId, { t: "cam", callId: c.id, on: true });
+    renderCall();
+  }
+  // Les vidéos survivent aux redessins de l'écran d'appel : on les remet à leur place après chaque rendu.
+  function placeVideos() {
+    const c = call, v = c && c.voice, box = root.querySelector("#netVideo");
+    if (!box || !v) return;
+    const show = (el, on) => { if (!el) return; if (on) { if (el.parentNode !== box) box.appendChild(el); const pl = el.play(); if (pl && pl.catch) pl.catch(() => {}); } else if (el.parentNode) el.remove(); };
+    show(v.rvideo, !!c.remoteCam);
+    show(v.lvideo, !!c.camOn);
+    box.hidden = !(c.remoteCam || c.camOn);
+    root.querySelector(".net-call") && root.querySelector(".net-call").classList.toggle("has-video", !box.hidden);
+  }
   function stopVoice(c) {
     const v = c && c.voice;
     if (!v) return;
@@ -11446,6 +11575,10 @@ const Reseau = (() => {
     clearTimeout(v.timer);
     try { if (v.pc) v.pc.close(); } catch (e) { /* ignoré */ }
     if (v.stream) v.stream.getTracks().forEach((tr) => tr.stop());
+    if (v.cam) v.cam.getTracks().forEach((tr) => tr.stop());
+    if (v.rvideo) { try { v.rvideo.srcObject = null; } catch (e) { /* ignoré */ } v.rvideo.remove(); }
+    if (v.lvideo) { try { v.lvideo.srcObject = null; } catch (e) { /* ignoré */ } v.lvideo.remove(); }
+    c.camOn = false; c.remoteCam = false;
     if (v.audio) { try { v.audio.srcObject = null; } catch (e) { /* ignoré */ } v.audio.remove(); }
   }
   // Statistiques anonymes des appels en voix réelle (comptées une fois, par la personne qui appelle) :
@@ -11465,9 +11598,14 @@ const Reseau = (() => {
   }
   function voiceFailed(c) {
     if (!c || call !== c) return;
-    if (c.role === "caller" && c.voice && c.voice.pc && !c.voice.ok) { try { Stats24.track("voix_echec"); } catch (e) { /* ignoré */ } }
+    if (c.role === "caller" && c.voice && c.voice.pc && !c.voice.ok && !c.voice.videoOnly) { try { Stats24.track("voix_echec"); } catch (e) { /* ignoré */ } }
+    const wasVideo = c.voice && c.voice.videoOnly;
     stopVoice(c);
-    if (c.mode !== "voice") return;
+    c.wantVideo = false;
+    if (c.mode !== "voice") {
+      if (wasVideo) { renderCall(); const m = root.querySelector("#netCallMsg"); if (m) m.innerHTML = `<div class="msg warn">${escapeHtml(t("net_cam_fail"))}</div>`; }
+      return;
+    }
     sendSignal(c.otherId, { t: "mode", callId: c.id, mode: "translate" });
     setMode("translate", true);
     const el = root.querySelector("#netCallMsg");
@@ -11479,6 +11617,8 @@ const Reseau = (() => {
     if (mode === "voice" && !voiceSupported()) return;
     call.mode = mode;
     if (!fromRemote) sendSignal(call.otherId, { t: "mode", callId: call.id, mode });
+    if (call.voice) stopVoice(call); // la liaison vidéo seule est refaite avec la voix
+    call.wantVideo = false;
     if (mode === "voice") {
       if (call.listener) { call.listener.stop(); call.listener = null; }
       call.interim = "";
@@ -11597,6 +11737,7 @@ const Reseau = (() => {
           ${call.state === "active" && voiceSupported() ? `<button type="button" class="net-voice-toggle${call.mode === "voice" ? " on" : ""}" id="netVoiceMode" aria-pressed="${call.mode === "voice"}">🗣 ${escapeHtml(t("net_mode_voice"))}</button>` : ""}
           ${call.state === "active" && call.mode === "voice" ? `<div class="net-voice-info" id="netVoiceInfo">${escapeHtml(call.voiceInfo || "")}</div>` : ""}
         </div>
+        ${call.state === "active" ? `<div class="net-video" id="netVideo" hidden><div class="net-sub" id="netSub" dir="auto"></div></div>` : ""}
         <div class="conv-log net-log" id="netCallLog"></div>
         <div class="net-interim" id="netInterim" dir="auto">${escapeHtml(call.interim || "")}</div>
         <div class="net-call-bottom">
@@ -11610,6 +11751,7 @@ const Reseau = (() => {
           <div class="net-call-ctrls">
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
             <div class="net-ctrl"><button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button><span class="net-hangup-label">${escapeHtml(t("net_hangup"))}</span></div>
+            ${call.state === "active" && voiceSupported() ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.camOn ? " on" : ""}" id="netCam" aria-pressed="${!!call.camOn}" aria-label="${escapeHtml(t("net_cam"))}">📹</button><span>${escapeHtml(t("net_cam"))}</span></div>` : ""}
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
           </div>
         </div>
@@ -11617,6 +11759,9 @@ const Reseau = (() => {
     renderCallLines();
     updateCallInfo();
     root.querySelector("#netHangup").addEventListener("click", hangup);
+    const camBtn = root.querySelector("#netCam");
+    if (camBtn) camBtn.addEventListener("click", toggleCam);
+    placeVideos();
     const vm = root.querySelector("#netVoiceMode");
     if (vm) vm.addEventListener("click", () => { if (call) setMode(call.mode === "voice" ? "translate" : "voice"); });
     const muteBtn = root.querySelector("#netMute");
@@ -11685,6 +11830,9 @@ const Reseau = (() => {
     const interim = root.querySelector("#netInterim");
     if (interim) interim.textContent = call.interim || "";
     log.scrollTop = log.scrollHeight;
+    // Visio traduite : la dernière phrase de l'autre, dans ma langue, en sous-titre sur sa vidéo.
+    const sub = root.querySelector("#netSub");
+    if (sub) { const last = call.lines.filter((l) => !l.mine).slice(-1)[0]; sub.textContent = call.mode === "voice" || !last ? "" : last.text; }
   }
 
   // ---------- Ouverture de l'onglet ----------
