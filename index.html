@@ -805,6 +805,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   header.hero-earth .settings-btn{background:transparent;border-color:var(--line);color:var(--text);}
   .install-top-btn{background:var(--cta);color:var(--cta-ink);}
   .home-tile{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:20px;box-shadow:none;}
+  .home-tile.sos .home-tile-ic{background:rgba(214,48,74,.18) !important;color:#ff6b86 !important;}
   .home-tile .home-tile-ic, .home-tile.chat .home-tile-ic, .home-tile.ew .home-tile-ic, .home-tile.trip .home-tile-ic, .home-tile.learn .home-tile-ic, .home-tile.call .home-tile-ic{background:rgba(31,226,205,.10) !important;color:#1fe2cd;box-shadow:none !important;}
   .home-tile-name{font-weight:700;}
   .tr-switch button[data-tr="1"].on{background:var(--cta);color:var(--cta-ink);}
@@ -6334,6 +6335,7 @@ const NET_STRINGS = {
     home_learn: "Apprendre",
     home_learn_sub: "Leçons et révisions",
     home_com: "Community", home_com_sub: "Groupes du monde entier, chacun dans sa langue", home_live: "Live", home_live_sub: "Directs avec sous-titres traduits", home_biz: "Business", home_biz_sub: "Vendre, acheter, sourcing, services", home_adv: "Avantages", home_adv_sub: "Partenaires et parrainage",
+    home_help: "Entraide", home_help_sub: "Demander, offrir, donner : gratuit", home_sos: "SOS", home_sos_sub: "Numéros d'urgence et phrases",
     home_msg: "Messagerie",
     home_msg_sub: "Messages traduits",
     net_home_back: "← Accueil",
@@ -6556,6 +6558,7 @@ const NET_STRINGS = {
     home_learn: "Learn",
     home_learn_sub: "Lessons and reviews",
     home_com: "Community", home_com_sub: "Groups worldwide, each in their language", home_live: "Live", home_live_sub: "Live streams with translated subtitles", home_biz: "Business", home_biz_sub: "Sell, buy, sourcing, services", home_adv: "Benefits", home_adv_sub: "Partners and referrals",
+    home_help: "Mutual aid", home_help_sub: "Ask, offer, give: free", home_sos: "SOS", home_sos_sub: "Emergency numbers and phrases",
     home_msg: "Messages",
     home_msg_sub: "Translated messages",
     net_home_back: "← Home",
@@ -6777,6 +6780,7 @@ const NET_STRINGS = {
     home_learn: "Aprender",
     home_learn_sub: "Lecciones y repasos",
     home_com: "Community", home_com_sub: "Grupos de todo el mundo, cada uno en su idioma", home_live: "Live", home_live_sub: "Directos con subtítulos traducidos", home_biz: "Business", home_biz_sub: "Vender, comprar, abastecimiento, servicios", home_adv: "Ventajas", home_adv_sub: "Socios y recomendaciones",
+    home_help: "Ayuda mutua", home_help_sub: "Pedir, ofrecer, regalar: gratis", home_sos: "SOS", home_sos_sub: "Números de emergencia y frases",
     home_msg: "Mensajes",
     home_msg_sub: "Mensajes traducidos",
     net_home_back: "← Inicio",
@@ -6998,6 +7002,7 @@ const NET_STRINGS = {
     home_learn: "Aprender",
     home_learn_sub: "Lições e revisões",
     home_com: "Community", home_com_sub: "Grupos do mundo inteiro, cada um na sua língua", home_live: "Live", home_live_sub: "Diretos com legendas traduzidas", home_biz: "Business", home_biz_sub: "Vender, comprar, fornecedores, serviços", home_adv: "Vantagens", home_adv_sub: "Parceiros e convites",
+    home_help: "Entreajuda", home_help_sub: "Pedir, oferecer, doar: grátis", home_sos: "SOS", home_sos_sub: "Números de emergência e frases",
     home_msg: "Mensagens",
     home_msg_sub: "Mensagens traduzidas",
     net_home_back: "← Início",
@@ -7219,6 +7224,7 @@ const NET_STRINGS = {
     home_learn: "Lernen",
     home_learn_sub: "Lektionen und Wiederholungen",
     home_com: "Community", home_com_sub: "Gruppen aus aller Welt, jeder in seiner Sprache", home_live: "Live", home_live_sub: "Livestreams mit übersetzten Untertiteln", home_biz: "Business", home_biz_sub: "Verkaufen, kaufen, Beschaffung, Dienstleistungen", home_adv: "Vorteile", home_adv_sub: "Partner und Empfehlungen",
+    home_help: "Hilfe", home_help_sub: "Bitten, anbieten, verschenken: kostenlos", home_sos: "SOS", home_sos_sub: "Notrufnummern und Sätze",
     home_msg: "Nachrichten",
     home_msg_sub: "Übersetzte Nachrichten",
     net_home_back: "← Start",
@@ -7440,6 +7446,7 @@ const NET_STRINGS = {
     home_learn: "Imparare",
     home_learn_sub: "Lezioni e ripassi",
     home_com: "Community", home_com_sub: "Gruppi da tutto il mondo, ognuno nella sua lingua", home_live: "Live", home_live_sub: "Dirette con sottotitoli tradotti", home_biz: "Business", home_biz_sub: "Vendere, comprare, fornitori, servizi", home_adv: "Vantaggi", home_adv_sub: "Partner e inviti",
+    home_help: "Aiuto reciproco", home_help_sub: "Chiedere, offrire, donare: gratis", home_sos: "SOS", home_sos_sub: "Numeri di emergenza e frasi",
     home_msg: "Messaggi",
     home_msg_sub: "Messaggi tradotti",
     net_home_back: "← Home",
@@ -7661,6 +7668,7 @@ const NET_STRINGS = {
     home_learn: "学习",
     home_learn_sub: "课程与复习",
     home_com: "Community", home_com_sub: "全球群组，各用自己的语言", home_live: "Live", home_live_sub: "带翻译字幕的直播", home_biz: "Business", home_biz_sub: "买卖、采购、服务", home_adv: "优惠", home_adv_sub: "合作伙伴与邀请",
+    home_help: "互助", home_help_sub: "求助、帮忙、赠送：免费", home_sos: "SOS", home_sos_sub: "紧急电话和常用语",
     home_msg: "消息",
     home_msg_sub: "翻译消息",
     net_home_back: "← 首页",
@@ -7882,6 +7890,7 @@ const NET_STRINGS = {
     home_learn: "学ぶ",
     home_learn_sub: "レッスンと復習",
     home_com: "Community", home_com_sub: "世界中のグループ、それぞれの言語で", home_live: "Live", home_live_sub: "翻訳字幕つきのライブ", home_biz: "Business", home_biz_sub: "売買・仕入れ・サービス", home_adv: "特典", home_adv_sub: "パートナーと招待",
+    home_help: "助け合い", home_help_sub: "頼む・手伝う・譲る：無料", home_sos: "SOS", home_sos_sub: "緊急番号とフレーズ",
     home_msg: "メッセージ",
     home_msg_sub: "翻訳メッセージ",
     net_home_back: "← ホーム",
@@ -8103,6 +8112,7 @@ const NET_STRINGS = {
     home_learn: "تعلّم",
     home_learn_sub: "دروس ومراجعات",
     home_com: "Community", home_com_sub: "مجموعات من كل العالم، كلٌّ بلغته", home_live: "Live", home_live_sub: "بث مباشر بترجمة نصية", home_biz: "Business", home_biz_sub: "بيع وشراء وتوريد وخدمات", home_adv: "المزايا", home_adv_sub: "الشركاء والدعوات",
+    home_help: "التعاون", home_help_sub: "اطلب، قدّم، تبرّع: مجانًا", home_sos: "SOS", home_sos_sub: "أرقام الطوارئ وعبارات",
     home_msg: "الرسائل",
     home_msg_sub: "رسائل مترجمة",
     net_home_back: "→ الرئيسية",
@@ -8324,6 +8334,7 @@ const NET_STRINGS = {
     home_learn: "Учиться",
     home_learn_sub: "Уроки и повторение",
     home_com: "Community", home_com_sub: "Группы со всего мира, каждый на своём языке", home_live: "Live", home_live_sub: "Прямые эфиры с переведёнными субтитрами", home_biz: "Business", home_biz_sub: "Продажа, покупка, поставщики, услуги", home_adv: "Преимущества", home_adv_sub: "Партнёры и приглашения",
+    home_help: "Взаимопомощь", home_help_sub: "Попросить, помочь, отдать: бесплатно", home_sos: "SOS", home_sos_sub: "Экстренные номера и фразы",
     home_msg: "Сообщения",
     home_msg_sub: "Сообщения с переводом",
     net_home_back: "← Главная",
@@ -8545,6 +8556,7 @@ const NET_STRINGS = {
     home_learn: "Mianara",
     home_learn_sub: "Lesona sy famerenana",
     home_com: "Community", home_com_sub: "Vondrona maneran-tany, samy amin'ny fiteniny", home_live: "Live", home_live_sub: "Mivantana misy dikanteny", home_biz: "Business", home_biz_sub: "Mivarotra, mividy, mpamatsy, tolotra", home_adv: "Tombontsoa", home_adv_sub: "Mpiara-miasa sy fanasana",
+    home_help: "Fifanampiana", home_help_sub: "Mangataka, manolotra, manome: maimaim-poana", home_sos: "SOS", home_sos_sub: "Laharana vonjy taitra sy fehezanteny",
     home_msg: "Hafatra",
     home_msg_sub: "Hafatra voadika",
     net_home_back: "← Fandraisana",
@@ -8722,6 +8734,8 @@ const Reseau = (() => {
   const ICON_COM = SVG_A + '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c.8-3.5 3.2-5 6-5s5.2 1.5 6 5"/><path d="M15 15c2.5 0 4.6 1.2 5.5 4"/></svg>';
   const ICON_LIVE = SVG_A + '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>';
   const ICON_BIZ = SVG_A + '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>';
+  const ICON_HELP = SVG_A + '<path d="M12 21s-7-4.4-9.3-9A5 5 0 0 1 12 6.6 5 5 0 0 1 21.3 12C19 16.6 12 21 12 21z"/></svg>';
+  const ICON_SOS = SVG_A + '<path d="M12 3l9 16H3z"/><path d="M12 10v4"/><path d="M12 17h.01"/></svg>';
   const ICON_ADV = SVG_A + '<path d="M20 12v9H4v-9"/><rect x="2" y="7" width="20" height="5" rx="1"/><path d="M12 21V7"/><path d="M12 7c-2-4-6-4-6-1.5S10 7 12 7zM12 7c2-4 6-4 6-1.5S14 7 12 7z"/></svg>';
   const tilesBox = document.getElementById("homeTiles");
   let tileBadge = null;
@@ -8766,6 +8780,16 @@ const Reseau = (() => {
         <span class="home-tile-ic">${ICON_BIZ}</span>
         <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_biz"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_biz_sub"))}</span></span>
+      </a>
+      <a class="home-tile help" id="tileHelp" href="everywhere/#/entraide">
+        <span class="home-tile-ic">${ICON_HELP}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_help"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_help_sub"))}</span></span>
+      </a>
+      <a class="home-tile sos" id="tileSos" href="everywhere/#/sos">
+        <span class="home-tile-ic">${ICON_SOS}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_sos"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_sos_sub"))}</span></span>
       </a>
       <a class="home-tile adv" id="tileAdv" href="everywhere/#/avantages">
         <span class="home-tile-ic">${ICON_ADV}</span>

@@ -38,3 +38,14 @@
 .es-kind{align-self:flex-start;font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;background:var(--panel2);border:1px solid var(--line);}
 .es-price{position:absolute;top:14px;inset-inline-end:16px;font-weight:800;font-size:17px;color:#2ee07a;}
 .es-ad p{margin:2px 0;color:var(--text);white-space:pre-wrap;}
+.tr-big.entraide{background:linear-gradient(160deg,#e05b9a 0%,#b83a78 55%,#8e2a5c 100%);}
+.es-acts{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.es-act{min-height:34px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;padding:0 10px;cursor:pointer;}
+.es-mic{flex-shrink:0;width:48px;min-height:48px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);font-size:20px;cursor:pointer;}
+.es-mic.on{background:#d6304a;border-color:#d6304a;}
+.es-sos{display:flex;flex-direction:column;gap:10px;}
+.es-sosnum{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 14px;border-radius:16px;background:#3a0d16;border:1px solid #d6304a;color:#fff;text-decoration:none;}
+.es-sosnum b{font-size:28px;min-width:76px;color:#ff8095;}
+.es-sosnum span{font-size:15px;line-height:1.3;}
+.es-sosph{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);}
+.es-sosbig{font-size:22px;line-height:1.3;}

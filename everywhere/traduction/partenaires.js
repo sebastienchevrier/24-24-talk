@@ -5,6 +5,6 @@
 window.EW_PARTNERS = [
   { id: "hotel", icon: "🏨", brand: "Booking.com", site: "https://www.booking.com/", url: "" },
   { id: "esim", icon: "📶", brand: "Airalo", site: "https://www.airalo.com/", url: "" },
-  { id: "assur", icon: "🛟", brand: "SafetyWing", site: "https://safetywing.com/", url: "" },
+  { id: "assur", icon: "🛟", brand: "SafetyWing", site: "https://safetywing.com/nomad-insurance", url: "" },
   { id: "act", icon: "🎟️", brand: "GetYourGuide", site: "https://www.getyourguide.com/", url: "" }
 ];

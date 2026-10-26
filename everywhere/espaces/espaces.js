@@ -44,7 +44,25 @@
       need_account: "Créez d'abord votre compte (gratuit) dans la Messagerie.", open_msg: "Ouvrir la Messagerie",
       e_net: "Pas de connexion au serveur. Réessayez.", e_rate: "Trop d'envois d'un coup : patientez un peu.", e_other: "Impossible pour l'instant ({m}).",
       retry: "Réessayer", loading: "Chargement…", auto_tr: "Traduction automatique : vérifiez les informations importantes.",
-      open_new: "{b} (s'ouvre dans un nouvel onglet)"
+      open_new: "{b} (s'ouvre dans un nouvel onglet)",
+      tp_all: "Tous", tp_friends: "Amitié", tp_women: "Femmes", tp_support: "Soutien et écoute", tp_family: "Familles et parents", tp_culture: "Culture et passions",
+      tp_languages: "Langues", tp_faith: "Foi et spiritualité", tp_work: "Travail et études", tp_markets: "Marchés et business", tp_travel: "Voyage", tp_other: "Autre",
+      f_topic: "Thème", speak: "🔊 Écouter", more: "Plus d'actions", report: "🚩 Signaler", block: "⛔ Bloquer cette personne",
+      report_done: "Merci : signalement envoyé à la modération.", block_q: "Bloquer {n} ? Vous ne verrez plus ses messages, ici ni dans la Messagerie.", block_done: "{n} est bloqué(e).",
+      mic: "🎤", mic_t: "Dicter dans ma langue",
+      entraide: "Entraide", entraide_sub: "Demander de l'aide, en offrir, donner ce qui ne sert plus : gratuitement, avec le monde entier, chacun dans sa langue.",
+      h_new: "＋ Demander ou offrir de l'aide", h_none: "Aucune demande pour l'instant. Soyez le premier à aider ou à demander.",
+      b_help_need: "Besoin d'aide", b_help_offer: "J'offre mon aide", b_give: "Don gratuit",
+      h_kind_need: "J'ai besoin d'aide", h_kind_offer: "J'offre mon aide (gratuit)", h_kind_give: "Je donne un objet (gratuit)", h_ttl_ph: "ex. : Je cherche quelqu'un pour m'aider à remplir un papier en anglais", back_h: "← Entraide",
+      h_safety: "L'entraide est gratuite : personne ne doit vous demander d'argent. Rencontrez-vous dans un lieu public, prévenez un proche, et signalez tout abus (🚩).",
+      sos: "SOS", sos_sub: "En cas d'urgence, appelez d'abord les secours. Ces numéros marchent sans application.",
+      sos_country: "Pays où vous êtes", sos_other: "Autre pays", sos_general: "Numéro d'urgence général", sos_police: "Police", sos_amb: "Ambulance, urgences médicales", sos_fire: "Pompiers",
+      sos_women: "Violences faites aux femmes (écoute, gratuit, anonyme)", sos_deaf: "Urgence par SMS (personnes sourdes ou qui ne peuvent pas parler)",
+      sos_112: "Votre pays n'est pas dans la liste : sur un téléphone mobile, le 112 fonctionne dans de nombreux pays. Vérifiez le numéro local dès que possible.",
+      sos_phr: "Montrer ou faire écouter", sos_phr_sub: "Phrases traduites dans la langue du pays choisi.",
+      sp1: "J'ai besoin d'aide, s'il vous plaît.", sp2: "Appelez une ambulance.", sp3: "Appelez la police.", sp4: "Je suis en danger.", sp5: "Où est l'hôpital le plus proche ?", sp6: "Je suis perdu(e).",
+      sos_tr_lang: "Langue des phrases", sos_offline: "Sans connexion, les phrases ne peuvent pas être traduites : montrez les numéros ci-dessus.",
+      call: "Appeler {n}",
     },
     en: {
       community: "Community", community_sub: "Communities without language borders: everyone writes in their language, everyone reads in theirs.",
@@ -80,11 +98,46 @@
       need_account: "First create your free account in Messages.", open_msg: "Open Messages",
       e_net: "No connection to the server. Try again.", e_rate: "Too many posts at once: wait a moment.", e_other: "Not possible right now ({m}).",
       retry: "Try again", loading: "Loading…", auto_tr: "Machine translation: check important information.",
-      open_new: "{b} (opens in a new tab)"
+      open_new: "{b} (opens in a new tab)",
+      tp_all: "All", tp_friends: "Friendship", tp_women: "Women", tp_support: "Support and listening", tp_family: "Families and parents", tp_culture: "Culture and hobbies",
+      tp_languages: "Languages", tp_faith: "Faith and spirituality", tp_work: "Work and studies", tp_markets: "Markets and business", tp_travel: "Travel", tp_other: "Other",
+      f_topic: "Topic", speak: "🔊 Listen", more: "More actions", report: "🚩 Report", block: "⛔ Block this person",
+      report_done: "Thank you: report sent to moderation.", block_q: "Block {n}? You will no longer see their messages, here or in Messages.", block_done: "{n} is blocked.",
+      mic: "🎤", mic_t: "Dictate in my language",
+      entraide: "Mutual aid", entraide_sub: "Ask for help, offer it, give away what you no longer use: free, with the whole world, each in their language.",
+      h_new: "＋ Ask for or offer help", h_none: "No request yet. Be the first to help or to ask.",
+      b_help_need: "Needs help", b_help_offer: "Offering help", b_give: "Free gift",
+      h_kind_need: "I need help", h_kind_offer: "I offer my help (free)", h_kind_give: "I give an item away (free)", h_ttl_ph: "e.g. Looking for someone to help me fill in a form in English", back_h: "← Mutual aid",
+      h_safety: "Mutual aid is free: nobody should ask you for money. Meet in a public place, tell someone close, and report any abuse (🚩).",
+      sos: "SOS", sos_sub: "In an emergency, call the emergency services first. These numbers work without any app.",
+      sos_country: "Country you are in", sos_other: "Other country", sos_general: "General emergency number", sos_police: "Police", sos_amb: "Ambulance, medical emergency", sos_fire: "Fire brigade",
+      sos_women: "Violence against women (listening, free, anonymous)", sos_deaf: "Emergency by text message (deaf people or people who cannot speak)",
+      sos_112: "Your country is not listed: on a mobile phone, 112 works in many countries. Check the local number as soon as you can.",
+      sos_phr: "Show or play aloud", sos_phr_sub: "Sentences translated into the language of the chosen country.",
+      sp1: "I need help, please.", sp2: "Call an ambulance.", sp3: "Call the police.", sp4: "I am in danger.", sp5: "Where is the nearest hospital?", sp6: "I am lost.",
+      sos_tr_lang: "Language of the sentences", sos_offline: "Without a connection the sentences cannot be translated: show the numbers above.",
+      call: "Call {n}",
     }
   };
   var CUR = ["EUR", "USD", "GBP", "CHF", "CAD", "AUD", "JPY", "CNY", "INR", "BRL", "MXN", "MGA", "MUR", "XOF", "XAF", "MAD", "IDR", "THB", "AED", "RUB"];
   var MAX_VIEWERS = 12;
+  var TOPICS = ["friends", "women", "support", "family", "culture", "languages", "faith", "work", "markets", "travel", "other"];
+  // SOS : numéros d'urgence publics (g = général, p = police, a = ambulance, f = pompiers, w = violences faites aux femmes, s = urgence par SMS).
+  // l = langue des phrases traduites. Pays de l'Union européenne : 112 partout.
+  var SOS = {
+    FR: { n: "France", g: "112", p: "17", a: "15", f: "18", w: "3919", s: "114", l: "fr" }, RE: { n: "La Réunion", g: "112", p: "17", a: "15", f: "18", w: "3919", s: "114", l: "fr" },
+    BE: { n: "Belgique", g: "112", p: "101", a: "112", f: "112", l: "fr" }, CH: { n: "Suisse", g: "112", p: "117", a: "144", f: "118", l: "fr" },
+    DE: { n: "Deutschland", g: "112", p: "110", a: "112", f: "112", l: "de" }, ES: { n: "España", g: "112", p: "091", a: "112", f: "112", w: "016", l: "es" },
+    IT: { n: "Italia", g: "112", p: "112", a: "118", f: "115", w: "1522", l: "it" }, PT: { n: "Portugal", g: "112", l: "pt" }, NL: { n: "Nederland", g: "112", l: "nl" },
+    GB: { n: "United Kingdom", g: "999", p: "999", a: "999", f: "999", l: "en" }, IE: { n: "Ireland", g: "112", l: "en" },
+    US: { n: "United States", g: "911", l: "en" }, CA: { n: "Canada", g: "911", l: "en" }, MX: { n: "México", g: "911", l: "es" },
+    AR: { n: "Argentina", g: "911", a: "107", f: "100", l: "es" }, BR: { n: "Brasil", g: "190", p: "190", a: "192", f: "193", l: "pt" },
+    AU: { n: "Australia", g: "000", l: "en" }, NZ: { n: "New Zealand", g: "111", l: "en" },
+    JP: { n: "日本", g: "110", p: "110", a: "119", f: "119", l: "ja" }, CN: { n: "中国", g: "110", p: "110", a: "120", f: "119", l: "zh" },
+    KR: { n: "대한민국", g: "112", p: "112", a: "119", f: "119", l: "ko" }, IN: { n: "India", g: "112", l: "hi" },
+    ID: { n: "Indonesia", g: "112", p: "110", a: "118", f: "113", l: "id" }, TH: { n: "ประเทศไทย", g: "191", p: "191", a: "1669", f: "199", l: "th" },
+    PH: { n: "Philippines", g: "911", l: "en" }, RU: { n: "Россия", g: "112", l: "ru" }, ZA: { n: "South Africa", g: "10111", p: "10111", a: "10177", l: "en" }
+  };
   var ICE = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }];
 
   var ui = "fr", cur = null, uidP = null, myLang = null;
@@ -164,15 +217,20 @@
   }
 
   // ---------- Listes de salons (Community, Live) ----------
-  function roomsList(root, kind) {
+  function roomsList(root, kind, topic) {
     var k1 = kind === "live" ? "l" : "c";
     root.innerHTML = head(kind) +
       '<button type="button" class="tr-big es-new ' + kind + '" id="esNewBtn"><span class="tr-big-ic">＋</span><span><b>' + esc(t("create_" + k1).replace(/^＋ /, "")) + "</b></span></button>" +
       '<form class="card es-form" id="esNew" hidden><label class="tr-field">' + esc(t("f_title")) +
       '<input id="esTitle" maxlength="80" required minlength="3" placeholder="' + esc(t("f_title_ph_" + k1)) + '"></label>' +
       '<label class="tr-field">' + esc(t("f_about")) + '<textarea id="esAbout" maxlength="500" rows="3"></textarea></label>' +
+      (kind === "community" ? '<label class="tr-field">' + esc(t("f_topic")) + '<select id="esTopic">' + TOPICS.map(function (k) { return '<option value="' + k + '"' + (k === "other" ? " selected" : "") + ">" + esc(t("tp_" + k)) + "</option>"; }).join("") + "</select></label>" : "") +
       '<p class="tr-err" id="esErr"></p><div class="es-row"><button class="btn primary" type="submit">' + esc(t("create")) + '</button><button class="btn" type="button" id="esCancel">' + esc(t("cancel")) + "</button></div></form>" +
+      (kind === "community" ? '<div class="es-chips" role="tablist">' + ["all"].concat(TOPICS).map(function (k) {
+        return '<button type="button" role="tab" class="es-chip" data-f="' + k + '" aria-selected="' + (k === (topic || "all")) + '">' + esc(t("tp_" + k)) + "</button>";
+      }).join("") + "</div>" : "") +
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + "</p></div>";
+    root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { roomsList(root, kind, b.getAttribute("data-f")); }); });
     var form = root.querySelector("#esNew");
     root.querySelector("#esNewBtn").addEventListener("click", function () { form.hidden = false; root.querySelector("#esTitle").focus(); });
     root.querySelector("#esCancel").addEventListener("click", function () { form.hidden = true; });
@@ -184,7 +242,9 @@
       btn.disabled = true;
       Promise.all([sb(), account()]).then(function (r) {
         if (!r[1]) throw new Error("ACCOUNT");
-        return r[0].from("ow_rooms").insert({ kind: kind, title: title, about: about, lang: r[1].lang }).select("id").single();
+        var row = { kind: kind, title: title, about: about, lang: r[1].lang };
+        if (kind === "community") row.topic = root.querySelector("#esTopic").value;
+        return r[0].from("ow_rooms").insert(row).select("id").single();
       }).then(function (res) {
         if (res.error) throw res.error;
         location.hash = "#/" + kind + "/" + res.data.id;
@@ -194,6 +254,7 @@
     Promise.all([sb(), account()]).then(function (r) {
       if (!r[1]) { noAccount(root.querySelector("#esList")); root.querySelector("#esNewBtn").hidden = true; return; }
       var q = r[0].from("ow_rooms").select("*").eq("kind", kind);
+      if (topic && topic !== "all") q = q.eq("topic", topic);
       if (kind === "live") q = q.order("live_on", { ascending: false });
       return q.order("last_at", { ascending: false }).limit(60).then(function (res) {
         if (!cur || cur.token !== tok) return;
@@ -205,11 +266,11 @@
             (r.live_on ? '<span class="es-live">' + esc(t("on_air")) + "</span>" : "") +
             '<b dir="auto" data-tr="' + esc(r.title) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></b>' +
             (r.about ? '<span class="es-about" dir="auto" data-tr="' + esc(r.about) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></span>' : "") +
-            '<small class="muted">' + esc(flag(r.lang)) + " " + esc(t("members", { n: r.members })) + " · " + esc(t("by", { n: r.owner_name || "?" })) + "</small></a>";
+            '<small class="muted">' + esc(flag(r.lang)) + " " + (r.topic && r.topic !== "other" ? esc(t("tp_" + r.topic)) + " · " : "") + esc(t("members", { n: r.members })) + " · " + esc(t("by", { n: r.owner_name || "?" })) + "</small></a>";
         }).join("");
         fillTr(list);
       });
-    }).catch(function (e) { if (cur && cur.token === tok) fail(root.querySelector("#esList"), e, function () { roomsList(root, kind); }); });
+    }).catch(function (e) { if (cur && cur.token === tok) fail(root.querySelector("#esList"), e, function () { roomsList(root, kind, topic); }); });
   }
 
   // ---------- Un salon (communauté ou direct) ----------
@@ -242,7 +303,7 @@
       (owner ? '<button type="button" class="btn es-danger" id="esDel">' + esc(t("delete_room")) + "</button>" : "") + "</div></div>" +
       (live ? liveHtml(owner) : "") +
       '<div class="card es-chat"><div class="es-msgs" id="esMsgs" aria-live="polite"></div>' +
-      (cur.member ? '<form class="es-compose" id="esCompose"><input id="esInput" dir="auto" maxlength="1000" autocomplete="off" placeholder="' + esc(t("write_ph")) + '"><button class="btn primary" type="submit">' + esc(t("send")) + "</button></form>" +
+      (cur.member ? '<form class="es-compose" id="esCompose"><button type="button" class="es-mic" id="esMic" aria-label="' + esc(t("mic_t")) + '">' + esc(t("mic")) + '</button><input id="esInput" dir="auto" maxlength="1000" autocomplete="off" placeholder="' + esc(t("write_ph")) + '"><button class="btn primary" type="submit">' + esc(t("send")) + "</button></form>" +
         '<p class="tr-err" id="esErr"></p>'
         : '<p class="muted">' + esc(t(live ? "live_watch" : "join_to_write")) + "</p>") +
       '<p class="muted es-small">' + esc(t("auto_tr")) + "</p></div>";
@@ -263,6 +324,7 @@
       cur.c.from("ow_rooms").delete().eq("id", rm.id).then(function (res) { if (res.error) throw res.error; location.hash = "#/" + kind; }).catch(function (e) { alert(errText(e)); });
     });
     var form = root.querySelector("#esCompose");
+    if (form) bindMic(root.querySelector("#esMic"), root.querySelector("#esInput"));
     if (form) form.addEventListener("submit", function (e) {
       e.preventDefault();
       var inp = root.querySelector("#esInput"), body = inp.value.trim();
@@ -283,6 +345,57 @@
     }, 10000);
     if (live) bindLive(root, owner);
   }
+  // Sous chaque message ou annonce d'une autre personne : écouter (voix du téléphone, dans ma langue), signaler, bloquer.
+  function actsHtml() {
+    return '<span class="es-acts">' + (window.EWMoteur && window.EWMoteur.canSpeak ? '<button type="button" class="es-act" data-a="speak">' + esc(t("speak")) + "</button>" : "") +
+      '<button type="button" class="es-act" data-a="report">' + esc(t("report")) + '</button><button type="button" class="es-act" data-a="block">' + esc(t("block")) + "</button></span>";
+  }
+  function bindActs(el, target) {
+    el.querySelectorAll(".es-act").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var a = b.getAttribute("data-a");
+        if (a === "speak") {
+          var body = el.querySelector(".es-body, [data-body]");
+          window.EWMoteur.speak((body && body.textContent) || target.copy, myLang || ui, 1);
+        } else if (a === "report") {
+          b.disabled = true;
+          Promise.all([sb(), account()]).then(function (r) {
+            return r[0].from("ow_reports").insert({ target_kind: target.kind, target_id: target.id, target_user: target.user || null, body_copy: String(target.copy || "").slice(0, 1500) });
+          }).then(function (res) { if (res && res.error) throw res.error; b.textContent = t("report_done"); })
+            .catch(function (e) { b.disabled = false; alert(errText(e)); });
+        } else if (a === "block") {
+          if (!target.user || !confirm(t("block_q", { n: target.name || "?" }))) return;
+          Promise.all([sb(), account()]).then(function (r) {
+            return r[0].from("blocks").insert({ blocker: r[1].id, blocked: target.user });
+          }).then(function (res) {
+            if (res && res.error && !/duplicate|23505/.test(res.error.message + res.error.code)) throw res.error;
+            document.querySelectorAll('[data-user="' + target.user + '"]').forEach(function (x) { x.remove(); });
+            el.remove();
+            alert(t("block_done", { n: target.name || "?" }));
+          }).catch(function (e) { alert(errText(e)); });
+        }
+      });
+    });
+  }
+  // Dictée : pour celles et ceux qui écrivent difficilement, le micro remplit le message dans leur langue.
+  function bindMic(btn, input) {
+    if (!btn) return;
+    if (!window.EWMoteur || !window.EWMoteur.canListen) { btn.remove(); return; }
+    btn.addEventListener("click", function () {
+      if (btn._l) { btn._l.stop(); return; }
+      window.EWMoteur.askMic().then(function (ok) {
+        if (!ok) return;
+        btn.classList.add("on");
+        btn._l = window.EWMoteur.listen(myLang || ui, {
+          interim: function (x) { input.value = x; },
+          final: function (x) { input.value = x; },
+          error: function () {},
+          end: function () { btn._l = null; btn.classList.remove("on"); input.focus(); }
+        });
+        if (!btn._l) btn.classList.remove("on");
+      });
+    });
+  }
   function post(body, kind) {
     return cur.c.from("ow_room_msgs").insert({ room_id: cur.room.id, body: body.slice(0, 1000), lang: cur.me.lang, kind: kind }).select("*").single()
       .then(function (res) { if (res.error) throw res.error; addMsg(res.data); });
@@ -301,10 +414,12 @@
     var mine = cur.me && m.sender_id === cur.me.id;
     var div = document.createElement("div");
     div.className = "es-msg" + (mine ? " me" : "");
+    div.setAttribute("data-user", m.sender_id);
     div.innerHTML = '<span class="es-who">' + esc(mine ? "" : (m.sender_name || "?")) + ' <small class="muted">' + esc(when(m.created_at)) + "</small></span>" +
-      '<span class="es-body" dir="auto" ' + (mine ? ">" + esc(m.body) : 'data-tr="' + esc(m.body) + '" data-from="' + esc(m.lang) + '">') + "</span>";
+      '<span class="es-body" dir="auto" ' + (mine ? ">" + esc(m.body) : 'data-tr="' + esc(m.body) + '" data-from="' + esc(m.lang) + '">') + "</span>" +
+      (mine ? "" : actsHtml());
     box.appendChild(div);
-    if (!mine) fillTr(div);
+    if (!mine) { fillTr(div); bindActs(div, { kind: "msg", id: String(m.id), user: m.sender_id, name: m.sender_name, copy: m.body }); }
     box.scrollTop = box.scrollHeight;
   }
 
@@ -521,61 +636,72 @@
     if (l.price == null) return "";
     try { return new Intl.NumberFormat(ui, { style: "currency", currency: l.currency, maximumFractionDigits: 2 }).format(l.price); } catch (e) { return l.price + " " + l.currency; }
   }
-  function business(root, filter) {
-    var tok = cur.token;
+  var HELP = ["help_need", "help_offer", "give"];
+  function business(root, filter, help) {
+    var tok = cur.token, sp = help ? "entraide" : "business";
     filter = filter || "all";
-    root.innerHTML = head("business") +
-      '<a class="tr-big es-new business" href="#/business/new"><span class="tr-big-ic">＋</span><span><b>' + esc(t("b_new").replace(/^＋ /, "")) + "</b></span></a>" +
-      '<div class="es-chips" role="tablist">' + ["all", "sell", "buy", "wholesale", "sourcing", "service", "partner"].map(function (k) {
+    root.innerHTML = head(sp) +
+      '<a class="tr-big es-new ' + sp + '" href="#/' + sp + '/new"><span class="tr-big-ic">＋</span><span><b>' + esc(t(help ? "h_new" : "b_new").replace(/^＋ /, "")) + "</b></span></a>" +
+      '<div class="es-chips" role="tablist">' + ["all"].concat(help ? HELP : ["sell", "buy", "wholesale", "sourcing", "service", "partner"]).map(function (k) {
         return '<button type="button" role="tab" class="es-chip" data-f="' + k + '" aria-selected="' + (k === filter) + '">' + esc(t("b_" + k)) + "</button>";
       }).join("") + "</div>" +
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + '</p></div>' +
-      '<div class="card es-markets"><h2 class="tr-h2">' + esc(t("mk_t")) + '</h2><p class="muted">' + esc(t("mk_d")) + '</p><div class="es-row"><a class="btn" href="#/community">' + esc(t("mk_c")) + '</a><a class="btn" href="#/learn">' + esc(t("mk_l")) + "</a></div></div>" +
-      '<p class="muted es-small">' + esc(t("b_safety")) + "</p>";
-    root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f")); }); });
+      (help ? "" : '<div class="card es-markets"><h2 class="tr-h2">' + esc(t("mk_t")) + '</h2><p class="muted">' + esc(t("mk_d")) + '</p><div class="es-row"><a class="btn" href="#/community">' + esc(t("mk_c")) + '</a><a class="btn" href="#/learn">' + esc(t("mk_l")) + "</a></div></div>") +
+      '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
+    root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
     Promise.all([sb(), account()]).then(function (r) {
       if (!r[1]) { noAccount(root.querySelector("#esList")); return; }
       var q = r[0].from("ow_listings").select("*").eq("status", "open");
       if (filter !== "all") q = q.eq("kind", filter);
+      else q = q.in("kind", help ? HELP : ["sell", "buy", "wholesale", "sourcing", "service", "partner"]);
       return q.order("created_at", { ascending: false }).limit(80).then(function (res) {
         if (!cur || cur.token !== tok) return;
         if (res.error) throw res.error;
         var list = root.querySelector("#esList"), me = r[1];
-        if (!res.data.length) { list.innerHTML = '<div class="card es-empty"><p>' + esc(t("b_none")) + "</p></div>"; return; }
-        list.innerHTML = res.data.map(function (l) {
+        var rows = res.data.filter(function (l) { return (HELP.indexOf(l.kind) !== -1) === !!help; });
+        if (!rows.length) { list.innerHTML = '<div class="card es-empty"><p>' + esc(t(help ? "h_none" : "b_none")) + "</p></div>"; return; }
+        list.innerHTML = rows.map(function (l) {
           var mine = l.seller_id === me.id;
-          return '<div class="card es-ad" data-id="' + esc(l.id) + '"><span class="es-kind ' + esc(l.kind) + '">' + esc(t("b_" + l.kind)) + "</span>" +
+          return '<div class="card es-ad" data-id="' + esc(l.id) + '" data-user="' + esc(l.seller_id) + '"><span class="es-kind ' + esc(l.kind) + '">' + esc(t("b_" + l.kind)) + "</span>" +
             (l.price != null ? '<span class="es-price">' + esc(price(l)) + "</span>" : "") +
             '<b dir="auto" data-tr="' + esc(l.title) + '" data-from="' + esc(l.lang) + '" data-show-orig="no"></b>' +
             (l.body ? '<p dir="auto" data-tr="' + esc(l.body) + '" data-from="' + esc(l.lang) + '"></p>' : "") +
             '<small class="muted">' + esc([flag(l.lang), l.place, l.seller_name, when(l.created_at)].filter(Boolean).join(" · ")) + "</small>" +
             '<div class="es-row">' + (mine ? '<span class="muted">' + esc(t("b_mine")) + '</span><button type="button" class="btn es-close">' + esc(t("b_close")) + "</button>"
-              : (l.seller_pseudo ? '<a class="btn primary" href="../index.html?ajouter=' + encodeURIComponent(l.seller_pseudo) + '">' + esc(t("b_contact")) + "</a>" : "")) + "</div></div>";
+              : (l.seller_pseudo ? '<a class="btn primary" href="../index.html?ajouter=' + encodeURIComponent(l.seller_pseudo) + '">' + esc(t("b_contact")) + "</a>" : "")) + "</div>" +
+            (mine ? "" : actsHtml()) + "</div>";
         }).join("");
         fillTr(list);
+        list.querySelectorAll(".es-ad").forEach(function (el) {
+          var l = rows.filter(function (x) { return x.id === el.getAttribute("data-id"); })[0];
+          if (l && l.seller_id !== me.id) bindActs(el, { kind: "listing", id: l.id, user: l.seller_id, name: l.seller_name, copy: l.title + "\n" + (l.body || "") });
+        });
         list.querySelectorAll(".es-close").forEach(function (b) {
           b.addEventListener("click", function () {
             var id = b.closest(".es-ad").getAttribute("data-id");
             b.disabled = true;
-            r[0].from("ow_listings").update({ status: "closed" }).eq("id", id).then(function (res) { if (res.error) throw res.error; business(root, filter); })
+            r[0].from("ow_listings").update({ status: "closed" }).eq("id", id).then(function (res) { if (res.error) throw res.error; business(root, filter, help); })
               .catch(function (e) { b.disabled = false; alert(errText(e)); });
           });
         });
       });
-    }).catch(function (e) { if (cur && cur.token === tok) fail(root.querySelector("#esList"), e, function () { business(root, filter); }); });
+    }).catch(function (e) { if (cur && cur.token === tok) fail(root.querySelector("#esList"), e, function () { business(root, filter, help); }); });
   }
-  function businessNew(root) {
+  function businessNew(root, help) {
     var defCur = "EUR";
     try { var loc = (navigator.language || "").split("-")[1]; var m = { US: "USD", GB: "GBP", CH: "CHF", CA: "CAD", AU: "AUD", JP: "JPY", CN: "CNY", IN: "INR", BR: "BRL", MX: "MXN", MG: "MGA", MU: "MUR", SN: "XOF", CI: "XOF", CM: "XAF", MA: "MAD", ID: "IDR", TH: "THB", AE: "AED", RU: "RUB" }; if (m[loc]) defCur = m[loc]; } catch (e) { /* euro par défaut */ }
-    root.innerHTML = '<a class="tr-back" href="#/business">' + esc(t("back_b")) + "</a>" +
-      '<form class="card es-form" id="esAd"><h1 id="h-es">' + esc(t("b_new").replace(/^＋ /, "")) + "</h1>" +
-      '<label class="tr-field">' + esc(t("b_kind")) + '<select id="adKind"><option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>" +
-      '<label class="tr-field">' + esc(t("b_ttl")) + '<input id="adTitle" required minlength="3" maxlength="90" placeholder="' + esc(t("b_ttl_ph")) + '"></label>' +
+    var sp = help ? "entraide" : "business";
+    root.innerHTML = '<a class="tr-back" href="#/' + sp + '">' + esc(t(help ? "back_h" : "back_b")) + "</a>" +
+      '<form class="card es-form" id="esAd"><h1 id="h-es">' + esc(t(help ? "h_new" : "b_new").replace(/^＋ /, "")) + "</h1>" +
+      '<label class="tr-field">' + esc(t("b_kind")) + '<select id="adKind">' + (help
+        ? '<option value="help_need">' + esc(t("h_kind_need")) + '</option><option value="help_offer">' + esc(t("h_kind_offer")) + '</option><option value="give">' + esc(t("h_kind_give")) + "</option></select></label>"
+        : '<option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>") +
+      '<label class="tr-field">' + esc(t("b_ttl")) + '<input id="adTitle" required minlength="3" maxlength="90" placeholder="' + esc(t(help ? "h_ttl_ph" : "b_ttl_ph")) + '"></label>' +
       '<label class="tr-field">' + esc(t("b_body")) + '<textarea id="adBody" maxlength="1500" rows="4"></textarea></label>' +
-      '<div class="es-row"><label class="tr-field es-grow">' + esc(t("b_price")) + '<input id="adPrice" type="number" inputmode="decimal" min="0" step="0.01"></label>' +
+      '<div class="es-row"' + (help ? " hidden" : "") + '><label class="tr-field es-grow">' + esc(t("b_price")) + '<input id="adPrice" type="number" inputmode="decimal" min="0" step="0.01"></label>' +
       '<label class="tr-field">' + esc(t("b_cur")) + '<select id="adCur">' + CUR.map(function (c) { return "<option" + (c === defCur ? " selected" : "") + ">" + c + "</option>"; }).join("") + "</select></label></div>" +
       '<label class="tr-field">' + esc(t("b_place")) + '<input id="adPlace" maxlength="80" placeholder="' + esc(t("b_place_ph")) + '"></label>' +
-      '<p class="tr-err" id="esErr"></p><button class="btn primary" type="submit">' + esc(t("b_publish")) + '</button><p class="muted es-small">' + esc(t("b_safety")) + "</p></form>";
+      '<p class="tr-err" id="esErr"></p><button class="btn primary" type="submit">' + esc(t("b_publish")) + '</button><p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p></form>";
     var form = root.querySelector("#esAd");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -587,10 +713,10 @@
       Promise.all([sb(), account()]).then(function (r) {
         if (!r[1]) throw new Error("ACCOUNT");
         return r[0].from("ow_listings").insert({ kind: root.querySelector("#adKind").value, title: title, body: root.querySelector("#adBody").value.trim(),
-          price: p === "" ? null : Math.max(0, Number(p)), currency: root.querySelector("#adCur").value, place: root.querySelector("#adPlace").value.trim(), lang: r[1].lang });
+          price: help || p === "" ? null : Math.max(0, Number(p)), currency: root.querySelector("#adCur").value, place: root.querySelector("#adPlace").value.trim(), lang: r[1].lang });
       }).then(function (res) {
         if (res.error) throw res.error;
-        location.hash = "#/business";
+        location.hash = "#/" + sp;
       }).catch(function (err) { btn.disabled = false; root.querySelector("#esErr").textContent = errText(err); });
     });
   }
@@ -625,6 +751,44 @@
     }
   }
 
+  // ---------- SOS : numéros d'urgence du pays et phrases traduites à montrer ou faire écouter ----------
+  function sos(root, cc) {
+    if (!cc) { try { cc = (navigator.language || "").split("-")[1]; } catch (e) { cc = ""; } cc = String(cc || "").toUpperCase(); }
+    var c = SOS[cc];
+    function num(label, n) { return n ? '<a class="es-sosnum" href="tel:' + esc(n) + '" aria-label="' + esc(t("call", { n: n })) + '"><b>' + esc(n) + "</b><span>" + esc(label) + "</span></a>" : ""; }
+    root.innerHTML = '<div class="tr-head es-head"><div><h1 id="h-es">🆘 ' + esc(t("sos")) + '</h1><p class="muted">' + esc(t("sos_sub")) + "</p></div></div>" +
+      '<label class="tr-field">' + esc(t("sos_country")) + '<select id="sosCc"><option value="">' + esc(t("sos_other")) + "</option>" +
+      Object.keys(SOS).sort(function (a, b) { return SOS[a].n.localeCompare(SOS[b].n); }).map(function (k) { return '<option value="' + k + '"' + (k === cc ? " selected" : "") + ">" + esc(SOS[k].n) + "</option>"; }).join("") + "</select></label>" +
+      '<div class="card es-sos">' + (c
+        ? num(t("sos_general"), c.g) + (c.p && c.p !== c.g ? num(t("sos_police"), c.p) : "") + (c.a && c.a !== c.g ? num(t("sos_amb"), c.a) : "") + (c.f && c.f !== c.g ? num(t("sos_fire"), c.f) : "") +
+          num(t("sos_women"), c.w) + (c.s ? '<a class="es-sosnum" href="sms:' + esc(c.s) + '"><b>' + esc(c.s) + "</b><span>" + esc(t("sos_deaf")) + "</span></a>" : "")
+        : num(t("sos_general"), "112") + '<p class="muted">' + esc(t("sos_112")) + "</p>") + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("sos_phr")) + '</h2><p class="muted">' + esc(t("sos_phr_sub")) + "</p>" +
+      '<label class="tr-field">' + esc(t("sos_tr_lang")) + '<select id="sosLang"></select></label><div id="sosPhr" class="es-list"></div><p class="muted es-small" id="sosMsg"></p></div>';
+    root.querySelector("#sosCc").addEventListener("change", function (e) { sos(root, e.target.value || "ZZ"); });
+    var sel = root.querySelector("#sosLang"), langs = (window.EWMoteur && window.EWMoteur.langs) || [];
+    var target = (c && c.l) || "en";
+    sel.innerHTML = langs.map(function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === target ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>"; }).join("") || '<option value="en">English</option>';
+    function phrases() {
+      var to = sel.value, box = root.querySelector("#sosPhr"), tok = cur.token, msg = root.querySelector("#sosMsg");
+      msg.textContent = "";
+      box.innerHTML = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"].map(function (k) {
+        return '<div class="es-sosph" data-k="' + k + '"><b dir="auto" class="es-sosbig">' + esc(t(k)) + '</b><small class="muted">' + esc(t(k)) + '</small><span class="es-row"><button type="button" class="btn es-say">' + esc(t("speak")) + "</button></span></div>";
+      }).join("");
+      box.querySelectorAll(".es-sosph").forEach(function (el) {
+        var src = t(el.getAttribute("data-k")), big = el.querySelector(".es-sosbig");
+        var from = STR[ui] ? ui : "en";
+        (base(from) === base(to) || !window.EWMoteur ? Promise.resolve(src) : window.EWMoteur.translate(src, base(from), base(to))).then(function (out) {
+          if (!cur || cur.token !== tok) return;
+          big.textContent = out;
+        }).catch(function () { if (cur && cur.token === tok) msg.textContent = t("sos_offline"); });
+        el.querySelector(".es-say").addEventListener("click", function () { if (window.EWMoteur) window.EWMoteur.speak(big.textContent, to, 1); });
+      });
+    }
+    sel.addEventListener("change", phrases);
+    phrases();
+  }
+
   // ---------- Entrée ----------
   function leave() {
     if (!cur) return;
@@ -642,9 +806,10 @@
     var kind = parts[0], sub = parts[1];
     if (!myLang) myLang = ui;
     if (kind === "community" || kind === "live") { if (sub) room(root, kind, sub); else roomsList(root, kind); }
-    else if (kind === "business") { if (sub === "new") businessNew(root); else business(root); }
+    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else business(root, null, kind === "entraide"); }
+    else if (kind === "sos") sos(root);
     else avantages(root);
-    return t(kind === "avantages" ? "avantages" : kind);
+    return t(kind);
   }
   window.EWEspaces = { show: show, leave: leave, _str: STR };
 })();

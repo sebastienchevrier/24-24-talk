@@ -42,6 +42,7 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
   const page = await ctx.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
+  page.on("dialog", (d) => d.accept().catch(() => {})); // « Bloquer ? » puis « bloqué(e) »
   // Un message d'une autre personne (@kenji, en japonais), comme s'il arrivait du serveur.
   const kenjiSays = (roomId, body, kind) => page.evaluate(([rid, b, k, kid]) => {
     const d = JSON.parse(localStorage.getItem("fake_ow"));
@@ -72,7 +73,7 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
   });
   await step("Community : j'écris, mon message s'affiche ; le message japonais de Kenji arrive traduit en français, original dessous", async () => {
     await page.fill("#esInput", "Bonjour à tous !");
-    await page.tap("#esCompose button");
+    await page.tap("#esCompose button[type=submit]");
     await page.waitForSelector(".es-msg.me", { timeout: 5000 });
     await kenjiSays(roomId, "こんにちは、みなさん");
     await page.waitForFunction(() => /\[fr\] こんにちは/.test(document.querySelector("#esMsgs").textContent), null, { timeout: 15000 });
@@ -80,10 +81,36 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-community.png") });
     return { ok: /こんにちは/.test(orig), detail: "traduit + original « " + orig.trim() + " »" };
   });
+  await step("Sécurité : sous le message de Kenji, Écouter, Signaler (copie envoyée à la modération) et Bloquer (ses messages disparaissent)", async () => {
+    await page.tap('.es-msg:not(.me) .es-act[data-a="report"]');
+    await page.waitForFunction(() => /Merci/.test(document.querySelector('.es-msg:not(.me) .es-act[data-a="report"]').textContent), null, { timeout: 5000 });
+    const rep = await page.evaluate(() => JSON.parse(localStorage.getItem("fake_ow")).ow_reports[0]);
+    await page.tap('.es-msg:not(.me) .es-act[data-a="block"]');
+    await page.waitForFunction(() => !document.querySelector(".es-msg:not(.me)"), null, { timeout: 5000 });
+    const blk = await page.evaluate(() => (window.__inserts || []).find((x) => x.table === "blocks"));
+    return { ok: rep.target_kind === "msg" && /こんにちは/.test(rep.body_copy) && blk && blk.row.blocked === "00000000-0000-4000-8000-0000000000b1", detail: "signalement + blocage de kenji" };
+  });
+  await step("Community : thème « Femmes » à la création, filtre par thème", async () => {
+    await page.goto(EW + "#/community");
+    await page.waitForSelector("#esNewBtn", { timeout: 10000 });
+    await page.tap("#esNewBtn");
+    await page.fill("#esTitle", "Femmes entrepreneures du monde");
+    await page.selectOption("#esTopic", "women");
+    await page.tap("#esNew button[type=submit]");
+    await page.waitForSelector("#esCompose", { timeout: 10000 });
+    await page.goto(EW + "#/community");
+    await page.waitForSelector(".es-room", { timeout: 10000 });
+    await page.tap('.es-chip[data-f="women"]');
+    await page.waitForFunction(() => document.querySelectorAll(".es-room").length === 1, null, { timeout: 5000 });
+    const txt = await page.textContent(".es-room");
+    await page.tap('.es-chip[data-f="all"]');
+    await page.waitForFunction(() => document.querySelectorAll(".es-room").length === 2, null, { timeout: 5000 });
+    return { ok: /Femmes entrepreneures/.test(txt) && /Femmes ·/.test(txt), detail: txt.replace(/\s+/g, " ").trim() };
+  });
   await step("Community : la liste montre la communauté (1 membre, par sebtest)", async () => {
     await page.goto(EW + "#/community");
     await page.waitForSelector(".es-room", { timeout: 10000 });
-    const txt = (await page.textContent(".es-room")).replace(/\s+/g, " ");
+    const txt = (await page.$$eval(".es-room", (a) => a.map((x) => x.textContent).find((x) => /Cuisine/.test(x)) || "")).replace(/\s+/g, " ");
     return { ok: /Cuisine du monde/.test(txt) && /1 membre/.test(txt) && /sebtest/.test(txt), detail: txt.trim() };
   });
   let liveId;
@@ -148,6 +175,32 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForFunction(() => /\[fr\] Bicicleta urbana/.test(document.querySelector("#esList").textContent), null, { timeout: 10000 });
     const href = await page.$eval('.es-ad a.btn.primary', (a) => a.getAttribute("href"));
     return { ok: href === "../index.html?ajouter=maria", detail: href };
+  });
+  await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
+    await page.goto(EW + "#/entraide/new");
+    await page.waitForSelector("#esAd", { timeout: 10000 });
+    const priceHidden = await page.$eval("#adPrice", (i) => !i.offsetParent);
+    await page.selectOption("#adKind", "help_need");
+    await page.fill("#adTitle", "Aide pour remplir un papier en anglais");
+    await page.tap("#esAd button[type=submit]");
+    await page.waitForSelector(".es-ad", { timeout: 10000 });
+    const txt = (await page.textContent("#esList")).replace(/\s+/g, " ");
+    await page.screenshot({ path: path.join(OUT, "espaces-entraide.png"), fullPage: true });
+    await page.goto(EW + "#/business");
+    await page.waitForSelector(".es-ad", { timeout: 10000 });
+    const biz = await page.textContent("#esList");
+    return { ok: priceHidden && /Besoin d'aide/.test(txt) && !/papier en anglais/.test(biz), detail: "prix caché, rangée dans Entraide seulement" };
+  });
+  await step("SOS (France) : 112, 15, 17, 18, 3919 (violences femmes), 114 par SMS ; phrases traduites", async () => {
+    await page.goto(EW + "#/sos");
+    await page.waitForSelector(".es-sosnum", { timeout: 10000 });
+    const nums = await page.$$eval(".es-sosnum", (a) => a.map((x) => x.getAttribute("href")));
+    await page.selectOption("#sosLang", "ja");
+    await page.waitForFunction(() => /\[ja\]/.test(document.querySelector("#sosPhr").textContent), null, { timeout: 10000 });
+    await page.screenshot({ path: path.join(OUT, "espaces-sos.png"), fullPage: true });
+    await page.selectOption("#sosCc", "JP");
+    await page.waitForFunction(() => [...document.querySelectorAll(".es-sosnum")].some((a) => a.getAttribute("href") === "tel:119"), null, { timeout: 5000 });
+    return { ok: nums.join() === "tel:112,tel:17,tel:15,tel:18,tel:3919,sms:114", detail: nums.join(" ") + " ; Japon → 110 / 119" };
   });
   await step("Avantages : partenaires (liens partenaires) et partage de mon lien d'invitation", async () => {
     await page.evaluate(() => { navigator.share = (d) => { window.__shared = d; return Promise.resolve(); }; });

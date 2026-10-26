@@ -384,7 +384,7 @@
         ensureFrame(a);
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
       }
-    } else if (["community", "live", "business", "avantages"].indexOf(view) !== -1) target = "espaces";
+    } else if (["community", "live", "business", "entraide", "sos", "avantages"].indexOf(view) !== -1) target = "espaces";
     else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
     else if (view === "profil" && appId && appId !== "linguistique") target = "404";
     document.querySelectorAll(".view").forEach(function (v) {
