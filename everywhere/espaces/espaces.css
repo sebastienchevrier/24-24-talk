@@ -49,3 +49,7 @@
 .es-sosnum span{font-size:15px;line-height:1.3;}
 .es-sosph{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);}
 .es-sosbig{font-size:22px;line-height:1.3;}
+.es-customs{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;}
+.es-customs .btn{align-self:flex-start;}
+.es-cu-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;}
+.es-cu-ban{border-color:#b33;}

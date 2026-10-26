@@ -189,6 +189,18 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     const job = await page.$('.es-chip[data-f="job"]');
     return { ok: /Mission à distance/.test(txt) && /Traduction de site/.test(txt) && !!job, detail: txt.trim().slice(0, 80) };
   });
+  await step("Business : guide Douane et import-export (outils officiels, documents, Incoterms) et transitaires", async () => {
+    await page.goto(EW + "#/business");
+    await page.waitForSelector(".es-customs", { timeout: 10000 });
+    await page.tap(".es-customs");
+    await page.waitForSelector(".es-cu-link", { timeout: 5000 });
+    const links = await page.$$eval(".es-cu-link", (a) => a.map((x) => x.href));
+    const txt = await page.textContent("#ewEspaces");
+    await page.screenshot({ path: path.join(OUT, "espaces-douane.png"), fullPage: true });
+    await page.tap("#cuFind");
+    await page.waitForSelector('.es-chip[data-f="customs"][aria-selected="true"]', { timeout: 5000 });
+    return { ok: links.length === 4 && /macmap/.test(links[0]) && /DDP/.test(txt) && /EORI/.test(txt) && /CITES/.test(txt), detail: links.length + " outils officiels, Incoterms, filtre Douane" };
+  });
   await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
     await page.goto(EW + "#/entraide/new");
     await page.waitForSelector("#esAd", { timeout: 10000 });

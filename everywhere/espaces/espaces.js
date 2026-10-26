@@ -28,8 +28,15 @@
       live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).",
       live_no_mic: "Ce navigateur ne sait pas écouter : écrivez vos sous-titres ci-dessous.", caption_ph: "Sous-titre à envoyer…",
       live_viewers: "{n} spectateur(s) en vidéo", cam_fail: "Caméra indisponible : autorisez-la dans Chrome.",
-      b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_partner: "Partenariat",
-      b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé", b_kind_job: "J'embauche (offre d'emploi)", b_kind_mission: "Mission ou travail à distance (j'offre ou je cherche)",
+      b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_logistics: "Transport", b_customs: "Douane", b_partner: "Partenariat",
+      b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé", b_kind_job: "J'embauche (offre d'emploi)", b_kind_logistics: "Transport, fret, logistique (j'offre ou je cherche)", b_kind_customs: "Douane, transitaire, import-export (j'offre ou je cherche)",
+      cu_t: "🛃 Douane et import-export", cu_d: "Droits de douane, documents, Incoterms, outils officiels gratuits, transitaires et transporteurs.", cu_open: "Ouvrir le guide",
+      cu_sub: "Le guide pour acheter et vendre entre pays. 24/24 ONE WORLD ne fait pas les déclarations en douane : un commissionnaire en douane (transitaire) agréé peut les faire pour vous.",
+      cu_tools: "Outils officiels gratuits", cu_t1: "Market Access Map (ITC, ONU-OMC) : droits de douane et règles de presque tous les pays", cu_t2: "Access2Markets (Union européenne) : droits, taxes, règles d'origine, pas à pas", cu_t3: "TARIC : code douanier (code SH) et droits à l'entrée de l'Union européenne", cu_t4: "Douane française : EORI, dédouanement, simulateurs",
+      cu_docs: "Documents habituels", cu_d1: "Facture commerciale (valeur, origine, Incoterm)", cu_d2: "Liste de colisage (poids, colis, contenu)", cu_d3: "Document de transport : connaissement (bateau), LTA (avion), CMR (route)", cu_d4: "Certificat d'origine (pour profiter des droits réduits)", cu_d5: "Numéro EORI (entreprises qui importent ou exportent dans l'UE)", cu_d6: "Selon le produit : certificat sanitaire, phytosanitaire, licence, normes CE",
+      cu_inco: "Incoterms 2020 : qui paie quoi", cu_i1: "EXW : l'acheteur prend tout en charge dès l'usine du vendeur.", cu_i2: "FCA : le vendeur remet la marchandise dédouanée export au transporteur de l'acheteur.", cu_i3: "FOB : le vendeur charge sur le bateau ; ensuite, risques et frais pour l'acheteur.", cu_i4: "CIF : le vendeur paie le fret et l'assurance jusqu'au port d'arrivée.", cu_i5: "DAP : le vendeur livre à destination, l'acheteur paie la douane d'import.", cu_i6: "DDP : le vendeur paie tout, douane d'import comprise.",
+      cu_ban: "Interdits ou contrôlés partout : armes, drogues, contrefaçons, espèces protégées (CITES), certains médicaments. Ces annonces sont refusées et peuvent être signalées (🚩).",
+      cu_find: "Trouver un transitaire ou un transporteur", cu_read: "Lire un document étranger (photo)", cu_src: "Sources : CCI (Incoterms 2020), ITC, Commission européenne, douane.gouv.fr. Vérifiez toujours les règles exactes de votre produit.", b_kind_mission: "Mission ou travail à distance (j'offre ou je cherche)",
       mk_t: "📈 Marchés et trading", mk_d: "Discutez des marchés avec le monde entier dans les communautés, et apprenez les bases dans Apprendre. 24/24 ONE WORLD n'exécute aucun ordre et ne donne aucun conseil en investissement.",
       mk_c: "Communautés", mk_l: "Apprendre", b_new: "＋ Publier une annonce",
       b_none: "Aucune annonce pour l'instant. Publiez la première !", b_contact: "💬 Contacter", b_mine: "Votre annonce", b_close: "Retirer",
@@ -84,8 +91,15 @@
       live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.",
       live_no_mic: "This browser can't listen: type your subtitles below.", caption_ph: "Subtitle to send…",
       live_viewers: "{n} viewer(s) on video", cam_fail: "Camera unavailable: allow it in your browser settings.",
-      b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_partner: "Partnership",
-      b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate", b_kind_job: "I'm hiring (job offer)", b_kind_mission: "Remote job or gig (offering or looking)",
+      b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_logistics: "Shipping", b_customs: "Customs", b_partner: "Partnership",
+      b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate", b_kind_job: "I'm hiring (job offer)", b_kind_logistics: "Shipping, freight, logistics (offering or looking)", b_kind_customs: "Customs, freight forwarder, import-export (offering or looking)",
+      cu_t: "🛃 Customs and import-export", cu_d: "Duties, documents, Incoterms, free official tools, forwarders and carriers.", cu_open: "Open the guide",
+      cu_sub: "The guide to buying and selling between countries. 24/24 ONE WORLD does not file customs declarations: a licensed customs broker (freight forwarder) can do it for you.",
+      cu_tools: "Free official tools", cu_t1: "Market Access Map (ITC, UN-WTO): duties and rules for almost every country", cu_t2: "Access2Markets (European Union): duties, taxes, rules of origin, step by step", cu_t3: "TARIC: customs code (HS code) and duties when entering the European Union", cu_t4: "French customs: EORI, clearance, simulators",
+      cu_docs: "Usual documents", cu_d1: "Commercial invoice (value, origin, Incoterm)", cu_d2: "Packing list (weight, parcels, contents)", cu_d3: "Transport document: bill of lading (sea), air waybill (air), CMR (road)", cu_d4: "Certificate of origin (to get reduced duties)", cu_d5: "EORI number (businesses importing or exporting in the EU)", cu_d6: "Depending on the product: health or phytosanitary certificate, licence, CE standards",
+      cu_inco: "Incoterms 2020: who pays what", cu_i1: "EXW: the buyer handles everything from the seller's factory.", cu_i2: "FCA: the seller hands the export-cleared goods to the buyer's carrier.", cu_i3: "FOB: the seller loads onto the ship; after that, risks and costs are the buyer's.", cu_i4: "CIF: the seller pays freight and insurance to the port of arrival.", cu_i5: "DAP: the seller delivers to destination, the buyer pays import duties.", cu_i6: "DDP: the seller pays everything, import duties included.",
+      cu_ban: "Banned or controlled everywhere: weapons, drugs, counterfeits, protected species (CITES), some medicines. Such listings are refused and can be reported (🚩).",
+      cu_find: "Find a forwarder or a carrier", cu_read: "Read a foreign document (photo)", cu_src: "Sources: ICC (Incoterms 2020), ITC, European Commission, douane.gouv.fr. Always check the exact rules for your product.", b_kind_mission: "Remote job or gig (offering or looking)",
       mk_t: "📈 Markets and trading", mk_d: "Talk about the markets with the whole world in the communities, and learn the basics in Learn. 24/24 ONE WORLD executes no orders and gives no investment advice.",
       mk_c: "Communities", mk_l: "Learn", b_new: "＋ Post a listing",
       b_none: "No listing yet. Post the first one!", b_contact: "💬 Contact", b_mine: "Your listing", b_close: "Remove",
@@ -640,7 +654,7 @@
     if (l.price == null) return "";
     try { return new Intl.NumberFormat(ui, { style: "currency", currency: l.currency, maximumFractionDigits: 2 }).format(l.price); } catch (e) { return l.price + " " + l.currency; }
   }
-  var HELP = ["help_need", "help_offer", "give"], BIZ = ["sell", "buy", "wholesale", "sourcing", "service", "job", "mission", "partner"];
+  var HELP = ["help_need", "help_offer", "give"], BIZ = ["sell", "buy", "wholesale", "sourcing", "service", "logistics", "customs", "job", "mission", "partner"];
   function business(root, filter, help) {
     var tok = cur.token, sp = help ? "entraide" : "business";
     filter = filter || "all";
@@ -650,6 +664,7 @@
         return '<button type="button" role="tab" class="es-chip" data-f="' + k + '" aria-selected="' + (k === filter) + '">' + esc(t("b_" + k)) + "</button>";
       }).join("") + "</div>" +
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + '</p></div>' +
+      (help ? "" : '<a class="card es-customs" href="#/business/douane"><b>' + esc(t("cu_t")) + '</b><small class="muted">' + esc(t("cu_d")) + '</small><span class="btn">' + esc(t("cu_open")) + "</span></a>") +
       (help ? "" : '<div class="card es-markets"><h2 class="tr-h2">' + esc(t("mk_t")) + '</h2><p class="muted">' + esc(t("mk_d")) + '</p><div class="es-row"><a class="btn" href="#/community">' + esc(t("mk_c")) + '</a><a class="btn" href="#/learn">' + esc(t("mk_l")) + "</a></div></div>") +
       '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
     root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
@@ -699,7 +714,7 @@
       '<form class="card es-form" id="esAd"><h1 id="h-es">' + esc(t(help ? "h_new" : "b_new").replace(/^＋ /, "")) + "</h1>" +
       '<label class="tr-field">' + esc(t("b_kind")) + '<select id="adKind">' + (help
         ? '<option value="help_need">' + esc(t("h_kind_need")) + '</option><option value="help_offer">' + esc(t("h_kind_offer")) + '</option><option value="give">' + esc(t("h_kind_give")) + "</option></select></label>"
-        : '<option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="job">' + esc(t("b_kind_job")) + '</option><option value="mission">' + esc(t("b_kind_mission")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>") +
+        : '<option value="sell">' + esc(t("b_sell")) + '</option><option value="buy">' + esc(t("b_buy")) + '</option><option value="wholesale">' + esc(t("b_kind_wholesale")) + '</option><option value="sourcing">' + esc(t("b_kind_sourcing")) + '</option><option value="service">' + esc(t("b_service")) + '</option><option value="logistics">' + esc(t("b_kind_logistics")) + '</option><option value="customs">' + esc(t("b_kind_customs")) + '</option><option value="job">' + esc(t("b_kind_job")) + '</option><option value="mission">' + esc(t("b_kind_mission")) + '</option><option value="partner">' + esc(t("b_kind_partner")) + "</option></select></label>") +
       '<label class="tr-field">' + esc(t("b_ttl")) + '<input id="adTitle" required minlength="3" maxlength="90" placeholder="' + esc(t(help ? "h_ttl_ph" : "b_ttl_ph")) + '"></label>' +
       '<label class="tr-field">' + esc(t("b_body")) + '<textarea id="adBody" maxlength="1500" rows="4"></textarea></label>' +
       '<div class="es-row"' + (help ? " hidden" : "") + '><label class="tr-field es-grow">' + esc(t("b_price")) + '<input id="adPrice" type="number" inputmode="decimal" min="0" step="0.01"></label>' +
@@ -756,6 +771,21 @@
   }
 
   // ---------- SOS : numéros d'urgence du pays et phrases traduites à montrer ou faire écouter ----------
+  var CU_LINKS = [["cu_t1", "https://www.macmap.org/"], ["cu_t2", "https://trade.ec.europa.eu/access-to-markets/fr/home"],
+    ["cu_t3", "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp"], ["cu_t4", "https://www.douane.gouv.fr/"]];
+  function customs(root) {
+    function li(keys) { return "<ul class=\"es-cu-list\">" + keys.map(function (k) { return "<li>" + esc(t(k)) + "</li>"; }).join("") + "</ul>"; }
+    root.innerHTML = '<a class="tr-back" href="#/business">' + esc(t("back_b")) + "</a>" +
+      '<div class="tr-head es-head"><div><h1 id="h-es">' + esc(t("cu_t")) + '</h1><p class="muted">' + esc(t("cu_sub")) + "</p></div></div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("cu_tools")) + "</h2>" + CU_LINKS.map(function (l) {
+        return '<a class="tr-row es-cu-link" href="' + l[1] + '" target="_blank" rel="noopener"><b>' + esc(t(l[0]).split(" : ")[0].split(": ")[0]) + "</b><span>" + esc(t(l[0]).replace(/^[^:]*:\s*/, "")) + "</span></a>";
+      }).join("") + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("cu_docs")) + "</h2>" + li(["cu_d1", "cu_d2", "cu_d3", "cu_d4", "cu_d5", "cu_d6"]) + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("cu_inco")) + "</h2>" + li(["cu_i1", "cu_i2", "cu_i3", "cu_i4", "cu_i5", "cu_i6"]) + "</div>" +
+      '<div class="card es-cu-ban"><p>' + esc(t("cu_ban")) + "</p></div>" +
+      '<div class="es-row"><a class="btn primary" id="cuFind" href="#/business/f-customs">' + esc(t("cu_find")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("cu_read")) + "</a></div>" +
+      '<p class="muted es-small">' + esc(t("cu_src")) + "</p>";
+  }
   function sos(root, cc) {
     if (!cc) { try { cc = (navigator.language || "").split("-")[1]; } catch (e) { cc = ""; } cc = String(cc || "").toUpperCase(); }
     var c = SOS[cc];
@@ -811,7 +841,7 @@
     var kind = parts[0], sub = parts[1];
     if (!myLang) myLang = ui;
     if (kind === "community" || kind === "live") { if (sub) room(root, kind, sub); else roomsList(root, kind); }
-    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else business(root, null, kind === "entraide"); }
+    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else if (sub === "douane" && kind === "business") customs(root); else business(root, sub && sub.indexOf("f-") === 0 && BIZ.indexOf(sub.slice(2)) !== -1 ? sub.slice(2) : null, kind === "entraide"); }
     else if (kind === "sos") sos(root);
     else avantages(root);
     return t(kind);

@@ -2,7 +2,7 @@
 -- Entraide et dons gratuits (dans les annonces), thèmes des communautés (Femmes, Soutien…), signalements.
 alter table public.ow_listings drop constraint if exists ow_listings_kind_check;
 alter table public.ow_listings add constraint ow_listings_kind_check
-  check (kind in ('sell', 'buy', 'wholesale', 'sourcing', 'service', 'job', 'mission', 'partner', 'help_need', 'help_offer', 'give'));
+  check (kind in ('sell', 'buy', 'wholesale', 'sourcing', 'service', 'logistics', 'customs', 'job', 'mission', 'partner', 'help_need', 'help_offer', 'give'));
 
 alter table public.ow_rooms add column if not exists topic text not null default 'other'
   check (topic in ('friends', 'women', 'support', 'family', 'culture', 'languages', 'faith', 'work', 'school', 'markets', 'travel', 'other'));
