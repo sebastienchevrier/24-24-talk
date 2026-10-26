@@ -45,7 +45,12 @@
       fav_none: "Aucune phrase favorite. Appuyez sur ☆ à côté d'une phrase pour la garder ici.",
       cats: "Situations", listen: "▶ Écouter", show: "⤢ Montrer", listen_a: "Écouter : {p}", show_a: "Montrer en grand : {p}",
       close: "Fermer", not_ready: "Pas encore traduite : préparez hors connexion avec Internet.", show_hint: "Montrez cet écran à la personne en face.",
-      hint: "Traduction automatique : vérifiez les informations importantes (santé, allergies, adresse)."
+      hint: "Traduction automatique : vérifiez les informations importantes (santé, allergies, adresse).",
+      bk_t: "Réserver mon voyage", bk_sub: "Nos partenaires, au même prix pour vous.",
+      bk_hotel: "Hôtel", bk_hotel_d: "Chambres partout dans le monde", bk_esim: "Internet sur place", bk_esim_d: "eSIM : du réseau dès l'arrivée",
+      bk_assur: "Assurance voyage", bk_assur_d: "Santé et imprévus à l'étranger", bk_act: "Activités", bk_act_d: "Visites et sorties sur place",
+      bk_note: "Liens partenaires : une réservation peut rapporter une commission à 24/24 ONE WORLD, sans frais en plus pour vous. Cela finance un réseau libre et gratuit.",
+      bk_open: "{b} (s'ouvre dans un nouvel onglet)"
     },
     en: {
       title: "Travel", back: "← Face to face", sub: "Prepare your trip and make yourself understood there.",
@@ -74,7 +79,12 @@
       fav_none: "No favorite phrase yet. Tap ☆ next to a phrase to keep it here.",
       cats: "Situations", listen: "▶ Listen", show: "⤢ Show", listen_a: "Listen: {p}", show_a: "Show full screen: {p}",
       close: "Close", not_ready: "Not translated yet: prepare for offline with the Internet.", show_hint: "Show this screen to the person in front of you.",
-      hint: "Automatic translation: check important information (health, allergies, address)."
+      hint: "Automatic translation: check important information (health, allergies, address).",
+      bk_t: "Book my trip", bk_sub: "Our partners, same price for you.",
+      bk_hotel: "Hotel", bk_hotel_d: "Rooms all over the world", bk_esim: "Internet there", bk_esim_d: "eSIM: connected as soon as you land",
+      bk_assur: "Travel insurance", bk_assur_d: "Health and the unexpected abroad", bk_act: "Activities", bk_act_d: "Tours and things to do",
+      bk_note: "Partner links: a booking may earn 24/24 ONE WORLD a commission, at no extra cost to you. It funds a free, independent network.",
+      bk_open: "{b} (opens in a new tab)"
     }
   };
   // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
@@ -157,6 +167,17 @@
     if (n > 0) return '<p class="vy-st warn">' + esc(t("st_partial", { n: n, t: total })) + "</p>";
     return '<p class="vy-st">' + esc(t("st_none")) + "</p>";
   }
+  // TRAVEL : réserver chez des partenaires (partenaires.js). Lien d'affiliation s'il existe, sinon le site simple.
+  function bookHtml() {
+    var list = window.EW_PARTNERS || [];
+    if (!list.length) return "";
+    return '<div class="card vy-book"><h2 class="tr-h2">' + esc(t("bk_t")) + '</h2><p class="muted">' + esc(t("bk_sub")) + '</p><div class="vy-bk-grid">' +
+      list.map(function (p) {
+        var href = /^https:\/\//.test(p.url || "") ? p.url : p.site;
+        return '<a class="vy-bk" href="' + esc(href) + '" target="_blank" rel="sponsored noopener" data-partner="' + esc(p.id) + '" aria-label="' + esc(t("bk_open", { b: t("bk_" + p.id) + " · " + p.brand })) + '">' +
+          '<span class="vy-bk-ic" aria-hidden="true">' + p.icon + "</span><b>" + esc(t("bk_" + p.id)) + "</b><small>" + esc(t("bk_" + p.id + "_d")) + '</small><span class="vy-bk-br">' + esc(p.brand) + " ↗</span></a>";
+      }).join("") + '</div><p class="note">' + esc(t("bk_note")) + "</p></div>";
+  }
   function paint() {
     var root = cur.root, s = cur.s, d = s.dest, me = s.src;
     var total = P().list.length, ready = readyCount(d) === total && readyCount(me) === total;
@@ -181,6 +202,7 @@
           (learnable ? step(false, t("step5"), '<br><a class="btn vy-mini" href="#/learn">' + esc(t("learn")) + "</a>") : "") +
         "</ul></div>" +
       '<a class="tr-big face" id="vyTalk" href="#/everywhere/face"><span class="tr-big-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M10 7.5h4M10 16.5h4"/></svg></span><span><b>' + esc(t("talk_btn")) + "</b><small>" + esc(t("talk_d")) + "</small></span></a>" +
+      bookHtml() +
       '<div class="card vy-low"><h2 class="tr-h2">' + esc(t("low_t")) + ' <span class="vy-net" id="vyNet">' + esc(navigator.onLine === false ? t("offline") : t("online")) + "</span></h2>" +
         '<ul class="vy-list"><li>' + esc(t("low_ok")) + "</li><li>" + esc(t("low_partial")) + "</li><li>" + esc(t("low_no")) + "</li></ul></div>" +
       '<label class="tr-field vy-search"><span>' + esc(t("search")) + '</span><span class="vy-sbox"><input type="search" id="vySearch" maxlength="60" autocomplete="off" placeholder="' + esc(t("search_ph")) + '" value="' + esc(s.q) + '">' +

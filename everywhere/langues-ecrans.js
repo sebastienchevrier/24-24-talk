@@ -1007,7 +1007,19 @@ window.EW_SCREEN_STR = {
    "close": "Cerrar",
    "not_ready": "Aún no traducida: prepárala para usar sin conexión con Internet.",
    "show_hint": "Muestra esta pantalla a la persona que tienes delante.",
-   "hint": "Traducción automática: comprueba la información importante (salud, alergias, dirección)."
+   "hint": "Traducción automática: comprueba la información importante (salud, alergias, dirección).",
+   "bk_t": "Reservar mi viaje",
+   "bk_sub": "Nuestros socios, al mismo precio para ti.",
+   "bk_hotel": "Hotel",
+   "bk_hotel_d": "Habitaciones en todo el mundo",
+   "bk_esim": "Internet allí",
+   "bk_esim_d": "eSIM: conectado nada más llegar",
+   "bk_assur": "Seguro de viaje",
+   "bk_assur_d": "Salud e imprevistos en el extranjero",
+   "bk_act": "Actividades",
+   "bk_act_d": "Visitas y salidas en el destino",
+   "bk_note": "Enlaces de socios: una reserva puede generar una comisión para 24/24 ONE WORLD, sin coste extra para ti. Así se financia una red libre y gratuita.",
+   "bk_open": "{b} (se abre en una pestaña nueva)"
   },
   "pt": {
    "title": "Viagem",
@@ -1065,7 +1077,19 @@ window.EW_SCREEN_STR = {
    "close": "Fechar",
    "not_ready": "Ainda não traduzida: prepare para usar sem ligação com Internet.",
    "show_hint": "Mostre este ecrã à pessoa à sua frente.",
-   "hint": "Tradução automática: verifique as informações importantes (saúde, alergias, morada)."
+   "hint": "Tradução automática: verifique as informações importantes (saúde, alergias, morada).",
+   "bk_t": "Reservar a minha viagem",
+   "bk_sub": "Os nossos parceiros, ao mesmo preço para si.",
+   "bk_hotel": "Hotel",
+   "bk_hotel_d": "Quartos no mundo inteiro",
+   "bk_esim": "Internet no destino",
+   "bk_esim_d": "eSIM: ligado assim que chega",
+   "bk_assur": "Seguro de viagem",
+   "bk_assur_d": "Saúde e imprevistos no estrangeiro",
+   "bk_act": "Atividades",
+   "bk_act_d": "Visitas e passeios no destino",
+   "bk_note": "Links de parceiros: uma reserva pode render uma comissão à 24/24 ONE WORLD, sem custo extra para si. Isso financia uma rede livre e gratuita.",
+   "bk_open": "{b} (abre num novo separador)"
   },
   "de": {
    "title": "Reise",
@@ -1123,7 +1147,19 @@ window.EW_SCREEN_STR = {
    "close": "Schließen",
    "not_ready": "Noch nicht übersetzt: Bereite es mit Internet für offline vor.",
    "show_hint": "Zeige diesen Bildschirm der Person vor dir.",
-   "hint": "Automatische Übersetzung: Prüfe wichtige Angaben (Gesundheit, Allergien, Adresse)."
+   "hint": "Automatische Übersetzung: Prüfe wichtige Angaben (Gesundheit, Allergien, Adresse).",
+   "bk_t": "Meine Reise buchen",
+   "bk_sub": "Unsere Partner, für dich zum gleichen Preis.",
+   "bk_hotel": "Hotel",
+   "bk_hotel_d": "Zimmer auf der ganzen Welt",
+   "bk_esim": "Internet vor Ort",
+   "bk_esim_d": "eSIM: verbunden ab der Ankunft",
+   "bk_assur": "Reiseversicherung",
+   "bk_assur_d": "Gesundheit und Unvorhergesehenes im Ausland",
+   "bk_act": "Aktivitäten",
+   "bk_act_d": "Führungen und Ausflüge vor Ort",
+   "bk_note": "Partnerlinks: Eine Buchung kann 24/24 ONE WORLD eine Provision bringen, ohne Mehrkosten für dich. Das finanziert ein freies, kostenloses Netzwerk.",
+   "bk_open": "{b} (öffnet sich in einem neuen Tab)"
   },
   "it": {
    "title": "Viaggio",
@@ -1181,7 +1217,19 @@ window.EW_SCREEN_STR = {
    "close": "Chiudi",
    "not_ready": "Non ancora tradotta: prepara per l'uso offline con Internet.",
    "show_hint": "Mostra questo schermo alla persona di fronte a te.",
-   "hint": "Traduzione automatica: verifica le informazioni importanti (salute, allergie, indirizzo)."
+   "hint": "Traduzione automatica: verifica le informazioni importanti (salute, allergie, indirizzo).",
+   "bk_t": "Prenota il mio viaggio",
+   "bk_sub": "I nostri partner, allo stesso prezzo per te.",
+   "bk_hotel": "Hotel",
+   "bk_hotel_d": "Camere in tutto il mondo",
+   "bk_esim": "Internet sul posto",
+   "bk_esim_d": "eSIM: connesso appena arrivi",
+   "bk_assur": "Assicurazione di viaggio",
+   "bk_assur_d": "Salute e imprevisti all'estero",
+   "bk_act": "Attività",
+   "bk_act_d": "Visite ed escursioni sul posto",
+   "bk_note": "Link partner: una prenotazione può far guadagnare una commissione a 24/24 ONE WORLD, senza costi in più per te. Così si finanzia una rete libera e gratuita.",
+   "bk_open": "{b} (si apre in una nuova scheda)"
   },
   "zh": {
    "title": "旅行",
@@ -1239,7 +1287,19 @@ window.EW_SCREEN_STR = {
    "close": "关闭",
    "not_ready": "尚未翻译：请联网准备离线使用。",
    "show_hint": "把这个屏幕给你面前的人看。",
-   "hint": "自动翻译：请核对重要信息（健康、过敏、地址）。"
+   "hint": "自动翻译：请核对重要信息（健康、过敏、地址）。",
+   "bk_t": "预订我的旅行",
+   "bk_sub": "我们的合作伙伴，价格不变。",
+   "bk_hotel": "酒店",
+   "bk_hotel_d": "全球各地的客房",
+   "bk_esim": "当地上网",
+   "bk_esim_d": "eSIM：一落地就能上网",
+   "bk_assur": "旅行保险",
+   "bk_assur_d": "海外健康与意外保障",
+   "bk_act": "活动",
+   "bk_act_d": "当地游览与出行",
+   "bk_note": "合作伙伴链接：通过这些链接预订，24/24 ONE WORLD 可能获得佣金，你无需多付任何费用。这笔收入支持一个自由、免费的网络。",
+   "bk_open": "{b}（在新标签页中打开）"
   },
   "ja": {
    "title": "旅行",
@@ -1297,7 +1357,19 @@ window.EW_SCREEN_STR = {
    "close": "閉じる",
    "not_ready": "まだ翻訳されていません。インターネットに接続してオフライン用に準備してください。",
    "show_hint": "この画面を目の前の人に見せてください。",
-   "hint": "自動翻訳です。重要な情報（健康、アレルギー、住所）は確認してください。"
+   "hint": "自動翻訳です。重要な情報（健康、アレルギー、住所）は確認してください。",
+   "bk_t": "旅行を予約する",
+   "bk_sub": "提携先です。料金は変わりません。",
+   "bk_hotel": "ホテル",
+   "bk_hotel_d": "世界中の客室",
+   "bk_esim": "現地のインターネット",
+   "bk_esim_d": "eSIM：到着後すぐにつながる",
+   "bk_assur": "旅行保険",
+   "bk_assur_d": "海外での病気や万一に",
+   "bk_act": "アクティビティ",
+   "bk_act_d": "現地のツアーやお出かけ",
+   "bk_note": "提携リンク：予約により 24/24 ONE WORLD に手数料が入ることがありますが、あなたの負担は増えません。自由で無料のネットワークの運営に役立ちます。",
+   "bk_open": "{b}（新しいタブで開きます）"
   },
   "ar": {
    "title": "السفر",
@@ -1355,7 +1427,19 @@ window.EW_SCREEN_STR = {
    "close": "إغلاق",
    "not_ready": "لم تُترجم بعد: حضّرها للاستخدام دون اتصال مع الإنترنت.",
    "show_hint": "اعرض هذه الشاشة على الشخص الذي أمامك.",
-   "hint": "ترجمة آلية: تحقّق من المعلومات المهمة (الصحة، الحساسية، العنوان)."
+   "hint": "ترجمة آلية: تحقّق من المعلومات المهمة (الصحة، الحساسية، العنوان).",
+   "bk_t": "احجز رحلتي",
+   "bk_sub": "شركاؤنا، بالسعر نفسه لك.",
+   "bk_hotel": "فندق",
+   "bk_hotel_d": "غرف في كل أنحاء العالم",
+   "bk_esim": "الإنترنت في وجهتك",
+   "bk_esim_d": "شريحة eSIM: متصل فور وصولك",
+   "bk_assur": "تأمين السفر",
+   "bk_assur_d": "الصحة والطوارئ في الخارج",
+   "bk_act": "أنشطة",
+   "bk_act_d": "جولات ونزهات في وجهتك",
+   "bk_note": "روابط شركاء: قد يمنح الحجز عمولة لـ 24/24 ONE WORLD دون أي تكلفة إضافية عليك. هذا يموّل شبكة حرّة ومجانية.",
+   "bk_open": "{b} (يُفتح في علامة تبويب جديدة)"
   },
   "ru": {
    "title": "Путешествие",
@@ -1413,7 +1497,19 @@ window.EW_SCREEN_STR = {
    "close": "Закрыть",
    "not_ready": "Ещё не переведено: подготовьте для офлайна с интернетом.",
    "show_hint": "Покажите этот экран человеку напротив.",
-   "hint": "Автоматический перевод: проверяйте важную информацию (здоровье, аллергии, адрес)."
+   "hint": "Автоматический перевод: проверяйте важную информацию (здоровье, аллергии, адрес).",
+   "bk_t": "Забронировать поездку",
+   "bk_sub": "Наши партнёры — по той же цене для вас.",
+   "bk_hotel": "Отель",
+   "bk_hotel_d": "Номера по всему миру",
+   "bk_esim": "Интернет на месте",
+   "bk_esim_d": "eSIM: связь сразу после прилёта",
+   "bk_assur": "Страховка для путешествий",
+   "bk_assur_d": "Здоровье и непредвиденное за границей",
+   "bk_act": "Развлечения",
+   "bk_act_d": "Экскурсии и прогулки на месте",
+   "bk_note": "Партнёрские ссылки: бронирование может принести 24/24 ONE WORLD комиссию без доплаты с вашей стороны. Это финансирует свободную и бесплатную сеть.",
+   "bk_open": "{b} (откроется в новой вкладке)"
   },
   "mg": {
    "title": "Dia",
@@ -1471,7 +1567,19 @@ window.EW_SCREEN_STR = {
    "close": "Hidio",
    "not_ready": "Mbola tsy voadika: omano ho an'ny tsy misy aterineto amin'ny aterineto.",
    "show_hint": "Asehoy ilay olona mifanatrika aminao ity efijery ity.",
-   "hint": "Fandikana mandeha ho azy: hamarino ny fampahalalana manan-danja (fahasalamana, tsy fahazakana, adiresy)."
+   "hint": "Fandikana mandeha ho azy: hamarino ny fampahalalana manan-danja (fahasalamana, tsy fahazakana, adiresy).",
+   "bk_t": "Hamandrika ny diako",
+   "bk_sub": "Ireo mpiara-miasa aminay, mitovy vidy ho anao.",
+   "bk_hotel": "Hotely",
+   "bk_hotel_d": "Efitrano manerana izao tontolo izao",
+   "bk_esim": "Internet any an-toerana",
+   "bk_esim_d": "eSIM: mifandray avy hatrany rehefa tonga",
+   "bk_assur": "Fiantohana dia",
+   "bk_assur_d": "Fahasalamana sy zava-tsy ampoizina any ivelany",
+   "bk_act": "Hetsika",
+   "bk_act_d": "Fitsidihana sy fitetezana any an-toerana",
+   "bk_note": "Rohy mpiara-miasa: mety hahazo komisiona ny 24/24 ONE WORLD amin'ny famandrihana iray, tsy misy sarany fanampiny ho anao. Izany no mamatsy vola tambajotra malalaka sy maimaim-poana.",
+   "bk_open": "{b} (misokatra amin'ny tabilao vaovao)"
   }
  },
  "learn": {
