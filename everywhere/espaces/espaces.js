@@ -30,6 +30,15 @@
       live_viewers: "{n} spectateur(s) en vidéo", cam_fail: "Caméra indisponible : autorisez-la dans Chrome.",
       b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_logistics: "Transport", b_customs: "Douane", b_partner: "Partenariat",
       b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé", b_kind_job: "J'embauche (offre d'emploi)", b_kind_logistics: "Transport, fret, logistique (j'offre ou je cherche)", b_kind_customs: "Douane, transitaire, import-export (j'offre ou je cherche)",
+      rg_t: "⚖️ Règles du commerce, pays par pays", rg_d: "Douane, normes des produits, création d'entreprise, plateformes d'investissement : les sources officielles de chaque pays.", rg_open: "Choisir un pays",
+      rg_sub: "Les règles changent souvent : ONE WORLD ne les recopie pas, il vous ouvre les sources officielles à jour, puis vous les lisez dans votre langue.", rg_cc: "Pays", rg_pick: "Choisissez un pays",
+      rg_trade: "Importer et exporter", rg_g1: "Global Trade Helpdesk (ITC, CNUCED, OMC) : pour un produit et un pays, droits, taxes, règles et démarches sur une seule page",
+      rg_g2: "Market Access Map (ITC) : droits de douane et règles d'origine", rg_g3: "ePing (OMC) : normes, étiquetage, règles sanitaires que ce pays impose aux produits",
+      rg_eu: "Pays de l'Union européenne", rg_e1: "Access2Markets : commercer avec l'UE et depuis l'UE, pas à pas", rg_e2: "TARIC : code douanier et droits à l'entrée de l'UE",
+      rg_biz: "Créer et gérer une entreprise", rg_b1: "Business Ready (Banque mondiale) : création d'entreprise, impôts, commerce international, pays par pays",
+      rg_inv: "Investir et trading", rg_i1: "I-SCAN (OICV-IOSCO) : vérifier qu'une plateforme n'est pas signalée par un régulateur avant de confier de l'argent",
+      rg_note: "Un site s'ouvre dans sa langue : utilisez la traduction de votre navigateur, ou « Comprendre un papier » pour un document. Pour une décision importante, demandez à un professionnel du pays.",
+      rg_ask: "Demander à la communauté Marchés", rg_read: "Lire un document étranger",
       cu_t: "🛃 Douane et import-export", cu_d: "Droits de douane, documents, Incoterms, outils officiels gratuits, transitaires et transporteurs.", cu_open: "Ouvrir le guide",
       cu_sub: "Le guide pour acheter et vendre entre pays. 24/24 ONE WORLD ne fait pas les déclarations en douane : un commissionnaire en douane (transitaire) agréé peut les faire pour vous.",
       cu_tools: "Outils officiels gratuits", cu_t1: "Market Access Map (ITC, ONU-OMC) : droits de douane et règles de presque tous les pays", cu_t2: "Access2Markets (Union européenne) : droits, taxes, règles d'origine, pas à pas", cu_t3: "TARIC : code douanier (code SH) et droits à l'entrée de l'Union européenne", cu_t4: "Douane française : EORI, dédouanement, simulateurs",
@@ -93,6 +102,15 @@
       live_viewers: "{n} viewer(s) on video", cam_fail: "Camera unavailable: allow it in your browser settings.",
       b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_logistics: "Shipping", b_customs: "Customs", b_partner: "Partnership",
       b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate", b_kind_job: "I'm hiring (job offer)", b_kind_logistics: "Shipping, freight, logistics (offering or looking)", b_kind_customs: "Customs, freight forwarder, import-export (offering or looking)",
+      rg_t: "⚖️ Trade rules, country by country", rg_d: "Customs, product standards, starting a business, investment platforms: each country's official sources.", rg_open: "Choose a country",
+      rg_sub: "Rules change often: ONE WORLD does not copy them, it opens the up-to-date official sources, then you read them in your language.", rg_cc: "Country", rg_pick: "Choose a country",
+      rg_trade: "Import and export", rg_g1: "Global Trade Helpdesk (ITC, UNCTAD, WTO): for a product and a country, duties, taxes, rules and procedures on one page",
+      rg_g2: "Market Access Map (ITC): customs duties and rules of origin", rg_g3: "ePing (WTO): standards, labelling and health rules this country sets for products",
+      rg_eu: "European Union countries", rg_e1: "Access2Markets: trading with and from the EU, step by step", rg_e2: "TARIC: customs code and duties when entering the EU",
+      rg_biz: "Start and run a business", rg_b1: "Business Ready (World Bank): starting a business, taxes, international trade, country by country",
+      rg_inv: "Investing and trading", rg_i1: "I-SCAN (IOSCO): check that a platform has not been flagged by a regulator before trusting it with money",
+      rg_note: "A site opens in its own language: use your browser's translation, or « Understand a document » for a document. For an important decision, ask a professional in that country.",
+      rg_ask: "Ask the Markets community", rg_read: "Read a foreign document",
       cu_t: "🛃 Customs and import-export", cu_d: "Duties, documents, Incoterms, free official tools, forwarders and carriers.", cu_open: "Open the guide",
       cu_sub: "The guide to buying and selling between countries. 24/24 ONE WORLD does not file customs declarations: a licensed customs broker (freight forwarder) can do it for you.",
       cu_tools: "Free official tools", cu_t1: "Market Access Map (ITC, UN-WTO): duties and rules for almost every country", cu_t2: "Access2Markets (European Union): duties, taxes, rules of origin, step by step", cu_t3: "TARIC: customs code (HS code) and duties when entering the European Union", cu_t4: "French customs: EORI, clearance, simulators",
@@ -665,6 +683,7 @@
       }).join("") + "</div>" +
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + '</p></div>' +
       (help ? "" : '<a class="card es-customs" href="#/business/douane"><b>' + esc(t("cu_t")) + '</b><small class="muted">' + esc(t("cu_d")) + '</small><span class="btn">' + esc(t("cu_open")) + "</span></a>") +
+      (help ? "" : '<a class="card es-customs" href="#/business/regles"><b>' + esc(t("rg_t")) + '</b><small class="muted">' + esc(t("rg_d")) + '</small><span class="btn">' + esc(t("rg_open")) + "</span></a>") +
       (help ? "" : '<div class="card es-markets"><h2 class="tr-h2">' + esc(t("mk_t")) + '</h2><p class="muted">' + esc(t("mk_d")) + '</p><div class="es-row"><a class="btn" href="#/community">' + esc(t("mk_c")) + '</a><a class="btn" href="#/learn">' + esc(t("mk_l")) + "</a></div></div>") +
       '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
     root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
@@ -783,8 +802,35 @@
       '<div class="card"><h2 class="tr-h2">' + esc(t("cu_docs")) + "</h2>" + li(["cu_d1", "cu_d2", "cu_d3", "cu_d4", "cu_d5", "cu_d6"]) + "</div>" +
       '<div class="card"><h2 class="tr-h2">' + esc(t("cu_inco")) + "</h2>" + li(["cu_i1", "cu_i2", "cu_i3", "cu_i4", "cu_i5", "cu_i6"]) + "</div>" +
       '<div class="card es-cu-ban"><p>' + esc(t("cu_ban")) + "</p></div>" +
-      '<div class="es-row"><a class="btn primary" id="cuFind" href="#/business/f-customs">' + esc(t("cu_find")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("cu_read")) + "</a></div>" +
+      '<div class="es-row"><a class="btn primary" id="cuFind" href="#/business/f-customs">' + esc(t("cu_find")) + '</a><a class="btn" href="#/business/regles">' + esc(t("rg_open")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("cu_read")) + "</a></div>" +
       '<p class="muted es-small">' + esc(t("cu_src")) + "</p>";
+  }
+  // Codes pays ISO 3166-1 ; le nom s'affiche dans la langue de l'interface (Intl.DisplayNames).
+  var ISO = ("AD AE AF AG AL AM AO AR AT AU AZ BA BB BD BE BF BG BH BI BJ BN BO BR BS BT BW BY BZ CA CD CF CG CH CI CL CM CN CO CR CU CV CY CZ " +
+    "DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FM FR GA GB GD GE GH GM GN GQ GR GT GW GY HK HN HR HT HU ID IE IL IN IQ IR IS IT JM JO JP KE KG KH " +
+    "KI KM KN KP KR KW KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MH MK ML MM MN MR MT MU MV MW MX MY MZ NA NE NG NI NL NO NP NR NZ OM " +
+    "PA PE PG PH PK PL PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SI SK SL SM SN SO SR SS ST SV SY SZ TD TG TH TJ TL TM TN TO TR TT TV TW TZ " +
+    "UA UG US UY UZ VA VC VE VN VU WS YE ZA ZM ZW").split(" ");
+  var EU = "AT BE BG CY CZ DE DK EE ES FI FR GR HR HU IE IT LT LU LV MT NL PL PT RE RO SE SI SK".split(" ");
+  function ccName(cc) { try { return new Intl.DisplayNames([ui], { type: "region" }).of(cc) || cc; } catch (e) { return cc; } }
+  function rules(root, cc) {
+    cc = String(cc || "").toUpperCase();
+    if (ISO.indexOf(cc) === -1) { try { cc = String((navigator.language || "").split("-")[1] || "").toUpperCase(); } catch (e) { cc = ""; } }
+    if (ISO.indexOf(cc) === -1) cc = "";
+    function link(k, url) { var s = t(k), i = s.indexOf(":"); return '<a class="tr-row es-cu-link" href="' + url + '" target="_blank" rel="noopener"><b>' + esc(i > 0 ? s.slice(0, i).trim() : s) + "</b><span>" + esc(i > 0 ? s.slice(i + 1).trim() : "") + "</span></a>"; }
+    var names = ISO.map(function (c) { return [c, ccName(c)]; }).sort(function (a, b) { return a[1].localeCompare(b[1], ui); });
+    root.innerHTML = '<a class="tr-back" href="#/business">' + esc(t("back_b")) + "</a>" +
+      '<div class="tr-head es-head"><div><h1 id="h-es">' + esc(t("rg_t")) + '</h1><p class="muted">' + esc(t("rg_sub")) + "</p></div></div>" +
+      '<label class="tr-field">' + esc(t("rg_cc")) + '<select id="rgCc"><option value="">' + esc(t("rg_pick")) + "</option>" +
+      names.map(function (n) { return '<option value="' + n[0] + '"' + (n[0] === cc ? " selected" : "") + ">" + esc(n[1]) + "</option>"; }).join("") + "</select></label>" +
+      (cc ? '<h2 class="tr-h2 es-rg-cc">' + esc(ccName(cc)) + "</h2>" +
+        '<div class="card"><h2 class="tr-h2">' + esc(t("rg_trade")) + "</h2>" + link("rg_g1", "https://globaltradehelpdesk.org/") + link("rg_g2", "https://www.macmap.org/") + link("rg_g3", "https://www.epingalert.org/") + "</div>" +
+        (EU.indexOf(cc) !== -1 ? '<div class="card es-rg-eu"><h2 class="tr-h2">' + esc(t("rg_eu")) + "</h2>" + link("rg_e1", "https://trade.ec.europa.eu/access-to-markets/fr/home") + link("rg_e2", "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp") + "</div>" : "") +
+        '<div class="card"><h2 class="tr-h2">' + esc(t("rg_biz")) + "</h2>" + link("rg_b1", "https://www.worldbank.org/en/businessready") + "</div>" +
+        '<div class="card"><h2 class="tr-h2">' + esc(t("rg_inv")) + "</h2>" + link("rg_i1", "https://www.iosco.org/i-scan/") + "</div>" +
+        '<div class="es-row"><a class="btn primary" href="#/community">' + esc(t("rg_ask")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("rg_read")) + "</a></div>" +
+        '<p class="muted es-small">' + esc(t("rg_note")) + "</p>" : "");
+    root.querySelector("#rgCc").addEventListener("change", function (e) { location.hash = "#/business/regles" + (e.target.value ? "/" + e.target.value : ""); });
   }
   function sos(root, cc) {
     if (!cc) { try { cc = (navigator.language || "").split("-")[1]; } catch (e) { cc = ""; } cc = String(cc || "").toUpperCase(); }
@@ -841,7 +887,7 @@
     var kind = parts[0], sub = parts[1];
     if (!myLang) myLang = ui;
     if (kind === "community" || kind === "live") { if (sub) room(root, kind, sub); else roomsList(root, kind); }
-    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else if (sub === "douane" && kind === "business") customs(root); else business(root, sub && sub.indexOf("f-") === 0 && BIZ.indexOf(sub.slice(2)) !== -1 ? sub.slice(2) : null, kind === "entraide"); }
+    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else if (sub === "douane" && kind === "business") customs(root); else if (sub === "regles" && kind === "business") rules(root, parts[2]); else business(root, sub && sub.indexOf("f-") === 0 && BIZ.indexOf(sub.slice(2)) !== -1 ? sub.slice(2) : null, kind === "entraide"); }
     else if (kind === "sos") sos(root);
     else avantages(root);
     return t(kind);

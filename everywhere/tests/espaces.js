@@ -201,6 +201,19 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForSelector('.es-chip[data-f="customs"][aria-selected="true"]', { timeout: 5000 });
     return { ok: links.length === 4 && /macmap/.test(links[0]) && /DDP/.test(txt) && /EORI/.test(txt) && /CITES/.test(txt), detail: links.length + " outils officiels, Incoterms, filtre Douane" };
   });
+  await step("Business : règles pays par pays (France → bloc UE ; Japon → pas de bloc UE ; sources officielles)", async () => {
+    await page.goto(EW + "#/business");
+    await page.waitForSelector('a.es-customs[href="#/business/regles"]', { timeout: 10000 });
+    await page.tap('a.es-customs[href="#/business/regles"]');
+    await page.waitForSelector(".es-rg-cc", { timeout: 5000 });
+    const fr = await page.textContent(".es-rg-cc"), euFR = !!(await page.$(".es-rg-eu"));
+    const n = await page.$$eval("#rgCc option", (o) => o.length);
+    await page.screenshot({ path: path.join(OUT, "espaces-regles.png"), fullPage: true });
+    await page.selectOption("#rgCc", "JP");
+    await page.waitForFunction(() => /Japon/.test(document.querySelector(".es-rg-cc") ? document.querySelector(".es-rg-cc").textContent : ""), null, { timeout: 5000 });
+    const euJP = !!(await page.$(".es-rg-eu")), links = await page.$$eval(".es-cu-link", (a) => a.map((x) => new URL(x.href).hostname));
+    return { ok: fr === "France" && euFR && !euJP && n > 190 && links.join() === "globaltradehelpdesk.org,www.macmap.org,www.epingalert.org,www.worldbank.org,www.iosco.org", detail: (n - 1) + " pays ; Japon : " + links.join(" ") };
+  });
   await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
     await page.goto(EW + "#/entraide/new");
     await page.waitForSelector("#esAd", { timeout: 10000 });
