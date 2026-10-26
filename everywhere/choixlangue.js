@@ -25,8 +25,8 @@
     try { l = localStorage.getItem("lc_uilang") || ""; } catch (e) { /* stockage bloqué */ }
     if (!l || l === "auto") l = document.documentElement.lang || navigator.language || "fr";
     l = String(l).toLowerCase();
-    if (/^zh-(tw|hk|mo|hant)/.test(l)) return T.en; // chinois traditionnel : pas encore traduit ici
-    return T[l.slice(0, 2)] || T.en;
+    var X = window.EW_CHOIX || {}, c = /^zh-(tw|hk|mo|hant)/.test(l) ? "zh-TW" : l.split("-")[0];
+    return Object.assign({}, T.en, T[c] || X[c] || {});
   }
   function fold(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }

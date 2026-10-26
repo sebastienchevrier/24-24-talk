@@ -1009,7 +1009,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // ---------- Autres langues de TALK (0.8.2) : accueil, barres et compte à rebours traduits, arabe de droite à gauche ----------
   for (const [loc, lead, nav, rtl] of [["es-ES", "El mundo conversa. Por fin.", "Inicio,Mensajes,Teléfono,Traducir,Aprender", false],
-    ["ar", "العالم يتحاور. أخيرًا.", "الرئيسية,الرسائل,الهاتف,ترجمة,تعلّم", true], ["ko-KR", "The world speaks. At last.", "Home,Messages,Phone,Translate,Learn", false]]) {
+    ["ar", "العالم يتحاور. أخيرًا.", "الرئيسية,الرسائل,الهاتف,ترجمة,تعلّم", true], ["ko-KR", "마침내 세상이 말을 하네", "홈,메시지,전화,번역,배우기", false], ["yo-NG", "The world speaks. At last.", "Home,Messages,Phone,Translate,Learn", false]]) {
     ctx = await newCtx({ locale: loc });
     page = await openPortal(ctx);
     await step("Accueil en " + loc + " : phrase, barre du bas et sens d'écriture", async () => {
