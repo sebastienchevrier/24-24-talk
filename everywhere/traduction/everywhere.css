@@ -167,3 +167,14 @@ html.reduce-motion .tr-wave{animation:none;}
 .tr-face.three .tr-big-txt{font-size:19px;}
 .tr-face.three .tr-empty{font-size:14px;margin:4px 0;}
 .tr-tool#trThree[aria-checked="true"]{background:color-mix(in srgb,#9d5cf0 22%,transparent);color:#c79bff;}
+
+/* TRAVEL : réserver chez les partenaires */
+.vy-bk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 6px;}
+.vy-bk{display:flex;flex-direction:column;gap:3px;min-height:118px;padding:14px;border-radius:16px;text-decoration:none;color:var(--text);background:var(--panel2);border:1px solid var(--line);}
+.vy-bk:active{transform:scale(.98);}
+.vy-bk:focus-visible{outline:3px solid #2ee07a;outline-offset:2px;}
+.vy-bk-ic{font-size:26px;line-height:1;}
+.vy-bk b{font-size:16.5px;}
+.vy-bk small{font-size:13.5px;opacity:.85;line-height:1.3;}
+.vy-bk-br{margin-top:auto;font-size:12.5px;font-weight:600;color:var(--green);}
+html.contrast-high .vy-bk{border:2px solid var(--text);}

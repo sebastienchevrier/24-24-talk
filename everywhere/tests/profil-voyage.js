@@ -307,6 +307,14 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: r.dest === "en" && /Phrases intégrées/.test(r.st) && r.cats === 7 && r.ph === 7 && /Besoin d'Internet : traduire une phrase nouvelle/.test(r.low), detail: r.cats + " situations, " + r.ph + " phrases (Essentiel)" };
   });
   await page.screenshot({ path: path.join(OUT, "voyage.png") });
+  await step("TRAVEL : « Réserver mon voyage » avec 4 partenaires (hôtel, eSIM, assurance, activités), liens sûrs et signalés", async () => {
+    const r = await page.evaluate(() => [...document.querySelectorAll(".vy-bk")].map((a) => ({ id: a.dataset.partner, href: a.href, rel: a.rel, tgt: a.target })));
+    const note = await page.textContent(".vy-book .note");
+    await page.locator(".vy-book").scrollIntoViewIfNeeded();
+    await page.screenshot({ path: path.join(OUT, "travel.png") });
+    const ok = r.length === 4 && r.every((x) => /^https:\/\//.test(x.href) && /sponsored/.test(x.rel) && /noopener/.test(x.rel) && x.tgt === "_blank") && /commission/.test(note);
+    return { ok, detail: r.map((x) => x.id).join(", ") };
+  });
   await step("Voyage : changer de situation (Restaurant), écouter une phrase dans la langue du pays", async () => {
     await page.tap('[data-cat="resto"]');
     const first = (await page.textContent(".vy-ph .vy-there")).trim();
