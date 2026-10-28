@@ -231,7 +231,18 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForSelector(".es-cu-link", { timeout: 5000 });
     const mt = await page.$$eval(".es-cu-link", (a) => a.map((x) => new URL(x.href).hostname));
     const mtTxt = await page.textContent("#ewEspaces");
+    const noAff = (await page.$$("a[rel~=sponsored]")).length === 0 && /ne touche rien/.test(mtTxt);
     await page.screenshot({ path: path.join(OUT, "espaces-argent.png"), fullPage: true });
+    // Lien de parrainage renseigné : seul ce service devient « sponsored » avec la mention 🤝, et le chapeau ne dit plus « ne touche rien »
+    await page.evaluate(() => { window.EW_MONEY_AFF = { Wise: "https://wise.com/invite/essai" }; location.hash = "#/business"; });
+    await page.waitForSelector('a.es-customs[href="#/business/argent"]', { timeout: 5000 });
+    await page.tap('a.es-customs[href="#/business/argent"]');
+    await page.waitForSelector(".es-cu-link", { timeout: 5000 });
+    const sp = await page.$$eval("a[rel~=sponsored]", (a) => a.map((x) => x.href + "|" + (x.querySelector(".es-aff") ? 1 : 0)));
+    const affTxt = await page.textContent("#ewEspaces");
+    const withAff = sp.length === 1 && sp[0] === "https://wise.com/invite/essai|1" && !/ne touche rien/.test(affTxt) && /Partenaire/.test(affTxt);
+    await page.screenshot({ path: path.join(OUT, "espaces-argent-partenaire.png"), fullPage: true });
+    await page.evaluate(() => { window.EW_MONEY_AFF = { Wise: "", Remitly: "" }; });
     await page.goto(EW + "#/business/dropshipping");
     await page.waitForSelector("ol.es-cu-list li", { timeout: 5000 });
     const ds = await page.$$eval("ol.es-cu-list li", (l) => l.length);
@@ -245,8 +256,8 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     let seen = [];
     for (let i = 0; i < 40 && seen.length < 2; i++) { await sleep(150); seen = []; for (const f of page.frames()) { try { const v = await f.evaluate(() => document.body && document.body.getAttribute("data-tv")); if (v) seen.push(v); } catch (e) {} } }
     await page.screenshot({ path: path.join(OUT, "espaces-bourse.png"), fullPage: true });
-    return { ok: mt[0] === "remittanceprices.worldbank.org" && mt.length === 8 && /arnaque/.test(mtTxt) && ds === 6 && before === 0 &&
-      sb.length === 2 && sb.every((x) => !/allow-same-origin/.test(x)) && seen.length === 2 && seen.every((v) => v === "ISOLE"), detail: mt.length + " liens argent ; " + ds + " étapes ; Bourse chargée sur demande, widgets " + seen.join(",") };
+    return { ok: mt[0] === "remittanceprices.worldbank.org" && mt.length === 8 && /arnaque/.test(mtTxt) && noAff && withAff && ds === 6 && before === 0 &&
+      sb.length === 2 && sb.every((x) => !/allow-same-origin/.test(x)) && seen.length === 2 && seen.every((v) => v === "ISOLE"), detail: mt.length + " liens argent ; parrainage " + (noAff && withAff ? "OK (1 lien 🤝)" : "KO " + sp.join()) + " ; " + ds + " étapes ; Bourse chargée sur demande, widgets " + seen.join(",") };
   });
   await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
     await page.goto(EW + "#/entraide/new");

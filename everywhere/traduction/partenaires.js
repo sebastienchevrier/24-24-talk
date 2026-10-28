@@ -8,3 +8,7 @@ window.EW_PARTNERS = [
   { id: "assur", icon: "🛟", brand: "SafetyWing", site: "https://safetywing.com/nomad-insurance", url: "" },
   { id: "act", icon: "🎟️", brand: "GetYourGuide", site: "https://www.getyourguide.com/", url: "" }
 ];
+
+/* Envoyer de l'argent (#/business/argent) : lien de parrainage de Sébastien par service, tant qu'il est vide le lien simple s'affiche.
+   Wise : programme Partnerize (wise.com/gb/affiliate-program) ; Remitly : programme Impact (remitly.com/us/en/landing/partner-program). */
+window.EW_MONEY_AFF = { "Wise": "", "Remitly": "" };
