@@ -125,13 +125,14 @@
     "Prêt en 1 minute",
     "Imaginez",
     "Ce que vous allez vivre.",
-    "Une grand-mère parle enfin avec son petit-fils qui vit à l'autre bout du monde. Chacun dans sa langue.",
+    "Vous rencontrez quelqu'un qui ne parle pas votre langue. Vous vous comprenez quand même.",
     "Perdu au bout du monde, vous parlez, et on vous répond.",
-    "Une artisane de Madagascar vend ses créations au monde entier.",
+    "Vous vendez, achetez et travaillez avec le monde entier, sans barrière de langue.",
     "Déjà dans l'application",
     "Le monde entier, dans votre poche.",
     "Vos proches, un vendeur au marché, un médecin à l'étranger : ouvrez-la, et tout le monde vous comprend.",
-    "Installer gratuitement"
+    "Installer gratuitement",
+    "Plus besoin de copier-coller dans un traducteur : la traduction est dans la conversation."
   ];
 
   var T = {
@@ -256,13 +257,14 @@
       "Ready in 1 minute",
       "Imagine",
       "What you are about to live.",
-      "A grandmother finally talks with her grandson who lives on the other side of the world. Each in their own language.",
+      "You meet someone who doesn't speak your language. You understand each other anyway.",
       "Lost at the end of the world, you speak, and someone answers you.",
-      "A craftswoman from Madagascar sells her creations to the whole world.",
+      "You sell, buy and work with the whole world, with no language barrier.",
       "Already in the app",
       "The whole world, in your pocket.",
       "Your loved ones, a seller at the market, a doctor abroad: open it, and everyone understands you.",
-      "Install for free"
+      "Install for free",
+      "No more copy-pasting into a translator: the translation is right in the conversation."
     ],
     es: [
       "Únete",
@@ -385,13 +387,14 @@
       "Lista en 1 minuto",
       "Imagina",
       "Lo que vas a vivir.",
-      "Una abuela por fin habla con su nieto, que vive al otro lado del mundo. Cada uno en su idioma.",
+      "Conoces a alguien que no habla tu idioma. Os entendéis de todos modos.",
       "Perdido en el fin del mundo, hablas y alguien te responde.",
-      "Una artesana de Madagascar vende sus creaciones al mundo entero.",
+      "Vendes, compras y trabajas con el mundo entero, sin barrera de idioma.",
       "Ya en la aplicación",
       "El mundo entero, en tu bolsillo.",
       "Tus seres queridos, un vendedor del mercado, un médico en el extranjero: ábrela y todos te entienden.",
-      "Instalar gratis"
+      "Instalar gratis",
+      "Se acabó copiar y pegar en un traductor: la traducción está en la conversación."
     ],
     pt: [
       "Junte-se",
@@ -514,13 +517,14 @@
       "Pronta em 1 minuto",
       "Imagine",
       "O que você vai viver.",
-      "Uma avó finalmente conversa com o neto que vive do outro lado do mundo. Cada um na sua língua.",
+      "Conhece alguém que não fala a sua língua. Entendem-se na mesma.",
       "Perdido no fim do mundo, você fala e alguém responde.",
-      "Uma artesã de Madagáscar vende as suas criações para o mundo inteiro.",
+      "Vende, compra e trabalha com o mundo inteiro, sem barreira de língua.",
       "Já na aplicação",
       "O mundo inteiro, no seu bolso.",
       "Os seus entes queridos, um vendedor no mercado, um médico no estrangeiro: abra-a, e todos o entendem.",
-      "Instalar grátis"
+      "Instalar grátis",
+      "Chega de copiar e colar num tradutor: a tradução está na conversa."
     ],
     de: [
       "Mitmachen",
@@ -643,13 +647,14 @@
       "In 1 Minute bereit",
       "Stellen Sie sich vor",
       "Was Sie erleben werden.",
-      "Eine Großmutter spricht endlich mit ihrem Enkel, der am anderen Ende der Welt lebt. Jeder in seiner Sprache.",
+      "Sie treffen jemanden, der Ihre Sprache nicht spricht. Sie verstehen sich trotzdem.",
       "Verloren am Ende der Welt: Sie sprechen, und man antwortet Ihnen.",
-      "Eine Kunsthandwerkerin aus Madagaskar verkauft ihre Werke in die ganze Welt.",
+      "Sie verkaufen, kaufen und arbeiten mit der ganzen Welt, ohne Sprachbarriere.",
       "Schon in der App",
       "Die ganze Welt in Ihrer Tasche.",
       "Ihre Liebsten, ein Händler auf dem Markt, ein Arzt im Ausland: Öffnen Sie sie, und alle verstehen Sie.",
-      "Kostenlos installieren"
+      "Kostenlos installieren",
+      "Schluss mit Kopieren und Einfügen in einen Übersetzer: Die Übersetzung steckt im Gespräch."
     ],
     it: [
       "Unisciti",
@@ -772,13 +777,14 @@
       "Pronta in 1 minuto",
       "Immagina",
       "Ciò che vivrai.",
-      "Una nonna parla finalmente con il nipote che vive dall'altra parte del mondo. Ognuno nella propria lingua.",
+      "Incontri qualcuno che non parla la tua lingua. Vi capite lo stesso.",
       "Perso in capo al mondo, parli e qualcuno ti risponde.",
-      "Un'artigiana del Madagascar vende le sue creazioni in tutto il mondo.",
+      "Vendi, compri e lavori con il mondo intero, senza barriere di lingua.",
       "Già nell'app",
       "Il mondo intero, in tasca.",
       "I tuoi cari, un venditore al mercato, un medico all'estero: aprila, e tutti ti capiscono.",
-      "Installa gratis"
+      "Installa gratis",
+      "Basta copiare e incollare in un traduttore: la traduzione è nella conversazione."
     ],
     zh: [
       "加入",
@@ -901,13 +907,14 @@
       "1 分钟即可使用",
       "想象一下",
       "你将经历的一切。",
-      "一位奶奶终于能和住在地球另一端的孙子聊天了。各自说着自己的语言。",
+      "你遇到一个不说你语言的人，你们依然能互相理解。",
       "在天涯海角迷了路，你开口说话，就有人回答你。",
-      "一位马达加斯加的女手艺人把她的作品卖到全世界。",
+      "你和全世界买卖、合作，没有语言障碍。",
       "应用里已经有了",
       "整个世界，就在你的口袋里。",
       "你的亲人、市场上的摊主、国外的医生：打开它，所有人都能听懂你。",
-      "免费安装"
+      "免费安装",
+      "不用再复制粘贴到翻译软件：翻译就在对话里。"
     ],
     ja: [
       "参加する",
@@ -1030,13 +1037,14 @@
       "1分で準備完了",
       "想像してください",
       "あなたがこれから体験すること。",
-      "おばあちゃんが、地球の反対側に住む孫とついに話せる。それぞれ自分の言葉で。",
+      "あなたの言葉を話さない人と出会う。それでも、ちゃんと分かり合える。",
       "世界の果てで迷っても、話しかければ誰かが答えてくれる。",
-      "マダガスカルの女性職人が、自分の作品を世界中に届ける。",
+      "言葉の壁なく、世界中と売り買いし、一緒に働ける。",
       "アプリにもう入っています",
       "世界中が、あなたのポケットに。",
       "大切な人、市場の売り手、外国のお医者さん。開けば、みんながあなたを理解します。",
-      "無料でインストール"
+      "無料でインストール",
+      "翻訳アプリにコピペする必要はもうありません。翻訳は会話の中にあります。"
     ],
     ar: [
       "انضم",
@@ -1159,13 +1167,14 @@
       "جاهز في دقيقة واحدة",
       "تخيّل",
       "ما ستعيشه.",
-      "جدة تتحدث أخيرًا مع حفيدها الذي يعيش في الطرف الآخر من العالم. كلٌّ بلغته.",
+      "تلتقي بشخص لا يتكلم لغتك، ومع ذلك تتفاهمان.",
       "تائه في أقاصي الأرض، تتكلم فيجيبك أحدهم.",
-      "حِرَفية من مدغشقر تبيع إبداعاتها للعالم كله.",
+      "تبيع وتشتري وتعمل مع العالم كله، بلا حاجز لغوي.",
       "موجود بالفعل في التطبيق",
       "العالم كله في جيبك.",
       "أحباؤك، بائع في السوق، طبيب في الخارج: افتحه، والجميع يفهمك.",
-      "ثبّته مجانًا"
+      "ثبّته مجانًا",
+      "لا مزيد من النسخ واللصق في مترجم: الترجمة داخل المحادثة نفسها."
     ],
     ru: [
       "Вступить",
@@ -1288,13 +1297,14 @@
       "Готово за 1 минуту",
       "Представьте",
       "Что вас ждёт.",
-      "Бабушка наконец разговаривает с внуком, который живёт на другом конце света. Каждый на своём языке.",
+      "Вы встречаете человека, который не говорит на вашем языке. И всё равно понимаете друг друга.",
       "Заблудились на краю света — вы говорите, и вам отвечают.",
-      "Мастерица с Мадагаскара продаёт свои изделия по всему миру.",
+      "Вы продаёте, покупаете и работаете со всем миром без языкового барьера.",
       "Уже в приложении",
       "Весь мир у вас в кармане.",
       "Близкие, продавец на рынке, врач за границей: откройте его, и вас поймёт каждый.",
-      "Установить бесплатно"
+      "Установить бесплатно",
+      "Больше не нужно копировать текст в переводчик: перевод прямо в разговоре."
     ],
     mg: [
       "Midira",
@@ -1417,13 +1427,14 @@
       "Vonona ao anatin'ny 1 minitra",
       "Alao sary an-tsaina",
       "Izay hiainanao.",
-      "Bebe iray miresaka amin'ny zafikeliny monina any amin'ny faran'izao tontolo izao. Samy amin'ny fiteniny avy.",
+      "Mihaona amin'olona tsy miteny ny fiteninao ianao. Mifankahazo ihany ianareo.",
       "Very any amin'ny faran'izao tontolo izao ianao, miteny, ary misy mamaly anao.",
-      "Mpanao asa tanana malagasy iray mivarotra ny asany amin'izao tontolo izao.",
+      "Mivarotra, mividy ary miasa miaraka amin'izao tontolo izao ianao, tsy misy sakana amin'ny fiteny.",
       "Efa ao amin'ny fampiharana",
       "Izao tontolo izao ao am-paosinao.",
       "Ny havanao, mpivarotra eny an-tsena, dokotera any ivelany: sokafy, dia mahazo anao ny rehetra.",
-      "Apetraho maimaim-poana"
+      "Apetraho maimaim-poana",
+      "Tsy mila mandika sy mametaka ao amin'ny mpandika teny intsony: ao anatin'ny resaka ihany ny fandikana."
     ]
   };
 
@@ -1525,7 +1536,7 @@
       if (auto) auto.hidden = true;
     } else {
       // Traduction écrite pour cette langue (monde/lang/<code>.json) ; à défaut seulement, traduction automatique.
-      fetch("lang/" + code + ".json?v=2").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
+      fetch("lang/" + code + ".json?v=3").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
         if (cur !== code) return;
         if (!Array.isArray(arr) || arr.length !== K.length) throw 0;
         render(function (k) { var v = arr[IDX[k]]; return v != null ? v : (T.en[IDX[k]] != null ? T.en[IDX[k]] : k); });
