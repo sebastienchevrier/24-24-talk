@@ -107,7 +107,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "No se ha encontrado ninguna voz en este teléfono para este idioma: se usará la voz predeterminada.",
    "try_voice": "▶ Probar",
    "sample": "Hola, soy la voz de 24/24 ONE WORLD.",
-   "bt_note": "Auriculares: cualquier modelo Bluetooth de tienda. Conéctalos en los ajustes de Bluetooth de Android y toca «Probar»: el sonido debería salir por los auriculares. La aplicación no elige la salida por sí misma ni controla los botones de los auriculares. El micro que se usa (teléfono o auriculares) depende de Android."
+   "bt_note": "Auriculares: cualquier modelo Bluetooth de tienda. Conéctalos en los ajustes de Bluetooth de Android y toca «Probar»: el sonido debería salir por los auriculares. La aplicación no elige la salida por sí misma ni controla los botones de los auriculares. El micro que se usa (teléfono o auriculares) depende de Android.",
+   "paper": "Entender un papel",
+   "paper_d": "Fotografía una carta o un formulario y léelo en tu idioma"
   },
   "pt": {
    "idle": "Em pausa após 2 minutos sem fala: o ecrã pode voltar a apagar-se. Toque num microfone para retomar.",
@@ -212,7 +214,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "Não foi encontrada nenhuma voz neste telemóvel para esta língua: será usada a voz predefinida.",
    "try_voice": "▶ Experimentar",
    "sample": "Olá, sou a voz da 24/24 ONE WORLD.",
-   "bt_note": "Auriculares: qualquer modelo Bluetooth à venda nas lojas. Ligue-os nas definições de Bluetooth do Android e toque em «Experimentar»: o som deve sair nos auriculares. A aplicação não escolhe a saída por si nem controla os botões dos auriculares. O micro utilizado (telemóvel ou auriculares) depende do Android."
+   "bt_note": "Auriculares: qualquer modelo Bluetooth à venda nas lojas. Ligue-os nas definições de Bluetooth do Android e toque em «Experimentar»: o som deve sair nos auriculares. A aplicação não escolhe a saída por si nem controla os botões dos auriculares. O micro utilizado (telemóvel ou auriculares) depende do Android.",
+   "paper": "Entender um papel",
+   "paper_d": "Fotografe uma carta ou um formulário e leia-o na sua língua"
   },
   "de": {
    "idle": "Pause nach 2 Minuten ohne Sprechen: Der Bildschirm kann wieder ausgehen. Tippe auf ein Mikrofon, um fortzufahren.",
@@ -317,7 +321,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "Auf diesem Handy wurde keine Stimme für diese Sprache gefunden: Die Standardstimme wird verwendet.",
    "try_voice": "▶ Testen",
    "sample": "Hallo, ich bin die Stimme von 24/24 ONE WORLD.",
-   "bt_note": "Ohrhörer: jedes handelsübliche Bluetooth-Modell. Verbinde sie in den Bluetooth-Einstellungen von Android und tippe dann auf „Testen“: Der Ton sollte aus den Ohrhörern kommen. Die App wählt die Ausgabe nicht selbst und steuert die Tasten der Ohrhörer nicht. Welches Mikro verwendet wird (Handy oder Ohrhörer), hängt von Android ab."
+   "bt_note": "Ohrhörer: jedes handelsübliche Bluetooth-Modell. Verbinde sie in den Bluetooth-Einstellungen von Android und tippe dann auf „Testen“: Der Ton sollte aus den Ohrhörern kommen. Die App wählt die Ausgabe nicht selbst und steuert die Tasten der Ohrhörer nicht. Welches Mikro verwendet wird (Handy oder Ohrhörer), hängt von Android ab.",
+   "paper": "Ein Schreiben verstehen",
+   "paper_d": "Fotografiere einen Brief oder ein Formular und lies ihn in deiner Sprache"
   },
   "it": {
    "idle": "In pausa dopo 2 minuti senza parlare: lo schermo può di nuovo spegnersi. Tocca un microfono per riprendere.",
@@ -422,7 +428,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "Nessuna voce trovata su questo telefono per questa lingua: verrà usata la voce predefinita.",
    "try_voice": "▶ Prova",
    "sample": "Ciao, sono la voce di 24/24 ONE WORLD.",
-   "bt_note": "Auricolari: qualsiasi modello Bluetooth in commercio. Collegali nelle impostazioni Bluetooth di Android, poi tocca «Prova»: il suono dovrebbe uscire dagli auricolari. L'app non sceglie da sola l'uscita e non controlla i pulsanti degli auricolari. Il microfono usato (telefono o auricolari) dipende da Android."
+   "bt_note": "Auricolari: qualsiasi modello Bluetooth in commercio. Collegali nelle impostazioni Bluetooth di Android, poi tocca «Prova»: il suono dovrebbe uscire dagli auricolari. L'app non sceglie da sola l'uscita e non controlla i pulsanti degli auricolari. Il microfono usato (telefono o auricolari) dipende da Android.",
+   "paper": "Capire un documento",
+   "paper_d": "Fotografa una lettera o un modulo e leggilo nella tua lingua"
   },
   "zh": {
    "idle": "2 分钟没有说话，已暂停：屏幕可以再次熄灭。点一下麦克风即可继续。",
@@ -527,7 +535,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "此手机上没有找到该语言的语音：将使用默认语音。",
    "try_voice": "▶ 试听",
    "sample": "你好，我是 24/24 ONE WORLD 的声音。",
-   "bt_note": "耳机：任何市售 Bluetooth 型号都可以。在 Android 的 Bluetooth 设置中连接，然后点“试听”：声音应从耳机中传出。应用不会自行选择输出，也不控制耳机按键。使用哪个麦克风（手机或耳机）取决于 Android。"
+   "bt_note": "耳机：任何市售 Bluetooth 型号都可以。在 Android 的 Bluetooth 设置中连接，然后点“试听”：声音应从耳机中传出。应用不会自行选择输出，也不控制耳机按键。使用哪个麦克风（手机或耳机）取决于 Android。",
+   "paper": "看懂一份文件",
+   "paper_d": "拍下一封信或一张表格，用你的语言阅读"
   },
   "ja": {
    "idle": "2分間話さなかったので一時停止しました。画面は再び消えることがあります。マイクをタップすると再開します。",
@@ -632,7 +642,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "このスマホにはこの言語の音声がありません。標準の音声を使います。",
    "try_voice": "▶ 試す",
    "sample": "こんにちは、24/24 ONE WORLD の声です。",
-   "bt_note": "イヤホン：市販の Bluetooth 製品ならどれでも使えます。Android の Bluetooth 設定で接続してから「試す」をタップしてください。音がイヤホンから出るはずです。アプリが出力先を選ぶことはなく、イヤホンのボタンも操作しません。どのマイク（スマホかイヤホンか）を使うかは Android 次第です。"
+   "bt_note": "イヤホン：市販の Bluetooth 製品ならどれでも使えます。Android の Bluetooth 設定で接続してから「試す」をタップしてください。音がイヤホンから出るはずです。アプリが出力先を選ぶことはなく、イヤホンのボタンも操作しません。どのマイク（スマホかイヤホンか）を使うかは Android 次第です。",
+   "paper": "書類を理解する",
+   "paper_d": "手紙や書類を撮影して、自分の言語で読む"
   },
   "ar": {
    "idle": "توقّف مؤقتًا بعد دقيقتين دون كلام: يمكن أن تنطفئ الشاشة من جديد. انقر على ميكروفون للاستئناف.",
@@ -737,7 +749,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "لم يُعثر على صوت لهذه اللغة على هذا الهاتف: سيُستخدم الصوت الافتراضي.",
    "try_voice": "▶ تجربة",
    "sample": "مرحبًا، أنا صوت 24/24 ONE WORLD.",
-   "bt_note": "السماعات: أي طراز Bluetooth من المتجر. اربطها في إعدادات Bluetooth في Android، ثم انقر على «تجربة»: يجب أن يخرج الصوت من السماعات. لا يختار التطبيق الإخراج بنفسه ولا يتحكّم في أزرار السماعات. يعتمد الميكروفون المستخدم (الهاتف أو السماعات) على Android."
+   "bt_note": "السماعات: أي طراز Bluetooth من المتجر. اربطها في إعدادات Bluetooth في Android، ثم انقر على «تجربة»: يجب أن يخرج الصوت من السماعات. لا يختار التطبيق الإخراج بنفسه ولا يتحكّم في أزرار السماعات. يعتمد الميكروفون المستخدم (الهاتف أو السماعات) على Android.",
+   "paper": "فهم ورقة",
+   "paper_d": "صوّر رسالة أو استمارة واقرأها بلغتك"
   },
   "ru": {
    "idle": "Пауза после 2 минут без речи: экран снова может гаснуть. Нажмите на микрофон, чтобы продолжить.",
@@ -842,7 +856,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "На этом телефоне нет голоса для этого языка: будет использован голос по умолчанию.",
    "try_voice": "▶ Проверить",
    "sample": "Здравствуйте, я голос 24/24 ONE WORLD.",
-   "bt_note": "Наушники: любая обычная Bluetooth-модель. Подключите их в настройках Bluetooth на Android, затем нажмите «Проверить»: звук должен идти в наушники. Приложение само не выбирает вывод звука и не управляет кнопками наушников. Какой микрофон используется (телефона или наушников), решает Android."
+   "bt_note": "Наушники: любая обычная Bluetooth-модель. Подключите их в настройках Bluetooth на Android, затем нажмите «Проверить»: звук должен идти в наушники. Приложение само не выбирает вывод звука и не управляет кнопками наушников. Какой микрофон используется (телефона или наушников), решает Android.",
+   "paper": "Понять документ",
+   "paper_d": "Сфотографируйте письмо или бланк и прочитайте его на своём языке"
   },
   "mg": {
    "idle": "Miato rehefa 2 minitra tsy nisy teny: afaka maty indray ny efijery. Tsindrio ny mikrô iray hanohizana.",
@@ -947,7 +963,9 @@ window.EW_SCREEN_STR = {
    "voice_none": "Tsy nisy feo hita amin'ity finday ity ho an'ity fiteny ity: ny feo mahazatra no hampiasaina.",
    "try_voice": "▶ Andramo",
    "sample": "Manao ahoana, izaho no feon'ny 24/24 ONE WORLD.",
-   "bt_note": "Écouteurs: izay modely Bluetooth amidy rehetra. Ampifandraiso ao amin'ny fikirakirana Bluetooth an'ny Android, dia tsindrio ny «Andramo»: tokony hivoaka ao amin'ny écouteurs ny feo. Tsy misafidy ho azy ny fivoahan'ny feo ny rindranasa ary tsy mifehy ny bokotry ny écouteurs. Miankina amin'ny Android ny mikrô ampiasaina (finday na écouteurs)."
+   "bt_note": "Écouteurs: izay modely Bluetooth amidy rehetra. Ampifandraiso ao amin'ny fikirakirana Bluetooth an'ny Android, dia tsindrio ny «Andramo»: tokony hivoaka ao amin'ny écouteurs ny feo. Tsy misafidy ho azy ny fivoahan'ny feo ny rindranasa ary tsy mifehy ny bokotry ny écouteurs. Miankina amin'ny Android ny mikrô ampiasaina (finday na écouteurs).",
+   "paper": "Hahazo taratasy",
+   "paper_d": "Alaivo sary ny taratasy na ny takelaka fenoina, vakio amin'ny fiteninao"
   }
  },
  "voyage": {
