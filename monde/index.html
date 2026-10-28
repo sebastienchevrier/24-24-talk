@@ -154,6 +154,19 @@
   .final{text-align:center;padding:110px 0 90px;}
   footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:13.5px;}
   footer .wrap{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;}
+  /* Envie d'installer : gros bouton, puces, scènes, barre fixe en bas */
+  .btn.big{padding:16px 26px;font-size:17.5px;}
+  .chips{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px auto 0;padding:0;max-width:560px;}
+  .chips li{font-size:14px;padding:6px 12px;border-radius:999px;background:rgba(4,10,8,.72);border:1px solid rgba(120,255,180,.35);color:#dfffe9;}
+  .chips li::before{content:"✓ ";color:var(--teal);font-weight:800;}
+  .scenes{display:grid;gap:14px;margin-top:30px;}
+  @media (min-width:800px){.scenes{grid-template-columns:repeat(3,1fr);}}
+  .scenes div{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;}
+  .scenes span{font-size:34px;line-height:1;display:block;margin-bottom:12px;}
+  .scenes p{margin:0;font-size:18px;line-height:1.45;font-weight:600;}
+  .dock{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translate(-50%,0);z-index:20;box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 24px rgba(60,255,150,.35);transition:opacity .3s,transform .3s;max-width:calc(100vw - 32px);}
+  .dock.off{opacity:0;transform:translate(-50%,120%);pointer-events:none;}
+  footer{padding-bottom:96px;}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease;}
   .reveal.on{opacity:1;transform:none;}
   @media (max-width:700px){.hero{--gy:88%;align-items:flex-start;padding-top:120px;}.hero::after{height:14%;}}
@@ -176,23 +189,25 @@
       <h1><span>Le monde</span><span>se parle.</span><span>Enfin.</span></h1>
       <p class="lead"><strong>Plus qu'une application : un mouvement.</strong> Huit milliards de personnes, une seule conversation. Ici, la langue ne sépare plus personne.</p>
       <div class="ctas">
-        <a class="btn main" href="../">Rejoindre le mouvement</a>
+        <a class="btn main big" href="../">📲 <span>Installer l'application gratuite</span></a>
         <a class="btn ghost" href="#vision">Lire la vision</a>
       </div>
+      <ul class="chips"><li>Gratuit</li><li>112 langues</li><li>Sans publicité</li><li>Prêt en 1 minute</li></ul>
       <p class="hello" aria-live="polite"><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
       <p class="auto" id="autoTr" hidden>Traduction automatique</p>
     </div>
   </section>
 
-  <section id="vision" class="manifesto"><div class="wrap reveal">
-    <p class="kicker">La vision</p>
-    <p>Pendant des millénaires, la langue a séparé les peuples. <em>Aujourd'hui, un seul réseau efface cette frontière :</em> vous parlez, l'autre vous comprend, où qu'il soit sur la planète.</p>
-    <ol class="engage">
-      <li><b>Plus personne n'est étranger.</b><span>Où que vous alliez, quelqu'un vous comprend.</span></li>
-      <li><b>Libre et indépendant.</b><span>Un réseau qui appartient à ceux qui le font vivre.</span></li>
-      <li><b>Chaque voix compte.</b><span>Votre langue, votre culture, votre accent : le monde entier peut enfin les entendre.</span></li>
-    </ol>
-    <p class="join">Chaque personne qui nous rejoint rapproche deux mondes. <a class="btn main" href="../">Je rejoins ONE WORLD</a></p>
+  <section class="imagine"><div class="wrap">
+    <div class="reveal">
+      <p class="kicker">Imaginez</p>
+      <h2>Ce que vous allez vivre.</h2>
+    </div>
+    <div class="scenes">
+      <div class="reveal"><span aria-hidden="true">👵</span><p>Une grand-mère parle enfin avec son petit-fils qui vit à l'autre bout du monde. Chacun dans sa langue.</p></div>
+      <div class="reveal"><span aria-hidden="true">🧭</span><p>Perdu au bout du monde, vous parlez, et on vous répond.</p></div>
+      <div class="reveal"><span aria-hidden="true">🌍</span><p>Une artisane de Madagascar vend ses créations au monde entier.</p></div>
+    </div>
   </div></section>
 
   <section><div class="wrap demo">
@@ -206,6 +221,24 @@
       <div class="bub in" id="b1">Bonjour depuis Tokyo ! 🌸<small>écrit en japonais : こんにちは、東京から！</small></div>
       <div class="bub out" id="b2">Bonjour Aiko, je t'appelle ce soir ?<small>lu en japonais par Aiko</small></div>
       <div class="bub in" id="b3">Avec plaisir, à ce soir.<small>écrit en japonais : 喜んで、また今夜。</small></div>
+    </div>
+  </div></section>
+
+  <section id="tout"><div class="wrap">
+    <div class="reveal">
+      <p class="kicker">Déjà dans l'application</p>
+      <h2>Le monde entier, dans votre poche.</h2>
+      <p class="sub">Vos proches, un vendeur au marché, un médecin à l'étranger : ouvrez-la, et tout le monde vous comprend.</p>
+    </div>
+    <div class="grid">
+      <a class="card reveal card-go" href="../index.html?b=call"><span class="tag on" aria-hidden="true">✓</span><h3>VIDÉO</h3><p>Des appels vidéo traduits, avec les sous-titres dans votre langue.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/live"><span class="tag on" aria-hidden="true">✓</span><h3>LIVE</h3><p>Des directs suivis dans votre langue.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/community"><span class="tag on" aria-hidden="true">✓</span><h3>COMMUNITY</h3><p>Des communautés sans frontière de langue.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/everywhere/voyage"><span class="tag on" aria-hidden="true">✓</span><h3>TRAVEL</h3><p>Voyager partout comme chez soi.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/business"><span class="tag on" aria-hidden="true">✓</span><h3>BUSINESS</h3><p>Vendre, acheter, importer, envoyer de l'argent et suivre la Bourse avec le monde entier, chacun dans sa langue.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/entraide"><span class="tag on" aria-hidden="true">✓</span><h3>ENTRAIDE</h3><p>Demander ou offrir de l'aide, gratuitement, à des gens du monde entier.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/sos"><span class="tag on" aria-hidden="true">✓</span><h3 translate="no" class="notranslate">SOS</h3><p>Les numéros d'urgence de chaque pays et les phrases qui sauvent, traduites.</p></a>
+      <a class="card reveal card-go" href="../everywhere/#/everywhere/papier"><span class="tag on" aria-hidden="true">✓</span><h3>PAPIER</h3><p>Photographiez une lettre ou une ordonnance : lisez-la dans votre langue.</p></a>
     </div>
   </div></section>
 
@@ -236,16 +269,16 @@
     </div>
   </div></section>
 
-  <section><div class="wrap">
-    <div class="reveal">
-      <h2>Toutes les façons de se parler.</h2>
-      <p class="sub">Un seul compte, un seul réseau, la même simplicité partout.</p>
-    </div>
-    <div class="grid g3">
-      <a class="card reveal" href="../"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span class="tag">Messagerie</span><h3>Parler à ses proches</h3><p>Messages, vocaux et appels avec vos contacts. Chacun écrit et parle dans sa langue, l'autre reçoit dans la sienne.</p></a>
-      <a class="card reveal" href="../everywhere/#/everywhere"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span><span class="tag">Face à face</span><h3>Parler à tout le monde</h3><p>Face à face avec quelqu'un qui ne parle pas votre langue : le téléphone posé entre vous, chacun son micro.</p></a>
-      <a class="card reveal" href="../everywhere/#/learn"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span><span class="tag">Apprendre</span><h3>Apprendre à parler</h3><p>Des leçons courtes et des exercices pour parler une nouvelle langue par vous-même.</p></a>
-    </div>
+
+  <section id="vision" class="manifesto"><div class="wrap reveal">
+    <p class="kicker">La vision</p>
+    <p>Pendant des millénaires, la langue a séparé les peuples. <em>Aujourd'hui, un seul réseau efface cette frontière :</em> vous parlez, l'autre vous comprend, où qu'il soit sur la planète.</p>
+    <ol class="engage">
+      <li><b>Plus personne n'est étranger.</b><span>Où que vous alliez, quelqu'un vous comprend.</span></li>
+      <li><b>Libre et indépendant.</b><span>Un réseau qui appartient à ceux qui le font vivre.</span></li>
+      <li><b>Chaque voix compte.</b><span>Votre langue, votre culture, votre accent : le monde entier peut enfin les entendre.</span></li>
+    </ol>
+    <p class="join">Chaque personne qui nous rejoint rapproche deux mondes. <a class="btn main" href="../">Je rejoins ONE WORLD</a></p>
   </div></section>
 
   <section class="orbit-sec"><div class="wrap">
@@ -279,30 +312,14 @@
     </div>
   </div></section>
 
-  <section><div class="wrap">
-    <div class="reveal">
-      <p class="kicker">Demain</p>
-      <h2>Le réseau grandit avec vous.</h2>
-      <p class="sub">Notre mission : l'épicentre des échanges mondiaux, pour que chacun, où qu'il soit, puisse parler, apprendre et entreprendre avec le monde entier.</p>
-    </div>
-    <div class="grid">
-      <a class="card reveal card-go" href="../index.html?b=call"><span class="tag on" aria-hidden="true">✓</span><h3>VIDÉO</h3><p>Des appels vidéo traduits, avec les sous-titres dans votre langue.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/live"><span class="tag on" aria-hidden="true">✓</span><h3>LIVE</h3><p>Des directs suivis dans votre langue.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/community"><span class="tag on" aria-hidden="true">✓</span><h3>COMMUNITY</h3><p>Des communautés sans frontière de langue.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/everywhere/voyage"><span class="tag on" aria-hidden="true">✓</span><h3>TRAVEL</h3><p>Voyager partout comme chez soi.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/business"><span class="tag on" aria-hidden="true">✓</span><h3>BUSINESS</h3><p>Vendre, acheter, importer, envoyer de l'argent et suivre la Bourse avec le monde entier, chacun dans sa langue.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/entraide"><span class="tag on" aria-hidden="true">✓</span><h3>ENTRAIDE</h3><p>Demander ou offrir de l'aide, gratuitement, à des gens du monde entier.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/sos"><span class="tag on" aria-hidden="true">✓</span><h3 translate="no" class="notranslate">SOS</h3><p>Les numéros d'urgence de chaque pays et les phrases qui sauvent, traduites.</p></a>
-      <a class="card reveal card-go" href="../everywhere/#/everywhere/papier"><span class="tag on" aria-hidden="true">✓</span><h3>PAPIER</h3><p>Photographiez une lettre ou une ordonnance : lisez-la dans votre langue.</p></a>
-    </div>
-  </div></section>
 
   <section class="final"><div class="wrap reveal">
     <h2>Le monde vous attend.</h2>
     <p class="sub" style="margin:0 auto 28px;">Soyez de ceux qui ont commencé. Invitez un proche, et ensemble, faites parler le monde.</p>
-    <a class="btn main" href="../" data-k="Rejoindre {OW}">Rejoindre <span translate="no" class="notranslate">24/24 ONE WORLD</span></a>
+    <a class="btn main big" href="../">📲 <span>Installer l'application gratuite</span></a>
   </div></section>
 </main>
+<a class="dock btn main" id="dock" href="../" hidden>📲 <span>Installer gratuitement</span></a>
 
 <footer><div class="wrap">
   <span>© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.</span>
@@ -316,7 +333,9 @@
   // « Bonjour » dans plusieurs langues, sous le titre.
   const hi = [["Bonjour","fr"],["Hello","en"],["こんにちは","ja"],["Hola","es"],["مرحبا","ar"],["Salama","mg"],["สวัสดี","th"],["Olá","pt"],["你好","zh"],["Привет","ru"],["Hallo","de"],["Ciao","it"]];
   // Nom de la langue écrit dans la langue du visiteur (« japonais », « Japanese », « 日本語 »…).
-  const nm = (c) => { let n = ""; try { n = new Intl.DisplayNames([window.owSiteLang || "fr"], { type: "language" }).of(c) || ""; } catch (e) { /* téléphone ancien */ } return n && n !== c ? n : (window.owNativeName ? window.owNativeName(c) : c); };
+  const nm = (c) => { const of = (l) => { try { const n = new Intl.DisplayNames([l], { type: "language" }).of(c) || ""; return n && n !== c ? n : ""; } catch (e) { return ""; } };
+    // Langue du visiteur d'abord ; si le téléphone ne la connaît pas (birman, tigrigna…), nom de la langue écrit dans elle-même.
+    const own = window.owNativeName ? window.owNativeName(c) : ""; return of(window.owSiteLang || "fr") || of(c) || (own && own !== c ? own : c); };
   const w = document.getElementById("helloWord"), l = document.getElementById("helloLang");
   let i = 0;
   const show = () => { w.textContent = hi[i][0]; l.textContent = nm(hi[i][1]); };
@@ -326,6 +345,17 @@
   // Apparition douce des blocs au défilement.
   const io = "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .15 }) : null;
   document.querySelectorAll(".reveal").forEach((el) => io ? io.observe(el) : el.classList.add("on"));
+
+
+  // Bouton « Installer » fixé en bas, une fois le haut de page passé ; caché à la dernière section.
+  const dock = document.getElementById("dock"), hero = document.querySelector(".hero"), fin = document.querySelector(".final");
+  if (dock && "IntersectionObserver" in window) {
+    dock.hidden = false; dock.classList.add("off");
+    let heroVis = true, finVis = false;
+    const upd = () => dock.classList.toggle("off", heroVis || finVis);
+    new IntersectionObserver((es) => es.forEach((e) => { if (e.target === hero) heroVis = e.isIntersecting; else finVis = e.isIntersecting; upd(); }), { threshold: 0 }).observe(hero);
+    new IntersectionObserver((es) => es.forEach((e) => { finVis = e.isIntersecting; upd(); }), { threshold: 0 }).observe(fin);
+  }
 
   // Globe de points qui tourne lentement, avec des liaisons entre villes (dessiné ici, aucune image).
   const cv = document.getElementById("globe"), ctx = cv.getContext("2d");
@@ -361,7 +391,7 @@
   requestAnimationFrame(frame);
 })();
 </script>
-<script src="i18n.js?v=2"></script>
+<script src="i18n.js?v=3"></script>
 <script>
 // Lien du site avec ?ajouter=pseudo : les boutons « Ouvrir l'application » gardent l'invitation.
 (function () {

@@ -203,7 +203,7 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForSelector('.es-chip[data-f="customs"][aria-selected="true"]', { timeout: 5000 });
     return { ok: links.length === 4 && /macmap/.test(links[0]) && /DDP/.test(txt) && /EORI/.test(txt) && /CITES/.test(txt), detail: links.length + " outils officiels, Incoterms, filtre Douane" };
   });
-  await step("Business : règles pays par pays (France → bloc UE ; Japon → pas de bloc UE ; sources officielles)", async () => {
+  await step("Business : règles pays par pays (France → bloc UE ; Japon → pas de bloc UE ; liens propres au pays ; retour direct)", async () => {
     await page.goto(EW + "#/business");
     await page.waitForSelector('a.es-customs[href="#/business/regles"]', { timeout: 10000 });
     await page.tap('a.es-customs[href="#/business/regles"]');
@@ -214,7 +214,15 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.selectOption("#rgCc", "JP");
     await page.waitForFunction(() => /Japon/.test(document.querySelector(".es-rg-cc") ? document.querySelector(".es-rg-cc").textContent : ""), null, { timeout: 5000 });
     const euJP = !!(await page.$(".es-rg-eu")), links = await page.$$eval(".es-cu-link", (a) => a.map((x) => new URL(x.href).hostname));
-    return { ok: fr === "France" && euFR && !euJP && n > 190 && links.join() === "globaltradehelpdesk.org,www.macmap.org,www.epingalert.org,www.worldbank.org,www.iosco.org", detail: (n - 1) + " pays ; Japon : " + links.join(" ") };
+    // Les liens du pays changent avec le pays choisi (Banque mondiale JP, OEC jpn, recherche « … Japon »).
+    const cty = await page.$$eval(".es-rg-cty .es-cu-link", (a) => a.map((x) => x.href));
+    const own = cty.length === 3 && /\/country\/JP$/.test(cty[0]) && /\/country\/jpn$/.test(cty[1]) && /Japon/.test(decodeURIComponent(cty[2]));
+    // Changer de pays ne remplit pas l'historique : la flèche retour ramène directement à BUSINESS.
+    await page.selectOption("#rgCc", "SN");
+    await page.waitForFunction(() => /\/SN$/.test(location.hash), null, { timeout: 5000 });
+    await page.goBack(); await page.waitForTimeout(400);
+    const back = await page.evaluate(() => location.hash);
+    return { ok: fr === "France" && euFR && !euJP && n > 190 && own && back === "#/business" && links.join() === "data.worldbank.org,oec.world,www.google.com,globaltradehelpdesk.org,www.macmap.org,www.epingalert.org,www.worldbank.org,www.iosco.org", detail: (n - 1) + " pays ; Japon : " + links.join(" ") + " ; retour → " + back };
   });
   await step("Business : envoyer de l'argent (comparateur Banque mondiale + 7 services), dropshipping, Bourse isolée", async () => {
     await page.goto(EW + "#/business");

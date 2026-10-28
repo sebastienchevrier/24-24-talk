@@ -32,7 +32,7 @@
       b_kind_wholesale: "Je fournis en gros (fournisseur, fabricant)", b_kind_sourcing: "Je cherche un fournisseur (sourcing)", b_kind_partner: "Partenariat, associé", b_kind_job: "J'embauche (offre d'emploi)", b_kind_logistics: "Transport, fret, logistique (j'offre ou je cherche)", b_kind_customs: "Douane, transitaire, import-export (j'offre ou je cherche)",
       rg_t: "⚖️ Règles du commerce, pays par pays", rg_d: "Douane, normes des produits, création d'entreprise, plateformes d'investissement : les sources officielles de chaque pays.", rg_open: "Choisir un pays",
       rg_sub: "Les règles changent souvent : ONE WORLD ne les recopie pas, il vous ouvre les sources officielles à jour, puis vous les lisez dans votre langue.", rg_cc: "Pays", rg_pick: "Choisissez un pays",
-      rg_trade: "Importer et exporter", rg_g1: "Global Trade Helpdesk (ITC, CNUCED, OMC) : pour un produit et un pays, droits, taxes, règles et démarches sur une seule page",
+      rg_cty: "Ce pays en bref", rg_c1: "Banque mondiale : chiffres clés de ce pays", rg_c2: "OEC : ce que ce pays achète et vend, et avec qui", rg_c3: "Rechercher : les règles pour importer dans ce pays", rg_q: "règles importation douane", rg_tool: "Dans ces outils mondiaux, choisissez aussi ce pays.", rg_trade: "Importer et exporter", rg_g1: "Global Trade Helpdesk (ITC, CNUCED, OMC) : pour un produit et un pays, droits, taxes, règles et démarches sur une seule page",
       rg_g2: "Market Access Map (ITC) : droits de douane et règles d'origine", rg_g3: "ePing (OMC) : normes, étiquetage, règles sanitaires que ce pays impose aux produits",
       rg_eu: "Pays de l'Union européenne", rg_e1: "Access2Markets : commercer avec l'UE et depuis l'UE, pas à pas", rg_e2: "TARIC : code douanier et droits à l'entrée de l'UE",
       rg_biz: "Créer et gérer une entreprise", rg_b1: "Business Ready (Banque mondiale) : création d'entreprise, impôts, commerce international, pays par pays",
@@ -105,7 +105,7 @@
       b_kind_wholesale: "I supply wholesale (supplier, manufacturer)", b_kind_sourcing: "I'm looking for a supplier (sourcing)", b_kind_partner: "Partnership, associate", b_kind_job: "I'm hiring (job offer)", b_kind_logistics: "Shipping, freight, logistics (offering or looking)", b_kind_customs: "Customs, freight forwarder, import-export (offering or looking)",
       rg_t: "⚖️ Trade rules, country by country", rg_d: "Customs, product standards, starting a business, investment platforms: each country's official sources.", rg_open: "Choose a country",
       rg_sub: "Rules change often: ONE WORLD does not copy them, it opens the up-to-date official sources, then you read them in your language.", rg_cc: "Country", rg_pick: "Choose a country",
-      rg_trade: "Import and export", rg_g1: "Global Trade Helpdesk (ITC, UNCTAD, WTO): for a product and a country, duties, taxes, rules and procedures on one page",
+      rg_cty: "This country at a glance", rg_c1: "World Bank: key figures for this country", rg_c2: "OEC: what this country buys and sells, and with whom", rg_c3: "Search: the rules for importing into this country", rg_q: "import customs rules", rg_tool: "In these global tools, also choose this country.", rg_trade: "Import and export", rg_g1: "Global Trade Helpdesk (ITC, UNCTAD, WTO): for a product and a country, duties, taxes, rules and procedures on one page",
       rg_g2: "Market Access Map (ITC): customs duties and rules of origin", rg_g3: "ePing (WTO): standards, labelling and health rules this country sets for products",
       rg_eu: "European Union countries", rg_e1: "Access2Markets: trading with and from the EU, step by step", rg_e2: "TARIC: customs code and duties when entering the EU",
       rg_biz: "Start and run a business", rg_b1: "Business Ready (World Bank): starting a business, taxes, international trade, country by country",
@@ -285,7 +285,7 @@
         return r[0].from("ow_rooms").insert(row).select("id").single();
       }).then(function (res) {
         if (res.error) throw res.error;
-        location.hash = "#/" + kind + "/" + res.data.id;
+        location.replace("#/" + kind + "/" + res.data.id);
       }).catch(function (err) { btn.disabled = false; root.querySelector("#esErr").textContent = errText(err); });
     });
     var tok = cur.token;
@@ -759,7 +759,7 @@
           price: help || p === "" ? null : Math.max(0, Number(p)), currency: root.querySelector("#adCur").value, place: root.querySelector("#adPlace").value.trim(), lang: r[1].lang });
       }).then(function (res) {
         if (res.error) throw res.error;
-        location.hash = "#/" + sp;
+        location.replace("#/" + sp);
       }).catch(function (err) { btn.disabled = false; root.querySelector("#esErr").textContent = errText(err); });
     });
   }
@@ -886,6 +886,8 @@
     "KI KM KN KP KR KW KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MG MH MK ML MM MN MR MT MU MV MW MX MY MZ NA NE NG NI NL NO NP NR NZ OM " +
     "PA PE PG PH PK PL PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SI SK SL SM SN SO SR SS ST SV SY SZ TD TG TH TJ TL TM TN TO TR TT TV TW TZ " +
     "UA UG US UY UZ VA VC VE VN VU WS YE ZA ZM ZW").split(" ");
+  // Même ordre que ISO : code à 3 lettres (lien OEC).
+  var ISO3 = "AND ARE AFG ATG ALB ARM AGO ARG AUT AUS AZE BIH BRB BGD BEL BFA BGR BHR BDI BEN BRN BOL BRA BHS BTN BWA BLR BLZ CAN COD CAF COG CHE CIV CHL CMR CHN COL CRI CUB CPV CYP CZE DEU DJI DNK DMA DOM DZA ECU EST EGY ERI ESP ETH FIN FJI FSM FRA GAB GBR GRD GEO GHA GMB GIN GNQ GRC GTM GNB GUY HKG HND HRV HTI HUN IDN IRL ISR IND IRQ IRN ISL ITA JAM JOR JPN KEN KGZ KHM KIR COM KNA PRK KOR KWT KAZ LAO LBN LCA LIE LKA LBR LSO LTU LUX LVA LBY MAR MCO MDA MNE MDG MHL MKD MLI MMR MNG MRT MLT MUS MDV MWI MEX MYS MOZ NAM NER NGA NIC NLD NOR NPL NRU NZL OMN PAN PER PNG PHL PAK POL PSE PRT PLW PRY QAT REU ROU SRB RUS RWA SAU SLB SYC SDN SWE SGP SVN SVK SLE SMR SEN SOM SUR SSD STP SLV SYR SWZ TCD TGO THA TJK TLS TKM TUN TON TUR TTO TUV TWN TZA UKR UGA USA URY UZB VAT VCT VEN VNM VUT WSM YEM ZAF ZMB ZWE".split(" ");
   var EU = "AT BE BG CY CZ DE DK EE ES FI FR GR HR HU IE IT LT LU LV MT NL PL PT RE RO SE SI SK".split(" ");
   function ccName(cc) { try { return new Intl.DisplayNames([ui], { type: "region" }).of(cc) || cc; } catch (e) { return cc; } }
   function rules(root, cc) {
@@ -899,13 +901,17 @@
       '<label class="tr-field">' + esc(t("rg_cc")) + '<select id="rgCc"><option value="">' + esc(t("rg_pick")) + "</option>" +
       names.map(function (n) { return '<option value="' + n[0] + '"' + (n[0] === cc ? " selected" : "") + ">" + esc(n[1]) + "</option>"; }).join("") + "</select></label>" +
       (cc ? '<h2 class="tr-h2 es-rg-cc">' + esc(ccName(cc)) + "</h2>" +
-        '<div class="card"><h2 class="tr-h2">' + esc(t("rg_trade")) + "</h2>" + link("rg_g1", "https://globaltradehelpdesk.org/") + link("rg_g2", "https://www.macmap.org/") + link("rg_g3", "https://www.epingalert.org/") + "</div>" +
+        '<div class="card es-rg-cty"><h2 class="tr-h2">' + esc(t("rg_cty")) + "</h2>" +
+          link("rg_c1", "https://data.worldbank.org/country/" + cc) +
+          link("rg_c2", "https://oec.world/en/profile/country/" + ISO3[ISO.indexOf(cc)].toLowerCase()) +
+          link("rg_c3", "https://www.google.com/search?hl=" + encodeURIComponent(ui) + "&q=" + encodeURIComponent(t("rg_q") + " " + ccName(cc))) + "</div>" +
+        '<div class="card"><h2 class="tr-h2">' + esc(t("rg_trade")) + '</h2><p class="muted es-small">' + esc(t("rg_tool")) + "</p>" + link("rg_g1", "https://globaltradehelpdesk.org/") + link("rg_g2", "https://www.macmap.org/") + link("rg_g3", "https://www.epingalert.org/") + "</div>" +
         (EU.indexOf(cc) !== -1 ? '<div class="card es-rg-eu"><h2 class="tr-h2">' + esc(t("rg_eu")) + "</h2>" + link("rg_e1", "https://trade.ec.europa.eu/access-to-markets/fr/home") + link("rg_e2", "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp") + "</div>" : "") +
         '<div class="card"><h2 class="tr-h2">' + esc(t("rg_biz")) + "</h2>" + link("rg_b1", "https://www.worldbank.org/en/businessready") + "</div>" +
         '<div class="card"><h2 class="tr-h2">' + esc(t("rg_inv")) + "</h2>" + link("rg_i1", "https://www.iosco.org/i-scan/") + "</div>" +
         '<div class="es-row"><a class="btn primary" href="#/community">' + esc(t("rg_ask")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("rg_read")) + "</a></div>" +
         '<p class="muted es-small">' + esc(t("rg_note")) + "</p>" : "");
-    root.querySelector("#rgCc").addEventListener("change", function (e) { location.hash = "#/business/regles" + (e.target.value ? "/" + e.target.value : ""); });
+    root.querySelector("#rgCc").addEventListener("change", function (e) { location.replace("#/business/regles" + (e.target.value ? "/" + e.target.value : "")); });
   }
   function sos(root, cc) {
     if (!cc) { try { cc = (navigator.language || "").split("-")[1]; } catch (e) { cc = ""; } cc = String(cc || "").toUpperCase(); }
