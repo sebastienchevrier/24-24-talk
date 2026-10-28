@@ -12,6 +12,12 @@
 .tr-big{display:flex;align-items:center;gap:14px;padding:16px;min-height:84px;border-radius:20px;color:#fff;text-decoration:none;margin-bottom:12px;}
 .tr-big.face{background:linear-gradient(160deg,#1fae62 0%,#0c7d45 50%,#0a6a3a 100%);}
 .tr-big.trip{background:linear-gradient(160deg,#0f8a8a 0%,#0b6e70 55%,#085456 100%);}
+.tr-big.paper{background:linear-gradient(160deg,#4a5a2a 0%,#3b4a20 55%,#2c3816 100%);}
+.pp-row{flex-wrap:wrap;gap:10px;}
+.pp-file{cursor:pointer;}
+.pp-msg{font-weight:700;min-height:1.2em;}
+.pp-tr{font-size:1.15rem;line-height:1.5;white-space:pre-wrap;}
+#ppText{width:100%;box-sizing:border-box;font:inherit;}
 .tr-big.call{background:linear-gradient(160deg,#3b7bff 0%,#1f5fe0 55%,#1747b4 100%);}
 .tr-big b{display:block;font-size:19px;}
 .tr-big small{display:block;font-size:14.5px;opacity:.95;margin-top:2px;}
