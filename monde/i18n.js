@@ -132,7 +132,10 @@
     "Le monde entier, dans votre poche.",
     "Vos proches, un vendeur au marché, un médecin à l'étranger : ouvrez-la, et tout le monde vous comprend.",
     "Installer gratuitement",
-    "Plus besoin de copier-coller dans un traducteur : la traduction est dans la conversation."
+    "Plus besoin de copier-coller dans un traducteur : la traduction est dans la conversation.",
+    "Sans publicité intrusive",
+    "Créé en France par son fondateur.",
+    "Liens partenaires : nous pouvons toucher une commission."
   ];
 
   var T = {
@@ -264,7 +267,10 @@
       "The whole world, in your pocket.",
       "Your loved ones, a seller at the market, a doctor abroad: open it, and everyone understands you.",
       "Install for free",
-      "No more copy-pasting into a translator: the translation is right in the conversation."
+      "No more copy-pasting into a translator: the translation is right in the conversation.",
+      "No intrusive ads",
+      "Created in France by its founder.",
+      "Partner links: we may earn a commission."
     ],
     es: [
       "Únete",
@@ -394,7 +400,10 @@
       "El mundo entero, en tu bolsillo.",
       "Tus seres queridos, un vendedor del mercado, un médico en el extranjero: ábrela y todos te entienden.",
       "Instalar gratis",
-      "Se acabó copiar y pegar en un traductor: la traducción está en la conversación."
+      "Se acabó copiar y pegar en un traductor: la traducción está en la conversación.",
+      "Sin publicidad intrusiva",
+      "Creado en Francia por su fundador.",
+      "Enlaces de socios: podemos recibir una comisión."
     ],
     pt: [
       "Junte-se",
@@ -524,7 +533,10 @@
       "O mundo inteiro, no seu bolso.",
       "Os seus entes queridos, um vendedor no mercado, um médico no estrangeiro: abra-a, e todos o entendem.",
       "Instalar grátis",
-      "Chega de copiar e colar num tradutor: a tradução está na conversa."
+      "Chega de copiar e colar num tradutor: a tradução está na conversa.",
+      "Sem publicidade intrusiva",
+      "Criado em França pelo seu fundador.",
+      "Links de parceiros: podemos receber uma comissão."
     ],
     de: [
       "Mitmachen",
@@ -654,7 +666,10 @@
       "Die ganze Welt in Ihrer Tasche.",
       "Ihre Liebsten, ein Händler auf dem Markt, ein Arzt im Ausland: Öffnen Sie sie, und alle verstehen Sie.",
       "Kostenlos installieren",
-      "Schluss mit Kopieren und Einfügen in einen Übersetzer: Die Übersetzung steckt im Gespräch."
+      "Schluss mit Kopieren und Einfügen in einen Übersetzer: Die Übersetzung steckt im Gespräch.",
+      "Keine aufdringliche Werbung",
+      "In Frankreich von seinem Gründer geschaffen.",
+      "Partnerlinks: Wir erhalten möglicherweise eine Provision."
     ],
     it: [
       "Unisciti",
@@ -784,7 +799,10 @@
       "Il mondo intero, in tasca.",
       "I tuoi cari, un venditore al mercato, un medico all'estero: aprila, e tutti ti capiscono.",
       "Installa gratis",
-      "Basta copiare e incollare in un traduttore: la traduzione è nella conversazione."
+      "Basta copiare e incollare in un traduttore: la traduzione è nella conversazione.",
+      "Nessuna pubblicità invadente",
+      "Creato in Francia dal suo fondatore.",
+      "Link partner: potremmo ricevere una commissione."
     ],
     zh: [
       "加入",
@@ -914,7 +932,10 @@
       "整个世界，就在你的口袋里。",
       "你的亲人、市场上的摊主、国外的医生：打开它，所有人都能听懂你。",
       "免费安装",
-      "不用再复制粘贴到翻译软件：翻译就在对话里。"
+      "不用再复制粘贴到翻译软件：翻译就在对话里。",
+      "无打扰式广告",
+      "由创始人在法国创建。",
+      "合作伙伴链接：我们可能获得佣金。"
     ],
     ja: [
       "参加する",
@@ -1044,7 +1065,10 @@
       "世界中が、あなたのポケットに。",
       "大切な人、市場の売り手、外国のお医者さん。開けば、みんながあなたを理解します。",
       "無料でインストール",
-      "翻訳アプリにコピペする必要はもうありません。翻訳は会話の中にあります。"
+      "翻訳アプリにコピペする必要はもうありません。翻訳は会話の中にあります。",
+      "押しつけがましい広告なし",
+      "創設者がフランスで作りました。",
+      "パートナーリンク：手数料を受け取る場合があります。"
     ],
     ar: [
       "انضم",
@@ -1174,7 +1198,10 @@
       "العالم كله في جيبك.",
       "أحباؤك، بائع في السوق، طبيب في الخارج: افتحه، والجميع يفهمك.",
       "ثبّته مجانًا",
-      "لا مزيد من النسخ واللصق في مترجم: الترجمة داخل المحادثة نفسها."
+      "لا مزيد من النسخ واللصق في مترجم: الترجمة داخل المحادثة نفسها.",
+      "بلا إعلانات مزعجة",
+      "أنشأه مؤسسه في فرنسا.",
+      "روابط شركاء: قد نحصل على عمولة."
     ],
     ru: [
       "Вступить",
@@ -1304,7 +1331,10 @@
       "Весь мир у вас в кармане.",
       "Близкие, продавец на рынке, врач за границей: откройте его, и вас поймёт каждый.",
       "Установить бесплатно",
-      "Больше не нужно копировать текст в переводчик: перевод прямо в разговоре."
+      "Больше не нужно копировать текст в переводчик: перевод прямо в разговоре.",
+      "Без навязчивой рекламы",
+      "Создано во Франции его основателем.",
+      "Партнёрские ссылки: мы можем получать комиссию."
     ],
     mg: [
       "Midira",
@@ -1434,7 +1464,10 @@
       "Izao tontolo izao ao am-paosinao.",
       "Ny havanao, mpivarotra eny an-tsena, dokotera any ivelany: sokafy, dia mahazo anao ny rehetra.",
       "Apetraho maimaim-poana",
-      "Tsy mila mandika sy mametaka ao amin'ny mpandika teny intsony: ao anatin'ny resaka ihany ny fandikana."
+      "Tsy mila mandika sy mametaka ao amin'ny mpandika teny intsony: ao anatin'ny resaka ihany ny fandikana.",
+      "Tsy misy dokam-barotra manelingelina",
+      "Noforonin'ny mpanorina azy tany Frantsa.",
+      "Rohy mpiara-miasa: mety hahazo kaomisiona izahay."
     ]
   };
 
@@ -1536,7 +1569,7 @@
       if (auto) auto.hidden = true;
     } else {
       // Traduction écrite pour cette langue (monde/lang/<code>.json) ; à défaut seulement, traduction automatique.
-      fetch("lang/" + code + ".json?v=3").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
+      fetch("lang/" + code + ".json?v=4").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
         if (cur !== code) return;
         if (!Array.isArray(arr) || arr.length !== K.length) throw 0;
         render(function (k) { var v = arr[IDX[k]]; return v != null ? v : (T.en[IDX[k]] != null ? T.en[IDX[k]] : k); });
