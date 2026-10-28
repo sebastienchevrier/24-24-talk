@@ -101,18 +101,23 @@
     "Des directs suivis dans votre langue.",
     "Des communautés sans frontière de langue.",
     "Voyager partout comme chez soi.",
-    "Vendre, acheter et entreprendre avec le monde entier, chacun dans sa langue. Commerce en ligne, et demain l'apprentissage des marchés.",
+    "Vendre, acheter, importer, envoyer de l'argent et suivre la Bourse avec le monde entier, chacun dans sa langue.",
     "Le monde vous attend.",
     "Soyez de ceux qui ont commencé. Invitez un proche, et ensemble, faites parler le monde.",
     "Rejoindre {OW}",
-    "© 2026 Sébastien Chevrier. Tous droits réservés.",
+    "© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.",
     "Profils d'exemple fictifs · photos",
     "(libres de droits)",
     "Conditions",
     "Confidentialité",
     "Mentions légales",
     "{OW} — Le monde se parle. Enfin.",
-    "Traduction automatique"
+    "Traduction automatique",
+    "ENTRAIDE",
+    "Demander ou offrir de l'aide, gratuitement, à des gens du monde entier.",
+    "PAPIER",
+    "Photographiez une lettre ou une ordonnance : lisez-la dans votre langue.",
+    "Les numéros d'urgence de chaque pays et les phrases qui sauvent, traduites."
   ];
 
   var T = {
@@ -213,18 +218,23 @@
       "Live streams followed in your language.",
       "Communities with no language borders.",
       "Travel anywhere and feel at home.",
-      "Sell, buy and do business with the whole world, everyone in their own language. Online commerce, and tomorrow learning about markets.",
+      "Sell, buy, import, send money and follow the stock market with the whole world, each in their own language.",
       "The world is waiting for you.",
       "Be among those who started it. Invite someone close, and together, let's get the world talking.",
       "Join {OW}",
-      "© 2026 Sébastien Chevrier. All rights reserved.",
+      "© 2026 Sébastien Chevrier, sole owner. All rights reserved.",
       "Fictional sample profiles · photos",
       "(royalty-free)",
       "Terms",
       "Privacy",
       "Legal notice",
       "{OW} — The world is talking. At last.",
-      "Automatic translation"
+      "Automatic translation",
+      "MUTUAL AID",
+      "Ask for or offer help, for free, to people all over the world.",
+      "DOCUMENTS",
+      "Take a photo of a letter or a prescription: read it in your language.",
+      "Emergency numbers for every country and the phrases that save lives, translated."
     ],
     es: [
       "Únete",
@@ -323,7 +333,7 @@
       "Directos seguidos en tu idioma.",
       "Comunidades sin fronteras de idioma.",
       "Viajar a cualquier parte como en casa.",
-      "Vender, comprar y emprender con el mundo entero, cada uno en su idioma. Comercio en línea y, mañana, el aprendizaje de los mercados.",
+      "Vender, comprar, importar, enviar dinero y seguir la Bolsa con el mundo entero, cada uno en su idioma.",
       "El mundo te espera.",
       "Sé de los que empezaron. Invita a alguien cercano y, juntos, hagamos hablar al mundo.",
       "Únete a {OW}",
@@ -334,7 +344,12 @@
       "Privacidad",
       "Aviso legal",
       "{OW} — El mundo se habla. Por fin.",
-      "Traducción automática"
+      "Traducción automática",
+      "AYUDA MUTUA",
+      "Pedir u ofrecer ayuda, gratis, a personas de todo el mundo.",
+      "PAPELES",
+      "Fotografía una carta o una receta médica: léela en tu idioma.",
+      "Los números de emergencia de cada país y las frases que salvan, traducidas."
     ],
     pt: [
       "Junte-se",
@@ -433,7 +448,7 @@
       "Transmissões ao vivo na sua língua.",
       "Comunidades sem fronteiras de língua.",
       "Viajar para qualquer lugar como se estivesse em casa.",
-      "Vender, comprar e empreender com o mundo inteiro, cada um na sua língua. Comércio online e, amanhã, o aprendizado dos mercados.",
+      "Vender, comprar, importar, enviar dinheiro e acompanhar a Bolsa com o mundo inteiro, cada um na sua língua.",
       "O mundo espera por você.",
       "Seja um dos que começaram. Convide alguém próximo e, juntos, façamos o mundo conversar.",
       "Junte-se ao {OW}",
@@ -444,7 +459,12 @@
       "Privacidade",
       "Aviso legal",
       "{OW} — O mundo se fala. Enfim.",
-      "Tradução automática"
+      "Tradução automática",
+      "ENTREAJUDA",
+      "Pedir ou oferecer ajuda, de graça, a pessoas do mundo inteiro.",
+      "PAPÉIS",
+      "Fotografe uma carta ou uma receita médica: leia-a na sua língua.",
+      "Os números de emergência de cada país e as frases que salvam, traduzidas."
     ],
     de: [
       "Mitmachen",
@@ -543,7 +563,7 @@
       "Livestreams in Ihrer Sprache.",
       "Gemeinschaften ohne Sprachgrenzen.",
       "Überall reisen wie zu Hause.",
-      "Mit der ganzen Welt verkaufen, kaufen und unternehmen, jeder in seiner Sprache. Online-Handel und morgen das Lernen über die Märkte.",
+      "Verkaufen, kaufen, importieren, Geld senden und die Börse verfolgen, mit der ganzen Welt, jeder in seiner Sprache.",
       "Die Welt wartet auf Sie.",
       "Gehören Sie zu denen, die angefangen haben. Laden Sie jemanden ein, und gemeinsam bringen wir die Welt zum Sprechen.",
       "{OW} beitreten",
@@ -554,7 +574,12 @@
       "Datenschutz",
       "Impressum",
       "{OW} — Die Welt spricht miteinander. Endlich.",
-      "Automatische Übersetzung"
+      "Automatische Übersetzung",
+      "NACHBARSCHAFTSHILFE",
+      "Hilfe erbitten oder anbieten, kostenlos, Menschen auf der ganzen Welt.",
+      "DOKUMENTE",
+      "Fotografiere einen Brief oder ein Rezept: Lies es in deiner Sprache.",
+      "Die Notrufnummern jedes Landes und die Sätze, die Leben retten, übersetzt."
     ],
     it: [
       "Unisciti",
@@ -653,7 +678,7 @@
       "Dirette seguite nella tua lingua.",
       "Comunità senza confini di lingua.",
       "Viaggiare ovunque come a casa.",
-      "Vendere, comprare e intraprendere con il mondo intero, ognuno nella sua lingua. Commercio online e, domani, l'apprendimento dei mercati.",
+      "Vendere, comprare, importare, inviare denaro e seguire la Borsa con il mondo intero, ognuno nella sua lingua.",
       "Il mondo ti aspetta.",
       "Sii tra quelli che hanno cominciato. Invita una persona cara e, insieme, facciamo parlare il mondo.",
       "Unisciti a {OW}",
@@ -664,7 +689,12 @@
       "Privacy",
       "Note legali",
       "{OW} — Il mondo si parla. Finalmente.",
-      "Traduzione automatica"
+      "Traduzione automatica",
+      "AIUTO RECIPROCO",
+      "Chiedere o offrire aiuto, gratis, a persone di tutto il mondo.",
+      "DOCUMENTI",
+      "Fotografa una lettera o una ricetta medica: leggila nella tua lingua.",
+      "I numeri di emergenza di ogni paese e le frasi che salvano, tradotte."
     ],
     zh: [
       "加入",
@@ -763,7 +793,7 @@
       "用你的语言观看直播。",
       "没有语言边界的社区。",
       "走到哪里都像在家一样。",
-      "与全世界买卖和创业，每个人用自己的语言。网上商业，以及未来的市场学习。",
+      "与全世界买卖、进口、汇款、关注股市，每个人都用自己的语言。",
       "世界在等你。",
       "成为最早开始的人之一。邀请一位亲友，一起让世界对话。",
       "加入 {OW}",
@@ -774,7 +804,12 @@
       "隐私",
       "法律声明",
       "{OW} — 世界在对话。终于。",
-      "自动翻译"
+      "自动翻译",
+      "互助",
+      "免费向世界各地的人求助或提供帮助。",
+      "文件",
+      "拍下一封信或一张处方：用你的语言阅读。",
+      "每个国家的紧急电话号码和救命的话语，已翻译好。"
     ],
     ja: [
       "参加する",
@@ -873,18 +908,23 @@
       "あなたの言語で楽しむライブ配信。",
       "言葉の壁のないコミュニティ。",
       "どこへ旅しても我が家のように。",
-      "世界中と売り、買い、起業する。それぞれが自分の言葉で。オンライン販売、そして将来は市場について学ぶことも。",
+      "世界中の人と売る・買う・輸入する・送金する・株式市場を見る。それぞれが自分の言葉で。",
       "世界があなたを待っています。",
       "始めた人のひとりになろう。大切な人を招待して、一緒に世界を語り合わせよう。",
       "{OW} に参加する",
-      "© 2026 Sébastien Chevrier. All rights reserved.",
+      "© 2026 Sébastien Chevrier, sole owner. All rights reserved.",
       "架空のサンプルプロフィール · 写真",
       "（ロイヤリティフリー）",
       "利用規約",
       "プライバシー",
       "法的表示",
       "{OW} — 世界が語り合う。ついに。",
-      "自動翻訳"
+      "自動翻訳",
+      "助け合い",
+      "世界中の人に、無料で助けを求めたり、手を貸したり。",
+      "書類",
+      "手紙や処方箋を撮影して、自分の言葉で読む。",
+      "各国の緊急電話番号と、命を守るフレーズを翻訳して。"
     ],
     ar: [
       "انضم",
@@ -983,7 +1023,7 @@
       "بث مباشر تتابعه بلغتك.",
       "مجتمعات بلا حدود لغوية.",
       "سافر إلى أي مكان وكأنك في بيتك.",
-      "البيع والشراء وريادة الأعمال مع العالم كله، كلٌّ بلغته. التجارة الإلكترونية، وغدًا تعلّم الأسواق.",
+      "بِع واشترِ واستورد وأرسل المال وتابع البورصة مع العالم كله، كلٌّ بلغته.",
       "العالم ينتظرك.",
       "كن من الذين بدأوا. ادعُ شخصًا عزيزًا، ومعًا لنجعل العالم يتحدث.",
       "انضم إلى {OW}",
@@ -994,7 +1034,12 @@
       "الخصوصية",
       "الإشعار القانوني",
       "{OW} — العالم يتحدث. أخيرًا.",
-      "ترجمة آلية"
+      "ترجمة آلية",
+      "التعاون",
+      "اطلب المساعدة أو قدّمها مجانًا لأشخاص من كل أنحاء العالم.",
+      "الأوراق",
+      "صوّر رسالة أو وصفة طبية واقرأها بلغتك.",
+      "أرقام الطوارئ في كل بلد والعبارات التي تنقذ الأرواح، مترجمة."
     ],
     ru: [
       "Вступить",
@@ -1093,7 +1138,7 @@
       "Прямые эфиры на вашем языке.",
       "Сообщества без языковых границ.",
       "Путешествовать везде как дома.",
-      "Продавать, покупать и вести дела со всем миром, каждый на своём языке. Онлайн-торговля, а завтра — обучение работе на рынках.",
+      "Продавать, покупать, импортировать, отправлять деньги и следить за биржей со всем миром, каждый на своём языке.",
       "Мир ждёт вас.",
       "Будьте среди тех, кто начал. Пригласите близкого, и вместе мы заставим мир заговорить.",
       "Присоединиться к {OW}",
@@ -1104,7 +1149,12 @@
       "Конфиденциальность",
       "Правовая информация",
       "{OW} — Мир говорит. Наконец.",
-      "Автоматический перевод"
+      "Автоматический перевод",
+      "ВЗАИМОПОМОЩЬ",
+      "Попросить о помощи или предложить её, бесплатно, людям со всего мира.",
+      "ДОКУМЕНТЫ",
+      "Сфотографируйте письмо или рецепт и прочитайте его на своём языке.",
+      "Номера экстренных служб каждой страны и фразы, которые спасают жизнь, в переводе."
     ],
     mg: [
       "Midira",
@@ -1203,7 +1253,7 @@
       "Fampitana mivantana arahina amin'ny fitenynao.",
       "Vondrom-piarahamonina tsy misy sisin-teny.",
       "Mitety na aiza na aiza toy ny any an-trano.",
-      "Mivarotra, mividy ary mandraharaha amin'izao tontolo izao, samy amin'ny fiteniny. Varotra an-tserasera, ary rahampitso fianarana momba ny tsena.",
+      "Mivarotra, mividy, manafatra entana, mandefa vola ary manaraka ny tsenam-bola miaraka amin'izao tontolo izao, samy amin'ny fiteniny.",
       "Miandry anao izao tontolo izao.",
       "Aoka ho isan'ireo nanomboka ianao. Asao olon-tiana, ary miaraka isika hampiresaka izao tontolo izao.",
       "Midira amin'ny {OW}",
@@ -1214,7 +1264,12 @@
       "Fiainana manokana",
       "Fanamarihana ara-dalàna",
       "{OW} — Mifampiresaka izao tontolo izao. Farany.",
-      "Fandikana mandeha ho azy"
+      "Fandikana mandeha ho azy",
+      "FIFANAMPIANA",
+      "Mangataka na manolotra fanampiana, maimaimpoana, amin'ny olona manerana izao tontolo izao.",
+      "TARATASY",
+      "Alaivo sary ny taratasy na ny didim-pitsaboana: vakio amin'ny fiteninao.",
+      "Ny laharana vonjy maika isaky ny firenena sy ireo fehezanteny mamonjy aina, voadika."
     ]
   };
 

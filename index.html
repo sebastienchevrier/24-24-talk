@@ -9,6 +9,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
+<!-- Sécurité (28 oct. 2026) : seuls nos fichiers et deux sources figées (jsDelivr, widget de cours TradingView) peuvent exécuter du code ; pas de plugins, pas de détournement de l'adresse de base. -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net https://s3.tradingview.com; object-src 'none'; base-uri 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
@@ -86,7 +88,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   }
   var code = pick();
   window.UI_PICK = code;
-  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=4"><\/script>');
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=5"><\/script>');
 })();
 </script>
 <script>
@@ -1197,7 +1199,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
 
 </main>
 
-<footer class="site-footer" data-i18n="rights">© 2026 Sébastien Chevrier. Tous droits réservés.</footer>
+<footer class="site-footer" data-i18n="rights">© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.</footer>
 
 <script>
 // 24/24 ONE WORLD — © 2026 Sébastien Chevrier. Tous droits réservés.
@@ -3871,7 +3873,7 @@ const UI_STRINGS = {
     pay_note_html: "Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application. <a class=\"link\" href=\"cgv.html\">Voir les CGV</a>.",
     wipe: "Supprimer toutes mes données",
     footer_note_html: "24/24 ONE WORLD — Compte avec e-mail confirmé. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
-    rights: "© 2026 Sébastien Chevrier. Tous droits réservés.",
+    rights: "© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.",
     sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
     sub_btn: "S'abonner — {price}/mois", sub_ended: "Période gratuite terminée",
     pay_off: "Le paiement en ligne n'est pas encore activé. Contact : schevrier.1975@gmail.com",
@@ -3949,7 +3951,7 @@ const UI_STRINGS = {
     pay_note_html: "Payment takes place on a secure Stripe page, outside this app. <a class=\"link\" href=\"cgv.html\">Sales terms (in French)</a>.",
     wipe: "Delete all my data",
     footer_note_html: "24/24 ONE WORLD — Account with a confirmed email. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
-    rights: "© 2026 Sébastien Chevrier. All rights reserved.",
+    rights: "© 2026 Sébastien Chevrier, sole owner. All rights reserved.",
     sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
     sub_btn: "Subscribe — {price}/month", sub_ended: "Free period ended",
     pay_off: "Online payment is not available yet. Contact: schevrier.1975@gmail.com",
@@ -6589,6 +6591,7 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_cam_fail: "Cámara no disponible: permítela en los ajustes del navegador.",
     net_have_account: "Ya tengo una cuenta (código por e-mail)",
     net_suspended: "Tu cuenta está suspendida. Para hablarlo: schevrier.1975@gmail.com",
     net_rate_limit: "Demasiados envíos a la vez. Espera un minuto y vuelve a intentarlo.",
@@ -6811,6 +6814,7 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_cam_fail: "Câmara indisponível: autorize-a nas definições do navegador.",
     net_have_account: "Já tenho uma conta (código por e-mail)",
     net_suspended: "Sua conta está suspensa. Para falar sobre isso: schevrier.1975@gmail.com",
     net_rate_limit: "Envios demais de uma vez. Aguarde um minuto e tente de novo.",
@@ -7033,6 +7037,7 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_cam_fail: "Kamera nicht verfügbar: Erlaube sie in den Browser-Einstellungen.",
     net_have_account: "Ich habe schon ein Konto (Code per E-Mail)",
     net_suspended: "Dein Konto ist gesperrt. Kontakt: schevrier.1975@gmail.com",
     net_rate_limit: "Zu viele Nachrichten auf einmal. Warte eine Minute und versuche es erneut.",
@@ -7255,6 +7260,7 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_cam_fail: "Fotocamera non disponibile: consentila nelle impostazioni del browser.",
     net_have_account: "Ho già un account (codice via e-mail)",
     net_suspended: "Il tuo account è sospeso. Per parlarne: schevrier.1975@gmail.com",
     net_rate_limit: "Troppi invii in una volta. Attendi un minuto e riprova.",
@@ -7477,6 +7483,7 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_cam_fail: "摄像头不可用：请在浏览器设置中允许使用。",
     net_have_account: "我已有账户（通过电子邮件获取验证码）",
     net_suspended: "你的账户已被暂停。如需沟通：schevrier.1975@gmail.com",
     net_rate_limit: "发送过于频繁。请等待一分钟后再试。",
@@ -7699,6 +7706,7 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_cam_fail: "カメラを使用できません。ブラウザの設定で許可してください。",
     net_have_account: "アカウントをお持ちの方（メールでコードを受け取る）",
     net_suspended: "アカウントは停止されています。お問い合わせ：schevrier.1975@gmail.com",
     net_rate_limit: "一度に送信しすぎです。1分待ってからもう一度お試しください。",
@@ -7921,6 +7929,7 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_cam_fail: "الكاميرا غير متاحة: اسمح بها في إعدادات المتصفح.",
     net_have_account: "لديّ حساب بالفعل (رمز عبر البريد الإلكتروني)",
     net_suspended: "حسابك معلّق. للتواصل: schevrier.1975@gmail.com",
     net_rate_limit: "إرسال كثير دفعة واحدة. انتظر دقيقة ثم أعد المحاولة.",
@@ -8143,6 +8152,7 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_cam_fail: "Камера недоступна: разрешите её в настройках браузера.",
     net_have_account: "У меня уже есть аккаунт (код по e-mail)",
     net_suspended: "Ваш аккаунт заблокирован. Связаться: schevrier.1975@gmail.com",
     net_rate_limit: "Слишком много отправок сразу. Подождите минуту и попробуйте снова.",
@@ -8365,6 +8375,7 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_cam_fail: "Tsy azo ampiasaina ny fakantsary: avelao ao amin'ny fikirakirana ny navigateur.",
     net_have_account: "Efa manana kaonty aho (kaody amin'ny mailaka)",
     net_suspended: "Nampiatoina ny kaontinao. Raha hiresaka: schevrier.1975@gmail.com",
     net_rate_limit: "Be loatra ny nalefa indray mandeha. Miandrasa iray minitra dia andramo indray.",
@@ -10271,8 +10282,10 @@ const Reseau = (() => {
   }
   async function sendConfirmEmail(email) {
     const back = location.origin + location.pathname;
-    // email_lang : langue de l'e-mail de confirmation (le modèle Supabase choisit le texte selon cette valeur).
-    const { error } = await sb.auth.updateUser({ email, data: { email_lang: String(UI_LANG || "en").split("-")[0] } }, { emailRedirectTo: back });
+    // email_lang : langue de l'e-mail de confirmation, celle que la personne a choisie (112 langues côté serveur),
+    // sinon celle du téléphone. Le serveur essaie le code complet (zh-TW) puis la langue de base, sinon l'anglais.
+    const lang = String(signupDraft().lang || (navigator.languages && navigator.languages[0]) || UI_LANG || "en");
+    const { error } = await sb.auth.updateUser({ email, data: { email_lang: lang } }, { emailRedirectTo: back });
     return error;
   }
   function cleanName(v) {

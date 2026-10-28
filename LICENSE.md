@@ -1,14 +1,23 @@
-# Licence et propriété intellectuelle — 24/24 Talk
+# Licence et propriété intellectuelle — 24/24 ONE WORLD (anciennement 24/24 Talk)
 
 **© 2026 Sébastien Chevrier (Sébastien Albert Vincent CHEVRIER). Tous droits réservés.**
 
 ## Propriété
 
-L'ensemble des éléments constitutifs de l'application et du site "24/24 Talk" — code source
-(HTML, CSS, JavaScript), réseau d'appels et de messages traduits (fonctionnement, interface,
-schéma de données), dictionnaire de phrases vérifiées, contenus textuels, visuels, logo (deux
-bulles de dialogue imbriquées), nom "24/24 Talk" et charte graphique — sont la propriété exclusive
-de **Sébastien Chevrier**, auteur et éditeur, créés à La Réunion.
+**Propriétaire exclusif et unique : Sébastien Chevrier**, auteur et éditeur, créateur à La Réunion.
+
+L'ensemble des éléments constitutifs de l'application et du site « 24/24 ONE WORLD » (anciennement
+« 24/24 Talk », dont l'antériorité est conservée) lui appartient en propre. Cela comprend :
+- le code source (HTML, CSS, JavaScript, fonctions serveur, SQL) ;
+- tous les espaces : TALK (messages et appels traduits), EVERYWHERE (traduction), LEARN, LIVE,
+  COMMUNITY, BUSINESS (annonces, douane, règles par pays, envoi d'argent, dropshipping, Bourse),
+  TRAVEL, Entraide, SOS, Comprendre un papier, Avantages ;
+- le fonctionnement, les interfaces, les schémas de données, les textes et leurs traductions,
+  le dictionnaire de phrases, les visuels, les logos, les noms « 24/24 ONE WORLD » et « 24/24 Talk »
+  et la charte graphique.
+
+Aucun prestataire, outil ou assistant (dont les outils d'intelligence artificielle utilisés pour
+écrire le code) ne détient de droit sur ces éléments.
 
 Version officielle et unique : https://sebastienchevrier.github.io/24-24-talk/
 
@@ -24,10 +33,10 @@ licence libre ou open source n'est accordée.
 
 - La copie, la redistribution, la modification ou la revente du code source sans autorisation
   écrite préalable de l'auteur.
-- La réutilisation du nom "24/24 Talk" ou du logo (les deux bulles de dialogue imbriquées) pour un
-  autre produit, service ou usage commercial.
+- La réutilisation des noms « 24/24 ONE WORLD » ou « 24/24 Talk » ou des logos pour un autre
+  produit, service ou usage commercial.
 - L'ingénierie inverse de l'application dans un but de contournement des limitations techniques
-  (quota gratuit, fonctionnalités Premium).
+  ou de sécurité.
 - La mise en ligne d'une copie, totale ou partielle, de l'application sur un autre site ou dans
   une autre application, y compris pour l'entraînement ou l'alimentation de systèmes automatisés.
 

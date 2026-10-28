@@ -37,6 +37,8 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
       const q = new URL(u).searchParams, pair = q.get("langpair") || "";
       return r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ responseStatus: 200, responseData: { translatedText: "[" + pair.split("|")[1] + "] " + q.get("q"), match: 1 } }) });
     }
+    // Faux widget TradingView : écrit ce qu'il voit, pour prouver qu'il tourne isolé (pas d'accès au stockage de l'appli).
+    if (/s3\.tradingview\.com/.test(u)) return r.fulfill({ status: 200, contentType: "text/javascript", body: "var ok='ISOLE';try{localStorage.getItem('lc_net_auth');ok='OUVERT';}catch(e){}try{if(parent.document)ok='OUVERT';}catch(e){}document.body.setAttribute('data-tv',ok);document.body.appendChild(document.createTextNode('TV '+ok));" });
     return r.abort();
   });
   const page = await ctx.newPage();
@@ -162,12 +164,12 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-business.png"), fullPage: true });
     return { ok: /Vanille/.test(txt) && /120/.test(txt) && /Gros/.test(txt) && /Votre annonce/.test(txt), detail: txt.trim().slice(0, 110) };
   });
-  await step("Business : filtres (Sourcing vide, Gros trouve l'annonce), bloc Marchés présent", async () => {
+  await step("Business : filtres (Sourcing vide, Gros trouve l'annonce), tuiles Argent, Dropshipping, Bourse présentes", async () => {
     await page.tap('.es-chip[data-f="sourcing"]');
     await page.waitForSelector(".es-empty", { timeout: 5000 });
     await page.tap('.es-chip[data-f="wholesale"]');
     await page.waitForSelector(".es-ad", { timeout: 5000 });
-    return { ok: !!(await page.$(".es-markets")), detail: "filtres OK" };
+    return { ok: (await page.$$("a.es-customs[href=\"#/business/argent\"], a.es-customs[href=\"#/business/dropshipping\"], a.es-customs[href=\"#/business/bourse\"]")).length === 3, detail: "filtres OK, 3 tuiles" };
   });
   await step("Business : l'annonce d'un autre vendeur montre « Contacter » (lien d'ajout dans la Messagerie)", async () => {
     await page.evaluate(() => { const d = JSON.parse(localStorage.getItem("fake_ow")); d.ow_listings.push({ id: "dddddddd-0000-4000-8000-000000000999", seller_id: "00000000-0000-4000-8000-0000000000b2", seller_name: "maria", seller_pseudo: "maria", kind: "sell", title: "Bicicleta urbana", body: "Muy buen estado", lang: "es", price: 80, currency: "EUR", place: "Madrid", status: "open", created_at: new Date().toISOString() }); localStorage.setItem("fake_ow", JSON.stringify(d)); });
@@ -213,6 +215,30 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForFunction(() => /Japon/.test(document.querySelector(".es-rg-cc") ? document.querySelector(".es-rg-cc").textContent : ""), null, { timeout: 5000 });
     const euJP = !!(await page.$(".es-rg-eu")), links = await page.$$eval(".es-cu-link", (a) => a.map((x) => new URL(x.href).hostname));
     return { ok: fr === "France" && euFR && !euJP && n > 190 && links.join() === "globaltradehelpdesk.org,www.macmap.org,www.epingalert.org,www.worldbank.org,www.iosco.org", detail: (n - 1) + " pays ; Japon : " + links.join(" ") };
+  });
+  await step("Business : envoyer de l'argent (comparateur Banque mondiale + 7 services), dropshipping, Bourse isolée", async () => {
+    await page.goto(EW + "#/business");
+    await page.waitForSelector('a.es-customs[href="#/business/argent"]', { timeout: 10000 });
+    await page.tap('a.es-customs[href="#/business/argent"]');
+    await page.waitForSelector(".es-cu-link", { timeout: 5000 });
+    const mt = await page.$$eval(".es-cu-link", (a) => a.map((x) => new URL(x.href).hostname));
+    const mtTxt = await page.textContent("#ewEspaces");
+    await page.screenshot({ path: path.join(OUT, "espaces-argent.png"), fullPage: true });
+    await page.goto(EW + "#/business/dropshipping");
+    await page.waitForSelector("ol.es-cu-list li", { timeout: 5000 });
+    const ds = await page.$$eval("ol.es-cu-list li", (l) => l.length);
+    await page.screenshot({ path: path.join(OUT, "espaces-dropshipping.png"), fullPage: true });
+    await page.goto(EW + "#/business/bourse");
+    await page.waitForSelector("#boLoad", { timeout: 5000 });
+    const before = await page.$$eval("iframe.es-tv", (f) => f.length);
+    await page.tap("#boLoad");
+    await page.waitForSelector("iframe.es-tv", { timeout: 5000 });
+    const sb = await page.$$eval("iframe.es-tv", (f) => f.map((x) => x.getAttribute("sandbox")));
+    let seen = [];
+    for (let i = 0; i < 40 && seen.length < 2; i++) { await sleep(150); seen = []; for (const f of page.frames()) { try { const v = await f.evaluate(() => document.body && document.body.getAttribute("data-tv")); if (v) seen.push(v); } catch (e) {} } }
+    await page.screenshot({ path: path.join(OUT, "espaces-bourse.png"), fullPage: true });
+    return { ok: mt[0] === "remittanceprices.worldbank.org" && mt.length === 8 && /arnaque/.test(mtTxt) && ds === 6 && before === 0 &&
+      sb.length === 2 && sb.every((x) => !/allow-same-origin/.test(x)) && seen.length === 2 && seen.every((v) => v === "ISOLE"), detail: mt.length + " liens argent ; " + ds + " étapes ; Bourse chargée sur demande, widgets " + seen.join(",") };
   });
   await step("Entraide : demander de l'aide (sans prix), l'annonce n'apparaît que dans Entraide, pas dans Business", async () => {
     await page.goto(EW + "#/entraide/new");

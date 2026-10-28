@@ -48,6 +48,7 @@
       cu_find: "Trouver un transitaire ou un transporteur", cu_read: "Lire un document étranger (photo)", cu_src: "Sources : CCI (Incoterms 2020), ITC, Commission européenne, douane.gouv.fr. Vérifiez toujours les règles exactes de votre produit.", b_kind_mission: "Mission ou travail à distance (j'offre ou je cherche)",
       mk_t: "📈 Marchés et trading", mk_d: "Discutez des marchés avec le monde entier dans les communautés, et apprenez les bases dans Apprendre. 24/24 ONE WORLD n'exécute aucun ordre et ne donne aucun conseil en investissement.",
       mk_c: "Communautés", mk_l: "Apprendre", b_new: "＋ Publier une annonce",
+      mt_t: "💸 Envoyer de l'argent à l'étranger", mt_d: "Western Union, MoneyGram, Wise, Remitly… comparez les frais pour votre pays avant d'envoyer.", mt_open: "Comparer", mt_sub: "24/24 ONE WORLD n'envoie pas d'argent lui-même et ne touche rien sur ces liens : vous comparez ici, puis l'envoi se fait chez le service choisi.", mt_cmp: "Comparer les prix de votre pays", mt_wb: "Remittance Prices Worldwide (Banque mondiale) : le vrai coût d'un envoi, pays par pays, service par service", mt_prov: "Services d'envoi", mt_p_wu: "Retrait en espèces dans de très nombreux pays, virement, portefeuille mobile", mt_p_mg: "Retrait en espèces, virement, portefeuille mobile", mt_p_ria: "Retrait en espèces, virement", mt_p_wise: "Virement au taux de change du marché, frais affichés avant d'envoyer", mt_p_rem: "Virement, portefeuille mobile, retrait en espèces", mt_p_wr: "Portefeuille mobile, virement, retrait en espèces", mt_p_tt: "Envoi vers portefeuille mobile ou compte bancaire", mt_tips: "Avant d'envoyer", mt_k1: "Regardez le total reçu : frais + taux de change. Un taux moins bon que celui du marché est un coût caché.", mt_k2: "Choisissez comment la personne reçoit : espèces, compte bancaire ou portefeuille mobile (M-Pesa, Orange Money, MTN…).", mt_k3: "Une pièce d'identité est souvent demandée, à l'envoi comme au retrait.", mt_k4: "N'envoyez jamais d'argent à quelqu'un rencontré seulement en ligne, ni pour « débloquer » un gain, un colis, un prêt ou un visa : c'est presque toujours une arnaque.", mt_note: "Les services et leurs prix changent : vérifiez toujours sur leur site au moment d'envoyer.", ds_t: "📦 Dropshipping et vente en ligne", ds_d: "Vendre sans stock : trouver un fournisseur, calculer le vrai prix, rester dans la loi.", ds_open: "Ouvrir le guide", ds_sub: "Le dropshipping, c'est vendre un produit que le fournisseur envoie directement à votre client. Simple à lancer, mais vous restez responsable de la vente.", ds_steps: "Les étapes", ds_s1: "Choisissez un produit autorisé dans le pays de vos clients : pas de contrefaçon, pas de produit réglementé sans autorisation.", ds_s2: "Trouvez un fournisseur (annonces « Gros / fournisseur » ici ou plateformes de gros) et commandez un échantillon avant de vendre.", ds_s3: "Calculez le vrai prix : produit, livraison, droits de douane, TVA du pays du client, frais de paiement et retours.", ds_s4: "Annoncez le vrai délai de livraison à vos clients.", ds_s5: "Déclarez votre activité : statut d'entreprise, TVA et impôts selon votre pays (voir Règles du commerce).", ds_s6: "Respectez les droits des clients : prix clairs taxes comprises, droit de retour, garantie, protection des données.", ds_warn: "Pièges fréquents", ds_w1: "Fournisseur qui veut tout le paiement par virement non protégé ou en cryptomonnaie.", ds_w2: "Formations payantes qui promettent de devenir riche vite.", ds_w3: "Photos volées et faux avis : interdits et punis.", ds_w4: "Dans l'Union européenne, un colis venant d'un pays hors UE paie la TVA dès le premier euro.", ds_plat: "Plateformes de gros (privées, sans lien avec 24/24 ONE WORLD)", ds_find: "Trouver un fournisseur ici", ds_cu: "Douane et import-export", bo_t: "📈 Bourse en direct", bo_d: "Indices, actions, devises, matières premières et cryptomonnaies du monde entier, avec graphiques.", bo_open: "Voir les cours", bo_sub: "Les cours sont fournis gratuitement par TradingView, parfois avec un léger différé selon la place boursière.", bo_load: "Afficher les cours", bo_priv: "En touchant ce bouton, les cours se chargent depuis TradingView (service externe), dans une zone isolée qui n'a pas accès à votre compte.", bo_ov: "Les marchés du monde", bo_chart: "Graphique d'une action (cherchez son nom en haut du graphique)", bo_risk: "Investir peut faire perdre de l'argent. 24/24 ONE WORLD ne passe aucun ordre, ne garde pas d'argent et ne donne pas de conseil en investissement. Pour acheter ou vendre, passez par un intermédiaire agréé dans votre pays.", bo_check: "Avant de confier de l'argent", bo_amf: "Listes noires de l'AMF (France) : sites de trading, Forex et crypto non autorisés", bo_learn: "Apprendre les bases", bo_talk: "En parler dans les communautés", bo_fail: "Les cours n'ont pas pu se charger. Vérifiez votre connexion et réessayez.", bo_web: "Ouvrir les cours dans le navigateur",
       b_none: "Aucune annonce pour l'instant. Publiez la première !", b_contact: "💬 Contacter", b_mine: "Votre annonce", b_close: "Retirer",
       b_kind: "Type", b_ttl: "Titre", b_ttl_ph: "ex. : Vélo de ville, très bon état", b_body: "Description", b_price: "Prix (facultatif)",
       b_cur: "Monnaie", b_place: "Lieu (facultatif)", b_place_ph: "ex. : Antananarivo", b_publish: "Publier",
@@ -120,6 +121,7 @@
       cu_find: "Find a forwarder or a carrier", cu_read: "Read a foreign document (photo)", cu_src: "Sources: ICC (Incoterms 2020), ITC, European Commission, douane.gouv.fr. Always check the exact rules for your product.", b_kind_mission: "Remote job or gig (offering or looking)",
       mk_t: "📈 Markets and trading", mk_d: "Talk about the markets with the whole world in the communities, and learn the basics in Learn. 24/24 ONE WORLD executes no orders and gives no investment advice.",
       mk_c: "Communities", mk_l: "Learn", b_new: "＋ Post a listing",
+      mt_t: "💸 Send money abroad", mt_d: "Western Union, MoneyGram, Wise, Remitly… compare the fees for your country before you send.", mt_open: "Compare", mt_sub: "24/24 ONE WORLD does not send money itself and earns nothing from these links: you compare here, then you send with the service you choose.", mt_cmp: "Compare prices for your country", mt_wb: "Remittance Prices Worldwide (World Bank): the real cost of sending money, country by country, service by service", mt_prov: "Money transfer services", mt_p_wu: "Cash pickup in very many countries, bank transfer, mobile wallet", mt_p_mg: "Cash pickup, bank transfer, mobile wallet", mt_p_ria: "Cash pickup, bank transfer", mt_p_wise: "Bank transfer at the market exchange rate, fees shown before you send", mt_p_rem: "Bank transfer, mobile wallet, cash pickup", mt_p_wr: "Mobile wallet, bank transfer, cash pickup", mt_p_tt: "Send to a mobile wallet or bank account", mt_tips: "Before you send", mt_k1: "Look at the total received: fees + exchange rate. A rate worse than the market rate is a hidden cost.", mt_k2: "Choose how the person receives it: cash, bank account or mobile wallet (M-Pesa, Orange Money, MTN…).", mt_k3: "An ID document is often required, both to send and to collect.", mt_k4: "Never send money to someone you only met online, or to \"unlock\" a prize, a parcel, a loan or a visa: it is almost always a scam.", mt_note: "Services and prices change: always check on their website when you send.", ds_t: "📦 Dropshipping and online selling", ds_d: "Sell without stock: find a supplier, work out the real price, stay within the law.", ds_open: "Open the guide", ds_sub: "Dropshipping means selling a product that the supplier ships directly to your customer. Easy to start, but you remain responsible for the sale.", ds_steps: "The steps", ds_s1: "Choose a product that is allowed in your customers' country: no counterfeits, no regulated product without authorisation.", ds_s2: "Find a supplier (\"Wholesale / supplier\" listings here or wholesale platforms) and order a sample before you sell.", ds_s3: "Work out the real price: product, shipping, customs duties, VAT of the customer's country, payment fees and returns.", ds_s4: "Tell your customers the real delivery time.", ds_s5: "Register your activity: business status, VAT and taxes according to your country (see Trade rules).", ds_s6: "Respect customers' rights: clear prices including taxes, right of return, warranty, data protection.", ds_warn: "Common traps", ds_w1: "A supplier who wants full payment by unprotected bank transfer or in cryptocurrency.", ds_w2: "Paid courses that promise to make you rich fast.", ds_w3: "Stolen photos and fake reviews: forbidden and punished.", ds_w4: "In the European Union, a parcel from outside the EU pays VAT from the first euro.", ds_plat: "Wholesale platforms (private, not linked to 24/24 ONE WORLD)", ds_find: "Find a supplier here", ds_cu: "Customs and import-export", bo_t: "📈 Live stock market", bo_d: "Indices, stocks, currencies, commodities and cryptocurrencies from around the world, with charts.", bo_open: "See prices", bo_sub: "Prices are provided free of charge by TradingView, sometimes with a short delay depending on the stock exchange.", bo_load: "Show prices", bo_priv: "When you tap this button, prices load from TradingView (an external service), in an isolated area that has no access to your account.", bo_ov: "World markets", bo_chart: "Chart of a stock (search for its name at the top of the chart)", bo_risk: "Investing can lose you money. 24/24 ONE WORLD places no orders, holds no money and gives no investment advice. To buy or sell, use an authorised intermediary in your country.", bo_check: "Before you entrust money", bo_amf: "AMF blacklists (France): unauthorised trading, Forex and crypto websites", bo_learn: "Learn the basics", bo_talk: "Talk about it in communities", bo_fail: "Prices could not load. Check your connection and try again.", bo_web: "Open prices in the browser",
       b_none: "No listing yet. Post the first one!", b_contact: "💬 Contact", b_mine: "Your listing", b_close: "Remove",
       b_kind: "Type", b_ttl: "Title", b_ttl_ph: "e.g. City bike, very good condition", b_body: "Description", b_price: "Price (optional)",
       b_cur: "Currency", b_place: "Place (optional)", b_place_ph: "e.g. Antananarivo", b_publish: "Publish",
@@ -673,6 +675,9 @@
     try { return new Intl.NumberFormat(ui, { style: "currency", currency: l.currency, maximumFractionDigits: 2 }).format(l.price); } catch (e) { return l.price + " " + l.currency; }
   }
   var HELP = ["help_need", "help_offer", "give"], BIZ = ["sell", "buy", "wholesale", "sourcing", "service", "logistics", "customs", "job", "mission", "partner"];
+  function tile(route, p) {
+    return '<a class="card es-customs" href="#/business/' + route + '"><b>' + esc(t(p + "_t")) + '</b><small class="muted">' + esc(t(p + "_d")) + '</small><span class="btn">' + esc(t(p + "_open")) + "</span></a>";
+  }
   function business(root, filter, help) {
     var tok = cur.token, sp = help ? "entraide" : "business";
     filter = filter || "all";
@@ -684,7 +689,7 @@
       '<div id="esList" class="es-list"><p class="muted">' + esc(t("loading")) + '</p></div>' +
       (help ? "" : '<a class="card es-customs" href="#/business/douane"><b>' + esc(t("cu_t")) + '</b><small class="muted">' + esc(t("cu_d")) + '</small><span class="btn">' + esc(t("cu_open")) + "</span></a>") +
       (help ? "" : '<a class="card es-customs" href="#/business/regles"><b>' + esc(t("rg_t")) + '</b><small class="muted">' + esc(t("rg_d")) + '</small><span class="btn">' + esc(t("rg_open")) + "</span></a>") +
-      (help ? "" : '<div class="card es-markets"><h2 class="tr-h2">' + esc(t("mk_t")) + '</h2><p class="muted">' + esc(t("mk_d")) + '</p><div class="es-row"><a class="btn" href="#/community">' + esc(t("mk_c")) + '</a><a class="btn" href="#/learn">' + esc(t("mk_l")) + "</a></div></div>") +
+      (help ? "" : tile("argent", "mt") + tile("dropshipping", "ds") + tile("bourse", "bo")) +
       '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
     root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
     Promise.all([sb(), account()]).then(function (r) {
@@ -805,6 +810,76 @@
       '<div class="es-row"><a class="btn primary" id="cuFind" href="#/business/f-customs">' + esc(t("cu_find")) + '</a><a class="btn" href="#/business/regles">' + esc(t("rg_open")) + '</a><a class="btn" href="#/everywhere/papier">' + esc(t("cu_read")) + "</a></div>" +
       '<p class="muted es-small">' + esc(t("cu_src")) + "</p>";
   }
+  function linkRow(k, url) { var s = t(k), i = s.indexOf(":"); return '<a class="tr-row es-cu-link" href="' + url + '" target="_blank" rel="noopener"><b>' + esc(i > 0 ? s.slice(0, i).trim() : s) + "</b><span>" + esc(i > 0 ? s.slice(i + 1).trim() : "") + "</span></a>"; }
+  function bullets(keys) { return "<ul class=\"es-cu-list\">" + keys.map(function (k) { return "<li>" + esc(t(k)) + "</li>"; }).join("") + "</ul>"; }
+  function backB() { return '<a class="tr-back" href="#/business">' + esc(t("back_b")) + "</a>"; }
+  function headB(k, sub) { return '<div class="tr-head es-head"><div><h1 id="h-es">' + esc(t(k)) + '</h1><p class="muted">' + esc(t(sub)) + "</p></div></div>"; }
+
+  // ---------- Envoyer de l'argent : comparer, puis envoyer chez le service choisi (aucun argent ne passe par ONE WORLD) ----------
+  var MT = [["Western Union", "mt_p_wu", "https://www.westernunion.com/"], ["MoneyGram", "mt_p_mg", "https://www.moneygram.com/"],
+    ["Ria", "mt_p_ria", "https://www.riamoneytransfer.com/"], ["Wise", "mt_p_wise", "https://wise.com/"], ["Remitly", "mt_p_rem", "https://www.remitly.com/"],
+    ["WorldRemit", "mt_p_wr", "https://www.worldremit.com/"], ["Taptap Send", "mt_p_tt", "https://www.taptapsend.com/"]];
+  function money(root) {
+    root.innerHTML = backB() + headB("mt_t", "mt_sub") +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("mt_cmp")) + "</h2>" + linkRow("mt_wb", "https://remittanceprices.worldbank.org/") + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("mt_prov")) + "</h2>" + MT.map(function (m) {
+        return '<a class="tr-row es-cu-link" href="' + m[2] + '" target="_blank" rel="noopener"><b>' + esc(m[0]) + "</b><span>" + esc(t(m[1])) + "</span></a>";
+      }).join("") + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("mt_tips")) + "</h2>" + bullets(["mt_k1", "mt_k2", "mt_k3"]) + "</div>" +
+      '<div class="card es-cu-ban"><p>' + esc(t("mt_k4")) + "</p></div>" +
+      '<p class="muted es-small">' + esc(t("mt_note")) + "</p>";
+  }
+
+  // ---------- Dropshipping : guide pas à pas, pièges, liens vers fournisseurs, douane et règles ----------
+  function dropship(root) {
+    root.innerHTML = backB() + headB("ds_t", "ds_sub") +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("ds_steps")) + "</h2>" + bullets(["ds_s1", "ds_s2", "ds_s3", "ds_s4", "ds_s5", "ds_s6"]).replace("<ul", "<ol").replace(/<\/ul>$/, "</ol>") + "</div>" +
+      '<div class="card es-cu-ban"><h2 class="tr-h2">' + esc(t("ds_warn")) + "</h2>" + bullets(["ds_w1", "ds_w2", "ds_w3", "ds_w4"]) + "</div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("ds_plat")) + "</h2>" +
+        '<a class="tr-row es-cu-link" href="https://www.alibaba.com/" target="_blank" rel="noopener"><b>Alibaba.com</b><span></span></a>' +
+        '<a class="tr-row es-cu-link" href="https://www.aliexpress.com/" target="_blank" rel="noopener"><b>AliExpress</b><span></span></a></div>' +
+      '<div class="es-row"><a class="btn primary" href="#/business/f-wholesale">' + esc(t("ds_find")) + '</a><a class="btn" href="#/business/douane">' + esc(t("ds_cu")) + '</a><a class="btn" href="#/business/regles">' + esc(t("rg_open")) + "</a></div>";
+  }
+
+  // ---------- Bourse : cours gratuits TradingView, chargés seulement sur demande, dans un cadre isolé (sandbox sans
+  // allow-same-origin : le script externe n'a accès ni au compte ni aux données de l'appli). Aucun ordre, aucun conseil. ----------
+  var TV_LOC = { fr: "fr", en: "en", es: "es", it: "it", de: "de_DE", pt: "br", ru: "ru", ja: "ja", zh: "zh_CN", "zh-TW": "zh_TW", ar: "ar_AE", tr: "tr",
+    ko: "kr", id: "id", th: "th_TH", vi: "vi_VN", pl: "pl", he: "he_IL", ms: "ms_MY", sv: "sv_SE", nl: "nl_NL", cs: "cs", hu: "hu_HU", ro: "ro", uk: "uk", fa: "fa_IR" };
+  function tvFrame(widget, conf, h) {
+    var code = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><style>html,body{margin:0;height:100%;background:transparent}</style></head><body>' +
+      '<div class="tradingview-widget-container" style="height:100%"><div class="tradingview-widget-container__widget" style="height:100%"></div>' +
+      '<script src="https://s3.tradingview.com/external-embedding/embed-widget-' + widget + '.js" async>' + JSON.stringify(conf).replace(/</g, "\\u003c") + "<\/script></div></body></html>";
+    var f = document.createElement("iframe");
+    f.className = "es-tv";
+    f.setAttribute("sandbox", "allow-scripts allow-popups allow-popups-to-escape-sandbox");
+    f.setAttribute("referrerpolicy", "no-referrer");
+    f.setAttribute("loading", "lazy");
+    f.style.height = h + "px";
+    f.srcdoc = code;
+    return f;
+  }
+  function bourse(root) {
+    var loc = TV_LOC[ui] || TV_LOC[base(ui)] || "en";
+    var dark = !(window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+    root.innerHTML = backB() + headB("bo_t", "bo_sub") +
+      '<div class="card" id="boBox"><button type="button" class="btn primary" id="boLoad">' + esc(t("bo_load")) + '</button><p class="muted es-small">' + esc(t("bo_priv")) + "</p></div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("bo_web")) + "</h2>" +
+        '<a class="tr-row es-cu-link" href="https://www.tradingview.com/markets/" target="_blank" rel="noopener"><b>TradingView</b><span></span></a>' +
+        '<a class="tr-row es-cu-link" href="https://www.google.com/finance/" target="_blank" rel="noopener"><b>Google Finance</b><span></span></a></div>' +
+      '<div class="card es-cu-ban"><p>' + esc(t("bo_risk")) + "</p></div>" +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("bo_check")) + "</h2>" + linkRow("rg_i1", "https://www.iosco.org/i-scan/") +
+        linkRow("bo_amf", "https://www.amf-france.org/fr/espace-epargnants/proteger-son-epargne/listes-noires-et-mises-en-garde") + "</div>" +
+      '<div class="es-row"><a class="btn" href="#/learn">' + esc(t("bo_learn")) + '</a><a class="btn" href="#/community">' + esc(t("bo_talk")) + "</a></div>";
+    root.querySelector("#boLoad").addEventListener("click", function () {
+      if (!navigator.onLine) { root.querySelector("#boBox .es-small").textContent = t("bo_fail"); return; }
+      var box = root.querySelector("#boBox"), theme = dark ? "dark" : "light";
+      box.innerHTML = '<h2 class="tr-h2">' + esc(t("bo_ov")) + "</h2>";
+      box.appendChild(tvFrame("market-overview", { colorTheme: theme, dateRange: "1D", showChart: true, locale: loc, width: "100%", height: "100%", isTransparent: true, showSymbolLogo: true }, 520));
+      var h = document.createElement("h2"); h.className = "tr-h2"; h.textContent = t("bo_chart"); box.appendChild(h);
+      box.appendChild(tvFrame("advanced-chart", { autosize: true, symbol: "NASDAQ:AAPL", interval: "D", timezone: "Etc/UTC", theme: theme, style: "1", locale: loc, allow_symbol_change: true, hide_side_toolbar: true, support_host: "https://www.tradingview.com" }, 460));
+    });
+  }
+
   // Codes pays ISO 3166-1 ; le nom s'affiche dans la langue de l'interface (Intl.DisplayNames).
   var ISO = ("AD AE AF AG AL AM AO AR AT AU AZ BA BB BD BE BF BG BH BI BJ BN BO BR BS BT BW BY BZ CA CD CF CG CH CI CL CM CN CO CR CU CV CY CZ " +
     "DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FM FR GA GB GD GE GH GM GN GQ GR GT GW GY HK HN HR HT HU ID IE IL IN IQ IR IS IT JM JO JP KE KG KH " +
@@ -858,7 +933,7 @@
       }).join("");
       box.querySelectorAll(".es-sosph").forEach(function (el) {
         var src = t(el.getAttribute("data-k")), big = el.querySelector(".es-sosbig");
-        var from = STR[ui] ? ui : "en";
+        var from = STR[ui] || (window.EW_SCREEN_STR && window.EW_SCREEN_STR.espaces && window.EW_SCREEN_STR.espaces[ui] && window.EW_SCREEN_STR.espaces[ui][el.getAttribute("data-k")]) ? ui : "en";
         (base(from) === base(to) || !window.EWMoteur ? Promise.resolve(src) : window.EWMoteur.translate(src, base(from), base(to))).then(function (out) {
           if (!cur || cur.token !== tok) return;
           big.textContent = out;
@@ -887,7 +962,7 @@
     var kind = parts[0], sub = parts[1];
     if (!myLang) myLang = ui;
     if (kind === "community" || kind === "live") { if (sub) room(root, kind, sub); else roomsList(root, kind); }
-    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else if (sub === "douane" && kind === "business") customs(root); else if (sub === "regles" && kind === "business") rules(root, parts[2]); else business(root, sub && sub.indexOf("f-") === 0 && BIZ.indexOf(sub.slice(2)) !== -1 ? sub.slice(2) : null, kind === "entraide"); }
+    else if (kind === "business" || kind === "entraide") { if (sub === "new") businessNew(root, kind === "entraide"); else if (sub === "douane" && kind === "business") customs(root); else if (sub === "regles" && kind === "business") rules(root, parts[2]); else if (sub === "argent" && kind === "business") money(root); else if (sub === "dropshipping" && kind === "business") dropship(root); else if (sub === "bourse" && kind === "business") bourse(root); else business(root, sub && sub.indexOf("f-") === 0 && BIZ.indexOf(sub.slice(2)) !== -1 ? sub.slice(2) : null, kind === "entraide"); }
     else if (kind === "sos") sos(root);
     else avantages(root);
     return t(kind);
