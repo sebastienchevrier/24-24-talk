@@ -80,6 +80,7 @@ html.motion-off .tr-mic.on,html.motion-off .tr-mic.on.hear{animation:none;}
 .tr-field{display:flex;flex-direction:column;gap:6px;margin:8px 0 12px;font-weight:700;}
 .tr-field select,.tr-field input[type=range]{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 10px;font-size:16px;}
 .tr-field input[type=range]{padding:0;accent-color:var(--g);}
+.tr-field textarea{border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:10px 12px;font:inherit;font-weight:400;font-size:16px;line-height:1.45;resize:vertical;}
 .tr-ok{color:var(--ok);font-weight:700;margin:6px 0 0;min-height:1.2em;}
 .tr-h2{font-size:18px;margin:0 0 8px;}
 .tr-opt{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;}
