@@ -117,7 +117,21 @@
     "Demander ou offrir de l'aide, gratuitement, à des gens du monde entier.",
     "PAPIER",
     "Photographiez une lettre ou une ordonnance : lisez-la dans votre langue.",
-    "Les numéros d'urgence de chaque pays et les phrases qui sauvent, traduites."
+    "Les numéros d'urgence de chaque pays et les phrases qui sauvent, traduites.",
+    "Installer l'application gratuite",
+    "Gratuit",
+    "112 langues",
+    "Sans publicité",
+    "Prêt en 1 minute",
+    "Imaginez",
+    "Ce que vous allez vivre.",
+    "Une grand-mère parle enfin avec son petit-fils qui vit à l'autre bout du monde. Chacun dans sa langue.",
+    "Perdu au bout du monde, vous parlez, et on vous répond.",
+    "Une artisane de Madagascar vend ses créations au monde entier.",
+    "Déjà dans l'application",
+    "Le monde entier, dans votre poche.",
+    "Vos proches, un vendeur au marché, un médecin à l'étranger : ouvrez-la, et tout le monde vous comprend.",
+    "Installer gratuitement"
   ];
 
   var T = {
@@ -234,7 +248,21 @@
       "Ask for or offer help, for free, to people all over the world.",
       "DOCUMENTS",
       "Take a photo of a letter or a prescription: read it in your language.",
-      "Emergency numbers for every country and the phrases that save lives, translated."
+      "Emergency numbers for every country and the phrases that save lives, translated.",
+      "Install the free app",
+      "Free",
+      "112 languages",
+      "No ads",
+      "Ready in 1 minute",
+      "Imagine",
+      "What you are about to live.",
+      "A grandmother finally talks with her grandson who lives on the other side of the world. Each in their own language.",
+      "Lost at the end of the world, you speak, and someone answers you.",
+      "A craftswoman from Madagascar sells her creations to the whole world.",
+      "Already in the app",
+      "The whole world, in your pocket.",
+      "Your loved ones, a seller at the market, a doctor abroad: open it, and everyone understands you.",
+      "Install for free"
     ],
     es: [
       "Únete",
@@ -349,7 +377,21 @@
       "Pedir u ofrecer ayuda, gratis, a personas de todo el mundo.",
       "PAPELES",
       "Fotografía una carta o una receta médica: léela en tu idioma.",
-      "Los números de emergencia de cada país y las frases que salvan, traducidas."
+      "Los números de emergencia de cada país y las frases que salvan, traducidas.",
+      "Instalar la aplicación gratis",
+      "Gratis",
+      "112 idiomas",
+      "Sin publicidad",
+      "Lista en 1 minuto",
+      "Imagina",
+      "Lo que vas a vivir.",
+      "Una abuela por fin habla con su nieto, que vive al otro lado del mundo. Cada uno en su idioma.",
+      "Perdido en el fin del mundo, hablas y alguien te responde.",
+      "Una artesana de Madagascar vende sus creaciones al mundo entero.",
+      "Ya en la aplicación",
+      "El mundo entero, en tu bolsillo.",
+      "Tus seres queridos, un vendedor del mercado, un médico en el extranjero: ábrela y todos te entienden.",
+      "Instalar gratis"
     ],
     pt: [
       "Junte-se",
@@ -464,7 +506,21 @@
       "Pedir ou oferecer ajuda, de graça, a pessoas do mundo inteiro.",
       "PAPÉIS",
       "Fotografe uma carta ou uma receita médica: leia-a na sua língua.",
-      "Os números de emergência de cada país e as frases que salvam, traduzidas."
+      "Os números de emergência de cada país e as frases que salvam, traduzidas.",
+      "Instalar a aplicação grátis",
+      "Grátis",
+      "112 idiomas",
+      "Sem publicidade",
+      "Pronta em 1 minuto",
+      "Imagine",
+      "O que você vai viver.",
+      "Uma avó finalmente conversa com o neto que vive do outro lado do mundo. Cada um na sua língua.",
+      "Perdido no fim do mundo, você fala e alguém responde.",
+      "Uma artesã de Madagáscar vende as suas criações para o mundo inteiro.",
+      "Já na aplicação",
+      "O mundo inteiro, no seu bolso.",
+      "Os seus entes queridos, um vendedor no mercado, um médico no estrangeiro: abra-a, e todos o entendem.",
+      "Instalar grátis"
     ],
     de: [
       "Mitmachen",
@@ -579,7 +635,21 @@
       "Hilfe erbitten oder anbieten, kostenlos, Menschen auf der ganzen Welt.",
       "DOKUMENTE",
       "Fotografiere einen Brief oder ein Rezept: Lies es in deiner Sprache.",
-      "Die Notrufnummern jedes Landes und die Sätze, die Leben retten, übersetzt."
+      "Die Notrufnummern jedes Landes und die Sätze, die Leben retten, übersetzt.",
+      "Kostenlose App installieren",
+      "Kostenlos",
+      "112 Sprachen",
+      "Ohne Werbung",
+      "In 1 Minute bereit",
+      "Stellen Sie sich vor",
+      "Was Sie erleben werden.",
+      "Eine Großmutter spricht endlich mit ihrem Enkel, der am anderen Ende der Welt lebt. Jeder in seiner Sprache.",
+      "Verloren am Ende der Welt: Sie sprechen, und man antwortet Ihnen.",
+      "Eine Kunsthandwerkerin aus Madagaskar verkauft ihre Werke in die ganze Welt.",
+      "Schon in der App",
+      "Die ganze Welt in Ihrer Tasche.",
+      "Ihre Liebsten, ein Händler auf dem Markt, ein Arzt im Ausland: Öffnen Sie sie, und alle verstehen Sie.",
+      "Kostenlos installieren"
     ],
     it: [
       "Unisciti",
@@ -694,7 +764,21 @@
       "Chiedere o offrire aiuto, gratis, a persone di tutto il mondo.",
       "DOCUMENTI",
       "Fotografa una lettera o una ricetta medica: leggila nella tua lingua.",
-      "I numeri di emergenza di ogni paese e le frasi che salvano, tradotte."
+      "I numeri di emergenza di ogni paese e le frasi che salvano, tradotte.",
+      "Installa l'app gratuita",
+      "Gratis",
+      "112 lingue",
+      "Senza pubblicità",
+      "Pronta in 1 minuto",
+      "Immagina",
+      "Ciò che vivrai.",
+      "Una nonna parla finalmente con il nipote che vive dall'altra parte del mondo. Ognuno nella propria lingua.",
+      "Perso in capo al mondo, parli e qualcuno ti risponde.",
+      "Un'artigiana del Madagascar vende le sue creazioni in tutto il mondo.",
+      "Già nell'app",
+      "Il mondo intero, in tasca.",
+      "I tuoi cari, un venditore al mercato, un medico all'estero: aprila, e tutti ti capiscono.",
+      "Installa gratis"
     ],
     zh: [
       "加入",
@@ -809,7 +893,21 @@
       "免费向世界各地的人求助或提供帮助。",
       "文件",
       "拍下一封信或一张处方：用你的语言阅读。",
-      "每个国家的紧急电话号码和救命的话语，已翻译好。"
+      "每个国家的紧急电话号码和救命的话语，已翻译好。",
+      "免费安装应用",
+      "免费",
+      "112 种语言",
+      "无广告",
+      "1 分钟即可使用",
+      "想象一下",
+      "你将经历的一切。",
+      "一位奶奶终于能和住在地球另一端的孙子聊天了。各自说着自己的语言。",
+      "在天涯海角迷了路，你开口说话，就有人回答你。",
+      "一位马达加斯加的女手艺人把她的作品卖到全世界。",
+      "应用里已经有了",
+      "整个世界，就在你的口袋里。",
+      "你的亲人、市场上的摊主、国外的医生：打开它，所有人都能听懂你。",
+      "免费安装"
     ],
     ja: [
       "参加する",
@@ -924,7 +1022,21 @@
       "世界中の人に、無料で助けを求めたり、手を貸したり。",
       "書類",
       "手紙や処方箋を撮影して、自分の言葉で読む。",
-      "各国の緊急電話番号と、命を守るフレーズを翻訳して。"
+      "各国の緊急電話番号と、命を守るフレーズを翻訳して。",
+      "無料アプリをインストール",
+      "無料",
+      "112言語",
+      "広告なし",
+      "1分で準備完了",
+      "想像してください",
+      "あなたがこれから体験すること。",
+      "おばあちゃんが、地球の反対側に住む孫とついに話せる。それぞれ自分の言葉で。",
+      "世界の果てで迷っても、話しかければ誰かが答えてくれる。",
+      "マダガスカルの女性職人が、自分の作品を世界中に届ける。",
+      "アプリにもう入っています",
+      "世界中が、あなたのポケットに。",
+      "大切な人、市場の売り手、外国のお医者さん。開けば、みんながあなたを理解します。",
+      "無料でインストール"
     ],
     ar: [
       "انضم",
@@ -1039,7 +1151,21 @@
       "اطلب المساعدة أو قدّمها مجانًا لأشخاص من كل أنحاء العالم.",
       "الأوراق",
       "صوّر رسالة أو وصفة طبية واقرأها بلغتك.",
-      "أرقام الطوارئ في كل بلد والعبارات التي تنقذ الأرواح، مترجمة."
+      "أرقام الطوارئ في كل بلد والعبارات التي تنقذ الأرواح، مترجمة.",
+      "ثبّت التطبيق المجاني",
+      "مجاني",
+      "112 لغة",
+      "بلا إعلانات",
+      "جاهز في دقيقة واحدة",
+      "تخيّل",
+      "ما ستعيشه.",
+      "جدة تتحدث أخيرًا مع حفيدها الذي يعيش في الطرف الآخر من العالم. كلٌّ بلغته.",
+      "تائه في أقاصي الأرض، تتكلم فيجيبك أحدهم.",
+      "حِرَفية من مدغشقر تبيع إبداعاتها للعالم كله.",
+      "موجود بالفعل في التطبيق",
+      "العالم كله في جيبك.",
+      "أحباؤك، بائع في السوق، طبيب في الخارج: افتحه، والجميع يفهمك.",
+      "ثبّته مجانًا"
     ],
     ru: [
       "Вступить",
@@ -1154,7 +1280,21 @@
       "Попросить о помощи или предложить её, бесплатно, людям со всего мира.",
       "ДОКУМЕНТЫ",
       "Сфотографируйте письмо или рецепт и прочитайте его на своём языке.",
-      "Номера экстренных служб каждой страны и фразы, которые спасают жизнь, в переводе."
+      "Номера экстренных служб каждой страны и фразы, которые спасают жизнь, в переводе.",
+      "Установить бесплатное приложение",
+      "Бесплатно",
+      "112 языков",
+      "Без рекламы",
+      "Готово за 1 минуту",
+      "Представьте",
+      "Что вас ждёт.",
+      "Бабушка наконец разговаривает с внуком, который живёт на другом конце света. Каждый на своём языке.",
+      "Заблудились на краю света — вы говорите, и вам отвечают.",
+      "Мастерица с Мадагаскара продаёт свои изделия по всему миру.",
+      "Уже в приложении",
+      "Весь мир у вас в кармане.",
+      "Близкие, продавец на рынке, врач за границей: откройте его, и вас поймёт каждый.",
+      "Установить бесплатно"
     ],
     mg: [
       "Midira",
@@ -1269,7 +1409,21 @@
       "Mangataka na manolotra fanampiana, maimaimpoana, amin'ny olona manerana izao tontolo izao.",
       "TARATASY",
       "Alaivo sary ny taratasy na ny didim-pitsaboana: vakio amin'ny fiteninao.",
-      "Ny laharana vonjy maika isaky ny firenena sy ireo fehezanteny mamonjy aina, voadika."
+      "Ny laharana vonjy maika isaky ny firenena sy ireo fehezanteny mamonjy aina, voadika.",
+      "Apetraho ilay fampiharana maimaim-poana",
+      "Maimaim-poana",
+      "Fiteny 112",
+      "Tsy misy dokam-barotra",
+      "Vonona ao anatin'ny 1 minitra",
+      "Alao sary an-tsaina",
+      "Izay hiainanao.",
+      "Bebe iray miresaka amin'ny zafikeliny monina any amin'ny faran'izao tontolo izao. Samy amin'ny fiteniny avy.",
+      "Very any amin'ny faran'izao tontolo izao ianao, miteny, ary misy mamaly anao.",
+      "Mpanao asa tanana malagasy iray mivarotra ny asany amin'izao tontolo izao.",
+      "Efa ao amin'ny fampiharana",
+      "Izao tontolo izao ao am-paosinao.",
+      "Ny havanao, mpivarotra eny an-tsena, dokotera any ivelany: sokafy, dia mahazo anao ny rehetra.",
+      "Apetraho maimaim-poana"
     ]
   };
 
@@ -1367,14 +1521,14 @@
     var lc = document.getElementById("langCode"); if (lc) lc.textContent = code.toUpperCase();
     if (hand) {
       var arr = hand === "fr" ? K : T[hand];
-      render(function (k) { return arr[IDX[k]]; });
+      render(function (k) { var v = arr[IDX[k]]; return v != null ? v : (T.en[IDX[k]] != null ? T.en[IDX[k]] : k); });
       if (auto) auto.hidden = true;
     } else {
       // Traduction écrite pour cette langue (monde/lang/<code>.json) ; à défaut seulement, traduction automatique.
-      fetch("lang/" + code + ".json?v=1").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
+      fetch("lang/" + code + ".json?v=2").then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (arr) {
         if (cur !== code) return;
         if (!Array.isArray(arr) || arr.length !== K.length) throw 0;
-        render(function (k) { return arr[IDX[k]]; });
+        render(function (k) { var v = arr[IDX[k]]; return v != null ? v : (T.en[IDX[k]] != null ? T.en[IDX[k]] : k); });
         if (auto) auto.hidden = true;
       }).catch(function () { if (cur === code) machine(code); });
     }
