@@ -1,0 +1,58 @@
+# 24/24 ONE WORLD — robot de veille gratuit (GitHub Actions). © 2026 Sébastien Chevrier.
+# Chaque jour : 1) réveille les bases Supabase (le plan gratuit met en pause une base inactive 7 jours) ;
+# 2) vérifie que le site et l'appli répondent ; 3) en cas de problème, ouvre une alerte (issue) : GitHub prévient le propriétaire par e-mail.
+# Clés PUBLIQUES uniquement (les mêmes que dans le site). Aucune donnée n'est écrite : ping(sid=null) ne fait qu'interroger la base.
+name: Robot de veille
+on:
+  schedule:
+    - cron: "17 5 * * *"   # tous les jours, 6 h 17 (hiver) / 7 h 17 (été) à Paris
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+concurrency: robot-veille
+jobs:
+  veille:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Réveiller les bases et vérifier le site
+        id: check
+        shell: bash
+        run: |
+          problemes=""
+          ping_base() { # $1 = nom, $2 = projet, $3 = clé publique
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 --retry 2 --retry-delay 20 \
+              -X POST "https://$2.supabase.co/rest/v1/rpc/ping" \
+              -H "apikey: $3" -H "Content-Type: application/json" -d '{"sid":null}')
+            echo "Base $1 : $code"
+            case "$code" in 2*) ;; *) problemes="$problemes- Base $1 ($2) : réponse $code (en pause ou en panne ?)\n";; esac
+          }
+          page() { # $1 = nom, $2 = adresse
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 30 --retry 2 --retry-delay 20 "$2")
+            echo "Page $1 : $code"
+            case "$code" in 2*) ;; *) problemes="$problemes- Page $1 : réponse $code ($2)\n";; esac
+          }
+          ping_base "PROD" "wsgcumnaltdinchsdovs" "sb_publishable_FkPVBXxsT57oNonWUv16_g_9M0eIyxl"
+          ping_base "TEST" "tbynnefrrxzxufcptijc" "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR"
+          page "appli" "https://sebastienchevrier.github.io/24-24-talk/"
+          page "site monde" "https://sebastienchevrier.github.io/24-24-talk/monde/"
+          page "portail" "https://sebastienchevrier.github.io/24-24-talk/everywhere/"
+          {
+            echo "problemes<<FIN"
+            printf "%b" "$problemes"
+            echo "FIN"
+          } >> "$GITHUB_OUTPUT"
+      - name: Ouvrir ou compléter l'alerte
+        if: steps.check.outputs.problemes != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROBLEMES: ${{ steps.check.outputs.problemes }}
+        shell: bash
+        run: |
+          titre="Robot de veille : problème détecté"
+          corps=$(printf "Le robot de veille a trouvé un problème le %s (UTC) :\n\n%s\n\nSi une base est en pause : Supabase > projet > Restore. Demandez à Claude de regarder." "$(date -u '+%d/%m/%Y %H:%M')" "$PROBLEMES")
+          num=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$titre\" in:title" --json number --jq '.[0].number')
+          if [ -n "$num" ]; then gh issue comment "$num" --repo "$GITHUB_REPOSITORY" --body "$corps"
+          else gh issue create --repo "$GITHUB_REPOSITORY" --title "$titre" --body "$corps"; fi
+          exit 1
