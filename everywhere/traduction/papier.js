@@ -29,7 +29,9 @@
       translate: "Traduire dans ma langue", translating: "Traduction…", result: "Dans ma langue", speak: "🔊 Écouter",
       e_tr: "La traduction n'a pas pu se faire (connexion ou limite du jour). Réessayez.",
       warn: "Traduction automatique : pour un papier important (justice, santé, argent, titre de séjour), faites vérifier par une personne de confiance ou une association. L'écriture à la main est souvent mal lue.",
-      help: "Demander de l'aide dans Entraide"
+      help: "Demander de l'aide dans Entraide",
+      snap: "📸 Prendre la photo", cancel: "Annuler",
+      e_cam: "La caméra ne s'ouvre pas. Autorisez la caméra pour ce site, ou utilisez « Choisir une image »."
     },
     en: {
       title: "📄 Understand a document", back: "← Translate",
@@ -44,7 +46,9 @@
       translate: "Translate into my language", translating: "Translating…", result: "In my language", speak: "🔊 Listen",
       e_tr: "The translation could not be done (connection or daily limit). Try again.",
       warn: "Machine translation: for an important document (court, health, money, residence permit), have it checked by someone you trust or an association. Handwriting is often misread.",
-      help: "Ask for help in Mutual aid"
+      help: "Ask for help in Mutual aid",
+      snap: "📸 Take the photo", cancel: "Cancel",
+      e_cam: "The camera does not open. Allow the camera for this site, or use “Choose an image”."
     }
   };
   function t(k, v) {
@@ -69,7 +73,10 @@
     });
     return libP;
   }
-  var token = 0, worker = null;
+  var token = 0, worker = null, stream = null;
+  // Caméra dans la page (getUserMedia) : sur beaucoup d'Android, l'appareil photo externe (input capture) fait fermer
+  // la page par le téléphone pendant la prise de vue, et la photo est perdue au retour. Ici la page reste ouverte.
+  function stopCam() { if (stream) { stream.getTracks().forEach(function (tr) { try { tr.stop(); } catch (e) { /* déjà arrêtée */ } }); stream = null; } }
   function stopWorker() { if (worker) { try { worker.terminate(); } catch (e) { /* déjà arrêté */ } worker = null; } }
   function langOpts(sel) {
     return (M.langs || []).map(function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>"; }).join("");
@@ -85,8 +92,10 @@
       '<div class="card pp-card">' +
         '<label class="tr-field">' + esc(t("from")) + '<select id="ppFrom">' + langOpts(from) + "</select></label>" +
         '<label class="tr-field">' + esc(t("to")) + '<select id="ppTo">' + langOpts(mine) + "</select></label>" +
-        '<div class="es-row pp-row"><label class="btn primary pp-file">' + esc(t("shoot")) + '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden></label>' +
+        '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button><input id="ppCam" type="file" accept="image/*" capture="environment" hidden>' +
         '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label></div>' +
+        '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
+        '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
         '<p class="muted es-small">' + esc(t("private")) + " " + esc(t("first")) + "</p>" +
       "</div>" +
       '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
@@ -104,6 +113,33 @@
       read(f);
     }
     root.querySelector("#ppCam").addEventListener("change", onFile);
+    var camBox = root.querySelector("#ppCamBox"), video = root.querySelector("#ppVideo");
+    function camOff() { stopCam(); video.srcObject = null; camBox.hidden = true; }
+    root.querySelector("#ppShoot").addEventListener("click", function () {
+      var md = navigator.mediaDevices;
+      if (!md || !md.getUserMedia) { root.querySelector("#ppCam").click(); return; } // très vieux téléphone : appareil photo externe
+      msg.textContent = "";
+      stopCam();
+      md.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false }).then(function (s) {
+        if (tok !== token) { s.getTracks().forEach(function (tr) { tr.stop(); }); return; }
+        stream = s;
+        video.srcObject = s;
+        camBox.hidden = false;
+        var pl = video.play();
+        if (pl && pl.catch) pl.catch(function () { /* lecture auto refusée : l'image arrive quand même */ });
+        try { camBox.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (e) { /* ignoré */ }
+      }, function () { msg.textContent = t("e_cam"); });
+    });
+    root.querySelector("#ppCamStop").addEventListener("click", camOff);
+    root.querySelector("#ppSnap").addEventListener("click", function () {
+      var w = video.videoWidth, h = video.videoHeight;
+      if (!w || !h) return;
+      var c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      c.getContext("2d").drawImage(video, 0, 0, w, h);
+      camOff();
+      c.toBlob(function (b) { if (b) read(b); else msg.textContent = t("e_read"); }, "image/jpeg", 0.92);
+    });
     root.querySelector("#ppPick").addEventListener("change", onFile);
     function read(file) {
       var code = OCR[base(fromSel.value)] || "eng";
@@ -151,6 +187,6 @@
     root.querySelector("#ppSay").addEventListener("click", function () { M.speak(root.querySelector("#ppTr").textContent, toSel.value, 1); });
     return t("title").replace(/^📄\s*/, "");
   }
-  function leave() { token += 1; stopWorker(); }
+  function leave() { token += 1; stopWorker(); stopCam(); }
   window.EWPapier = { show: show, leave: leave, _ocr: OCR, _strings: STR };
 })();
