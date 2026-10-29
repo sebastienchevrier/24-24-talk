@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pont ONE WORLD · 24/24 ONE WORLD</title>
+<meta name="theme-color" content="#0b0e1a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<!-- 24/24 ONE WORLD — © 2026 Sébastien Chevrier. Tous droits réservés. -->
+<!-- Pont ONE WORLD (29 oct. 2026) : dans WhatsApp, Gmail, Messenger… (toute appli avec « Partager »), partager un message vers ONE WORLD l'ouvre ici,
+     traduit dans votre langue ; votre réponse est traduite dans la langue du client et repart par WhatsApp, SMS, e-mail, Telegram ou une autre appli.
+     Rien ne passe par nos serveurs : la traduction est demandée directement au service de traduction. -->
+<style>
+  :root{--bg:#0b0e1a;--card:#141a2e;--line:#26304d;--ink:#eef2ff;--muted:#9aa6c7;--acc:#3ddc84;--acc-d:#2bb36a;--wa:#25d366}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:16px 16px 40px}
+  header{display:flex;align-items:center;gap:10px;margin:4px 0 14px}
+  header img{width:30px;height:30px}
+  header h1{font-size:19px;margin:0;font-weight:800}
+  header h1 b{color:var(--acc)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 14px}
+  .lbl{font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:600}
+  textarea{width:100%;min-height:84px;background:#0f1424;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:16px;resize:vertical}
+  .out{background:#0f1424;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:17px;white-space:pre-wrap;min-height:48px}
+  .badge{display:inline-block;font-size:12px;font-weight:700;background:rgba(61,220,132,.14);color:var(--acc);border-radius:99px;padding:3px 10px;margin:0 0 8px}
+  .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:99px;padding:12px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:#06210f;background:var(--acc)}
+  .btn.wa{background:var(--wa);color:#04210f}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn[disabled]{opacity:.5;cursor:default}
+  .msg{font-size:14px;color:#ffb4b4;margin-top:8px}
+  .help{font-size:14px;color:var(--muted)}
+  .help ol{margin:6px 0 0;padding-left:20px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="logo.svg" alt=""><h1><span translate="no" class="notranslate">24/24 <b>ONE WORLD</b></span> · <span data-k="title">Pont</span></h1></header>
+
+  <div class="card" id="needAccount" hidden>
+    <p data-k="acc">Le pont fait partie de votre compte 24/24 ONE WORLD.</p>
+    <a class="btn" href="../index.html" data-k="acc_btn">Ouvrir mon compte</a>
+  </div>
+
+  <div id="app">
+    <div class="card">
+      <p class="lbl" data-k="in_l">Message reçu (n'importe quelle langue)</p>
+      <textarea id="inTxt" data-ph="in_ph" placeholder="Collez ou partagez ici le message de votre client"></textarea>
+      <div class="row"><button class="btn" id="readBtn" data-k="read">Traduire</button></div>
+      <div id="inRes" hidden>
+        <p class="lbl" style="margin-top:12px"><span class="badge" id="fromBadge"></span></p>
+        <div class="out" id="inOut"></div>
+      </div>
+      <p class="msg" id="inErr" hidden></p>
+    </div>
+
+    <div class="card">
+      <p class="lbl" id="replyLbl" data-k="re_l">Votre réponse, dans votre langue</p>
+      <textarea id="reTxt" data-ph="re_ph" placeholder="Écrivez votre réponse"></textarea>
+      <div class="row"><button class="btn" id="sendBtn" data-k="tr_re">Traduire ma réponse</button></div>
+      <div id="reRes" hidden>
+        <p class="lbl" style="margin-top:12px"><span class="badge" id="toBadge"></span></p>
+        <div class="out" id="reOut"></div>
+        <div class="row">
+          <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn ghost" id="smsBtn" href="#">SMS</a>
+          <a class="btn ghost" id="mailBtn" href="#">E-mail</a>
+          <a class="btn ghost" id="tgBtn" href="#" target="_blank" rel="noopener">Telegram</a>
+          <button class="btn ghost" id="shareBtn" data-k="share">Autres applis</button>
+          <button class="btn ghost" id="copyBtn" data-k="copy">Copier</button>
+        </div>
+      </div>
+      <p class="msg" id="reErr" hidden></p>
+    </div>
+
+    <div class="card help">
+      <b data-k="how_t">Comment ça marche</b>
+      <ol>
+        <li data-k="how1">Dans WhatsApp, Gmail, Messenger, Instagram ou toute autre appli, appuyez longuement sur le message du client, puis sur « Partager » et choisissez ONE WORLD.</li>
+        <li data-k="how2">Le message s'affiche ici, traduit dans votre langue.</li>
+        <li data-k="how3">Écrivez votre réponse, traduisez-la, puis choisissez par où l'envoyer : WhatsApp, SMS, e-mail, Telegram ou une autre appli. Le client la reçoit dans sa langue.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script src="traduction/moteur.js"></script>
+<script>
+(function () {
+  var T = {
+    fr: {},
+    en: {title:"Bridge",acc:"The bridge is part of your 24/24 ONE WORLD account.",acc_btn:"Open my account",in_l:"Message received (any language)",in_ph:"Paste or share your customer's message here",read:"Translate",re_l:"Your reply, in your language",re_ph:"Write your reply",tr_re:"Translate my reply",wa:"Send on WhatsApp",copy:"Copy",share:"Other apps",how_t:"How it works",how1:"In WhatsApp, Gmail, Messenger, Instagram or any other app, press and hold the customer's message, tap \"Share\" and choose ONE WORLD.",how2:"The message appears here, translated into your language.",how3:"Write your reply, translate it, then choose where to send it: WhatsApp, SMS, e-mail, Telegram or another app. The customer receives it in their language.",from:"Written in",to:"Will be sent in",err:"Translation is not available right now. Check your connection and try again.",copied:"Copied",none:"First translate a received message, so we know your customer's language."},
+    es: {title:"Puente",acc:"El puente forma parte de su cuenta 24/24 ONE WORLD.",acc_btn:"Abrir mi cuenta",in_l:"Mensaje recibido (cualquier idioma)",in_ph:"Pegue o comparta aquí el mensaje de su cliente",read:"Traducir",re_l:"Su respuesta, en su idioma",re_ph:"Escriba su respuesta",tr_re:"Traducir mi respuesta",wa:"Enviar por WhatsApp",copy:"Copiar",share:"Otras apps",how_t:"Cómo funciona",how1:"En WhatsApp, Gmail, Messenger, Instagram o cualquier otra app, mantenga pulsado el mensaje del cliente, toque «Compartir» y elija ONE WORLD.",how2:"El mensaje aparece aquí, traducido a su idioma.",how3:"Escriba su respuesta, tradúzcala y elija por dónde enviarla: WhatsApp, SMS, e-mail, Telegram u otra app. El cliente la recibe en su idioma.",from:"Escrito en",to:"Se enviará en",err:"La traducción no está disponible ahora. Revise su conexión e inténtelo de nuevo.",copied:"Copiado",none:"Primero traduzca un mensaje recibido, para conocer el idioma de su cliente."},
+    pt: {title:"Ponte",acc:"A ponte faz parte da sua conta 24/24 ONE WORLD.",acc_btn:"Abrir a minha conta",in_l:"Mensagem recebida (qualquer língua)",in_ph:"Cole ou partilhe aqui a mensagem do seu cliente",read:"Traduzir",re_l:"A sua resposta, na sua língua",re_ph:"Escreva a sua resposta",tr_re:"Traduzir a minha resposta",wa:"Enviar pelo WhatsApp",copy:"Copiar",share:"Outras apps",how_t:"Como funciona",how1:"No WhatsApp, Gmail, Messenger, Instagram ou qualquer outra app, mantenha premida a mensagem do cliente, toque em «Partilhar» e escolha ONE WORLD.",how2:"A mensagem aparece aqui, traduzida para a sua língua.",how3:"Escreva a sua resposta, traduza-a e escolha por onde a enviar: WhatsApp, SMS, e-mail, Telegram ou outra app. O cliente recebe-a na língua dele.",from:"Escrito em",to:"Será enviado em",err:"A tradução não está disponível agora. Verifique a ligação e tente de novo.",copied:"Copiado",none:"Traduza primeiro uma mensagem recebida, para saber a língua do seu cliente."},
+    it: {title:"Ponte",acc:"Il ponte fa parte del vostro account 24/24 ONE WORLD.",acc_btn:"Apri il mio account",in_l:"Messaggio ricevuto (qualsiasi lingua)",in_ph:"Incollate o condividete qui il messaggio del cliente",read:"Traduci",re_l:"La vostra risposta, nella vostra lingua",re_ph:"Scrivete la risposta",tr_re:"Traduci la mia risposta",wa:"Invia su WhatsApp",copy:"Copia",share:"Altre app",how_t:"Come funziona",how1:"In WhatsApp, Gmail, Messenger, Instagram o qualsiasi altra app, tenete premuto il messaggio del cliente, toccate «Condividi» e scegliete ONE WORLD.",how2:"Il messaggio appare qui, tradotto nella vostra lingua.",how3:"Scrivete la risposta, traducetela e scegliete dove inviarla: WhatsApp, SMS, e-mail, Telegram o un'altra app. Il cliente la riceve nella sua lingua.",from:"Scritto in",to:"Sarà inviato in",err:"La traduzione non è disponibile ora. Controllate la connessione e riprovate.",copied:"Copiato",none:"Prima traducete un messaggio ricevuto, per conoscere la lingua del cliente."},
+    ru: {title:"Мост",acc:"Мост входит в ваш аккаунт 24/24 ONE WORLD.",acc_btn:"Открыть мой аккаунт",in_l:"Полученное сообщение (на любом языке)",in_ph:"Вставьте или перешлите сюда сообщение клиента",read:"Перевести",re_l:"Ваш ответ, на вашем языке",re_ph:"Напишите ответ",tr_re:"Перевести мой ответ",wa:"Отправить в WhatsApp",copy:"Копировать",share:"Другие приложения",how_t:"Как это работает",how1:"В WhatsApp, Gmail, Messenger, Instagram или любом другом приложении нажмите и удерживайте сообщение клиента, затем «Поделиться» и выберите ONE WORLD.",how2:"Сообщение появится здесь в переводе на ваш язык.",how3:"Напишите ответ, переведите его и выберите, куда отправить: WhatsApp, SMS, e-mail, Telegram или другое приложение. Клиент получит его на своём языке.",from:"Написано на",to:"Будет отправлено на",err:"Перевод сейчас недоступен. Проверьте подключение и попробуйте снова.",copied:"Скопировано",none:"Сначала переведите полученное сообщение, чтобы узнать язык клиента."},
+    tr: {title:"Köprü",acc:"Köprü 24/24 ONE WORLD hesabınıza dahildir.",acc_btn:"Hesabımı aç",in_l:"Gelen mesaj (herhangi bir dil)",in_ph:"Müşterinizin mesajını buraya yapıştırın veya paylaşın",read:"Çevir",re_l:"Kendi dilinizde yanıtınız",re_ph:"Yanıtınızı yazın",tr_re:"Yanıtımı çevir",wa:"WhatsApp'ta gönder",copy:"Kopyala",share:"Diğer uygulamalar",how_t:"Nasıl çalışır",how1:"WhatsApp, Gmail, Messenger, Instagram veya başka bir uygulamada müşterinin mesajına basılı tutun, «Paylaş»a dokunun ve ONE WORLD'ü seçin.",how2:"Mesaj burada, sizin dilinize çevrilmiş olarak görünür.",how3:"Yanıtınızı yazın, çevirin ve nereden göndereceğinizi seçin: WhatsApp, SMS, e-posta, Telegram veya başka bir uygulama. Müşteri yanıtı kendi dilinde alır.",from:"Yazıldığı dil",to:"Gönderileceği dil",err:"Çeviri şu anda kullanılamıyor. Bağlantınızı kontrol edip tekrar deneyin.",copied:"Kopyalandı",none:"Müşterinizin dilini bilmek için önce gelen bir mesajı çevirin."},
+    vi: {title:"Cầu nối",acc:"Cầu nối là một phần trong tài khoản 24/24 ONE WORLD của bạn.",acc_btn:"Mở tài khoản của tôi",in_l:"Tin nhắn nhận được (bất kỳ ngôn ngữ nào)",in_ph:"Dán hoặc chia sẻ tin nhắn của khách vào đây",read:"Dịch",re_l:"Câu trả lời của bạn, bằng ngôn ngữ của bạn",re_ph:"Viết câu trả lời",tr_re:"Dịch câu trả lời của tôi",wa:"Gửi qua WhatsApp",copy:"Sao chép",share:"Ứng dụng khác",how_t:"Cách hoạt động",how1:"Trong WhatsApp, Gmail, Messenger, Instagram hay bất kỳ ứng dụng nào, nhấn giữ tin nhắn của khách, chọn «Chia sẻ» rồi chọn ONE WORLD.",how2:"Tin nhắn hiện ở đây, đã dịch sang ngôn ngữ của bạn.",how3:"Viết câu trả lời, dịch rồi chọn nơi gửi: WhatsApp, SMS, e-mail, Telegram hoặc ứng dụng khác. Khách nhận được bằng ngôn ngữ của họ.",from:"Viết bằng",to:"Sẽ gửi bằng",err:"Hiện không thể dịch. Hãy kiểm tra kết nối và thử lại.",copied:"Đã sao chép",none:"Hãy dịch một tin nhắn nhận được trước, để biết ngôn ngữ của khách."}
+  };
+  var FR = {};
+  document.querySelectorAll("[data-k]").forEach(function (e) { FR[e.getAttribute("data-k")] = e.textContent; });
+  document.querySelectorAll("[data-ph]").forEach(function (e) { FR[e.getAttribute("data-ph")] = e.placeholder; });
+  FR.from = "Écrit en"; FR.to = "Sera envoyé en"; FR.copied = "Copié";
+  FR.err = "La traduction n'est pas disponible pour le moment. Vérifiez votre connexion et réessayez.";
+  FR.none = "Traduisez d'abord un message reçu, pour connaître la langue de votre client.";
+  T.fr = FR;
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  var mine = (store("lc_uilang") || navigator.language || "fr").toLowerCase().split("-")[0];
+  var S = T[mine] || T.en;
+  function t(k) { return S[k] || T.en[k] || k; }
+  document.documentElement.lang = mine;
+  document.querySelectorAll("[data-k]").forEach(function (e) { e.textContent = t(e.getAttribute("data-k")); });
+  document.querySelectorAll("[data-ph]").forEach(function (e) { e.placeholder = t(e.getAttribute("data-ph")); });
+
+  // Même règle que le reste de l'appli : tout passe par un compte.
+  if (!store("lc_net_auth")) { document.getElementById("needAccount").hidden = false; document.getElementById("app").hidden = true; return; }
+
+  var names = null;
+  try { names = new Intl.DisplayNames([mine], { type: "language" }); } catch (e) { names = null; }
+  function langName(c) { try { return (names && names.of(c)) || c; } catch (e) { return c; } }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var client = null;
+  try { client = sessionStorage.getItem("ow_pont_client"); } catch (e) { client = null; }
+
+  // La langue du client est reconnue par le service de traduction (premier morceau du message).
+  function detect(text) {
+    var q = text.slice(0, 400);
+    var url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(q) + "&langpair=autodetect|" + encodeURIComponent(mine);
+    return fetch(url).then(function (r) { if (!r.ok) throw new Error("SERVER"); return r.json(); }).then(function (d) {
+      var c = d && d.responseData && d.responseData.detectedLanguage;
+      if (!c) throw new Error("SERVER");
+      return String(c).toLowerCase().split("-")[0];
+    });
+  }
+
+  function read() {
+    var text = $("inTxt").value.trim();
+    $("inErr").hidden = true;
+    if (!text) return;
+    $("readBtn").disabled = true;
+    detect(text).then(function (from) {
+      client = from;
+      try { sessionStorage.setItem("ow_pont_client", from); } catch (e) { /* rien */ }
+      return window.EWMoteur.translate(text, from, mine).then(function (tr) {
+        $("fromBadge").textContent = t("from") + " " + langName(from);
+        $("inOut").textContent = tr;
+        $("inRes").hidden = false;
+        $("toBadge").textContent = t("to") + " " + langName(from);
+      });
+    }).catch(function () { $("inErr").textContent = t("err"); $("inErr").hidden = false; })
+      .then(function () { $("readBtn").disabled = false; });
+  }
+
+  function reply() {
+    var text = $("reTxt").value.trim();
+    $("reErr").hidden = true;
+    if (!text) return;
+    if (!client) { $("reErr").textContent = t("none"); $("reErr").hidden = false; return; }
+    $("sendBtn").disabled = true;
+    window.EWMoteur.translate(text, mine, client).then(function (tr) {
+      $("toBadge").textContent = t("to") + " " + langName(client);
+      $("reOut").textContent = tr;
+      var e = encodeURIComponent(tr);
+      $("waBtn").href = "https://wa.me/?text=" + e;
+      $("smsBtn").href = "sms:?body=" + e;
+      $("mailBtn").href = "mailto:?body=" + e;
+      $("tgBtn").href = "https://t.me/share/url?url=%20&text=" + e;
+      $("reRes").hidden = false;
+    }).catch(function () { $("reErr").textContent = t("err"); $("reErr").hidden = false; })
+      .then(function () { $("sendBtn").disabled = false; });
+  }
+
+  $("readBtn").onclick = read;
+  $("sendBtn").onclick = reply;
+  $("copyBtn").onclick = function () {
+    var s = $("reOut").textContent, b = this;
+    (navigator.clipboard ? navigator.clipboard.writeText(s) : Promise.reject()).then(function () {
+      b.textContent = t("copied"); setTimeout(function () { b.textContent = t("copy"); }, 1500);
+    }).catch(function () { /* rien */ });
+  };
+  $("shareBtn").onclick = function () {
+    var s = $("reOut").textContent;
+    if (navigator.share) navigator.share({ text: s }).catch(function () { /* annulé */ });
+    else $("copyBtn").click();
+  };
+
+  // Arrivée depuis « Partager » de WhatsApp (ou de toute appli) : le texte est déjà là, on le traduit tout de suite.
+  var p = new URLSearchParams(location.search);
+  var shared = [p.get("title"), p.get("text"), p.get("url")].filter(Boolean).join("\n").trim();
+  if (shared) { $("inTxt").value = shared; read(); }
+  else if (client) { $("toBadge").textContent = t("to") + " " + langName(client); }
+})();
+</script>
+</body>
+</html>

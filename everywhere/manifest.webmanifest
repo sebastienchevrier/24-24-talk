@@ -43,6 +43,16 @@
   ],
   "shortcuts": [
     {
+      "name": "Pont ONE WORLD",
+      "url": "./pont.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
       "name": "24/24 TALK",
       "url": "../index.html?ew=1",
       "icons": [
@@ -72,5 +82,14 @@
         }
       ]
     }
-  ]
+  ],
+  "share_target": {
+    "action": "pont.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
