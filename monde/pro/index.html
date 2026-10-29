@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>24/24 ONE WORLD Pro — talk with everyone you serve</title>
+<meta name="description" content="Translated messages, calls and video in 112 languages for teams that welcome people from everywhere. Nothing to install." />
+<link rel="icon" href="../../everywhere/logo.svg" type="image/svg+xml" />
+<!-- © 2026 Sébastien Chevrier. Tous droits réservés. -->
+<style>
+  :root{--bg:#ffffff;--soft:#f3f6fc;--ink:#0b1530;--muted:#55627f;--line:#e2e8f3;--acc:#2563eb;--acc-d:#1d4ed8;--acc-s:#eaf1ff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px}
+  header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--ink);text-decoration:none;font-size:17px}
+  .brand img{width:28px;height:28px;filter:invert(1)}
+  .brand b{color:var(--acc)}
+  .pro{font-size:11px;font-weight:700;background:var(--acc);color:#fff;border-radius:6px;padding:2px 6px;margin-left:2px}
+  .lang{display:flex;gap:4px}
+  .lang button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:99px;padding:6px 11px;font-weight:700;font-size:13px;cursor:pointer}
+  .lang button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+  .hero{background:linear-gradient(180deg,var(--acc-s),#fff);padding:56px 0 40px;text-align:center}
+  h1{font-size:clamp(30px,6vw,48px);line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}
+  .lead{font-size:clamp(16px,2.6vw,19px);color:var(--muted);max-width:640px;margin:0 auto 26px}
+  .btn{display:inline-block;background:var(--acc);color:#fff;font-weight:700;text-decoration:none;border-radius:99px;padding:14px 24px;font-size:16px}
+  .btn:hover{background:var(--acc-d)}
+  .btn.ghost{background:#fff;color:var(--acc);border:1.5px solid var(--acc);margin-left:8px}
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  h2{font-size:clamp(23px,4vw,30px);margin:0 0 8px;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 24px}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .card .ic{font-size:26px;display:block;margin-bottom:8px}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  ol.steps li{counter-increment:s;position:relative;padding:16px 16px 16px 60px;border:1px solid var(--line);border-radius:16px}
+  ol.steps li::before{content:counter(s);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .demo{border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .demo-top{background:var(--acc);color:#fff;padding:14px 18px;font-weight:700}
+  .demo-top small{display:block;font-weight:400;opacity:.85}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;padding:14px 18px 0}
+  .tabs button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;font-size:14px;cursor:pointer}
+  .tabs button[aria-pressed=true]{background:var(--acc-s);border-color:var(--acc);color:var(--acc-d);font-weight:700}
+  .phr{list-style:none;margin:0;padding:14px 18px 18px;display:grid;gap:10px}
+  .phr li{background:var(--soft);border-radius:14px;padding:12px 14px}
+  .phr .o{display:block;font-size:13px;color:var(--muted)}
+  .phr .t{display:block;font-size:17px;margin-top:2px}
+  .price{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .plan{border:1px solid var(--line);border-radius:18px;padding:22px}
+  .plan.main{border:2px solid var(--acc);background:var(--acc-s)}
+  .plan .n{font-weight:800;font-size:18px}
+  .plan .p{font-size:30px;font-weight:800;margin:6px 0}
+  .plan ul{padding-left:18px;margin:10px 0 0;color:var(--muted)}
+  .note{background:#fff8e6;border:1px solid #f4dfa6;border-radius:14px;padding:14px 16px;color:#5b4a14;font-size:15px}
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:14px;text-align:center}
+  footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="../"><img src="../../everywhere/logo.svg" alt="" /><span translate="no" class="notranslate">24/24 <b>ONE WORLD</b></span><span class="pro">PRO</span></a>
+  <div class="lang" role="group" aria-label="Language"><button data-l="en" aria-pressed="true">EN</button><button data-l="fr" aria-pressed="false">FR</button></div>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1 data-k="h1">Talk with everyone you serve, in their language.</h1>
+  <p class="lead" data-k="lead">Messages, voice calls and video calls translated live in 112 languages. A photo of a form or a letter, read in your language. It opens in any phone's browser: nothing to install.</p>
+  <a class="btn" href="../../" data-k="try">Try it free</a><a class="btn ghost" href="#offer" data-k="see">See the offer</a>
+</div></div>
+
+<section><div class="wrap">
+  <h2 data-k="who_t">Made for teams that welcome people from everywhere</h2>
+  <p class="sub" data-k="who_s">When nobody shares a language, every minute and every misunderstanding counts.</p>
+  <div class="grid">
+    <div class="card"><span class="ic">🏥</span><h3 data-k="c1t">Health</h3><p data-k="c1">Reception desks, social workers and nurses explain appointments, papers and next steps.</p></div>
+    <div class="card"><span class="ic">🎓</span><h3 data-k="c2t">Schools</h3><p data-k="c2">Teachers talk with newly arrived pupils and with their parents.</p></div>
+    <div class="card"><span class="ic">🤝</span><h3 data-k="c3t">Associations and NGOs</h3><p data-k="c3">Welcome, housing, legal support: understand each person's situation from day one.</p></div>
+    <div class="card"><span class="ic">🏗️</span><h3 data-k="c4t">Employers</h3><p data-k="c4">Construction, farming, hotels, logistics: safety rules and instructions everyone understands.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-k="how_t">How it works</h2>
+  <p class="sub" data-k="how_s">Three steps, one minute each.</p>
+  <ol class="steps">
+    <li data-k="s1">Your staff and the people you welcome each create a free account.</li>
+    <li data-k="s2">They connect with a simple invitation link or QR code.</li>
+    <li data-k="s3">They write, call or video call, each in their own language. ONE WORLD translates both ways.</li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <h2 data-k="demo_t">Your welcome page, in every language</h2>
+  <p class="sub" data-k="demo_s">Example: the key phrases of a reception desk, ready before the first visitor arrives.</p>
+  <div class="demo">
+    <div class="demo-top"><span data-k="demo_org">Your organisation</span><small data-k="demo_sm">Welcome page · ONE WORLD Pro</small></div>
+    <div class="tabs" role="group" aria-label="Languages">
+      <button data-p="ar" aria-pressed="true">العربية</button><button data-p="uk" aria-pressed="false">Українська</button><button data-p="fa" aria-pressed="false">فارسی</button><button data-p="es" aria-pressed="false">Español</button><button data-p="fr" aria-pressed="false">Français</button>
+    </div>
+    <ul class="phr" id="phr"></ul>
+  </div>
+</div></section>
+
+<section id="offer"><div class="wrap">
+  <h2 data-k="off_t">The offer</h2>
+  <p class="sub" data-k="off_s">Start with a pilot. Continue only if your team is satisfied.</p>
+  <div class="price">
+    <div class="plan main"><div class="n" data-k="p1n">3-month pilot</div><div class="p" data-k="p1p">1,500 $</div>
+      <ul><li data-k="p1a">Welcome page in your name, your key phrases translated</li><li data-k="p1b">Training for your team</li><li data-k="p1c">Priority support</li></ul></div>
+    <div class="plan"><div class="n" data-k="p2n">Annual plan</div><div class="p" data-k="p2p">from 4,000 $</div>
+      <ul><li data-k="p2a">Everything in the pilot, all year</li><li data-k="p2b">Several sites or teams</li><li data-k="p2c">Usage report every 3 months</li></ul></div>
+  </div>
+  <p class="note" data-k="note">ONE WORLD helps people understand each other day to day. It does not replace a professional interpreter for medical or legal decisions.</p>
+  <p data-k="cta">To start a pilot, simply reply to my email with the name of your organisation and the languages you need most.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <p><span translate="no" class="notranslate">24/24 ONE WORLD</span> · <span data-k="made">Created in France by its founder, Sébastien Chevrier.</span></p>
+  <p><a href="../" data-k="site">Discover ONE WORLD</a></p>
+</div></footer>
+
+<script>
+(function(){
+  var FR={h1:"Parlez avec toutes les personnes que vous accueillez, dans leur langue.",lead:"Messages, appels et visio traduits en direct dans 112 langues. La photo d'un formulaire ou d'un courrier, lue dans votre langue. Tout s'ouvre dans le navigateur du téléphone : rien à installer.",try:"Essayer gratuitement",see:"Voir l'offre",who_t:"Pour les équipes qui accueillent des personnes du monde entier",who_s:"Quand personne ne parle la même langue, chaque minute et chaque malentendu comptent.",c1t:"Santé",c1:"Accueil, assistants sociaux et soignants expliquent rendez-vous, papiers et prochaines étapes.",c2t:"Écoles",c2:"Les enseignants échangent avec les élèves nouvellement arrivés et avec leurs parents.",c3t:"Associations et ONG",c3:"Accueil, logement, accès aux droits : comprendre la situation de chacun dès le premier jour.",c4t:"Employeurs",c4:"BTP, agriculture, hôtellerie, logistique : des consignes de sécurité comprises par tous.",how_t:"Comment ça marche",how_s:"Trois étapes, une minute chacune.",s1:"Votre équipe et les personnes accueillies créent chacune un compte gratuit.",s2:"Elles se relient avec un simple lien d'invitation ou un QR code.",s3:"Elles s'écrivent, s'appellent ou se voient en visio, chacune dans sa langue. ONE WORLD traduit dans les deux sens.",demo_t:"Votre page d'accueil, dans toutes les langues",demo_s:"Exemple : les phrases clés d'un accueil, prêtes avant l'arrivée du premier visiteur.",demo_org:"Votre organisation",demo_sm:"Page d'accueil · ONE WORLD Pro",off_t:"L'offre",off_s:"Commencez par un essai. Continuez seulement si votre équipe est satisfaite.",p1n:"Essai de 3 mois",p1p:"990 €",p1a:"Page d'accueil à votre nom, vos phrases clés traduites",p1b:"Formation de votre équipe",p1c:"Support prioritaire",p2n:"Abonnement annuel",p2p:"à partir de 2 400 €",p2a:"Tout l'essai, toute l'année",p2b:"Plusieurs sites ou équipes",p2c:"Bilan d'utilisation tous les 3 mois",note:"ONE WORLD aide à se comprendre au quotidien. L'application ne remplace pas un interprète professionnel pour une décision médicale ou juridique.",cta:"Pour démarrer un essai, répondez simplement à mon e-mail avec le nom de votre organisation et les langues dont vous avez le plus besoin.",made:"Créé en France par son fondateur, Sébastien Chevrier.",site:"Découvrir ONE WORLD"};
+  var EN={};
+  document.querySelectorAll("[data-k]").forEach(function(e){EN[e.getAttribute("data-k")]=e.textContent;});
+  var SRC={en:["Welcome. How can we help you?","Please bring your ID and this letter to your appointment.","Your appointment is on Tuesday at 10 a.m."],fr:["Bienvenue. Comment pouvons-nous vous aider ?","Merci d'apporter votre pièce d'identité et cette lettre à votre rendez-vous.","Votre rendez-vous est mardi à 10 h."]};
+  var P={ar:["مرحبًا بكم. كيف يمكننا مساعدتكم؟","يرجى إحضار بطاقة هويتكم وهذه الرسالة إلى موعدكم.","موعدكم يوم الثلاثاء الساعة العاشرة صباحًا."],
+         uk:["Ласкаво просимо. Чим ми можемо вам допомогти?","Будь ласка, візьміть на прийом посвідчення особи та цей лист.","Ваш прийом у вівторок о 10:00."],
+         fa:["خوش آمدید. چگونه می‌توانیم به شما کمک کنیم؟","لطفاً کارت شناسایی و این نامه را به وقت ملاقات خود بیاورید.","وقت ملاقات شما سه‌شنبه ساعت ۱۰ صبح است."],
+         es:["Bienvenido. ¿Cómo podemos ayudarle?","Por favor, traiga su documento de identidad y esta carta a su cita.","Su cita es el martes a las 10 de la mañana."],
+         fr:SRC.fr};
+  var lang="en", tgt="ar";
+  function phr(){
+    var ul=document.getElementById("phr"); ul.textContent="";
+    var src=SRC[lang==="fr"?"en":"fr"];
+    if(tgt==="fr") src=SRC.en;
+    P[tgt].forEach(function(t,i){
+      var li=document.createElement("li"), o=document.createElement("span"), x=document.createElement("span");
+      o.className="o"; o.textContent=(lang==="fr"&&tgt!=="fr")?SRC.fr[i]:src[i]; x.className="t"; x.textContent=t;
+      x.dir=(tgt==="ar"||tgt==="fa")?"rtl":"ltr"; x.lang=tgt; li.appendChild(o); li.appendChild(x); ul.appendChild(li);
+    });
+  }
+  function setLang(l){
+    lang=l; document.documentElement.lang=l; var D=l==="fr"?FR:EN;
+    document.querySelectorAll("[data-k]").forEach(function(e){var k=e.getAttribute("data-k"); if(D[k]) e.textContent=D[k];});
+    document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.l===l));});
+    phr();
+  }
+  document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.dataset.l);};});
+  document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){tgt=b.dataset.p;document.querySelectorAll(".tabs button").forEach(function(c){c.setAttribute("aria-pressed",String(c===b));});phr();};});
+  var q=(location.search.match(/[?&]lang=(fr|en)/)||[])[1] || (/^fr/i.test(navigator.language||"")?"fr":"en");
+  setLang(q);
+})();
+</script>
+</body>
+</html>
