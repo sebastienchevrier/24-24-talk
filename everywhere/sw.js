@@ -2,13 +2,13 @@
    Il ne garde en mémoire QUE la coquille publique du portail (pages, styles, icônes) pour qu'elle s'ouvre vite
    et hors ligne. Il ne touche jamais aux applications (TALK a son propre fonctionnement), ni au serveur Supabase,
    ni aux conversations : ces requêtes passent sans être enregistrées. */
-var CACHE = "ew-shell-v53";
-var SHELL = ["./", "index.html", "shell.css", "style.css", "ambiance.css", "../ambiance-terre.css", "../terre-lave.webp", "prefs.js", "sentinelle.js", "shell.js", "langues-portail.js", "langues-ecrans.js", "voix.js", "ecoute.js", "choixlangue.js", "connect.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest",
-  "learn/learn.css", "learn/progress.js", "learn/exercises.js", "learn/learn.js",
-  "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
+var CACHE = "ew-shell-v54";
+// Copie hors ligne : seulement l'essentiel (petits fichiers). Le reste (image de fond, langues des écrans, espaces,
+// cours…) est gardé au premier passage. Avant, tout (≈1,5 Mo) se retéléchargeait à chaque mise à jour, en même temps
+// que la page, et l'ouverture devenait très lente sur téléphone.
+var SHELL = ["./", "index.html", "shell.css", "style.css", "ambiance.css", "../ambiance-terre.css", "prefs.js", "sentinelle.js", "shell.js", "langues-portail.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest",
   "traduction/everywhere.css", "traduction/langues.js", "traduction/moteur.js", "traduction/everywhere.js",
-  "traduction/phrases.js", "traduction/partenaires.js", "traduction/voyage.js", "traduction/papier.js", "profil/profil.js", "profil/profil.css", "ailab/ailab.js", "espaces/espaces.js", "espaces/espaces.css",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
+  "icons/icon-192.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
