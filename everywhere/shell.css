@@ -24,12 +24,8 @@ html.theme-dark{ --ews-bg:#050b18; --ews-bg2:#0b1526; --ews-panel:#111c2e; --ews
 html.contrast-high{ --ews-muted:var(--ews-text); }
 html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
 
-/* Passage d'une page à l'autre en douceur (Chrome, Edge, Safari récents) : les deux barres restent en place. */
-@view-transition{ navigation:auto; }
-.topbar{view-transition-name:ews-top;}
-.mainnav{view-transition-name:ews-nav;}
-html.motion-off ::view-transition-group(*), html.motion-off ::view-transition-old(*), html.motion-off ::view-transition-new(*){animation:none !important;}
-@media (prefers-reduced-motion:reduce){ ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none !important;} }
+/* Plus de transition entre pages (@view-transition) : Chrome l'interrompait avec une erreur (« ViewTransition opt-in disabled »)
+   quand une seule des deux pages l'avait demandée, et elle retardait chaque changement de page. */
 
 .topbar{display:flex;align-items:center;gap:10px;min-height:var(--ews-top-h);
   padding:6px calc(12px + var(--ews-sar)) 6px calc(12px + var(--ews-sal));background:var(--ews-bg);border-bottom:1px solid var(--ews-line);}

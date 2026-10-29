@@ -24,7 +24,7 @@
 <meta name="apple-mobile-web-app-title" content="ONE WORLD">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script src="sentinelle.js"></script>
-<script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, le portail renvoie vers l'inscription ; seul « J'ai déjà un compte » (#/profil) et les retours de lien d'e-mail restent ici. */(function(){function g(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return false;}var h=location.hash||"";if(a||/^#\/profil/.test(h)||/(^#|&)(access_token|error_code|error_description|type)=/.test(h)||/message=Confirmation/.test(h))return false;location.replace("../index.html?b=msg");return true;}if(!g())addEventListener("hashchange",g);})();</script>
+<script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, le portail renvoie vers l'inscription ; seul « J'ai déjà un compte » (#/profil) et les retours de lien d'e-mail restent ici. */(function(){function g(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return false;}var h=location.hash||"";if(a||/^#\/profil\/?(\?|$)/.test(h)||/(^#|&)(access_token|error_code|error_description|type)=/.test(h)||/message=Confirmation/.test(h))return false;location.replace("../index.html?b=msg");return true;}if(!g())addEventListener("hashchange",g);})();</script>
 <script src="prefs.js"></script>
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="style.css">
