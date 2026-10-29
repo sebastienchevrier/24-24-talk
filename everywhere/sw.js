@@ -2,8 +2,8 @@
    Il ne garde en mémoire QUE la coquille publique du portail (pages, styles, icônes) pour qu'elle s'ouvre vite
    et hors ligne. Il ne touche jamais aux applications (TALK a son propre fonctionnement), ni au serveur Supabase,
    ni aux conversations : ces requêtes passent sans être enregistrées. */
-var CACHE = "ew-shell-v51";
-var SHELL = ["./", "index.html", "shell.css", "style.css", "ambiance.css", "../ambiance-terre.css", "../terre-lave.webp", "prefs.js", "sentinelle.js", "shell.js", "langues-portail.js", "langues-ecrans.js", "voix.js", "ecoute.js", "choixlangue.js", "connect.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest",
+var CACHE = "ew-shell-v52";
+var SHELL = ["./", "index.html", "shell.css", "style.css", "ambiance.css", "../ambiance-terre.css", "../terre-lave.webp", "prefs.js", "sentinelle.js", "shell.js", "langues-portail.js", "langues-ecrans.js", "voix.js", "ecoute.js", "choixlangue.js", "connect.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest", "pont.html",
   "learn/learn.css", "learn/progress.js", "learn/exercises.js", "learn/learn.js",
   "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
   "traduction/everywhere.css", "traduction/langues.js", "traduction/moteur.js", "traduction/everywhere.js",
