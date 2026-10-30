@@ -1,46 +1,48 @@
-# 24/24 Talk
+# 24/24 ONE WORLD
 
-**Parlez votre langue. Il vous entend dans la sienne.**
+**Le monde se parle. Enfin.**
 
-Le réseau indépendant d'appels et de messages traduits en direct, dans 112 langues dont le malgache.
+Le réseau indépendant d'appels, de visios et de messages traduits en direct : vous parlez votre langue, l'autre vous entend et vous lit dans la sienne. 112 langues.
 Créé à La Réunion par Sébastien Chevrier.
-
-<p align="center">
-  <a href="https://sebastienchevrier.github.io/24-24-talk/">
-    <img src="24-24-Talk-visuel-v2.png" alt="24/24 Talk : appels et messages traduits, 112 langues" width="420">
-  </a>
-</p>
 
 <p align="center">
   <a href="https://sebastienchevrier.github.io/24-24-talk/"><b>👉 Ouvrir l'appli</b></a>
   &nbsp;·&nbsp;
-  <a href="https://sebastienchevrier.github.io/24-24-talk/presentation.html">Voir la présentation</a>
+  <a href="https://sebastienchevrier.github.io/24-24-talk/monde/">Le site</a>
+  &nbsp;·&nbsp;
+  <a href="https://sebastienchevrier.github.io/24-24-talk/monde/pro/">Pour les entreprises</a>
 </p>
 
 ---
 
-## Ce que fait 24/24 Talk
+## Ce que fait 24/24 ONE WORLD
 
-- 📞 **Téléphone** — appelez vos proches : vous parlez votre langue, ils vous entendent dans la leur, en direct.
-- 💬 **Messagerie** — écrivez ou dictez : chacun lit le message dans sa propre langue.
-- 🛡️ **Réseau indépendant** — un réseau à part entière : appels, messages et traduction, tout se passe dans l'appli. Un pseudo suffit.
-- 🌍 **112 langues** — dont le malgache et le swahili. Interface disponible en 11 langues, dont le malgache.
+- 💬 **Messagerie** : écrivez ou dictez, chacun lit le message dans sa propre langue.
+- 📞 **Appels et visio** : l'autre parle, vous l'entendez et le lisez en sous-titre dans votre langue, phrase par phrase.
+- 🌍 **Traduire** : face à face, comprendre un papier en le photographiant, voyage.
+- 🎓 **Apprendre** : des langues, à votre rythme.
+- 🛡️ **Réseau indépendant** : tout se passe dans l'appli, messages hébergés en France.
+
+## Prix
+
+- **Gratuit pour les particuliers.** Aucun abonnement.
+- **ONE WORLD Pro** pour les entreprises qui reçoivent des clients étrangers : offre sur demande, voir la page entreprises.
 
 ## Pour commencer
 
 1. Ouvrez **https://sebastienchevrier.github.io/24-24-talk/** dans Chrome (ou Safari sur iPhone).
-2. Touchez **Téléphone** ou **Messagerie**, puis choisissez un pseudo et votre langue.
-3. Touchez **Inviter un ami** et envoyez-lui le lien.
+2. Créez votre compte : votre nom, votre langue et votre e-mail à confirmer. Pas de numéro de téléphone.
+3. Touchez **Inviter** et envoyez le lien à vos proches.
 
-Astuce : sur l'écran d'accueil, le bouton **Ajouter à l'écran d'accueil** installe l'appli comme une vraie application, sans passer par un magasin d'applications.
+Astuce : **Ajouter à l'écran d'accueil** installe l'appli comme une vraie application, sans magasin d'applications.
 
 ## Vie privée
 
-- Aucune donnée personnelle demandée : un pseudo suffit.
+- Un compte avec e-mail confirmé, sans numéro de téléphone.
 - Les messages du réseau sont hébergés en France.
-- L'historique des traductions reste uniquement sur votre téléphone.
+- L'historique des traductions reste sur votre téléphone.
 
 ---
 
-© 2026 Sébastien Chevrier — La Réunion. Tous droits réservés.
+© 2026 Sébastien Chevrier — La Réunion. Propriétaire exclusif, tous droits réservés.
 Le code de cette application est visible publiquement, mais il n'est pas libre de droits : toute reproduction, modification ou réutilisation sans autorisation écrite de l'auteur est interdite.
