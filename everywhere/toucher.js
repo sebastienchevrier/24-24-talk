@@ -1,67 +1,69 @@
 /* © 2026 Sébastien Chevrier. Tous droits réservés.
-   Toucher vivant (30 oct. 2026) : chaque bouton réagit au doigt dans tout 24/24 ONE WORLD.
-   - le bouton s'enfonce légèrement ;
-   - une onde lumineuse part du point touché (dessinée par-dessus la page, elle ne change aucune mise en page) ;
-   - les boutons principaux respirent (néon), se remplissent au toucher (liquide) et montrent un ✓ quand on valide ;
-   - sur Android, une vibration très courte (désactivable : localStorage « ow_vibre » = "0").
-   Rien n'est envoyé sur Internet. Respecte le réglage « réduire les animations » du téléphone. */
+   24/24 ONE WORLD — couche d'interaction premium (30 oct. 2026), commune à toute l'appli.
+   Styles repris de la proposition « Premium Interaction Layer » (ChatGPT), adaptés :
+   - aucun bouton ne change de mise en page (pas de position/overflow forcés : l'onde est dessinée par-dessus la page) ;
+   - appui : le bouton s'enfonce ; onde lumineuse depuis le doigt ; vibration très courte sur Android
+     (désactivable : localStorage « ow_vibre » = "0") ;
+   - boutons principaux : lueur verte, respiration (néon), forme qui s'arrondit à l'appui (liquide), ✓ quand on valide ;
+   - respecte « réduire les animations » du téléphone. Rien n'est envoyé sur Internet. */
 (function () {
   "use strict";
   if (window.__owToucher) return;
   window.__owToucher = true;
   var reduce = false;
   try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* ignoré */ }
-  var CIBLES = "button, .btn, [role=button], a.tile, a.card, .home-tile, .bbar a, .bbar button, .ew-card, .chip, label.net-check, input[type=checkbox], input[type=radio], select";
+  var BOUTONS = "button, [role=button], .btn, .primary, [data-ow-interactive], .home-tile, .ew-card, .chip, a.tile, a.card";
+  var PRINCIPAL = ".btn.primary, .ob-go, .install-top-btn, [data-ow-primary]";
   var css = document.createElement("style");
-  css.textContent =
-    "button,.btn,[role=button],.home-tile,.ew-card,.chip{-webkit-tap-highlight-color:transparent;transition:transform .14s cubic-bezier(.3,.7,.4,1.4),filter .14s;}" +
-    ".ow-press{transform:scale(.95);filter:brightness(1.15);}" +
-    ".ow-onde{position:fixed;z-index:2147483646;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%) scale(0);" +
-    "background:radial-gradient(circle,rgba(134,239,172,.55) 0%,rgba(74,222,128,.25) 45%,rgba(74,222,128,0) 70%);animation:owOnde .55s ease-out forwards;}" +
-    "@keyframes owOnde{to{transform:translate(-50%,-50%) scale(1);opacity:0;}}" +
-    /* Néon : les boutons principaux respirent doucement. */
-    ".btn.primary,.ob-go,.install-top-btn{animation:owNeon 2.6s ease-in-out infinite;}" +
-    "@keyframes owNeon{0%,100%{box-shadow:0 0 6px rgba(74,222,128,.35),0 0 16px rgba(74,222,128,.18);}50%{box-shadow:0 0 12px rgba(74,222,128,.6),0 0 34px rgba(74,222,128,.32);}}" +
-    /* Liquide : au toucher, le bouton principal se remplit de lumière depuis le bas. */
-    ".ow-liq{position:relative;overflow:hidden;isolation:isolate;}" +
-    ".ow-liq::before{content:'';position:absolute;left:-15%;right:-15%;bottom:-170%;height:160%;z-index:-1;border-radius:42%;" +
-    "background:rgba(255,255,255,.35);animation:owLiq .7s ease-out forwards,owVague 1.2s linear infinite;}" +
-    "@keyframes owLiq{to{bottom:-30%;opacity:0;}}@keyframes owVague{to{transform:rotate(360deg);}}" +
-    /* Transformation : un ✓ apparaît au centre une fraction de seconde. */
-    ".ow-ok{position:fixed;z-index:2147483647;pointer-events:none;transform:translate(-50%,-50%) scale(.3);font:800 26px/1 system-ui,sans-serif;" +
-    "color:#052e16;background:#86efac;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;" +
-    "box-shadow:0 0 22px rgba(74,222,128,.8);animation:owOk .6s cubic-bezier(.2,1.5,.4,1) forwards;}" +
-    "@keyframes owOk{40%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}100%{transform:translate(-50%,-50%) scale(.9);opacity:0;}}" +
-    "@media (prefers-reduced-motion: reduce){.ow-press{transform:none;}.ow-onde,.ow-ok,.ow-liq::before{display:none;}" +
-    ".btn.primary,.ob-go,.install-top-btn{animation:none;}}";
-  var PRINCIPAL = ".btn.primary, .ob-go, .install-top-btn, .primary";
+  css.textContent = [
+    ":root{--ow-accent:#4dfc8a;--ow-accent-strong:#23d978;--ow-glow:0 0 0 1px rgba(77,252,138,.20),0 0 22px rgba(77,252,138,.20);",
+    "--ow-motion-fast:160ms;--ow-motion-base:220ms;}",
+    ":where(button,[role=button],.btn,.primary,[data-ow-interactive],.home-tile,.ew-card,.chip){-webkit-tap-highlight-color:transparent;touch-action:manipulation;",
+    "transition:transform var(--ow-motion-fast) ease,box-shadow var(--ow-motion-base) ease,filter var(--ow-motion-base) ease,border-radius 240ms ease;}",
+    ".ow-press{transform:translateY(1px) scale(.97);filter:brightness(1.08);}",
+    ":where(button,[role=button],.btn,.primary,[data-ow-interactive]):focus-visible{outline:2px solid var(--ow-accent);outline-offset:3px;}",
+    ":where(.btn.primary,.ob-go,[data-ow-primary]){box-shadow:var(--ow-glow);}",
+    "@media (hover:hover) and (pointer:fine){:where(.btn.primary,.ob-go,[data-ow-primary]):not(:disabled):hover{box-shadow:0 0 0 1px rgba(77,252,138,.35),0 0 28px rgba(77,252,138,.30);filter:brightness(1.04);}}",
+    ".ob-go,.install-top-btn,[data-ow-breathe]{animation:owRespire 2.8s ease-in-out infinite;}",
+    "@keyframes owRespire{0%,100%{box-shadow:0 0 0 1px rgba(77,252,138,.18),0 0 12px rgba(77,252,138,.12);}50%{box-shadow:0 0 0 1px rgba(77,252,138,.38),0 0 26px rgba(77,252,138,.30);}}",
+    ".ow-liquide.ow-press{border-radius:18px!important;transform:scale(.975);filter:saturate(1.12) brightness(1.06);}",
+    ".ow-onde{position:fixed;z-index:2147483646;pointer-events:none;width:12px;height:12px;border-radius:50%;",
+    "background:radial-gradient(circle,rgba(225,255,236,.58) 0%,rgba(77,252,138,.34) 38%,rgba(77,252,138,0) 72%);",
+    "transform:translate(-50%,-50%) scale(0);animation:owOnde 520ms ease-out forwards;}",
+    "@keyframes owOnde{to{transform:translate(-50%,-50%) scale(var(--ow-onde,18));opacity:0;}}",
+    ".ow-ok{position:fixed;z-index:2147483647;pointer-events:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;",
+    "font:900 17px/1 system-ui,sans-serif;color:#00110a;background:var(--ow-accent);box-shadow:0 0 0 1px rgba(77,252,138,.42),0 0 18px rgba(77,252,138,.4);",
+    "transform:translate(-50%,-50%) scale(.4);animation:owOk 650ms cubic-bezier(.2,1.5,.4,1) forwards;}",
+    "@keyframes owOk{40%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}100%{transform:translate(-50%,-50%) scale(.9);opacity:0;}}",
+    ".bbar button,.bbar a,.mainnav a,[data-ow-nav-item]{-webkit-tap-highlight-color:transparent;transition:color 180ms ease,background-color 180ms ease,transform 160ms ease;}",
+    ".bbar button:active,.bbar a:active,.mainnav a:active,[data-ow-nav-item]:active{transform:scale(.94);}",
+    "@media (prefers-reduced-motion:reduce){.ow-press,.ow-liquide.ow-press{transform:none;}.ow-onde,.ow-ok{display:none;}",
+    ".ob-go,.install-top-btn,[data-ow-breathe]{animation:none;}}"
+  ].join("");
   (document.head || document.documentElement).appendChild(css);
 
   function cible(t) {
     if (!t || !t.closest) return null;
-    var el = t.closest(CIBLES);
+    var el = t.closest(BOUTONS);
     if (!el || el.disabled || el.getAttribute("aria-disabled") === "true") return null;
     return el;
   }
   var enfonce = null;
-  function relacher() { if (enfonce) { enfonce.classList.remove("ow-press"); enfonce = null; } }
+  function relacher() { if (enfonce) { enfonce.classList.remove("ow-press", "ow-liquide"); enfonce = null; } }
   document.addEventListener("pointerdown", function (e) {
     var el = cible(e.target);
     if (!el) return;
     relacher();
-    if (!reduce && !/^(INPUT|SELECT)$/.test(el.tagName)) { el.classList.add("ow-press"); enfonce = el; }
-    if (!reduce && el.matches && el.matches(PRINCIPAL) && getComputedStyle(el).position === "static") {
-      el.classList.remove("ow-liq"); void el.offsetWidth; el.classList.add("ow-liq");
-      setTimeout(function () { el.classList.remove("ow-liq"); }, 800);
-    }
     if (!reduce) {
+      el.classList.add("ow-press");
+      if (el.matches(PRINCIPAL)) el.classList.add("ow-liquide");
+      enfonce = el;
       var r = el.getBoundingClientRect();
-      var d = Math.min(Math.max(r.width, r.height) * 1.6, 260);
       var o = document.createElement("span");
       o.className = "ow-onde";
       o.style.left = e.clientX + "px";
       o.style.top = e.clientY + "px";
-      o.style.width = o.style.height = Math.max(d, 70) + "px";
+      o.style.setProperty("--ow-onde", String(Math.min(Math.max(r.width, r.height) * 2.2, 320) / 12));
       document.body.appendChild(o);
       setTimeout(function () { if (o.parentNode) o.parentNode.removeChild(o); }, 600);
     }
@@ -69,22 +71,22 @@
       if (e.pointerType === "touch" && localStorage.getItem("ow_vibre") !== "0" && navigator.vibrate) navigator.vibrate(8);
     } catch (err) { /* ignoré */ }
   }, { passive: true, capture: true });
-  // ✓ quand un bouton principal est vraiment validé (clic), au centre du bouton.
+  ["pointerup", "pointercancel", "dragstart", "scroll"].forEach(function (n) {
+    document.addEventListener(n, function () { setTimeout(relacher, 120); }, { passive: true, capture: true });
+  });
+  // ✓ quand un bouton principal est validé, au bord droit du bouton (le texte du bouton ne change pas).
   document.addEventListener("click", function (e) {
     if (reduce) return;
     var el = cible(e.target);
-    if (!el || !el.matches || !el.matches(PRINCIPAL)) return;
+    if (!el || !el.matches(PRINCIPAL)) return;
     var r = el.getBoundingClientRect();
     var k = document.createElement("span");
     k.className = "ow-ok";
     k.textContent = "✓";
     k.setAttribute("aria-hidden", "true");
-    k.style.left = (r.left + r.width / 2) + "px";
+    k.style.left = (r.right - Math.min(28, r.width / 4)) + "px";
     k.style.top = (r.top + r.height / 2) + "px";
     document.body.appendChild(k);
-    setTimeout(function () { if (k.parentNode) k.parentNode.removeChild(k); }, 650);
+    setTimeout(function () { if (k.parentNode) k.parentNode.removeChild(k); }, 700);
   }, { capture: true });
-  ["pointerup", "pointercancel", "pointerleave", "dragstart", "scroll"].forEach(function (n) {
-    document.addEventListener(n, function () { setTimeout(relacher, 90); }, { passive: true, capture: true });
-  });
 })();
