@@ -6440,6 +6440,8 @@ const NET_STRINGS = {
     home_phone: "Téléphone",
     home_phone_sub: "Appels traduits",
     home_ew: "Face à face",
+    home_terre: "Terre connectée",
+    home_terre_sub: "Les régions du monde et leurs langues",
     home_ew_sub: "Conversation côte à côte",
     home_trip: "Voyage",
     home_trip_sub: "Phrases utiles hors ligne",
@@ -6666,6 +6668,8 @@ const NET_STRINGS = {
     home_phone: "Phone",
     home_phone_sub: "Translated calls",
     home_ew: "Face to face",
+    home_terre: "Connected Earth",
+    home_terre_sub: "The world's regions and their languages",
     home_ew_sub: "Side-by-side conversation",
     home_trip: "Travel",
     home_trip_sub: "Useful phrases, works offline",
@@ -8883,6 +8887,11 @@ const Reseau = (() => {
         <span class="home-tile-ic">${ICON_TRIP}</span>
         <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_trip"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_trip_sub"))}</span></span>
+      </a>
+      <a class="home-tile terre" id="tileTerre" href="everywhere/#/terre">
+        <span class="home-tile-ic" aria-hidden="true">🌍</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_terre"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_terre_sub"))}</span></span>
       </a>
       <a class="home-tile learn" id="tileLearn" href="everywhere/#/learn">
         <span class="home-tile-ic">${ICON_LEARN}</span>
