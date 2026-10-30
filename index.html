@@ -1102,16 +1102,6 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
       <button class="btn primary" id="installBtn" style="width:100%;margin-top:8px;" hidden data-i18n="install_btn">📲 Installer l'application</button>
       <p class="install-help" id="installHelp"></p>
     </div>
-    <div class="card" id="subCard" hidden style="display:none">
-      <div class="settings-row">
-        <span data-i18n="sub">Abonnement</span>
-        <span id="subStatus" style="color:var(--muted);font-size:13px;"></span>
-      </div>
-      <button class="btn" id="subBtn" style="width:100%;margin-top:8px;" data-i18n="sub_btn">S'abonner — 1,99&nbsp;€/mois</button>
-      <div id="subMsg"></div>
-      <p style="color:var(--muted);font-size:11px;margin:8px 0 0;" data-i18n-html="pay_note_html">
-      </p>
-    </div>
     <div class="card">
       <button class="btn ghost" id="wipeBtn" style="width:100%;" data-i18n="wipe">Supprimer toutes mes données</button>
     </div>
@@ -3974,14 +3964,9 @@ const UI_STRINGS = {
     hist_search_ph: "Rechercher dans l'historique…", clear_all: "Tout supprimer",
     theme: "Thème sombre / clair", theme_auto: "Suit votre appareil", autospeak: "Lecture audio automatique",
     ui_lang: "Langue de l'interface", ui_lang_auto: "Automatique (langue du téléphone)",
-    sub: "Abonnement",
-    pay_note_html: "Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application. <a class=\"link\" href=\"cgv.html\">Voir les CGV</a>.",
     wipe: "Supprimer toutes mes données",
     footer_note_html: "24/24 ONE WORLD — Compte avec e-mail confirmé. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
     rights: "© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.",
-    sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
-    sub_btn: "S'abonner — {price}/mois", sub_ended: "Période gratuite terminée",
-    pay_off: "Le paiement en ligne n'est pas encore activé. Contact : schevrier.1975@gmail.com",
     err_network: "Impossible de traduire. Vérifiez votre connexion.",
     err_quota: "Le service de traduction a atteint sa limite pour aujourd'hui. Réessayez plus tard.",
     err_empty: "Écrivez d'abord un message à traduire.",
@@ -4052,14 +4037,9 @@ const UI_STRINGS = {
     hist_search_ph: "Search history…", clear_all: "Delete all",
     theme: "Dark / light theme", theme_auto: "Follows your device", autospeak: "Read translations aloud",
     ui_lang: "App language", ui_lang_auto: "Automatic (phone language)",
-    sub: "Subscription",
-    pay_note_html: "Payment takes place on a secure Stripe page, outside this app. <a class=\"link\" href=\"cgv.html\">Sales terms (in French)</a>.",
     wipe: "Delete all my data",
     footer_note_html: "24/24 ONE WORLD — Account with a confirmed email. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
     rights: "© 2026 Sébastien Chevrier, sole owner. All rights reserved.",
-    sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
-    sub_btn: "Subscribe — {price}/month", sub_ended: "Free period ended",
-    pay_off: "Online payment is not available yet. Contact: schevrier.1975@gmail.com",
     err_network: "Unable to translate. Check your connection.",
     err_quota: "The translation service has reached its limit for today. Try again later.",
     err_empty: "Type a message to translate first.",
@@ -4130,14 +4110,9 @@ const UI_STRINGS = {
     hist_search_ph: "Buscar en el historial…", clear_all: "Borrar todo",
     theme: "Tema oscuro / claro", theme_auto: "Sigue tu dispositivo", autospeak: "Leer las traducciones en voz alta",
     ui_lang: "Idioma de la app", ui_lang_auto: "Automático (idioma del teléfono)",
-    sub: "Suscripción",
-    pay_note_html: "El pago se realiza en una página segura de Stripe, fuera de esta app. <a class=\"link\" href=\"cgv.html\">Condiciones de venta (en francés)</a>.",
     wipe: "Borrar todos mis datos",
     footer_note_html: "24/24 ONE WORLD — Cuenta con e-mail confirmado. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
     rights: "© 2026 Sébastien Chevrier. Todos los derechos reservados.",
-    sub_active: "Suscrito ✓", sub_manage: "Gestionar mi suscripción", sub_days: "Gratis {n} días más",
-    sub_btn: "Suscribirse — {price}/mes", sub_ended: "Periodo gratuito terminado",
-    pay_off: "El pago en línea aún no está disponible. Contacto: schevrier.1975@gmail.com",
     err_network: "No se puede traducir. Comprueba tu conexión.",
     err_quota: "El servicio de traducción ha alcanzado su límite por hoy. Inténtalo más tarde.",
     err_empty: "Primero escribe un mensaje para traducir.",
@@ -4208,14 +4183,9 @@ const UI_STRINGS = {
     hist_search_ph: "Pesquisar no histórico…", clear_all: "Apagar tudo",
     theme: "Tema escuro / claro", theme_auto: "Segue o seu aparelho", autospeak: "Ler as traduções em voz alta",
     ui_lang: "Idioma do app", ui_lang_auto: "Automático (idioma do telefone)",
-    sub: "Assinatura",
-    pay_note_html: "O pagamento é feito em uma página segura da Stripe, fora deste app. <a class=\"link\" href=\"cgv.html\">Condições de venda (em francês)</a>.",
     wipe: "Apagar todos os meus dados",
     footer_note_html: "24/24 ONE WORLD — Conta com e-mail confirmado. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
     rights: "© 2026 Sébastien Chevrier. Todos os direitos reservados.",
-    sub_active: "Assinante ✓", sub_manage: "Gerenciar minha assinatura", sub_days: "Grátis por mais {n} dias",
-    sub_btn: "Assinar — {price}/mês", sub_ended: "Período gratuito encerrado",
-    pay_off: "O pagamento online ainda não está disponível. Contato: schevrier.1975@gmail.com",
     err_network: "Não foi possível traduzir. Verifique sua conexão.",
     err_quota: "O serviço de tradução atingiu o limite de hoje. Tente mais tarde.",
     err_empty: "Primeiro escreva uma mensagem para traduzir.",
@@ -4286,14 +4256,9 @@ const UI_STRINGS = {
     hist_search_ph: "Verlauf durchsuchen…", clear_all: "Alles löschen",
     theme: "Dunkles / helles Design", theme_auto: "Folgt deinem Gerät", autospeak: "Übersetzungen vorlesen",
     ui_lang: "App-Sprache", ui_lang_auto: "Automatisch (Telefonsprache)",
-    sub: "Abonnement",
-    pay_note_html: "Die Zahlung erfolgt auf einer sicheren Stripe-Seite außerhalb dieser App. <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen (auf Französisch)</a>.",
     wipe: "Alle meine Daten löschen",
     footer_note_html: "24/24 ONE WORLD – Konto mit bestätigter E-Mail. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
     rights: "© 2026 Sébastien Chevrier. Alle Rechte vorbehalten.",
-    sub_active: "Abonniert ✓", sub_manage: "Mein Abo verwalten", sub_days: "Noch {n} Tage kostenlos",
-    sub_btn: "Abonnieren – {price}/Monat", sub_ended: "Kostenloser Zeitraum beendet",
-    pay_off: "Die Online-Zahlung ist noch nicht verfügbar. Kontakt: schevrier.1975@gmail.com",
     err_network: "Übersetzung nicht möglich. Prüfe deine Verbindung.",
     err_quota: "Der Übersetzungsdienst hat sein Tageslimit erreicht. Versuche es später erneut.",
     err_empty: "Gib zuerst eine Nachricht zum Übersetzen ein.",
@@ -4364,14 +4329,9 @@ const UI_STRINGS = {
     hist_search_ph: "Cerca nella cronologia…", clear_all: "Elimina tutto",
     theme: "Tema scuro / chiaro", theme_auto: "Segue il tuo dispositivo", autospeak: "Leggi le traduzioni ad alta voce",
     ui_lang: "Lingua dell'app", ui_lang_auto: "Automatica (lingua del telefono)",
-    sub: "Abbonamento",
-    pay_note_html: "Il pagamento avviene su una pagina sicura di Stripe, fuori da questa app. <a class=\"link\" href=\"cgv.html\">Condizioni di vendita (in francese)</a>.",
     wipe: "Elimina tutti i miei dati",
     footer_note_html: "24/24 ONE WORLD — Account con e-mail confermata. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
     rights: "© 2026 Sébastien Chevrier. Tutti i diritti riservati.",
-    sub_active: "Abbonato ✓", sub_manage: "Gestisci il mio abbonamento", sub_days: "Gratis ancora {n} giorni",
-    sub_btn: "Abbonati — {price}/mese", sub_ended: "Periodo gratuito terminato",
-    pay_off: "Il pagamento online non è ancora disponibile. Contatto: schevrier.1975@gmail.com",
     err_network: "Impossibile tradurre. Controlla la connessione.",
     err_quota: "Il servizio di traduzione ha raggiunto il limite di oggi. Riprova più tardi.",
     err_empty: "Scrivi prima un messaggio da tradurre.",
@@ -4442,14 +4402,9 @@ const UI_STRINGS = {
     hist_search_ph: "搜索历史记录…", clear_all: "全部删除",
     theme: "深色 / 浅色主题", theme_auto: "跟随设备", autospeak: "自动朗读译文",
     ui_lang: "界面语言", ui_lang_auto: "自动（手机语言）",
-    sub: "订阅",
-    pay_note_html: "付款在 Stripe 的安全页面上完成，不在本应用内。<a class=\"link\" href=\"cgv.html\">销售条款（法语）</a>。",
     wipe: "删除我的所有数据",
     footer_note_html: "24/24 ONE WORLD — 账户需经电子邮件确认。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
     rights: "© 2026 Sébastien Chevrier。保留所有权利。",
-    sub_active: "已订阅 ✓", sub_manage: "管理我的订阅", sub_days: "还可免费使用 {n} 天",
-    sub_btn: "订阅 — 每月 {price}", sub_ended: "免费期已结束",
-    pay_off: "在线支付尚未开通。联系方式：schevrier.1975@gmail.com",
     err_network: "无法翻译。请检查网络连接。",
     err_quota: "翻译服务今天已达到上限。请稍后再试。",
     err_empty: "请先输入要翻译的内容。",
@@ -4520,14 +4475,9 @@ const UI_STRINGS = {
     hist_search_ph: "履歴を検索…", clear_all: "すべて削除",
     theme: "ダーク / ライトテーマ", theme_auto: "端末の設定に合わせる", autospeak: "翻訳を自動で読み上げる",
     ui_lang: "アプリの言語", ui_lang_auto: "自動（端末の言語）",
-    sub: "定期購読",
-    pay_note_html: "お支払いはこのアプリの外にある Stripe の安全なページで行われます。<a class=\"link\" href=\"cgv.html\">販売条件（フランス語）</a>。",
     wipe: "すべてのデータを削除",
     footer_note_html: "24/24 ONE WORLD — メール確認済みのアカウント。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
     rights: "© 2026 Sébastien Chevrier. 無断転載を禁じます。",
-    sub_active: "購読中 ✓", sub_manage: "購読を管理", sub_days: "無料期間：残り{n}日",
-    sub_btn: "購読する — 月額{price}", sub_ended: "無料期間は終了しました",
-    pay_off: "オンライン決済はまだご利用いただけません。お問い合わせ：schevrier.1975@gmail.com",
     err_network: "翻訳できません。接続を確認してください。",
     err_quota: "翻訳サービスは本日の上限に達しました。しばらくしてからもう一度お試しください。",
     err_empty: "まず翻訳するメッセージを入力してください。",
@@ -4598,14 +4548,9 @@ const UI_STRINGS = {
     hist_search_ph: "البحث في السجل…", clear_all: "حذف الكل",
     theme: "المظهر الداكن / الفاتح", theme_auto: "يتبع جهازك", autospeak: "قراءة الترجمات بصوت عالٍ",
     ui_lang: "لغة التطبيق", ui_lang_auto: "تلقائي (لغة الهاتف)",
-    sub: "الاشتراك",
-    pay_note_html: "يتم الدفع عبر صفحة آمنة من Stripe خارج هذا التطبيق. <a class=\"link\" href=\"cgv.html\">شروط البيع (بالفرنسية)</a>.",
     wipe: "حذف جميع بياناتي",
     footer_note_html: "⁦24/24 ONE WORLD⁩ — حساب ببريد إلكتروني مؤكَّد. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
     rights: "© 2026 ⁦Sébastien Chevrier⁩. جميع الحقوق محفوظة.",
-    sub_active: "مشترك ✓", sub_manage: "إدارة اشتراكي", sub_days: "مجاني لمدة {n} يومًا أخرى",
-    sub_btn: "اشترك — {price} شهريًا", sub_ended: "انتهت الفترة المجانية",
-    pay_off: "الدفع عبر الإنترنت غير متاح بعد. للتواصل: schevrier.1975@gmail.com",
     err_network: "تعذّرت الترجمة. تحقّق من اتصالك.",
     err_quota: "بلغت خدمة الترجمة حدّها لهذا اليوم. حاول مرة أخرى لاحقًا.",
     err_empty: "اكتب أولًا رسالة لترجمتها.",
@@ -4676,14 +4621,9 @@ const UI_STRINGS = {
     hist_search_ph: "Поиск по истории…", clear_all: "Удалить всё",
     theme: "Тёмная / светлая тема", theme_auto: "Как на устройстве", autospeak: "Зачитывать переводы вслух",
     ui_lang: "Язык приложения", ui_lang_auto: "Автоматически (язык телефона)",
-    sub: "Подписка",
-    pay_note_html: "Оплата проходит на защищённой странице Stripe, вне этого приложения. <a class=\"link\" href=\"cgv.html\">Условия продажи (на французском)</a>.",
     wipe: "Удалить все мои данные",
     footer_note_html: "24/24 ONE WORLD — Аккаунт с подтверждённой почтой. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
     rights: "© 2026 Sébastien Chevrier. Все права защищены.",
-    sub_active: "Подписка оформлена ✓", sub_manage: "Управлять подпиской", sub_days: "Бесплатно ещё {n} дн.",
-    sub_btn: "Подписаться — {price} в месяц", sub_ended: "Бесплатный период закончился",
-    pay_off: "Онлайн-оплата пока недоступна. Контакт: schevrier.1975@gmail.com",
     err_network: "Не удалось перевести. Проверьте подключение.",
     err_quota: "Сервис перевода исчерпал лимит на сегодня. Попробуйте позже.",
     err_empty: "Сначала введите сообщение для перевода.",
@@ -4772,17 +4712,10 @@ const UI_STRINGS = {
     autospeak: "Famakiana feo ho azy",
     ui_lang: "Fitenin'ny appli",
     ui_lang_auto: "Ho azy (fitenin'ny finday)",
-    sub: "Famandrihana",
-    pay_note_html: "Ao amin'ny pejy azo antoka Stripe, ivelan'ity appli ity, no anaovana ny fandoavana. <a class=\"link\" href=\"cgv.html\">Jereo ny CGV</a>.",
     wipe: "Hamafa ny angon-drakitro rehetra",
     footer_note_html: "24/24 ONE WORLD — Kaonty misy mailaka voamarina. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a>",
     rights: "© 2026 Sébastien Chevrier. Zo rehetra voatokana.",
-    sub_active: "Famandrihana mandeha ✓",
-    sub_manage: "Hitantana ny famandrihako",
-    sub_days: "Maimaimpoana mbola {n} andro",
-    sub_btn: "Hanao famandrihana — {price}/volana",
-    sub_ended: "Tapitra ny fe-potoana maimaimpoana",
-    pay_off: "Tsy mbola mandeha ny fandoavana an-tserasera. Fifandraisana: schevrier.1975@gmail.com",
+    
     err_network: "Tsy afaka mandika. Hamarino ny fifandraisanao amin'ny Internet.",
     err_quota: "Tratra ny fetra androany ho an'ny serivisy fandikana. Andramo indray any aoriana.",
     err_empty: "Soraty aloha ny hafatra hadika.",
@@ -4862,46 +4795,9 @@ const UI_LANG = detectUiLang();
 function t(key, vars) {
   let s = (UI_STRINGS[UI_LANG] && UI_STRINGS[UI_LANG][key]) || (UI_LANG !== "fr" && UI_STRINGS.en && UI_STRINGS.en[key]) || UI_STRINGS.fr[key] || key;
   if (vars) Object.keys(vars).forEach((k) => { s = s.split("{" + k + "}").join(vars[k]); });
-  if (s.indexOf("{price}") !== -1) s = s.split("{price}").join(localPrice());
   return s;
 }
 
-// ---------- Tarif dans la monnaie locale ----------
-// Prix mensuel par monnaie. Le jour où Stripe est branché, chaque ligne doit avoir le même prix dans Stripe.
-// Monnaie inconnue : dollars américains (comme avant).
-const PRICE_TABLE = { EUR: 1.99, USD: 1.99, GBP: 1.79, CHF: 1.99, CAD: 2.79, AUD: 2.99, JPY: 300, BRL: 9.9, MGA: 9900, MUR: 99 };
-const PRICE_BY_REGION = {
-  GB: "GBP", CH: "CHF", LI: "CHF", CA: "CAD", AU: "AUD", JP: "JPY", BR: "BRL", MG: "MGA", MU: "MUR", US: "USD"
-};
-"AT BE CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK RE GP MQ GF YT PM BL MF MC SM VA AD ME XK".split(" ")
-  .forEach((r) => { PRICE_BY_REGION[r] = "EUR"; });
-// Le fuseau horaire dit mieux le pays que la langue (un téléphone en « fr-FR » peut être à Madagascar).
-const PRICE_BY_ZONE = {
-  "Indian/Reunion": "EUR", "Indian/Mayotte": "EUR", "Indian/Antananarivo": "MGA", "Indian/Mauritius": "MUR",
-  "America/Guadeloupe": "EUR", "America/Martinique": "EUR", "America/Cayenne": "EUR"
-};
-function localCurrency() {
-  try {
-    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (PRICE_BY_ZONE[zone]) return PRICE_BY_ZONE[zone];
-  } catch (e) { /* fuseau inconnu */ }
-  const tags = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]);
-  for (const tag of tags) {
-    const m = /[-_]([A-Za-z]{2})(?:$|[-_])/.exec(String(tag));
-    if (m && PRICE_BY_REGION[m[1].toUpperCase()]) return PRICE_BY_REGION[m[1].toUpperCase()];
-  }
-  return "USD";
-}
-function localPrice() {
-  const cur = localCurrency(), amount = PRICE_TABLE[cur];
-  try {
-    return new Intl.NumberFormat(UI_LANG === "mg" ? "fr" : UI_LANG, {
-      style: "currency", currency: cur, currencyDisplay: cur === "MGA" || cur === "MUR" ? "narrowSymbol" : "symbol", minimumFractionDigits: amount % 1 ? 2 : 0, maximumFractionDigits: amount % 1 ? 2 : 0
-    }).format(amount);
-  } catch (e) {
-    return amount + " " + cur;
-  }
-}
 
 // Nom d'une langue du catalogue dans la langue de l'interface (le navigateur connaît ces noms).
 let _displayNames = null;
@@ -4937,7 +4833,6 @@ function applyStaticI18n() {
   document.documentElement.dir = ["ar", "he", "fa", "ur", "ps"].includes(UI_LANG) ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
-  document.querySelectorAll("[data-price]").forEach((el) => { el.textContent = localPrice(); });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
   document.querySelectorAll("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle); });
   document.querySelectorAll("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
@@ -5064,63 +4959,6 @@ function detectInAppBrowser() {
   });
 })();
 
-// ---------- Abonnement / Stripe ----------
-// IMPORTANT — honnêteté technique : cette version web n'a PAS de backend, donc pas de moyen fiable
-// de vérifier côté serveur qu'un paiement a bien eu lieu. Ce bloc ouvre un lien de paiement Stripe
-// ("Payment Link", configurable sans code côté Stripe, aucune clé secrète nécessaire ici) et se
-// contente d'un rappel visuel après la date de fin d'offre — ce n'est PAS un vrai verrou technique
-// (un utilisateur pourrait changer l'heure de son appareil pour le contourner). Pour un vrai contrôle
-// d'accès payant, il faudra soit un backend + webhook Stripe, soit passer par les achats intégrés
-// App Store / Google Play une fois les comptes développeur créés.
-const SUBSCRIPTION_CONFIG = {
-  // Remplacer par le vrai lien une fois le compte Stripe créé :
-  // Stripe Dashboard → Payment Links → Créer → produit "24/24 ONE WORLD Premium" à 1,99 €/mois récurrent (et un prix par monnaie, voir PRICE_TABLE).
-  stripePaymentLinkUrl: "REMPLACER_PAR_LE_LIEN_STRIPE", // ex: "https://buy.stripe.com/xxxxxxxx"
-  trialEndDate: "2026-11-01T00:00:00",
-  
-};
-
-function isTrialActive() {
-  return Date.now() < new Date(SUBSCRIPTION_CONFIG.trialEndDate).getTime();
-}
-function isSubscribed() {
-  // Faute de backend, on ne peut que se souvenir localement d'un clic "je me suis abonné" —
-  // ça n'authentifie rien, ça évite juste de re-harceler quelqu'un qui a déjà payé sur cet appareil.
-  return safeStore.getItem("lc_subscribed") === "1";
-}
-function renderSubscription() {
-  const statusEl = document.getElementById("subStatus");
-  const btn = document.getElementById("subBtn");
-  if (!statusEl || !btn) return;
-  if (isSubscribed()) {
-    statusEl.textContent = t("sub_active");
-    btn.textContent = t("sub_manage");
-  } else if (isTrialActive()) {
-    const days = Math.ceil((new Date(SUBSCRIPTION_CONFIG.trialEndDate).getTime() - Date.now()) / 86400000);
-    statusEl.textContent = t("sub_days", { n: days });
-    btn.textContent = t("sub_btn");
-  } else {
-    statusEl.textContent = t("sub_ended");
-    btn.textContent = t("sub_btn");
-  }
-}
-document.getElementById("subBtn") && document.getElementById("subBtn").addEventListener("click", () => {
-  const subMsg = document.getElementById("subMsg");
-  if (SUBSCRIPTION_CONFIG.stripePaymentLinkUrl.startsWith("REMPLACER")) {
-    if (subMsg) {
-      subMsg.innerHTML = "";
-      const d = document.createElement("div");
-      d.className = "msg warn";
-      d.textContent = t("pay_off");
-      subMsg.appendChild(d);
-    }
-    return;
-  }
-  window.open(SUBSCRIPTION_CONFIG.stripePaymentLinkUrl, "_blank", "noopener");
-  // Optimiste et non fiable (voir note plus haut) : on retient juste que la personne est passée à l'achat.
-  safeStore.setItem("lc_subscribed", "1");
-  renderSubscription();
-});
 
 // ---------- MyMemory : découpe, vérification de la réponse (mêmes règles que everywhere/traduction/moteur.js) ----------
 const MM_MAX_BYTES = 450;
@@ -6065,9 +5903,7 @@ function renderFavorites() {
 }
 
 // ---------- PARAMÈTRES ----------
-function renderSettings() {
-  renderSubscription();
-}
+function renderSettings() {}
 const keepHistToggle = document.getElementById("keepHistToggle");
 keepHistToggle.classList.toggle("on", historyEnabled());
 keepHistToggle.setAttribute("aria-pressed", historyEnabled() ? "true" : "false");
@@ -6473,10 +6309,8 @@ const NET_STRINGS = {
     tr_off: "Sans traduction",
     tr_on_hint: "Messages et appels traduits dans votre langue.",
     tr_off_hint: "Messages et appels dans la langue d'origine, sans traduction.",
-    net_how_title: "Comment ça marche",
-    net_how_1: "Choisissez un pseudo et votre langue.",
-    net_how_2: "Invitez un ami : envoyez-lui le lien de l'appli.",
-    net_how_3: "Écrivez-lui ou appelez-le : chacun lit et entend dans sa propre langue.",
+    
+    
   },
   en: {
     net_cl_title: "Languages for this conversation",
@@ -6701,10 +6535,8 @@ const NET_STRINGS = {
     tr_off: "Without translation",
     tr_on_hint: "Messages and calls are translated into your language.",
     tr_off_hint: "Messages and calls stay in their original language.",
-    net_how_title: "How it works",
-    net_how_1: "Choose a username and your language.",
-    net_how_2: "Invite a friend: send them the app link.",
-    net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
+    
+    
   },
   es: {
     net_cam_fail: "Cámara no disponible: permítela en los ajustes del navegador.",
@@ -6924,10 +6756,8 @@ const NET_STRINGS = {
     tr_off: "Sin traducción",
     tr_on_hint: "Los mensajes y llamadas se traducen a tu idioma.",
     tr_off_hint: "Los mensajes y llamadas quedan en su idioma original.",
-    net_how_title: "Cómo funciona",
-    net_how_1: "Elige un nombre de usuario y tu idioma.",
-    net_how_2: "Invita a un amigo: envíale el enlace de la app.",
-    net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
+    
+    
   },
   pt: {
     net_cam_fail: "Câmara indisponível: autorize-a nas definições do navegador.",
@@ -7147,10 +6977,8 @@ const NET_STRINGS = {
     tr_off: "Sem tradução",
     tr_on_hint: "Mensagens e chamadas traduzidas para o seu idioma.",
     tr_off_hint: "Mensagens e chamadas no idioma original, sem tradução.",
-    net_how_title: "Como funciona",
-    net_how_1: "Escolha um nome de utilizador e o seu idioma.",
-    net_how_2: "Convide um amigo: envie-lhe o link da app.",
-    net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
+    
+    
   },
   de: {
     net_cam_fail: "Kamera nicht verfügbar: Erlaube sie in den Browser-Einstellungen.",
@@ -7370,10 +7198,8 @@ const NET_STRINGS = {
     tr_off: "Ohne Übersetzung",
     tr_on_hint: "Nachrichten und Anrufe werden in deine Sprache übersetzt.",
     tr_off_hint: "Nachrichten und Anrufe bleiben in der Originalsprache.",
-    net_how_title: "So funktioniert's",
-    net_how_1: "Wähle einen Benutzernamen und deine Sprache.",
-    net_how_2: "Lade einen Freund ein: Schick ihm den Link zur App.",
-    net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
+    
+    
   },
   it: {
     net_cam_fail: "Fotocamera non disponibile: consentila nelle impostazioni del browser.",
@@ -7593,10 +7419,8 @@ const NET_STRINGS = {
     tr_off: "Senza traduzione",
     tr_on_hint: "Messaggi e chiamate tradotti nella tua lingua.",
     tr_off_hint: "Messaggi e chiamate nella lingua originale, senza traduzione.",
-    net_how_title: "Come funziona",
-    net_how_1: "Scegli un nome utente e la tua lingua.",
-    net_how_2: "Invita un amico: mandagli il link dell'app.",
-    net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
+    
+    
   },
   zh: {
     net_cam_fail: "摄像头不可用：请在浏览器设置中允许使用。",
@@ -7816,10 +7640,8 @@ const NET_STRINGS = {
     tr_off: "关闭翻译",
     tr_on_hint: "消息和通话会翻译成你的语言。",
     tr_off_hint: "消息和通话保持原语言，不翻译。",
-    net_how_title: "使用方法",
-    net_how_1: "选择一个用户名和你的语言。",
-    net_how_2: "邀请朋友：把应用链接发给他。",
-    net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
+    
+    
   },
   ja: {
     net_cam_fail: "カメラを使用できません。ブラウザの設定で許可してください。",
@@ -8039,10 +7861,8 @@ const NET_STRINGS = {
     tr_off: "翻訳なし",
     tr_on_hint: "メッセージと通話はあなたの言語に翻訳されます。",
     tr_off_hint: "メッセージと通話は元の言語のままです。",
-    net_how_title: "使い方",
-    net_how_1: "ユーザー名と言語を選びます。",
-    net_how_2: "友だちを招待：アプリのリンクを送ります。",
-    net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
+    
+    
   },
   ar: {
     net_cam_fail: "الكاميرا غير متاحة: اسمح بها في إعدادات المتصفح.",
@@ -8262,10 +8082,8 @@ const NET_STRINGS = {
     tr_off: "بدون ترجمة",
     tr_on_hint: "تُترجَم الرسائل والمكالمات إلى لغتك.",
     tr_off_hint: "تبقى الرسائل والمكالمات بلغتها الأصلية دون ترجمة.",
-    net_how_title: "كيف يعمل",
-    net_how_1: "اختر اسم مستخدم ولغتك.",
-    net_how_2: "ادعُ صديقًا: أرسل له رابط التطبيق.",
-    net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
+    
+    
   },
   ru: {
     net_cam_fail: "Камера недоступна: разрешите её в настройках браузера.",
@@ -8485,10 +8303,8 @@ const NET_STRINGS = {
     tr_off: "Без перевода",
     tr_on_hint: "Сообщения и звонки переводятся на ваш язык.",
     tr_off_hint: "Сообщения и звонки остаются на языке оригинала.",
-    net_how_title: "Как это работает",
-    net_how_1: "Выберите имя пользователя и свой язык.",
-    net_how_2: "Пригласите друга: отправьте ему ссылку на приложение.",
-    net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
+    
+    
   },
   mg: {
     net_cam_fail: "Tsy azo ampiasaina ny fakantsary: avelao ao amin'ny fikirakirana ny navigateur.",
@@ -8708,10 +8524,8 @@ const NET_STRINGS = {
     tr_off: "Tsy misy fandikana",
     tr_on_hint: "Adika amin'ny fiteninao ny hafatra sy ny antso.",
     tr_off_hint: "Hafatra sy antso amin'ny fiteny niaviany, tsy adika.",
-    net_how_title: "Ahoana no fiasany",
-    net_how_1: "Mifidiana pseudo sy ny fiteninao.",
-    net_how_2: "Asao ny namanao: alefaso aminy ny rohin'ny appli.",
-    net_how_3: "Manorata na miantso azy: samy mamaky sy mandre amin'ny fiteniny avy.",
+    
+    
   },
 };
 Object.keys(NET_STRINGS).forEach((l) => {
