@@ -10,8 +10,13 @@
   "use strict";
   if (window.__owToucher) return;
   window.__owToucher = true;
+  var mq = null;
+  try { mq = matchMedia("(prefers-reduced-motion: reduce)"); } catch (e) { /* ignoré */ }
   var reduce = false;
-  try { reduce = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { /* ignoré */ }
+  function majReduce() { reduce = !!(mq && mq.matches) || document.documentElement.classList.contains("ow-reduce-motion"); }
+  majReduce();
+  // Le réglage du téléphone peut changer pendant que l'appli est ouverte.
+  try { if (mq && mq.addEventListener) mq.addEventListener("change", majReduce); else if (mq && mq.addListener) mq.addListener(majReduce); } catch (e) { /* ignoré */ }
   var BOUTONS = "button, [role=button], .btn, .primary, [data-ow-interactive], .home-tile, .ew-card, .chip, a.tile, a.card";
   var PRINCIPAL = ".btn.primary, .ob-go, .install-top-btn, [data-ow-primary]";
   var css = document.createElement("style");
@@ -37,7 +42,16 @@
     "@keyframes owOk{40%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}100%{transform:translate(-50%,-50%) scale(.9);opacity:0;}}",
     ".bbar button,.bbar a,.mainnav a,[data-ow-nav-item]{-webkit-tap-highlight-color:transparent;transition:color 180ms ease,background-color 180ms ease,transform 160ms ease;}",
     ".bbar button:active,.bbar a:active,.mainnav a:active,[data-ow-nav-item]:active{transform:scale(.94);}",
-    "@media (prefers-reduced-motion:reduce){.ow-press,.ow-liquide.ow-press{transform:none;}.ow-onde,.ow-ok{display:none;}",
+    /* États (repris de la proposition ChatGPT) : chargement = petit cercle qui tourne, succès = ✓, erreur = contour rouge. */
+    "[data-ow-state]{position:relative;}",
+    "[data-ow-state=loading]{cursor:progress;}",
+    "[data-ow-state=loading]::after{content:'';position:absolute;right:14px;top:50%;width:16px;height:16px;margin-top:-8px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:owTourne 650ms linear infinite;}",
+    "@keyframes owTourne{to{transform:rotate(360deg);}}",
+    "[data-ow-state=success]{box-shadow:0 0 0 1px rgba(77,252,138,.42),0 0 18px rgba(77,252,138,.22);}",
+    "[data-ow-state=error]{box-shadow:0 0 0 2px rgba(255,104,104,.65);animation:owNon .35s ease;}",
+    "@keyframes owNon{20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}",
+    "html.ow-reduce-motion .ow-onde,html.ow-reduce-motion .ow-ok{display:none;}",
+    "@media (prefers-reduced-motion:reduce){[data-ow-state]::after{animation-duration:2s;}.ow-press,.ow-liquide.ow-press{transform:none;}.ow-onde,.ow-ok{display:none;}",
     ".ob-go,.install-top-btn,[data-ow-breathe]{animation:none;}}"
   ].join("");
   (document.head || document.documentElement).appendChild(css);
@@ -51,6 +65,7 @@
   var enfonce = null;
   function relacher() { if (enfonce) { enfonce.classList.remove("ow-press", "ow-liquide"); enfonce = null; } }
   document.addEventListener("pointerdown", function (e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
     var el = cible(e.target);
     if (!el) return;
     relacher();
@@ -74,6 +89,13 @@
   ["pointerup", "pointercancel", "dragstart", "scroll"].forEach(function (n) {
     document.addEventListener(n, function () { setTimeout(relacher, 120); }, { passive: true, capture: true });
   });
+  // Clavier : Espace ou Entrée enfoncent le bouton comme un doigt.
+  document.addEventListener("keydown", function (e) {
+    if (reduce || (e.key !== " " && e.key !== "Enter")) return;
+    var el = cible(e.target);
+    if (el) { relacher(); el.classList.add("ow-press"); enfonce = el; }
+  });
+  document.addEventListener("keyup", function () { setTimeout(relacher, 80); });
   // ✓ quand un bouton principal est validé, au bord droit du bouton (le texte du bouton ne change pas).
   document.addEventListener("click", function (e) {
     if (reduce) return;
@@ -89,4 +111,28 @@
     document.body.appendChild(k);
     setTimeout(function () { if (k.parentNode) k.parentNode.removeChild(k); }, 700);
   }, { capture: true });
+
+  // API pour le code de l'appli (reprise de la proposition ChatGPT « OWMotion ») : états d'un bouton pendant une action.
+  function etat(el, s, opt) {
+    if (!el) return;
+    opt = opt || {};
+    if (s) {
+      el.setAttribute("data-ow-state", s);
+      if (s === "loading") { el.setAttribute("aria-busy", "true"); if ("disabled" in el && opt.disable !== false) el.disabled = true; }
+      else el.removeAttribute("aria-busy");
+    } else {
+      el.removeAttribute("data-ow-state");
+      el.removeAttribute("aria-busy");
+      if ("disabled" in el && opt.restoreDisabled) el.disabled = false;
+    }
+  }
+  window.OWMotion = {
+    version: "1.0.0",
+    get reducedMotion() { return reduce; },
+    setReducedMotion: function (on) { document.documentElement.classList.toggle("ow-reduce-motion", !!on); majReduce(); },
+    loading: function (el, on, opt) { etat(el, on ? "loading" : null, opt); },
+    success: function (el) { etat(el, "success"); },
+    error: function (el) { etat(el, "error"); },
+    reset: function (el, opt) { etat(el, null, opt); }
+  };
 })();

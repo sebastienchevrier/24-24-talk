@@ -474,9 +474,6 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ob-field:focus-within::after{transform:scaleX(1);}
   .ob-go{position:relative;overflow:hidden;transition:transform .12s ease;}
   .ob-go:active{transform:scale(.97);}
-  .ob-go::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;transform:skewX(-20deg);
-    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));animation:owSweep 3.2s ease-in-out 1.2s infinite;}
-  @keyframes owSweep{0%{left:-60%;}35%,100%{left:130%;}}
   .ow-splash{text-align:center;padding:12vh 16px 24px;}
   .ow-splash .ow-logo{width:96px;height:96px;margin-bottom:22px;}
   .ow-splash .ow-logo::after{inset:-12px;}
@@ -488,7 +485,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ow-verify #netCode{font-size:26px;letter-spacing:.35em;text-align:center;}
   @media (prefers-reduced-motion: reduce){
     .ow-welcome::before,.ow-logo img,.ow-logo::after,.ow-welcome > *,.ow-welcome h1,.ow-hello span,.ow-demo,.ow-demo-dots i,.ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag,
-    .ob,.ob-step.on,.ob-go::after,.ow-mail,.ow-verify{animation:none!important;}
+    .ob,.ob-step.on,.ow-mail,.ow-verify{animation:none!important;}
     .ob-bar span::after,.ob-field::after{transition:none;}
   }
   @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
@@ -10237,6 +10234,15 @@ const Reseau = (() => {
   }
 
   // Nouveau venu (jamais inscrit sur cet appareil) : l'attente et les erreurs gardent la porte d'entrée ONE WORLD, pas la messagerie.
+  // État animé d'un bouton (couche OWMotion d'everywhere/toucher.js) : « loading », « success », « error » ; l'erreur s'efface seule.
+  function owEtat(el, etat) {
+    const M = window.OWMotion;
+    if (!M || !el) return;
+    if (etat === "loading") M.loading(el, true, { disable: false });
+    else if (etat === "error") { M.error(el); setTimeout(() => M.reset(el), 1600); }
+    else if (etat === "success") M.success(el);
+    else M.reset(el);
+  }
   function owNewcomer() { return !profile && safeStore.getItem("lc_net_joined") !== "1" && !safeStore.getItem("lc_net_auth") && isActiveTab(); }
   // Porte d'entrée 24/24 ONE WORLD (inscription et confirmation de l'e-mail).
   function owWelcomeHtml() {
@@ -10414,6 +10420,7 @@ const Reseau = (() => {
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
+    owEtat(btn, "loading");
     safeStore.setItem("lc_signup", JSON.stringify({ pseudo: nom, lang, email: mail }));
     if (!myEmail || !me) {
       myEmail = "";
@@ -10427,6 +10434,7 @@ const Reseau = (() => {
         const err = await sendConfirmEmail(mail);
         if (err) {
           btn.disabled = false;
+          owEtat(btn, "error");
           const used = err.code === "email_exists" || /already|registered|exists/i.test(err.message || "");
           return showMsg(msg, escapeHtml(t(used ? "net_email_used" : "net_email_err")), "warn");
         }
@@ -10435,6 +10443,7 @@ const Reseau = (() => {
         render();
       } catch (e) {
         btn.disabled = false;
+        owEtat(btn, "error");
         showMsg(msg, escapeHtml(t("net_err_conn")), "err");
       }
       return;
