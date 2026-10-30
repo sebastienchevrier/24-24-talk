@@ -102,6 +102,20 @@ const NOMS = { af: "Afrique", eu: "Europe", as: "Asie", na: "Amérique du Nord",
     await ctx.setOffline(false);
     return { ok: r[0] > 500 && r[1] === "Afrique", detail: JSON.stringify(r) };
   });
+  await step("Hors ligne, rechargement complet de la page : la Terre revient (cache du portail)", async () => {
+    const ok = await page.evaluate(async () => { if (!("serviceWorker" in navigator)) return "pas de SW"; await navigator.serviceWorker.ready; return "prêt"; });
+    // Un premier rechargement en ligne : la page est alors servie par le cache du portail.
+    await page.reload(); await page.waitForSelector("#earthGlobe", { timeout: 15000 });
+    await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 10000 });
+    await ctx.setOffline(true);
+    let r;
+    try {
+      await page.reload(); await page.waitForSelector("#earthGlobe", { timeout: 15000 }); await sleep(600);
+      await page.tap('.earth-region[data-region="eu"]');
+      r = [await dessine(page), await page.textContent("#earthInfoH"), await page.evaluate(() => !!navigator.serviceWorker.controller)];
+    } finally { await ctx.setOffline(false); }
+    return { ok: ok === "prêt" && r[0] > 500 && r[1] === "Europe" && r[2], detail: "service worker " + ok + ", " + JSON.stringify(r) };
+  });
   await step("Bouton « Écrire à quelqu'un » ouvre la messagerie existante", async () => {
     const href = await page.getAttribute("#earthWrite", "href");
     await page.tap("#earthWrite");

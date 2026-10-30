@@ -11667,6 +11667,8 @@ const Reseau = (() => {
       cam = await camStream(next);
       if (!camAlive(c, v) || !c.camOn) { cam.getTracks().forEach((tr) => tr.stop()); return; }
       await v.vtx.sender.replaceTrack(cam.getVideoTracks()[0]);
+      // Raccroché ou caméra coupée pendant le changement : la nouvelle caméra est arrêtée, rien n'est gardé.
+      if (!camAlive(c, v) || !c.camOn) { cam.getTracks().forEach((tr) => tr.stop()); cam = null; return; }
       const old = v.cam;
       v.cam = cam; cam = null;
       c.camFacing = next;
