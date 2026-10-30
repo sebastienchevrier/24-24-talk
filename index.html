@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
+<script src="everywhere/toucher.js?v=1" defer></script>
 <script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, l'appli ouvre l'inscription (Messagerie) et cache le reste ; les pages légales restent lisibles. */(function(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return;}var h=location.hash||"";if(a||/(^#|&)(access_token|error_code|error_description|type)=/.test(h))return;document.documentElement.classList.add("ow-gate");var st=document.createElement("style");st.textContent="html.ow-gate .bbar,html.ow-gate #ewsNav,html.ow-gate #ewsTop{display:none!important}";document.head.appendChild(st);if(!/[?&]b=msg(&|$)/.test(location.search))history.replaceState(null,"",location.pathname+(location.search?location.search+"&":"?")+"b=msg"+h);})();</script>
 <script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
@@ -427,6 +428,69 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ob-step{display:none;}
   .ob-step.on{display:block;animation:obIn .35s ease;}
   @keyframes obIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  /* Porte d'entrée animée (30 oct. 2026) : accueil vivant, sans rappel de la messagerie avant l'inscription. */
+  .ow-welcome{position:relative;}
+  .ow-welcome::before{content:"";position:absolute;left:50%;top:-30px;width:320px;height:220px;transform:translateX(-50%);z-index:-1;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(74,222,128,.22),rgba(74,222,128,0) 70%);animation:owAura 6s ease-in-out infinite;}
+  @keyframes owAura{0%,100%{opacity:.55;transform:translateX(-50%) scale(1);}50%{opacity:1;transform:translateX(-50%) scale(1.12);}}
+  .ow-logo{position:relative;width:72px;height:72px;margin:0 auto 6px;}
+  .ow-logo img{margin:0!important;width:100%;height:100%;}
+  body.ow-in .ow-logo img{animation:owPop .7s cubic-bezier(.2,1.4,.4,1) both;}
+  .ow-logo::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(74,222,128,.12);
+    border-top-color:rgba(134,239,172,.95);animation:owSpin 2.4s linear infinite;}
+  body.ob-on .ow-logo{width:56px;height:56px;margin-bottom:4px;}
+  @keyframes owSpin{to{transform:rotate(360deg);}}
+  @keyframes owPop{from{opacity:0;transform:scale(.6) rotate(-12deg);}to{opacity:1;transform:none;}}
+  body.ow-in .ow-welcome > :not(.ow-logo){animation:owRise .6s ease both;}
+  .ow-welcome > :nth-child(2){animation-delay:.12s;} .ow-welcome > :nth-child(3){animation-delay:.22s;}
+  .ow-welcome > :nth-child(4){animation-delay:.32s;} .ow-welcome > :nth-child(5){animation-delay:.42s;}
+  @keyframes owRise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .ow-welcome h1{background:linear-gradient(90deg,#fff 0%,#fff 40%,#86efac 50%,#fff 60%,#fff 100%);background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:owShine 5s ease-in-out 1s infinite;}
+  body.ow-in .ow-welcome h1{animation:owRise .6s ease .22s both,owShine 5s ease-in-out 1s infinite;}
+  :root[data-theme="light"] .ow-welcome h1{background:none;-webkit-text-fill-color:currentColor;}
+  @keyframes owShine{0%,60%{background-position:100% 0;}100%{background-position:-50% 0;}}
+  .ow-hello{height:26px;margin:8px 0 0;overflow:hidden;font-size:17px;font-weight:700;color:#86efac;}
+  .ow-hello span{display:inline-block;animation:owWord .5s ease both;}
+  @keyframes owWord{from{opacity:0;transform:translateY(100%);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
+  .ow-demo{position:relative;overflow:hidden;}
+  body.ow-in .ow-demo{animation:owRise .6s ease .45s both;}
+  .ow-demo-dots{display:none;gap:4px;align-items:center;height:21px;}
+  .ow-demo-dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.5;animation:owDot 1s ease-in-out infinite;}
+  .ow-demo-dots i:nth-child(2){animation-delay:.15s;} .ow-demo-dots i:nth-child(3){animation-delay:.3s;}
+  @keyframes owDot{0%,100%{transform:translateY(0);opacity:.35;}50%{transform:translateY(-4px);opacity:1;}}
+  .ow-demo-out.typing .ow-demo-dots{display:flex;} .ow-demo-out.typing .ow-demo-txt{display:none;}
+  .ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag{animation:owWord .45s ease both;}
+  body.ow-in .ob{animation:owRise .6s ease .55s both;}
+  .ob-bar span{position:relative;overflow:hidden;background:var(--line);}
+  .ob-bar span.on{background:var(--line);}
+  .ob-bar span::after{content:"";position:absolute;inset:0;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#86efac,#22c55e);transition:transform .6s cubic-bezier(.3,.8,.3,1);}
+  .ob-bar span.on::after{transform:scaleX(1);}
+  .ob-step.on{animation:obSlide .45s cubic-bezier(.2,.9,.3,1);}
+  @keyframes obSlide{from{opacity:0;transform:translateX(36px);}to{opacity:1;transform:none;}}
+  .ob-field{position:relative;}
+  .ob-field::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;transform:scaleX(0);background:linear-gradient(90deg,#86efac,#22c55e);transition:transform .35s ease;}
+  .ob-field:focus-within::after{transform:scaleX(1);}
+  .ob-go{position:relative;overflow:hidden;transition:transform .12s ease;}
+  .ob-go:active{transform:scale(.97);}
+  .ob-go::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));animation:owSweep 3.2s ease-in-out 1.2s infinite;}
+  @keyframes owSweep{0%{left:-60%;}35%,100%{left:130%;}}
+  .ow-splash{text-align:center;padding:12vh 16px 24px;}
+  .ow-splash .ow-logo{width:96px;height:96px;margin-bottom:22px;}
+  .ow-splash .ow-logo::after{inset:-12px;}
+  body.ob-on .ow-splash .ow-logo{width:96px;height:96px;}
+  .ow-splash p{margin:14px 0 0;color:var(--muted);font-size:15px;}
+  .ow-mail{font-size:46px;line-height:1;margin:4px 0 6px;display:inline-block;animation:owFly 2.4s ease-in-out infinite;}
+  @keyframes owFly{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(4deg);}}
+  .ow-verify{text-align:center;animation:owRise .5s ease both;}
+  .ow-verify #netCode{font-size:26px;letter-spacing:.35em;text-align:center;}
+  @media (prefers-reduced-motion: reduce){
+    .ow-welcome::before,.ow-logo img,.ow-logo::after,.ow-welcome > *,.ow-welcome h1,.ow-hello span,.ow-demo,.ow-demo-dots i,.ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag,
+    .ob,.ob-step.on,.ob-go::after,.ow-mail,.ow-verify{animation:none!important;}
+    .ob-bar span::after,.ob-field::after{transition:none;}
+  }
   @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
   .ob-count{margin:0 0 6px;font-size:12px;letter-spacing:.2em;color:var(--muted);}
   .ob-t{margin:0 0 8px;font-size:28px;line-height:1.15;font-weight:800;color:var(--text);}
@@ -9052,7 +9116,7 @@ const Reseau = (() => {
   }
 
   function updateTopbar() {
-    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify";
+    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify" || (owNewcomer() && (screen === "loading" || screen === "error"));
     const full = document.body.classList.contains("net-full");
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
@@ -10140,12 +10204,23 @@ const Reseau = (() => {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_off"))}</p></div>`;
       return;
     }
+    if (screen === "loading" && owNewcomer()) {
+      document.body.classList.add("ob-on");
+      root.innerHTML = `<div class="ow-splash"><div class="ow-logo"><img src="everywhere/logo.svg" alt="" width="96" height="96" /></div>
+        <h1 class="notranslate" translate="no" style="margin:0;font-size:26px;font-weight:800;">24/24 ONE WORLD</h1>
+        <div class="ow-hello" id="owHello" aria-hidden="true"></div>
+        <p>${escapeHtml(t("net_loading"))}</p></div>`;
+      owHelloStart();
+      return;
+    }
     if (screen === "loading") {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_loading"))}</p></div>`;
       return;
     }
     if (screen === "error") {
-      root.innerHTML = `<div class="card"><div class="msg err">${escapeHtml(t("net_err_conn"))}</div>
+      const fresh = owNewcomer();
+      if (fresh) document.body.classList.add("ob-on");
+      root.innerHTML = `${fresh ? owWelcomeHtml() : ""}<div class="card"><div class="msg err">${escapeHtml(t("net_err_conn"))}</div>
         <div class="row"><button class="btn primary" id="netRetry">${escapeHtml(t("net_retry"))}</button></div></div>`;
       root.querySelector("#netRetry").addEventListener("click", () => ensureConnected());
       return;
@@ -10161,14 +10236,37 @@ const Reseau = (() => {
     if (screen === "call") return renderCall();
   }
 
+  // Nouveau venu (jamais inscrit sur cet appareil) : l'attente et les erreurs gardent la porte d'entrée ONE WORLD, pas la messagerie.
+  function owNewcomer() { return !profile && safeStore.getItem("lc_net_joined") !== "1" && !safeStore.getItem("lc_net_auth") && isActiveTab(); }
   // Porte d'entrée 24/24 ONE WORLD (inscription et confirmation de l'e-mail).
   function owWelcomeHtml() {
+    setTimeout(owHelloStart, 0);
+    if (!owEntered) {
+      // Entrée animée une seule fois : les étapes suivantes ne rejouent pas toute l'arrivée.
+      owEntered = true;
+      document.body.classList.add("ow-in");
+      setTimeout(() => document.body.classList.remove("ow-in"), 1400);
+    }
     return `<div class="ow-welcome">
-        <img src="everywhere/logo.svg" alt="" width="72" height="72" />
+        <div class="ow-logo"><img src="everywhere/logo.svg" alt="" width="72" height="72" /></div>
         <p class="ow-welcome-eyebrow">${escapeHtml(t("ow_eyebrow"))}</p>
         <h1 translate="no" class="notranslate">24/24 ONE WORLD</h1>
         <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
+        <div class="ow-hello" id="owHello" aria-hidden="true"></div>
       </div>`;
+  }
+  // « Bonjour » qui fait le tour du monde, un mot à la fois (purement décoratif, rien n'est envoyé sur Internet).
+  const OW_HELLO = ["Bonjour", "Hello", "¡Hola!", "Olá", "Ciao", "Hallo", "你好", "こんにちは", "안녕하세요", "مرحبا", "Привет", "नमस्ते", "สวัสดี", "Salama", "Jambo", "Merhaba", "Xin chào", "Γειά σου", "Shalom", "Selamat"];
+  var owHelloTimer;
+  var owEntered; // var sans valeur : owWelcomeHtml peut être appelé avant cette ligne
+  function owHelloStart() {
+    clearInterval(owHelloTimer);
+    const el = document.getElementById("owHello");
+    if (!el) return;
+    let i = 0;
+    const show = () => { el.innerHTML = `<span dir="auto">👋 ${escapeHtml(OW_HELLO[i % OW_HELLO.length])}</span>`; i++; };
+    show();
+    owHelloTimer = setInterval(() => { if (!document.body.contains(el)) { clearInterval(owHelloTimer); return; } show(); }, 1500);
   }
   // Démo de l'inscription : la même phrase dans 15 langues, traduite d'avance (aucun envoi sur Internet).
   const OW_DEMO = [
@@ -10186,7 +10284,7 @@ const Reseau = (() => {
     const src = OW_DEMO.find((x) => x[0] === UI_LANG) || OW_DEMO[1];
     return `<div class="ow-demo" id="owDemo">
         <div class="ow-demo-row"><span class="ow-demo-flag">${src[1]}</span><span class="ow-demo-txt" dir="auto">${escapeHtml(src[2])}</span></div>
-        <div class="ow-demo-row ow-demo-out" aria-live="off"><span class="ow-demo-flag" id="owDemoFlag"></span><span class="ow-demo-txt" id="owDemoTxt" dir="auto"></span>
+        <div class="ow-demo-row ow-demo-out" aria-live="off"><span class="ow-demo-flag" id="owDemoFlag"></span><span class="ow-demo-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ow-demo-txt" id="owDemoTxt" dir="auto"></span>
           <button type="button" class="ow-demo-play" id="owDemoPlay" aria-label="${escapeHtml(t("listen"))}">🔊</button></div>
         <p class="ow-demo-cap">${escapeHtml(t("ow_demo_cap"))}</p>
       </div>`;
@@ -10207,8 +10305,12 @@ const Reseau = (() => {
     owDemoTimer = setInterval(() => {
       if (!document.body.contains(box)) { clearInterval(owDemoTimer); return; }
       if (reduce) { i++; show(); return; }
-      out.classList.add("fade");
-      setTimeout(() => { i++; show(); out.classList.remove("fade"); }, 350);
+      out.classList.remove("pop");
+      out.classList.add("typing");
+      i++;
+      box.querySelector("#owDemoFlag").textContent = list[i % list.length][1];
+      box.dataset.lang = list[i % list.length][0];
+      setTimeout(() => { show(); out.classList.remove("typing"); void out.offsetWidth; out.classList.add("pop"); }, 650);
     }, 2400);
   }
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
@@ -10386,8 +10488,10 @@ const Reseau = (() => {
 
   function renderVerify() {
     const mail = pendingEmail || signupDraft().email || "";
+    document.body.classList.add("ob-on");
     root.innerHTML = `${owWelcomeHtml()}
-      <div class="card">
+      <div class="card ow-verify">
+        <div class="ow-mail" aria-hidden="true">✉️</div>
         <h2 class="net-h">${escapeHtml(t("net_verify_title"))}</h2>
         <p class="net-lead">${escapeHtml(t("net_verify_text", { e: mail }))}</p>
         <p class="net-note">${escapeHtml(t("net_verify_spam"))}</p>
