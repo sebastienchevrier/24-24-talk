@@ -1,0 +1,1 @@
+create table if not exists private.push_selftest (token text primary key, expires timestamptz not null);

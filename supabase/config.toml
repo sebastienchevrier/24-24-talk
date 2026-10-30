@@ -1,0 +1,7 @@
+# Réglages Supabase suivis dans le dépôt (projet wsgcumnaltdinchsdovs, région Paris).
+project_id = "wsgcumnaltdinchsdovs"
+
+# call-push vérifie elle-même la session de la personne (voir index.ts) :
+# la vérification automatique du jeton est désactivée, comme en production.
+[functions.call-push]
+verify_jwt = false
