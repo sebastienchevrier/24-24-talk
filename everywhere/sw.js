@@ -2,7 +2,7 @@
    Il ne garde en mémoire QUE la coquille publique du portail (pages, styles, icônes) pour qu'elle s'ouvre vite
    et hors ligne. Il ne touche jamais aux applications (TALK a son propre fonctionnement), ni au serveur Supabase,
    ni aux conversations : ces requêtes passent sans être enregistrées. */
-var CACHE = "ew-shell-v57";
+var CACHE = "ew-shell-v58";
 // Copie hors ligne : seulement l'essentiel (petits fichiers). Le reste (image de fond, langues des écrans, espaces,
 // cours…) est gardé au premier passage. Avant, tout (≈1,5 Mo) se retéléchargeait à chaque mise à jour, en même temps
 // que la page, et l'ouverture devenait très lente sur téléphone.
