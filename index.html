@@ -10109,11 +10109,14 @@ const Reseau = (() => {
 
   // Nouveau venu (jamais inscrit sur cet appareil) : l'attente et les erreurs gardent la porte d'entrée ONE WORLD, pas la messagerie.
   // État animé d'un bouton (couche OWMotion d'everywhere/toucher.js) : « loading », « success », « error » ; l'erreur s'efface seule.
+  // Un nouvel état annule l'effacement prévu de l'erreur précédente (sinon un nouvel essai rapide perdait son « chargement »).
+  const owEtatTimers = new WeakMap();
   function owEtat(el, etat) {
     const M = window.OWMotion;
     if (!M || !el) return;
+    clearTimeout(owEtatTimers.get(el));
     if (etat === "loading") M.loading(el, true, { disable: false });
-    else if (etat === "error") { M.error(el); setTimeout(() => M.reset(el), 1600); }
+    else if (etat === "error") { M.error(el); owEtatTimers.set(el, setTimeout(() => M.reset(el), 1600)); }
     else if (etat === "success") M.success(el);
     else M.reset(el);
   }
@@ -11664,7 +11667,28 @@ const Reseau = (() => {
     const next = c.camFacing === "environment" ? "user" : "environment";
     let cam = null;
     try {
-      cam = await camStream(next);
+      try {
+        cam = await camStream(next);
+      } catch (e) {
+        // Beaucoup de téléphones Android n'ouvrent pas les deux caméras à la fois : on libère l'ancienne, puis on réessaie.
+        // Si la nouvelle ne s'ouvre toujours pas, on rouvre l'ancienne pour que l'autre personne ne reste pas sans image.
+        if (!e || (e.name !== "NotReadableError" && e.name !== "AbortError") || !v.cam) throw e;
+        v.cam.getTracks().forEach((tr) => tr.stop());
+        if (!camAlive(c, v) || !c.camOn) return;
+        try {
+          cam = await camStream(next);
+        } catch (e2) {
+          try {
+            const back = await camStream(c.camFacing);
+            if (camAlive(c, v) && c.camOn) {
+              await v.vtx.sender.replaceTrack(back.getVideoTracks()[0]);
+              v.cam = back;
+              if (v.lvideo) v.lvideo.srcObject = back;
+            } else back.getTracks().forEach((tr) => tr.stop());
+          } catch (e3) { /* l'ancienne caméra ne revient pas non plus : le message d'erreur suffit */ }
+          throw e2;
+        }
+      }
       if (!camAlive(c, v) || !c.camOn) { cam.getTracks().forEach((tr) => tr.stop()); return; }
       await v.vtx.sender.replaceTrack(cam.getVideoTracks()[0]);
       // Raccroché ou caméra coupée pendant le changement : la nouvelle caméra est arrêtée, rien n'est gardé.

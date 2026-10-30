@@ -69,6 +69,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         if (window.__gumMode === "deny") throw new DOMException("refus", "NotAllowedError");
         if (window.__gumMode === "busy") throw new DOMException("prise", "NotReadableError");
         if (window.__gumMode === "slow") await new Promise((r) => setTimeout(r, 1500));
+        // « single » : téléphone qui n'ouvre qu'une caméra à la fois (fréquent sur Android).
+        if (window.__gumMode === "single" && window.__gumTracks.some((tr) => tr.readyState === "live")) throw new DOMException("une seule caméra", "NotReadableError");
       }
       const st = await real(c);
       if (c && c.video) st.getTracks().forEach((tr) => {
@@ -135,6 +137,19 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await sleep(1200);
     const t1 = await kenji.evaluate(() => { const v = document.querySelector("#netVideo .net-rvideo"); return v ? v.currentTime : -1; });
     return { ok: r[0] && r[1] && t1 > t0, detail: JSON.stringify(r) + " aperçu mis à jour, vidéo chez Kenji " + t0.toFixed(1) + " s → " + t1.toFixed(1) + " s" };
+  });
+  await step("Téléphone qui n'ouvre qu'une caméra à la fois : retourner marche quand même", async () => {
+    await seb.evaluate(() => { window.__gumMode = "single"; window.__gumCalls = 0; });
+    await seb.tap("#netCamFlip");
+    await seb.waitForFunction(() => window.__gumCalls === 2 && window.__gumTracks.length === 3 && window.__gumTracks[2].readyState === "live", null, { timeout: 10000 });
+    await sleep(300);
+    const r = await seb.evaluate(() => { const v = document.querySelector("#netVideo .net-lvideo"); const msg = (document.querySelector("#netCallMsg") || {}).textContent || "";
+      return [v && !v.classList.contains("back"), v && v.srcObject && v.srcObject.getVideoTracks()[0] === window.__gumTracks[2], window.__gumTracks[1].readyState, msg.trim()]; });
+    const t0 = await kenji.evaluate(() => document.querySelector("#netVideo .net-rvideo").currentTime);
+    await sleep(1200);
+    const t1 = await kenji.evaluate(() => { const v = document.querySelector("#netVideo .net-rvideo"); return v ? v.currentTime : -1; });
+    await seb.evaluate(() => { window.__gumMode = null; });
+    return { ok: r[0] && r[1] && r[2] === "ended" && !r[3] && t1 > t0, detail: JSON.stringify(r) + ", vidéo chez Kenji " + t0.toFixed(1) + " s → " + t1.toFixed(1) + " s" };
   });
   await step("Caméra éteinte : toutes les pistes caméra arrêtées", async () => {
     await seb.tap("#netCam");

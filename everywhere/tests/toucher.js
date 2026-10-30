@@ -3,6 +3,8 @@
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const JS = fs.readFileSync(path.join(__dirname, "..", "toucher.js"), "utf8");
+// owEtat() de index.html (inscription), repris tel quel du fichier pour l'essai de nouvel essai rapide après une erreur.
+const OWETAT = (fs.readFileSync(path.join(__dirname, "..", "..", "index.html"), "utf8").match(/(?:  const owEtatTimers[^\n]*\n)?  function owEtat\(el, etat\) \{[\s\S]*?\n  \}\n/) || [""])[0];
 const STYLE = fs.readFileSync(path.join(__dirname, "..", "style.css"), "utf8");
 const PAGE = `<!doctype html><html><head><meta name="viewport" content="width=device-width"><style>${STYLE}</style></head><body>
 <button id="go" class="ob-go">Créer mon compte</button> <button id="a" class="btn primary">Envoyer</button> <button id="b" class="btn">Autre</button>
@@ -142,6 +144,16 @@ const press = (p, sel) => p.evaluate((s) => document.querySelector(s).classList.
     const r = [await page.evaluate(() => OWMotion.reducedMotion), await press(page, "#a"), await page.locator(".ow-onde").count()];
     await page.evaluate(PTR("#a", "pointerup", 1));
     return { ok: r[0] === true && !r[1] && r[2] === 0, detail: JSON.stringify(r) };
+  });
+  await t("Inscription : nouvel essai juste après une erreur, le chargement n'est pas effacé", async () => {
+    if (!OWETAT) return { ok: false, detail: "owEtat introuvable dans index.html" };
+    await page.evaluate((src) => { (0, eval)(src + "; window.__owEtat = owEtat;"); }, OWETAT);
+    await page.evaluate(() => window.__owEtat(document.querySelector("#go"), "error"));
+    await sleep(1000);
+    await page.evaluate(() => window.__owEtat(document.querySelector("#go"), "loading"));
+    await sleep(900);
+    const r = await page.evaluate(() => document.querySelector("#go").getAttribute("data-ow-state"));
+    return { ok: r === "loading", detail: "état 1,9 s après l'erreur (0,9 s après le nouvel essai) : " + r };
   });
   await ctx.close();
   await browser.close();
