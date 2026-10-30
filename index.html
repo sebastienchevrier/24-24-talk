@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
-<script src="everywhere/toucher.js?v=1" defer></script>
+<script src="everywhere/toucher.js?v=2" defer></script>
 <script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, l'appli ouvre l'inscription (Messagerie) et cache le reste ; les pages légales restent lisibles. */(function(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return;}var h=location.hash||"";if(a||/(^#|&)(access_token|error_code|error_description|type)=/.test(h))return;document.documentElement.classList.add("ow-gate");var st=document.createElement("style");st.textContent="html.ow-gate .bbar,html.ow-gate #ewsNav,html.ow-gate #ewsTop{display:none!important}";document.head.appendChild(st);if(!/[?&]b=msg(&|$)/.test(location.search))history.replaceState(null,"",location.pathname+(location.search?location.search+"&":"?")+"b=msg"+h);})();</script>
 <script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
@@ -432,45 +432,48 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   /* Porte d'entrée animée (30 oct. 2026) : accueil vivant, sans rappel de la messagerie avant l'inscription. */
   .ow-welcome{position:relative;}
   .ow-welcome::before{content:"";position:absolute;left:50%;top:-30px;width:320px;height:220px;transform:translateX(-50%);z-index:-1;pointer-events:none;
-    background:radial-gradient(closest-side,rgba(74,222,128,.22),rgba(74,222,128,0) 70%);animation:owAura 6s ease-in-out infinite;}
-  @keyframes owAura{0%,100%{opacity:.55;transform:translateX(-50%) scale(1);}50%{opacity:1;transform:translateX(-50%) scale(1.12);}}
+    background:radial-gradient(closest-side,rgba(255,140,40,.18),rgba(255,140,40,0) 70%);opacity:.75;}
+  body.ow-in .ow-welcome::before{animation:owAura 1.4s ease-out both;}
+  @keyframes owAura{from{opacity:0;transform:translateX(-50%) scale(.85);}to{opacity:.75;transform:translateX(-50%) scale(1);}}
   .ow-logo{position:relative;width:72px;height:72px;margin:0 auto 6px;}
   .ow-logo img{margin:0!important;width:100%;height:100%;}
   body.ow-in .ow-logo img{animation:owPop .7s cubic-bezier(.2,1.4,.4,1) both;}
-  .ow-logo::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(74,222,128,.12);
-    border-top-color:rgba(134,239,172,.95);animation:owSpin 2.4s linear infinite;}
+  .ow-logo::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(255,140,40,.14);
+    border-top-color:rgba(255,196,107,.95);}
+  body.ow-in .ow-logo::after{animation:owSpin 1.2s cubic-bezier(.3,.7,.3,1) 1;}
+  .ow-splash .ow-logo::after{animation:owSpin 1.2s linear infinite;}
   body.ob-on .ow-logo{width:56px;height:56px;margin-bottom:4px;}
   @keyframes owSpin{to{transform:rotate(360deg);}}
   @keyframes owPop{from{opacity:0;transform:scale(.6) rotate(-12deg);}to{opacity:1;transform:none;}}
-  body.ow-in .ow-welcome > :not(.ow-logo){animation:owRise .6s ease both;}
-  .ow-welcome > :nth-child(2){animation-delay:.12s;} .ow-welcome > :nth-child(3){animation-delay:.22s;}
-  .ow-welcome > :nth-child(4){animation-delay:.32s;} .ow-welcome > :nth-child(5){animation-delay:.42s;}
+  body.ow-in .ow-welcome > :not(.ow-logo){animation:owRise .4s ease both;}
+  .ow-welcome > :nth-child(2){animation-delay:.06s;} .ow-welcome > :nth-child(3){animation-delay:.1s;}
+  .ow-welcome > :nth-child(4){animation-delay:.14s;} .ow-welcome > :nth-child(5){animation-delay:.18s;}
   @keyframes owRise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
-  .ow-welcome h1{background:linear-gradient(90deg,#fff 0%,#fff 40%,#86efac 50%,#fff 60%,#fff 100%);background-size:250% 100%;
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:owShine 5s ease-in-out 1s infinite;}
-  body.ow-in .ow-welcome h1{animation:owRise .6s ease .22s both,owShine 5s ease-in-out 1s infinite;}
+  .ow-welcome h1{background:linear-gradient(90deg,#fff 0%,#fff 40%,#ffc46b 50%,#fff 60%,#fff 100%);background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  body.ow-in .ow-welcome h1{animation:owRise .4s ease .1s both,owShine 1.6s ease-in-out .5s 1;}
   :root[data-theme="light"] .ow-welcome h1{background:none;-webkit-text-fill-color:currentColor;}
   @keyframes owShine{0%,60%{background-position:100% 0;}100%{background-position:-50% 0;}}
-  .ow-hello{height:26px;margin:8px 0 0;overflow:hidden;font-size:17px;font-weight:700;color:#86efac;}
+  .ow-hello{height:26px;margin:8px 0 0;overflow:hidden;font-size:17px;font-weight:700;color:#ffc46b;}
   .ow-hello span{display:inline-block;animation:owWord .5s ease both;}
   @keyframes owWord{from{opacity:0;transform:translateY(100%);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
   .ow-demo{position:relative;overflow:hidden;}
-  body.ow-in .ow-demo{animation:owRise .6s ease .45s both;}
+  body.ow-in .ow-demo{animation:owRise .4s ease .2s both;}
   .ow-demo-dots{display:none;gap:4px;align-items:center;height:21px;}
   .ow-demo-dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.5;animation:owDot 1s ease-in-out infinite;}
   .ow-demo-dots i:nth-child(2){animation-delay:.15s;} .ow-demo-dots i:nth-child(3){animation-delay:.3s;}
   @keyframes owDot{0%,100%{transform:translateY(0);opacity:.35;}50%{transform:translateY(-4px);opacity:1;}}
   .ow-demo-out.typing .ow-demo-dots{display:flex;} .ow-demo-out.typing .ow-demo-txt{display:none;}
   .ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag{animation:owWord .45s ease both;}
-  body.ow-in .ob{animation:owRise .6s ease .55s both;}
+  body.ow-in .ob{animation:owRise .4s ease .25s both;}
   .ob-bar span{position:relative;overflow:hidden;background:var(--line);}
   .ob-bar span.on{background:var(--line);}
-  .ob-bar span::after{content:"";position:absolute;inset:0;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#86efac,#22c55e);transition:transform .6s cubic-bezier(.3,.8,.3,1);}
+  .ob-bar span::after{content:"";position:absolute;inset:0;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#ffc46b,#ff7a1a);transition:transform .6s cubic-bezier(.3,.8,.3,1);}
   .ob-bar span.on::after{transform:scaleX(1);}
   .ob-step.on{animation:obSlide .45s cubic-bezier(.2,.9,.3,1);}
   @keyframes obSlide{from{opacity:0;transform:translateX(36px);}to{opacity:1;transform:none;}}
   .ob-field{position:relative;}
-  .ob-field::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;transform:scaleX(0);background:linear-gradient(90deg,#86efac,#22c55e);transition:transform .35s ease;}
+  .ob-field::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;transform:scaleX(0);background:linear-gradient(90deg,#ffc46b,#ff7a1a);transition:transform .35s ease;}
   .ob-field:focus-within::after{transform:scaleX(1);}
   .ob-go{position:relative;overflow:hidden;transition:transform .12s ease;}
   .ob-go:active{transform:scale(.97);}
@@ -479,7 +482,7 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ow-splash .ow-logo::after{inset:-12px;}
   body.ob-on .ow-splash .ow-logo{width:96px;height:96px;}
   .ow-splash p{margin:14px 0 0;color:var(--muted);font-size:15px;}
-  .ow-mail{font-size:46px;line-height:1;margin:4px 0 6px;display:inline-block;animation:owFly 2.4s ease-in-out infinite;}
+  .ow-mail{font-size:46px;line-height:1;margin:4px 0 6px;display:inline-block;animation:owFly 2.4s ease-in-out 3;}
   @keyframes owFly{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(4deg);}}
   .ow-verify{text-align:center;animation:owRise .5s ease both;}
   .ow-verify #netCode{font-size:26px;letter-spacing:.35em;text-align:center;}
@@ -488,6 +491,9 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
     .ob,.ob-step.on,.ow-mail,.ow-verify{animation:none!important;}
     .ob-bar span::after,.ob-field::after{transition:none;}
   }
+  html.ow-reduce-motion :is(.ow-logo img,.ow-welcome > *,.ow-welcome h1,.ow-hello span,.ow-demo,.ow-demo-dots i,.ow-demo-txt,.ow-demo-flag,.ob,.ob-step,.ow-mail,.ow-verify){animation:none!important;}
+  html.ow-reduce-motion .ow-welcome::before,html.ow-reduce-motion .ow-logo::after{animation:none!important;}
+  html.ow-reduce-motion :is(.ob-bar span,.ob-field)::after{transition:none;}
   @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
   .ob-count{margin:0 0 6px;font-size:12px;letter-spacing:.2em;color:var(--muted);}
   .ob-t{margin:0 0 8px;font-size:28px;line-height:1.15;font-weight:800;color:var(--text);}
@@ -10272,7 +10278,8 @@ const Reseau = (() => {
     let i = 0;
     const show = () => { el.innerHTML = `<span dir="auto">👋 ${escapeHtml(OW_HELLO[i % OW_HELLO.length])}</span>`; i++; };
     show();
-    owHelloTimer = setInterval(() => { if (!document.body.contains(el)) { clearInterval(owHelloTimer); return; } show(); }, 1500);
+    // Trois langues au maximum, puis le dernier mot reste : une seule animation principale à la fois.
+    owHelloTimer = setInterval(() => { if (!document.body.contains(el) || i >= 3) { clearInterval(owHelloTimer); return; } show(); }, 1500);
   }
   // Démo de l'inscription : la même phrase dans 15 langues, traduite d'avance (aucun envoi sur Internet).
   const OW_DEMO = [
