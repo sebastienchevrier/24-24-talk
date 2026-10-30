@@ -59,6 +59,37 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const seb = await phone("seb");
   await seb.goto(ORIGIN + BASE + "index.html?ew=1&ew_appel=" + C1);
 
+  // Lot 2 : la caméra de Sébastien passe par un relais d'essai (compte les demandes, simule refus, caméra prise, lenteur).
+  const relais = () => seb.evaluate(() => {
+    const md = navigator.mediaDevices, real = md.getUserMedia.bind(md);
+    window.__gumMode = null; window.__gumCalls = 0; window.__gumTracks = [];
+    md.getUserMedia = async (c) => {
+      if (c && c.video) {
+        window.__gumCalls++;
+        if (window.__gumMode === "deny") throw new DOMException("refus", "NotAllowedError");
+        if (window.__gumMode === "busy") throw new DOMException("prise", "NotReadableError");
+        if (window.__gumMode === "slow") await new Promise((r) => setTimeout(r, 1500));
+        // « single » : téléphone qui n'ouvre qu'une caméra à la fois (fréquent sur Android).
+        if (window.__gumMode === "single" && window.__gumTracks.some((tr) => tr.readyState === "live")) throw new DOMException("une seule caméra", "NotReadableError");
+      }
+      const st = await real(c);
+      if (c && c.video) st.getTracks().forEach((tr) => {
+        window.__gumTracks.push(tr);
+        // Arrêt volontaire par l'appli noté (le changement de page coupe aussi les pistes, mais sans appeler stop()).
+        const stop = tr.stop.bind(tr);
+        const mode = window.__gumMode; // mode au moment où la caméra a été obtenue
+        tr.stop = () => { if (mode === "slow" || mode === "rtslow") sessionStorage.setItem("__gumLateStopped", "1"); stop(); };
+      });
+      return st;
+    };
+    // Changement de caméra lent (« rtslow ») : la réponse arrive après la fin de l'appel, sans erreur.
+    const rt = RTCRtpSender.prototype.replaceTrack;
+    RTCRtpSender.prototype.replaceTrack = async function (tr) {
+      if (window.__gumMode === "rtslow" && tr) { await new Promise((r) => setTimeout(r, 1500)); try { await rt.call(this, tr); } catch (e) { /* liaison fermée : réponse quand même */ } return; }
+      return rt.call(this, tr);
+    };
+  });
+  await relais();
   await step("Appel : la sonnerie arrive chez @kenji, il décroche", async () => {
     await kenji.waitForSelector("#netAccept", { timeout: 15000 });
     await kenji.tap("#netAccept");
@@ -91,6 +122,53 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await kenji.waitForFunction(() => !document.querySelector("#netVideo .net-rvideo"), null, { timeout: 10000 });
     return { ok: true };
   });
+  await step("Double appui sur Caméra : une seule demande de caméra", async () => {
+    await seb.evaluate(() => { window.__gumCalls = 0; window.__gumTracks = []; const b = document.querySelector("#netCam"); b.click(); b.click(); });
+    await seb.waitForFunction(() => { const v = document.querySelector("#netVideo .net-lvideo"); return v && v.videoWidth > 0; }, null, { timeout: 15000 });
+    await sleep(500);
+    const r = await seb.evaluate(() => [window.__gumCalls, document.querySelectorAll("#netVideo .net-lvideo").length, !!document.querySelector("#netCamFlip")]);
+    return { ok: r[0] === 1 && r[1] === 1 && r[2], detail: r[0] + " demande, " + r[1] + " aperçu, bouton Retourner " + (r[2] ? "présent" : "absent") };
+  });
+  await step("Retourner la caméra : même liaison, ancienne image arrêtée, Kenji voit toujours", async () => {
+    await seb.tap("#netCamFlip");
+    await seb.waitForFunction(() => window.__gumTracks.length === 2 && window.__gumTracks[0].readyState === "ended", null, { timeout: 10000 });
+    const r = await seb.evaluate(() => { const v = document.querySelector("#netVideo .net-lvideo"); return [v && v.classList.contains("back"), v && v.srcObject && v.srcObject.getVideoTracks()[0] === window.__gumTracks[1]]; });
+    const t0 = await kenji.evaluate(() => document.querySelector("#netVideo .net-rvideo").currentTime);
+    await sleep(1200);
+    const t1 = await kenji.evaluate(() => { const v = document.querySelector("#netVideo .net-rvideo"); return v ? v.currentTime : -1; });
+    return { ok: r[0] && r[1] && t1 > t0, detail: JSON.stringify(r) + " aperçu mis à jour, vidéo chez Kenji " + t0.toFixed(1) + " s → " + t1.toFixed(1) + " s" };
+  });
+  await step("Téléphone qui n'ouvre qu'une caméra à la fois : retourner marche quand même", async () => {
+    await seb.evaluate(() => { window.__gumMode = "single"; window.__gumCalls = 0; });
+    await seb.tap("#netCamFlip");
+    await seb.waitForFunction(() => window.__gumCalls === 2 && window.__gumTracks.length === 3 && window.__gumTracks[2].readyState === "live", null, { timeout: 10000 });
+    await sleep(300);
+    const r = await seb.evaluate(() => { const v = document.querySelector("#netVideo .net-lvideo"); const msg = (document.querySelector("#netCallMsg") || {}).textContent || "";
+      return [v && !v.classList.contains("back"), v && v.srcObject && v.srcObject.getVideoTracks()[0] === window.__gumTracks[2], window.__gumTracks[1].readyState, msg.trim()]; });
+    const t0 = await kenji.evaluate(() => document.querySelector("#netVideo .net-rvideo").currentTime);
+    await sleep(1200);
+    const t1 = await kenji.evaluate(() => { const v = document.querySelector("#netVideo .net-rvideo"); return v ? v.currentTime : -1; });
+    await seb.evaluate(() => { window.__gumMode = null; });
+    return { ok: r[0] && r[1] && r[2] === "ended" && !r[3] && t1 > t0, detail: JSON.stringify(r) + ", vidéo chez Kenji " + t0.toFixed(1) + " s → " + t1.toFixed(1) + " s" };
+  });
+  await step("Caméra éteinte : toutes les pistes caméra arrêtées", async () => {
+    await seb.tap("#netCam");
+    await seb.waitForFunction(() => !document.querySelector("#netVideo .net-lvideo"), null, { timeout: 10000 });
+    const r = await seb.evaluate(() => [window.__gumTracks.every((tr) => tr.readyState === "ended"), !!document.querySelector("#netCamFlip")]);
+    return { ok: r[0] && !r[1], detail: "pistes arrêtées : " + r[0] };
+  });
+  await step("Caméra refusée : message clair, l'appel continue", async () => {
+    await seb.evaluate(() => { window.__gumMode = "deny"; document.querySelector("#netCam").click(); });
+    await seb.waitForFunction(() => /refusée/.test((document.querySelector("#netCallMsg") || {}).textContent || ""), null, { timeout: 10000 });
+    const r = await seb.evaluate(() => [document.querySelector("#netCam").getAttribute("aria-pressed"), !!document.querySelector("#netHangup"), document.querySelectorAll("#netVideo .net-lvideo").length]);
+    return { ok: r[0] === "false" && r[1] && r[2] === 0, detail: JSON.stringify(r) };
+  });
+  await step("Caméra prise par une autre appli : message clair", async () => {
+    await seb.evaluate(() => { window.__gumMode = "busy"; document.querySelector("#netCam").click(); });
+    await seb.waitForFunction(() => /autre application/.test((document.querySelector("#netCallMsg") || {}).textContent || ""), null, { timeout: 10000 });
+    await seb.evaluate(() => { window.__gumMode = null; });
+    return { ok: true };
+  });
   await step("Voix réelle + caméra : bascule, la vidéo repart", async () => {
     await seb.tap("#netVoiceMode");
     await seb.waitForSelector("#netCam", { timeout: 10000 });
@@ -100,12 +178,39 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await kenji.screenshot({ path: path.join(OUT, "visio-voix-kenji.png") });
     return { ok: true, detail: "vidéo reçue en voix réelle" };
   });
+  await step("Caméra demandée juste avant de raccrocher (caméra lente)", async () => {
+    await seb.tap("#netCam");
+    await seb.waitForFunction(() => !document.querySelector("#netVideo .net-lvideo"), null, { timeout: 10000 });
+    await seb.evaluate(() => { window.__gumMode = "slow"; window.__gumTracks = []; sessionStorage.removeItem("__gumLateStopped"); document.querySelector("#netCam").click(); });
+    return { ok: true, detail: "caméra en cours d'activation pendant qu'on raccroche" };
+  });
   await step("Raccrocher : caméras coupées, aucune erreur JavaScript", async () => {
     await seb.tap("#netHangup");
     await sleep(1500);
     const live = await seb.evaluate(() => document.querySelectorAll("video").length);
     const errs = seb._errors.concat(kenji._errors);
     return { ok: live === 0 && errs.length === 0, detail: live + " vidéo restante, erreurs : " + (errs.join(" | ") || "aucune") };
+  });
+  await step("Après raccrocher : la caméra arrivée en retard est arrêtée aussitôt", async () => {
+    await sleep(2000);
+    const r = await seb.evaluate(() => [sessionStorage.getItem("__gumLateStopped"), document.querySelectorAll("video,audio").length]);
+    return { ok: r[0] === "1" && r[1] === 0, detail: "piste arrivée après la fin arrêtée par l'appli : " + (r[0] === "1") + ", éléments audio/vidéo restants : " + r[1] };
+  });
+  await step("2e appel : retourner la caméra puis raccrocher pendant le changement", async () => {
+    await sleep(2500);
+    await seb.goto(ORIGIN + BASE + "index.html?ew=1&ew_appel=" + C1);
+    await relais();
+    await kenji.waitForSelector("#netAccept", { timeout: 20000 });
+    await kenji.tap("#netAccept");
+    await seb.waitForSelector("#netCam", { timeout: 15000 });
+    await seb.tap("#netCam");
+    await seb.waitForSelector("#netCamFlip", { timeout: 15000 });
+    await seb.evaluate(() => { window.__gumMode = "rtslow"; window.__gumTracks = []; sessionStorage.removeItem("__gumLateStopped"); document.querySelector("#netCamFlip").click(); });
+    await seb.waitForFunction(() => window.__gumTracks.length >= 1, null, { timeout: 10000 });
+    await seb.tap("#netHangup");
+    await sleep(1700);
+    const r = await seb.evaluate(() => [sessionStorage.getItem("__gumLateStopped"), document.querySelectorAll("video").length]);
+    return { ok: r[0] === "1" && r[1] === 0, detail: "nouvelle caméra arrêtée par l'appli : " + (r[0] === "1") + ", vidéos restantes : " + r[1] };
   });
   console.log("\n" + results.filter(Boolean).length + " / " + results.length + " tests réussis");
   await browser.close(); server.close();

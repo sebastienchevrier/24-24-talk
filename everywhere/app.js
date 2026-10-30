@@ -385,7 +385,7 @@
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
       }
     } else if (["community", "live", "business", "entraide", "sos", "avantages"].indexOf(view) !== -1) target = "espaces";
-    else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
+    else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab", "terre"].indexOf(view) === -1) target = "404";
     else if (view === "profil" && appId && appId !== "linguistique") target = "404";
     document.querySelectorAll(".view").forEach(function (v) {
       var on = v.getAttribute("data-route") === target;
@@ -421,6 +421,9 @@
     // COMMUNITY, LIVE, BUSINESS, Avantages (26 oct. 2026) ; en quittant l'écran : micro, caméra et temps réel coupés.
     if (target === "espaces" && window.EWEspaces) title = window.EWEspaces.show($("ewEspaces"), parts, ui) || "";
     else if (window.EWEspaces) window.EWEspaces.leave();
+    // Terre connectée (lot 3) : le globe ne tourne que sur son écran.
+    if (target === "terre" && window.EWTerre) title = window.EWTerre.show($("ewTerre"), parts, ui) || "";
+    else if (window.EWTerre) window.EWTerre.leave();
     if (target === "profil" && appId === "linguistique") title = t("lp_title");
     $("topTitle").textContent = title;
     document.title = (title ? title + " · " : "") + "24/24 ONE WORLD";

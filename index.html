@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
+<script src="everywhere/toucher.js?v=2" defer></script>
 <script>/* Compte pour tout (19 oct. 2026) : sans compte sur cet appareil, l'appli ouvre l'inscription (Messagerie) et cache le reste ; les pages légales restent lisibles. */(function(){var a=null;try{a=localStorage.getItem("lc_net_auth");}catch(e){return;}var h=location.hash||"";if(a||/(^#|&)(access_token|error_code|error_description|type)=/.test(h))return;document.documentElement.classList.add("ow-gate");var st=document.createElement("style");st.textContent="html.ow-gate .bbar,html.ow-gate #ewsNav,html.ow-gate #ewsTop{display:none!important}";document.head.appendChild(st);if(!/[?&]b=msg(&|$)/.test(location.search))history.replaceState(null,"",location.pathname+(location.search?location.search+"&":"?")+"b=msg"+h);})();</script>
 <script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
@@ -427,6 +428,72 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ob-step{display:none;}
   .ob-step.on{display:block;animation:obIn .35s ease;}
   @keyframes obIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  /* Porte d'entrée animée (30 oct. 2026) : accueil vivant, sans rappel de la messagerie avant l'inscription. */
+  .ow-welcome{position:relative;}
+  .ow-welcome::before{content:"";position:absolute;left:50%;top:-30px;width:320px;height:220px;transform:translateX(-50%);z-index:-1;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(255,140,40,.18),rgba(255,140,40,0) 70%);opacity:.75;}
+  body.ow-in .ow-welcome::before{animation:owAura 1.4s ease-out both;}
+  @keyframes owAura{from{opacity:0;transform:translateX(-50%) scale(.85);}to{opacity:.75;transform:translateX(-50%) scale(1);}}
+  .ow-logo{position:relative;width:72px;height:72px;margin:0 auto 6px;}
+  .ow-logo img{margin:0!important;width:100%;height:100%;}
+  body.ow-in .ow-logo img{animation:owPop .7s cubic-bezier(.2,1.4,.4,1) both;}
+  .ow-logo::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(255,140,40,.14);
+    border-top-color:rgba(255,196,107,.95);}
+  body.ow-in .ow-logo::after{animation:owSpin 1.2s cubic-bezier(.3,.7,.3,1) 1;}
+  .ow-splash .ow-logo::after{animation:owSpin 1.2s linear infinite;}
+  body.ob-on .ow-logo{width:56px;height:56px;margin-bottom:4px;}
+  @keyframes owSpin{to{transform:rotate(360deg);}}
+  @keyframes owPop{from{opacity:0;transform:scale(.6) rotate(-12deg);}to{opacity:1;transform:none;}}
+  body.ow-in .ow-welcome > :not(.ow-logo){animation:owRise .4s ease both;}
+  .ow-welcome > :nth-child(2){animation-delay:.06s;} .ow-welcome > :nth-child(3){animation-delay:.1s;}
+  .ow-welcome > :nth-child(4){animation-delay:.14s;} .ow-welcome > :nth-child(5){animation-delay:.18s;}
+  @keyframes owRise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .ow-welcome h1{background:linear-gradient(90deg,#fff 0%,#fff 40%,#ffc46b 50%,#fff 60%,#fff 100%);background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  body.ow-in .ow-welcome h1{animation:owRise .4s ease .1s both,owShine 1.6s ease-in-out .5s 1;}
+  :root[data-theme="light"] .ow-welcome h1{background:none;-webkit-text-fill-color:currentColor;}
+  @keyframes owShine{0%,60%{background-position:100% 0;}100%{background-position:-50% 0;}}
+  .ow-hello{height:26px;margin:8px 0 0;overflow:hidden;font-size:17px;font-weight:700;color:#ffc46b;}
+  .ow-hello span{display:inline-block;animation:owWord .5s ease both;}
+  @keyframes owWord{from{opacity:0;transform:translateY(100%);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
+  .ow-demo{position:relative;overflow:hidden;}
+  body.ow-in .ow-demo{animation:owRise .4s ease .2s both;}
+  .ow-demo-dots{display:none;gap:4px;align-items:center;height:21px;}
+  .ow-demo-dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.5;animation:owDot 1s ease-in-out infinite;}
+  .ow-demo-dots i:nth-child(2){animation-delay:.15s;} .ow-demo-dots i:nth-child(3){animation-delay:.3s;}
+  @keyframes owDot{0%,100%{transform:translateY(0);opacity:.35;}50%{transform:translateY(-4px);opacity:1;}}
+  .ow-demo-out.typing .ow-demo-dots{display:flex;} .ow-demo-out.typing .ow-demo-txt{display:none;}
+  .ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag{animation:owWord .45s ease both;}
+  body.ow-in .ob{animation:owRise .4s ease .25s both;}
+  .ob-bar span{position:relative;overflow:hidden;background:var(--line);}
+  .ob-bar span.on{background:var(--line);}
+  .ob-bar span::after{content:"";position:absolute;inset:0;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#ffc46b,#ff7a1a);transition:transform .6s cubic-bezier(.3,.8,.3,1);}
+  .ob-bar span.on::after{transform:scaleX(1);}
+  .ob-step.on{animation:obSlide .45s cubic-bezier(.2,.9,.3,1);}
+  @keyframes obSlide{from{opacity:0;transform:translateX(36px);}to{opacity:1;transform:none;}}
+  .ob-field{position:relative;}
+  .ob-field::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;transform:scaleX(0);background:linear-gradient(90deg,#ffc46b,#ff7a1a);transition:transform .35s ease;}
+  .ob-field:focus-within::after{transform:scaleX(1);}
+  .ob-go{position:relative;overflow:hidden;transition:transform .12s ease;}
+  .ob-go:active{transform:scale(.97);}
+  .ow-splash{text-align:center;padding:12vh 16px 24px;}
+  .ow-splash .ow-logo{width:96px;height:96px;margin-bottom:22px;}
+  .ow-splash .ow-logo::after{inset:-12px;}
+  body.ob-on .ow-splash .ow-logo{width:96px;height:96px;}
+  .ow-splash p{margin:14px 0 0;color:var(--muted);font-size:15px;}
+  .ow-mail{font-size:46px;line-height:1;margin:4px 0 6px;display:inline-block;animation:owFly 2.4s ease-in-out 3;}
+  @keyframes owFly{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(4deg);}}
+  .ow-verify{text-align:center;animation:owRise .5s ease both;}
+  .ow-verify #netCode{font-size:26px;letter-spacing:.35em;text-align:center;}
+  @media (prefers-reduced-motion: reduce){
+    .ow-welcome::before,.ow-logo img,.ow-logo::after,.ow-welcome > *,.ow-welcome h1,.ow-hello span,.ow-demo,.ow-demo-dots i,.ow-demo-out.pop .ow-demo-txt,.ow-demo-out.pop .ow-demo-flag,
+    .ob,.ob-step.on,.ow-mail,.ow-verify{animation:none!important;}
+    .ob-bar span::after,.ob-field::after{transition:none;}
+  }
+  html.ow-reduce-motion :is(.ow-logo img,.ow-welcome > *,.ow-welcome h1,.ow-hello span,.ow-demo,.ow-demo-dots i,.ow-demo-txt,.ow-demo-flag,.ob,.ob-step,.ow-mail,.ow-verify){animation:none!important;}
+  html.ow-reduce-motion .ow-welcome::before,html.ow-reduce-motion .ow-logo::after{animation:none!important;}
+  html.ow-reduce-motion :is(.ob-bar span,.ob-field)::after{transition:none;}
   @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
   .ob-count{margin:0 0 6px;font-size:12px;letter-spacing:.2em;color:var(--muted);}
   .ob-t{margin:0 0 8px;font-size:28px;line-height:1.15;font-weight:800;color:var(--text);}
@@ -740,6 +807,9 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .net-call.has-video .net-call-avatar,.net-call.has-video .net-call-lang{display:none;}
   .net-video .net-rvideo{width:100%;height:100%;object-fit:cover;display:block;}
   .net-video .net-lvideo{position:absolute;right:10px;top:10px;z-index:3;width:30%;max-width:130px;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:2px solid #fff;transform:scaleX(-1);}
+  .net-video .net-lvideo.back{transform:none;}
+  .net-call-ctrls:has(#netCamFlip){gap:12px;}
+  @media (max-width:380px){.net-call-ctrls{gap:14px;}.net-call-ctrls:has(#netCamFlip){gap:6px;}.net-ctrl-btn{width:54px;height:54px;}}
   .net-video:not(:has(.net-rvideo)) .net-lvideo{position:static;width:100%;max-width:none;height:100%;border:0;border-radius:0;}
   .net-voice-info{margin-top:10px;text-align:center;color:var(--ok);font-size:14px;font-weight:700;min-height:1px;}
   .net-call-info{text-align:center;color:var(--warn);font-size:13.5px;font-weight:700;min-height:1px;}
@@ -819,6 +889,41 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
     :root:not([data-theme="dark"]) .home-tile{background:var(--panel);} }
   :root[data-theme="light"] .bbar{background:rgba(244,246,251,.94);}
   :root[data-theme="light"] .home-tile{background:var(--panel);}
+  /* Messagerie premium 3.0, lot 1 (30 oct. 2026, proposition ChatGPT relue par Claude) : affichage seulement. */
+  .net-chat-full{background:var(--bg);}
+  .net-chat-full .net-chat-head{padding:7px 8px 12px;margin-bottom:0;border-bottom:1px solid var(--line);gap:6px;}
+  .net-chat-full .net-chat-who{gap:11px;}
+  .net-chat-full .net-chat-title b{font-size:16px;font-weight:750;letter-spacing:-.2px;}
+  .net-chat-full .net-chat-title span{font-size:12px;margin-top:3px;}
+  .net-chat-full .net-log{padding:16px 7px 12px;gap:9px;scroll-behavior:smooth;}
+  .net-chat-full .net-log .bubble{max-width:84%;padding:12px 15px 9px;border-radius:19px;font-size:15px;line-height:1.48;overflow-wrap:anywhere;box-shadow:0 2px 8px rgba(0,0,0,.055);transition:border-radius 130ms ease;}
+  .net-chat-full .net-log .bubble.me{border-bottom-right-radius:5px;border:0;}
+  .net-chat-full .net-log .bubble.them{border-bottom-left-radius:5px;}
+  .net-chat-full .net-log .bubble.net-msg-follow.me{border-top-right-radius:7px;}
+  .net-chat-full .net-log .bubble.net-msg-follow.them{border-top-left-radius:7px;}
+  .net-chat-full .net-log .bubble.net-msg-before.me{border-bottom-right-radius:7px;}
+  .net-chat-full .net-log .bubble.net-msg-before.them{border-bottom-left-radius:7px;}
+  .net-chat-full .net-log .bubble .orig{margin-top:5px;font-size:11.5px;line-height:1.4;opacity:.76;}
+  .net-chat-full .net-log .bubble .net-time{margin-top:7px;font-size:10.5px;opacity:.68;text-align:end;font-variant-numeric:tabular-nums;}
+  .net-chat-day{align-self:center;margin:12px auto;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);font-size:11.5px;font-weight:650;letter-spacing:.15px;}
+  .net-chat-full .net-compose{gap:8px;padding:7px;margin-top:5px;border:1px solid var(--line);border-radius:28px;background:var(--panel);box-shadow:0 -3px 16px rgba(0,0,0,.045);}
+  .net-chat-full .net-compose textarea{min-height:46px;padding:12px 15px;border:0;border-radius:22px;background:var(--panel2);font-size:15px;line-height:1.4;}
+  .net-chat-full .net-cbtn{width:46px;height:46px;min-width:46px;}
+  .net-chat-full .net-sendbtn{border-radius:50%;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+  .net-chat-full .net-sendbtn svg{width:22px;height:22px;}
+  .net-chat-full .net-typing{padding:3px 8px;font-size:12px;}
+  .net-chat-full .net-status{padding:4px 8px;font-size:11px;font-weight:650;}
+  .net-chat-full .net-status.seen{font-weight:750;}
+  .net-listcard .net-convs{gap:2px;}
+  .net-listcard .net-conv.net-row{min-height:76px;padding:11px 8px;border-bottom:1px solid var(--line);border-radius:12px;}
+  .net-listcard .net-row-l1 b{font-size:15.5px;}
+  .net-listcard .net-row-l2 .net-conv-prev{font-size:13px;}
+  .net-listcard .net-row.unread{background:var(--panel2);}
+  .net-listcard .net-row-count{min-width:21px;height:21px;font-weight:800;}
+  .net-chat-full button:focus-visible,.net-chat-full textarea:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+  @media (max-width:380px){.net-chat-full .net-log .bubble{max-width:90%;font-size:14px;}.net-chat-full .net-chat-head{gap:2px;}}
+  @media (prefers-reduced-motion:reduce){.net-chat-full *,.net-listcard *{scroll-behavior:auto!important;transition:none!important;animation:none!important;}}
+  html.ow-reduce-motion :is(.net-chat-full,.net-listcard) *{scroll-behavior:auto!important;transition:none!important;animation:none!important;}
   /* COPIE DE TEST : bandeau orange permanent. */
 </style>
 <link rel="stylesheet" href="ambiance-terre.css?v=8" />
@@ -5623,15 +5728,16 @@ let convTurnCounter = 0;
 function renderConv() {
   convEmpty.style.display = convTurns.length ? "none" : "block";
   convLog.innerHTML = "";
-  convTurns.forEach((t) => {
+  // « turn » et non « t » : t() est la fonction de traduction de l'interface (sinon t("tap_listen") plantait).
+  convTurns.forEach((turn) => {
     const div = document.createElement("div");
-    div.className = "bubble " + (t.speaker === "me" ? "me" : "them");
-    const check = t.verified ? " ✓" : "";
-    const pronLine = t.pron ? `<div class="orig" style="font-style:italic;">${escapeHtml(t.pron)}</div>` : "";
-    div.innerHTML = `${escapeHtml(t.translated)}${check}${pronLine}<div class="orig">${escapeHtml(t.original)}</div>`;
+    div.className = "bubble " + (turn.speaker === "me" ? "me" : "them");
+    const check = turn.verified ? " ✓" : "";
+    const pronLine = turn.pron ? `<div class="orig" style="font-style:italic;">${escapeHtml(turn.pron)}</div>` : "";
+    div.innerHTML = `${escapeHtml(turn.translated)}${check}${pronLine}<div class="orig">${escapeHtml(turn.original)}</div>`;
     div.style.cursor = "pointer";
     div.title = t("tap_listen");
-    div.addEventListener("click", () => speak(t.translated, t.targetLang));
+    div.addEventListener("click", () => speak(turn.translated, turn.targetLang));
     convLog.appendChild(div);
   });
   convLog.scrollTop = convLog.scrollHeight;
@@ -6152,6 +6258,9 @@ const NET_STRINGS = {
     net_speaker: "Haut-parleur",
     net_cam: "Caméra",
     net_cam_fail: "Caméra indisponible : autorisez-la dans Chrome (cadenas ▸ Autorisations).",
+    net_cam_flip: "Retourner",
+    net_cam_denied: "Caméra refusée : autorisez-la dans Chrome (cadenas ▸ Autorisations).",
+    net_cam_busy: "Caméra déjà utilisée par une autre application : fermez-la puis réessayez.",
     net_remote_muted: "🔇 {p} a coupé son micro",
     net_you_muted: "🔇 Votre micro est coupé",
     net_in_call: "Appel traduit avec {p} : parlez, il vous entend dans sa langue.",
@@ -6167,6 +6276,8 @@ const NET_STRINGS = {
     home_phone: "Téléphone",
     home_phone_sub: "Appels traduits",
     home_ew: "Face à face",
+    home_terre: "Terre connectée",
+    home_terre_sub: "Les régions du monde et leurs langues",
     home_ew_sub: "Conversation côte à côte",
     home_trip: "Voyage",
     home_trip_sub: "Phrases utiles hors ligne",
@@ -6373,6 +6484,9 @@ const NET_STRINGS = {
     net_speaker: "Speaker",
     net_cam: "Camera",
     net_cam_fail: "Camera unavailable: allow it in your browser settings.",
+    net_cam_flip: "Flip",
+    net_cam_denied: "Camera blocked: allow it in your browser settings.",
+    net_cam_busy: "Camera already used by another app: close it and try again.",
     net_remote_muted: "🔇 {p} muted their mic",
     net_you_muted: "🔇 Your mic is muted",
     net_in_call: "Translated call with {p}: speak, they hear you in their language.",
@@ -6388,6 +6502,8 @@ const NET_STRINGS = {
     home_phone: "Phone",
     home_phone_sub: "Translated calls",
     home_ew: "Face to face",
+    home_terre: "Connected Earth",
+    home_terre_sub: "The world's regions and their languages",
     home_ew_sub: "Side-by-side conversation",
     home_trip: "Travel",
     home_trip_sub: "Useful phrases, works offline",
@@ -8586,6 +8702,11 @@ const Reseau = (() => {
         <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_trip"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_trip_sub"))}</span></span>
       </a>
+      <a class="home-tile terre" id="tileTerre" href="everywhere/#/terre">
+        <span class="home-tile-ic" aria-hidden="true">🌍</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_terre"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_terre_sub"))}</span></span>
+      </a>
       <a class="home-tile learn" id="tileLearn" href="everywhere/#/learn">
         <span class="home-tile-ic">${ICON_LEARN}</span>
         <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_learn"))}</span>
@@ -8866,7 +8987,7 @@ const Reseau = (() => {
   }
 
   function updateTopbar() {
-    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify";
+    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify" || (owNewcomer() && (screen === "loading" || screen === "error"));
     const full = document.body.classList.contains("net-full");
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
@@ -9954,12 +10075,23 @@ const Reseau = (() => {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_off"))}</p></div>`;
       return;
     }
+    if (screen === "loading" && owNewcomer()) {
+      document.body.classList.add("ob-on");
+      root.innerHTML = `<div class="ow-splash"><div class="ow-logo"><img src="everywhere/logo.svg" alt="" width="96" height="96" /></div>
+        <h1 class="notranslate" translate="no" style="margin:0;font-size:26px;font-weight:800;">24/24 ONE WORLD</h1>
+        <div class="ow-hello" id="owHello" aria-hidden="true"></div>
+        <p>${escapeHtml(t("net_loading"))}</p></div>`;
+      owHelloStart();
+      return;
+    }
     if (screen === "loading") {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_loading"))}</p></div>`;
       return;
     }
     if (screen === "error") {
-      root.innerHTML = `<div class="card"><div class="msg err">${escapeHtml(t("net_err_conn"))}</div>
+      const fresh = owNewcomer();
+      if (fresh) document.body.classList.add("ob-on");
+      root.innerHTML = `${fresh ? owWelcomeHtml() : ""}<div class="card"><div class="msg err">${escapeHtml(t("net_err_conn"))}</div>
         <div class="row"><button class="btn primary" id="netRetry">${escapeHtml(t("net_retry"))}</button></div></div>`;
       root.querySelector("#netRetry").addEventListener("click", () => ensureConnected());
       return;
@@ -9975,14 +10107,50 @@ const Reseau = (() => {
     if (screen === "call") return renderCall();
   }
 
+  // Nouveau venu (jamais inscrit sur cet appareil) : l'attente et les erreurs gardent la porte d'entrée ONE WORLD, pas la messagerie.
+  // État animé d'un bouton (couche OWMotion d'everywhere/toucher.js) : « loading », « success », « error » ; l'erreur s'efface seule.
+  // Un nouvel état annule l'effacement prévu de l'erreur précédente (sinon un nouvel essai rapide perdait son « chargement »).
+  const owEtatTimers = new WeakMap();
+  function owEtat(el, etat) {
+    const M = window.OWMotion;
+    if (!M || !el) return;
+    clearTimeout(owEtatTimers.get(el));
+    if (etat === "loading") M.loading(el, true, { disable: false });
+    else if (etat === "error") { M.error(el); owEtatTimers.set(el, setTimeout(() => M.reset(el), 1600)); }
+    else if (etat === "success") M.success(el);
+    else M.reset(el);
+  }
+  function owNewcomer() { return !profile && safeStore.getItem("lc_net_joined") !== "1" && !safeStore.getItem("lc_net_auth") && isActiveTab(); }
   // Porte d'entrée 24/24 ONE WORLD (inscription et confirmation de l'e-mail).
   function owWelcomeHtml() {
+    setTimeout(owHelloStart, 0);
+    if (!owEntered) {
+      // Entrée animée une seule fois : les étapes suivantes ne rejouent pas toute l'arrivée.
+      owEntered = true;
+      document.body.classList.add("ow-in");
+      setTimeout(() => document.body.classList.remove("ow-in"), 1400);
+    }
     return `<div class="ow-welcome">
-        <img src="everywhere/logo.svg" alt="" width="72" height="72" />
+        <div class="ow-logo"><img src="everywhere/logo.svg" alt="" width="72" height="72" /></div>
         <p class="ow-welcome-eyebrow">${escapeHtml(t("ow_eyebrow"))}</p>
         <h1 translate="no" class="notranslate">24/24 ONE WORLD</h1>
         <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
+        <div class="ow-hello" id="owHello" aria-hidden="true"></div>
       </div>`;
+  }
+  // « Bonjour » qui fait le tour du monde, un mot à la fois (purement décoratif, rien n'est envoyé sur Internet).
+  const OW_HELLO = ["Bonjour", "Hello", "¡Hola!", "Olá", "Ciao", "Hallo", "你好", "こんにちは", "안녕하세요", "مرحبا", "Привет", "नमस्ते", "สวัสดี", "Salama", "Jambo", "Merhaba", "Xin chào", "Γειά σου", "Shalom", "Selamat"];
+  var owHelloTimer;
+  var owEntered; // var sans valeur : owWelcomeHtml peut être appelé avant cette ligne
+  function owHelloStart() {
+    clearInterval(owHelloTimer);
+    const el = document.getElementById("owHello");
+    if (!el) return;
+    let i = 0;
+    const show = () => { el.innerHTML = `<span dir="auto">👋 ${escapeHtml(OW_HELLO[i % OW_HELLO.length])}</span>`; i++; };
+    show();
+    // Trois langues au maximum, puis le dernier mot reste : une seule animation principale à la fois.
+    owHelloTimer = setInterval(() => { if (!document.body.contains(el) || i >= 3) { clearInterval(owHelloTimer); return; } show(); }, 1500);
   }
   // Démo de l'inscription : la même phrase dans 15 langues, traduite d'avance (aucun envoi sur Internet).
   const OW_DEMO = [
@@ -10000,7 +10168,7 @@ const Reseau = (() => {
     const src = OW_DEMO.find((x) => x[0] === UI_LANG) || OW_DEMO[1];
     return `<div class="ow-demo" id="owDemo">
         <div class="ow-demo-row"><span class="ow-demo-flag">${src[1]}</span><span class="ow-demo-txt" dir="auto">${escapeHtml(src[2])}</span></div>
-        <div class="ow-demo-row ow-demo-out" aria-live="off"><span class="ow-demo-flag" id="owDemoFlag"></span><span class="ow-demo-txt" id="owDemoTxt" dir="auto"></span>
+        <div class="ow-demo-row ow-demo-out" aria-live="off"><span class="ow-demo-flag" id="owDemoFlag"></span><span class="ow-demo-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ow-demo-txt" id="owDemoTxt" dir="auto"></span>
           <button type="button" class="ow-demo-play" id="owDemoPlay" aria-label="${escapeHtml(t("listen"))}">🔊</button></div>
         <p class="ow-demo-cap">${escapeHtml(t("ow_demo_cap"))}</p>
       </div>`;
@@ -10021,8 +10189,12 @@ const Reseau = (() => {
     owDemoTimer = setInterval(() => {
       if (!document.body.contains(box)) { clearInterval(owDemoTimer); return; }
       if (reduce) { i++; show(); return; }
-      out.classList.add("fade");
-      setTimeout(() => { i++; show(); out.classList.remove("fade"); }, 350);
+      out.classList.remove("pop");
+      out.classList.add("typing");
+      i++;
+      box.querySelector("#owDemoFlag").textContent = list[i % list.length][1];
+      box.dataset.lang = list[i % list.length][0];
+      setTimeout(() => { show(); out.classList.remove("typing"); void out.offsetWidth; out.classList.add("pop"); }, 650);
     }, 2400);
   }
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
@@ -10126,6 +10298,7 @@ const Reseau = (() => {
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
+    owEtat(btn, "loading");
     safeStore.setItem("lc_signup", JSON.stringify({ pseudo: nom, lang, email: mail }));
     if (!myEmail || !me) {
       myEmail = "";
@@ -10139,6 +10312,7 @@ const Reseau = (() => {
         const err = await sendConfirmEmail(mail);
         if (err) {
           btn.disabled = false;
+          owEtat(btn, "error");
           const used = err.code === "email_exists" || /already|registered|exists/i.test(err.message || "");
           return showMsg(msg, escapeHtml(t(used ? "net_email_used" : "net_email_err")), "warn");
         }
@@ -10147,6 +10321,7 @@ const Reseau = (() => {
         render();
       } catch (e) {
         btn.disabled = false;
+        owEtat(btn, "error");
         showMsg(msg, escapeHtml(t("net_err_conn")), "err");
       }
       return;
@@ -10200,8 +10375,10 @@ const Reseau = (() => {
 
   function renderVerify() {
     const mail = pendingEmail || signupDraft().email || "";
+    document.body.classList.add("ob-on");
     root.innerHTML = `${owWelcomeHtml()}
-      <div class="card">
+      <div class="card ow-verify">
+        <div class="ow-mail" aria-hidden="true">✉️</div>
         <h2 class="net-h">${escapeHtml(t("net_verify_title"))}</h2>
         <p class="net-lead">${escapeHtml(t("net_verify_text", { e: mail }))}</p>
         <p class="net-note">${escapeHtml(t("net_verify_spam"))}</p>
@@ -10702,7 +10879,20 @@ const Reseau = (() => {
     const items = chatMsgs.map((m) => ({ at: new Date(m.created_at).getTime(), m }))
       .concat(calls.map((r) => ({ at: r.t, r })))
       .sort((a, b) => a.at - b.at);
-    items.forEach((it) => {
+    // Séparateur de date à chaque nouveau jour, et bulles groupées quand la même personne écrit plusieurs fois de suite.
+    const dayKey = (v) => { const d = new Date(v); return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(); };
+    const dayLabel = (v) => new Date(v).toLocaleDateString(UI_LANG, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const sameSender = (o, m) => !!(o && o.m && o.m.kind !== "call" && o.m.sender_id === m.sender_id && dayKey(o.m.created_at) === dayKey(m.created_at));
+    let prevDay = "";
+    items.forEach((it, idx) => {
+      const day = dayKey(it.m ? it.m.created_at : it.at);
+      if (day !== prevDay) {
+        const sep = document.createElement("div");
+        sep.className = "net-chat-day";
+        sep.textContent = dayLabel(it.m ? it.m.created_at : it.at);
+        log.appendChild(sep);
+        prevDay = day;
+      }
       if (it.r) {
         const wrap = document.createElement("div");
         wrap.innerHTML = callRecHtml(it.r);
@@ -10724,7 +10914,8 @@ const Reseau = (() => {
         return;
       }
       const div = document.createElement("div");
-      div.className = "bubble " + (mine ? "me" : "them");
+      div.className = "bubble " + (mine ? "me" : "them") + " net-msg" +
+        (sameSender(items[idx - 1], m) ? " net-msg-follow" : "") + (sameSender(items[idx + 1], m) ? " net-msg-before" : "");
       div.setAttribute("dir", "auto");
       const badge = m.kind === "voice" ? `<div class="orig">${escapeHtml(t("net_voice_badge"))}</div>` : "";
       const time = new Date(m.created_at).toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
@@ -11412,36 +11603,108 @@ const Reseau = (() => {
     }
   }
   // Visio : allumer / éteindre sa caméra pendant un appel en voix réelle (vidéo directe d'un téléphone à l'autre).
+  // Lot 2 (30 oct. 2026) : verrou contre le double appui (c.camBusy), appel revérifié après chaque attente,
+  // anciennes pistes toujours arrêtées, message selon la cause (refus, caméra prise par une autre appli).
+  // La cause est gardée puis affichée après le redessin de l'écran d'appel (sinon le redessin l'effacerait).
+  function camErr(c, e) {
+    const n = e && e.name;
+    c.camErrKey = n === "NotAllowedError" || n === "SecurityError" ? "net_cam_denied" : n === "NotReadableError" || n === "AbortError" ? "net_cam_busy" : "net_cam_fail";
+  }
+  function camRender(c) {
+    if (call !== c) return;
+    renderCall();
+    if (!c.camErrKey) return;
+    const el = root.querySelector("#netCallMsg");
+    if (el) el.innerHTML = `<div class="msg warn">${escapeHtml(t(c.camErrKey))}</div>`;
+    c.camErrKey = null;
+  }
+  function camAlive(c, v) { return call === c && c.voice === v && c.state === "active"; }
+  function camStream(facing) {
+    return navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: facing }, width: { ideal: 640 }, height: { ideal: 480 } } });
+  }
   async function toggleCam() {
     const c = call;
-    if (!c || c.state !== "active") return;
+    if (!c || c.state !== "active" || c.camBusy) return;
+    c.camBusy = true;
+    try { await toggleCamInner(c); } finally { c.camBusy = false; camRender(c); }
+  }
+  async function toggleCamInner(c) {
     if (!c.voice && !c.camOn) { c.wantVideo = true; c.videoOfferer = true; await startVoice(); }
+    if (call !== c) return;
     const v = c.voice;
     if (!v || !v.vtx) return;
     if (c.camOn) {
       try { await v.vtx.sender.replaceTrack(null); } catch (e) { /* ignoré */ }
       if (v.cam) v.cam.getTracks().forEach((tr) => tr.stop());
       v.cam = null; c.camOn = false;
-      sendSignal(c.otherId, { t: "cam", callId: c.id, on: false });
-      renderCall();
+      if (call === c) sendSignal(c.otherId, { t: "cam", callId: c.id, on: false });
       return;
     }
+    c.camFacing = c.camFacing || "user";
+    let cam = null;
     try {
-      v.cam = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } });
-      await v.vtx.sender.replaceTrack(v.cam.getVideoTracks()[0]);
+      cam = await camStream(c.camFacing);
+      if (!camAlive(c, v)) { cam.getTracks().forEach((tr) => tr.stop()); return; }
+      await v.vtx.sender.replaceTrack(cam.getVideoTracks()[0]);
     } catch (e) {
-      if (v.cam) v.cam.getTracks().forEach((tr) => tr.stop());
-      v.cam = null;
-      const el = root.querySelector("#netCallMsg");
-      if (el) el.innerHTML = `<div class="msg warn">${escapeHtml(t("net_cam_fail"))}</div>`;
+      if (cam) cam.getTracks().forEach((tr) => tr.stop());
+      camErr(c, e);
       return;
     }
-    if (call !== c || c.voice !== v) { v.cam.getTracks().forEach((tr) => tr.stop()); return; }
+    if (!camAlive(c, v)) { cam.getTracks().forEach((tr) => tr.stop()); return; }
+    v.cam = cam;
     if (!v.lvideo) { v.lvideo = document.createElement("video"); v.lvideo.className = "net-lvideo"; v.lvideo.autoplay = true; v.lvideo.muted = true; v.lvideo.setAttribute("playsinline", ""); }
     v.lvideo.srcObject = v.cam;
+    v.lvideo.classList.toggle("back", c.camFacing === "environment");
     c.camOn = true;
     sendSignal(c.otherId, { t: "cam", callId: c.id, on: true });
-    renderCall();
+  }
+  // Caméra avant / arrière : la nouvelle image remplace l'ancienne sur la même liaison (pas de nouvelle connexion).
+  async function toggleCamFacing() {
+    const c = call, v = c && c.voice;
+    if (!c || !c.camOn || c.camBusy || !v || !v.vtx) return;
+    c.camBusy = true;
+    const next = c.camFacing === "environment" ? "user" : "environment";
+    let cam = null;
+    try {
+      try {
+        cam = await camStream(next);
+      } catch (e) {
+        // Beaucoup de téléphones Android n'ouvrent pas les deux caméras à la fois : on libère l'ancienne, puis on réessaie.
+        // Si la nouvelle ne s'ouvre toujours pas, on rouvre l'ancienne pour que l'autre personne ne reste pas sans image.
+        if (!e || (e.name !== "NotReadableError" && e.name !== "AbortError") || !v.cam) throw e;
+        v.cam.getTracks().forEach((tr) => tr.stop());
+        if (!camAlive(c, v) || !c.camOn) return;
+        try {
+          cam = await camStream(next);
+        } catch (e2) {
+          try {
+            const back = await camStream(c.camFacing);
+            if (camAlive(c, v) && c.camOn) {
+              await v.vtx.sender.replaceTrack(back.getVideoTracks()[0]);
+              v.cam = back;
+              if (v.lvideo) v.lvideo.srcObject = back;
+            } else back.getTracks().forEach((tr) => tr.stop());
+          } catch (e3) { /* l'ancienne caméra ne revient pas non plus : le message d'erreur suffit */ }
+          throw e2;
+        }
+      }
+      if (!camAlive(c, v) || !c.camOn) { cam.getTracks().forEach((tr) => tr.stop()); return; }
+      await v.vtx.sender.replaceTrack(cam.getVideoTracks()[0]);
+      // Raccroché ou caméra coupée pendant le changement : la nouvelle caméra est arrêtée, rien n'est gardé.
+      if (!camAlive(c, v) || !c.camOn) { cam.getTracks().forEach((tr) => tr.stop()); cam = null; return; }
+      const old = v.cam;
+      v.cam = cam; cam = null;
+      c.camFacing = next;
+      if (old) old.getTracks().forEach((tr) => tr.stop());
+      if (v.lvideo) { v.lvideo.srcObject = v.cam; v.lvideo.classList.toggle("back", next === "environment"); }
+    } catch (e) {
+      if (cam) cam.getTracks().forEach((tr) => tr.stop());
+      camErr(c, e);
+    } finally {
+      c.camBusy = false;
+      camRender(c);
+    }
   }
   // Les vidéos survivent aux redessins de l'écran d'appel : on les remet à leur place après chaque rendu.
   function placeVideos() {
@@ -11638,6 +11901,7 @@ const Reseau = (() => {
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
             <div class="net-ctrl"><button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button><span class="net-hangup-label">${escapeHtml(t("net_hangup"))}</span></div>
             ${call.state === "active" && voiceSupported() ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.camOn ? " on" : ""}" id="netCam" aria-pressed="${!!call.camOn}" aria-label="${escapeHtml(t("net_cam"))}">📹</button><span>${escapeHtml(t("net_cam"))}</span></div>` : ""}
+            ${call.state === "active" && call.camOn ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn" id="netCamFlip" aria-label="${escapeHtml(t("net_cam_flip"))}"${call.camBusy ? " disabled" : ""}>🔄</button><span>${escapeHtml(t("net_cam_flip"))}</span></div>` : ""}
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
           </div>
         </div>
@@ -11646,7 +11910,9 @@ const Reseau = (() => {
     updateCallInfo();
     root.querySelector("#netHangup").addEventListener("click", hangup);
     const camBtn = root.querySelector("#netCam");
-    if (camBtn) camBtn.addEventListener("click", toggleCam);
+    if (camBtn) { camBtn.addEventListener("click", toggleCam); if (call.camBusy) camBtn.setAttribute("aria-busy", "true"); }
+    const flipBtn = root.querySelector("#netCamFlip");
+    if (flipBtn) flipBtn.addEventListener("click", toggleCamFacing);
     placeVideos();
     const vm = root.querySelector("#netVoiceMode");
     if (vm) vm.addEventListener("click", () => { if (call) setMode(call.mode === "voice" ? "translate" : "voice"); });
