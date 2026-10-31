@@ -125,3 +125,4 @@
   .lx-opts{display:grid;grid-template-columns:1fr 1fr;}
 }
 @media (min-width:960px){ .lx-mods{grid-template-columns:repeat(3,1fr);} }
+.lx-reg-back{display:inline-flex;align-items:center;min-height:44px;margin:0 0 10px;}

@@ -12,7 +12,7 @@
       title: "Terre connectée", sub: "Touchez une région pour la découvrir. Dans ONE WORLD, chacun écrit dans sa langue et lit dans la sienne.",
       list: "Les régions du monde", write: "Écrire à quelqu'un", close: "Fermer",
       langs_h: "Ses langues ({n}) : touchez-en une", talk: "💬 Parler avec quelqu'un en {l}", trip: "🧳 Phrases de voyage en {l}",
-      learn_l: "🎓 Apprendre : {l}", learn_no: "Cours d'apprentissage pas encore disponible pour cette langue : la traduction, elle, marche déjà.",
+      learn_l: "🎓 Apprendre : {l}", courses: "🎓 Cours de langues : {r}", learn_no: "Cours d'apprentissage pas encore disponible pour cette langue : la traduction, elle, marche déjà.",
       globe: "Globe terrestre : six régions reliées entre elles", pick: "Région choisie : {r}",
       af: "Afrique", af_d: "Plus de 2 000 langues : swahili, haoussa, yoruba, amharique, zoulou, arabe, français, anglais…",
       eu: "Europe", eu_d: "Une quarantaine de pays et autant de langues : français, allemand, italien, espagnol, polonais, grec…",
@@ -25,7 +25,7 @@
       title: "Connected Earth", sub: "Tap a region to discover it. In ONE WORLD, everyone writes in their language and reads in their own.",
       list: "Regions of the world", write: "Write to someone", close: "Close",
       langs_h: "Its languages ({n}): tap one", talk: "💬 Talk with someone in {l}", trip: "🧳 Travel phrases in {l}",
-      learn_l: "🎓 Learn: {l}", learn_no: "No course for this language yet: translation already works.",
+      learn_l: "🎓 Learn: {l}", courses: "🎓 Language courses: {r}", learn_no: "No course for this language yet: translation already works.",
       globe: "Globe: six regions connected to each other", pick: "Selected region: {r}",
       af: "Africa", af_d: "Over 2,000 languages: Swahili, Hausa, Yoruba, Amharic, Zulu, Arabic, French, English…",
       eu: "Europe", eu_d: "About forty countries and as many languages: French, German, Italian, Spanish, Polish, Greek…",
@@ -221,12 +221,13 @@
     var langs = (LANGUES[id] || []).map(infoLangue).filter(function (l) { return l.connue; });
     box.hidden = false;
     box.innerHTML = '<h2 class="earth-info-h" id="earthInfoH">' + esc(t(id)) + "</h2><p class=\"earth-info-d\">" + esc(t(id + "_d")) + "</p>" +
+      '<div class="earth-actions"><a class="btn earth-btn" id="earthCourses" href="#/learn/apprendre/' + id + '">' + esc(t("courses", { r: t(id) })) + "</a>" +
+      '<a class="btn earth-btn" id="earthWrite" href="../index.html?b=msg">' + esc(t("write")) + "</a></div>" +
       '<h3 class="earth-langs-h">' + esc(t("langs_h", { n: langs.length })) + "</h3>" +
       '<div class="earth-langs">' + langs.map(function (l) {
         return '<button type="button" class="earth-lang" data-lang="' + esc(l.code) + '" aria-pressed="false"><span aria-hidden="true">' + esc(l.flag) + "</span> " + esc(l.nom) + "</button>";
       }).join("") + "</div>" +
-      '<div class="earth-lang-box" id="earthLang" hidden></div>' +
-      '<div class="earth-actions"><a class="btn earth-btn" id="earthWrite" href="../index.html?b=msg">' + esc(t("write")) + "</a></div>";
+      '<div class="earth-lang-box" id="earthLang" hidden></div>';
     box.querySelectorAll(".earth-lang").forEach(function (b) { b.addEventListener("click", function () { choisirLangue(b.getAttribute("data-lang")); }); });
     root.querySelectorAll(".earth-region").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-region") === id ? "true" : "false"); });
     var live = root.querySelector("#earthLive");
@@ -251,7 +252,7 @@
       var p = box.querySelector("#earthLearn");
       if (!p || box.hidden) return;
       if (ids.indexOf(base) !== -1) {
-        p.innerHTML = '<a class="btn earth-btn" id="earthLearnGo" href="#/learn/apprendre">' + esc(t("learn_l", { l: l.nom })) + "</a>";
+        p.innerHTML = '<a class="btn earth-btn" id="earthLearnGo" href="#/learn/apprendre/' + sel + '">' + esc(t("learn_l", { l: l.nom })) + "</a>";
         p.querySelector("a").addEventListener("click", function () { lsMaj("ew_learn_v1", function (o) { o.lang = base; }); });
       } else p.textContent = t("learn_no");
     });

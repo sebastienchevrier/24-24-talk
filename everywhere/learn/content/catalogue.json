@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "_comment_regions": "regions = régions de Terre connectée où la langue est langue officielle ou majoritaire (af Afrique, eu Europe, as Asie, na Amérique du Nord, sa Amérique du Sud, oc Océanie). Sert au filtre #/learn/apprendre/<région>.",
   "_comment": "24/24 LEARN — catalogue des cours. Ajouter une langue = une entrée ici + un fichier <id>.json (même format que en.json). Aucun code à modifier.",
   "base": "fr",
   "levels": [
@@ -8,9 +9,9 @@
     {"id": "avance", "name": {"fr": "Avancé", "en": "Advanced", "es": "Avanzado", "pt": "Avançado", "de": "Fortgeschritten", "it": "Avanzato", "zh": "高级", "ja": "上級", "ar": "متقدّم", "ru": "Продвинутый", "mg": "Mandroso"}, "hint": {"fr": "Expressions idiomatiques et nuances", "en": "Idioms and nuances", "es": "Expresiones y matices", "pt": "Expressões e nuances", "de": "Redewendungen und Nuancen", "it": "Modi di dire e sfumature", "zh": "习语与细微差别", "ja": "慣用句とニュアンス", "ar": "تعابير اصطلاحية وفروق دقيقة", "ru": "Идиомы и оттенки смысла", "mg": "Fomba fiteny sy antsipiriany"}}
   ],
   "languages": [
-    {"id": "en", "name": {"fr": "Anglais", "en": "English", "es": "Inglés", "pt": "Inglês", "de": "Englisch", "it": "Inglese", "zh": "英语", "ja": "英語", "ar": "الإنجليزية", "ru": "Английский", "mg": "Anglisy"}, "native": "English", "flag": "🇬🇧", "voice": "en-GB", "status": "available", "file": "en.json"},
-    {"id": "es", "name": {"fr": "Espagnol", "en": "Spanish", "es": "Español", "pt": "Espanhol", "de": "Spanisch", "it": "Spagnolo", "zh": "西班牙语", "ja": "スペイン語", "ar": "الإسبانية", "ru": "Испанский", "mg": "Espaniola"}, "native": "Español", "flag": "🇪🇸", "voice": "es-ES", "status": "available", "file": "es.json"},
-    {"id": "it", "name": {"fr": "Italien", "en": "Italian", "es": "Italiano", "pt": "Italiano", "de": "Italienisch", "it": "Italiano", "zh": "意大利语", "ja": "イタリア語", "ar": "الإيطالية", "ru": "Итальянский", "mg": "Italiana"}, "native": "Italiano", "flag": "🇮🇹", "voice": "it-IT", "status": "soon"},
-    {"id": "de", "name": {"fr": "Allemand", "en": "German", "es": "Alemán", "pt": "Alemão", "de": "Deutsch", "it": "Tedesco", "zh": "德语", "ja": "ドイツ語", "ar": "الألمانية", "ru": "Немецкий", "mg": "Alemana"}, "native": "Deutsch", "flag": "🇩🇪", "voice": "de-DE", "status": "soon"}
+    {"id": "en", "regions": ["eu", "na", "oc"], "name": {"fr": "Anglais", "en": "English", "es": "Inglés", "pt": "Inglês", "de": "Englisch", "it": "Inglese", "zh": "英语", "ja": "英語", "ar": "الإنجليزية", "ru": "Английский", "mg": "Anglisy"}, "native": "English", "flag": "🇬🇧", "voice": "en-GB", "status": "available", "file": "en.json"},
+    {"id": "es", "regions": ["eu", "na", "sa"], "name": {"fr": "Espagnol", "en": "Spanish", "es": "Español", "pt": "Espanhol", "de": "Spanisch", "it": "Spagnolo", "zh": "西班牙语", "ja": "スペイン語", "ar": "الإسبانية", "ru": "Испанский", "mg": "Espaniola"}, "native": "Español", "flag": "🇪🇸", "voice": "es-ES", "status": "available", "file": "es.json"},
+    {"id": "it", "regions": ["eu"], "name": {"fr": "Italien", "en": "Italian", "es": "Italiano", "pt": "Italiano", "de": "Italienisch", "it": "Italiano", "zh": "意大利语", "ja": "イタリア語", "ar": "الإيطالية", "ru": "Итальянский", "mg": "Italiana"}, "native": "Italiano", "flag": "🇮🇹", "voice": "it-IT", "status": "soon"},
+    {"id": "de", "regions": ["eu"], "name": {"fr": "Allemand", "en": "German", "es": "Alemán", "pt": "Alemão", "de": "Deutsch", "it": "Tedesco", "zh": "德语", "ja": "ドイツ語", "ar": "الألمانية", "ru": "Немецкий", "mg": "Alemana"}, "native": "Deutsch", "flag": "🇩🇪", "voice": "de-DE", "status": "soon"}
   ]
 }

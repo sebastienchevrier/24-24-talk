@@ -1,5 +1,5 @@
 /* 24/24 EVERYWHERE — CONNECT : un compte, plusieurs appareils. © 2026 Sébastien Chevrier. Tous droits réservés.
-   - Sécuriser mon compte : relier une adresse e-mail au compte actuel (sans mot de passe, code à 6 chiffres).
+   - Sécuriser mon compte : relier une adresse e-mail au compte actuel (sans mot de passe, code de 6 à 10 chiffres).
    - J'ai déjà un compte : se connecter sur cet appareil avec le code reçu par e-mail.
    - Mes appareils : voir ses appareils connectés, en déconnecter un (perdu) ou tous les autres.
    Même session que 24/24 TALK (clé lc_net_auth, même site) : rien n'est recopié. Clé publique uniquement. */
@@ -34,7 +34,7 @@
       email_lbl: "Votre adresse e-mail", email_ph: "nom@exemple.com", send: "Recevoir le code", cancel: "Annuler",
       email_link_txt: "Nous envoyons un e-mail de confirmation à cette adresse. Elle sert uniquement à retrouver votre compte et n'est jamais montrée aux autres utilisateurs.",
       login_txt: "Saisissez l'adresse e-mail reliée à votre compte : nous y envoyons un e-mail de connexion.",
-      code_lbl: "Si l'e-mail contient un code à 6 chiffres, saisissez-le ici", code_sent: "E-mail envoyé à {e}. Ouvrez-le sur ce téléphone et appuyez sur le lien : il ramène ici, dans Chrome. Pensez à regarder dans les courriers indésirables.", verify: "Valider",
+      code_lbl: "Si l'e-mail contient un code à 6–10 chiffres, saisissez-le ici", code_sent: "E-mail envoyé à {e}. Ouvrez-le sur ce téléphone et appuyez sur le lien : il ramène ici, dans Chrome. Pensez à regarder dans les courriers indésirables.", verify: "Valider",
       refresh: "J'ai appuyé sur le lien : actualiser", ret_err: "Le lien de l'e-mail n'a pas fonctionné ({m}). Demandez un nouvel e-mail.", ret_half: "Première confirmation reçue. Confirmez aussi avec le lien envoyé à votre autre adresse.",
       linked_ok: "C'est fait : votre compte est relié à {e}.", login_ok: "Connecté : bienvenue {p} !",
       replace_warn: "Attention : cet appareil a déjà le compte {p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, {p} sera perdu définitivement.",
@@ -43,7 +43,7 @@
       dev_title: "Mes appareils", dev_this: "Cet appareil", dev_seen: "Vu {d}", dev_since: "Connecté {d}", dev_out: "Déconnecter", dev_out_sure: "Confirmer", dev_out_all: "Déconnecter tous les autres appareils",
       dev_out_done: "Appareil déconnecté : il n'a plus accès à vos conversations et ne sonnera plus.", dev_all_done: "Tous vos autres appareils sont déconnectés.",
       dev_none: "Aucun autre appareil connecté.", dev_err: "Impossible de lire la liste des appareils pour le moment.",
-      e_email: "Adresse e-mail invalide.", e_code: "Le code doit faire 6 chiffres.", e_bad_code: "Code incorrect ou expiré. Demandez-en un nouveau.",
+      e_email: "Adresse e-mail invalide.", e_code: "Le code doit faire 6–10 chiffres.", e_bad_code: "Code incorrect ou expiré. Demandez-en un nouveau.",
       e_taken: "Cette adresse est déjà reliée à un autre compte. Utilisez « J'ai déjà un compte » sur l'écran de connexion, ou une autre adresse.",
       e_unknown: "Aucun compte n'est relié à cette adresse.", e_rate: "Trop d'e-mails envoyés pour le moment. Réessayez dans une heure.",
       e_notauth: "Site de test : seules les adresses des membres de l'équipe du projet reçoivent les e-mails.",
@@ -70,7 +70,7 @@
       email_lbl: "Your email address", email_ph: "name@example.com", send: "Get the code", cancel: "Cancel",
       email_link_txt: "We send a confirmation email to this address. It's only used to recover your account and is never shown to other users.",
       login_txt: "Enter the email address linked to your account: we send a sign-in email to it.",
-      code_lbl: "If the email contains a 6-digit code, enter it here", code_sent: "Email sent to {e}. Open it on this phone and tap the link: it brings you back here, in Chrome. Check your spam folder too.", verify: "Confirm",
+      code_lbl: "If the email contains a 6–10-digit code, enter it here", code_sent: "Email sent to {e}. Open it on this phone and tap the link: it brings you back here, in Chrome. Check your spam folder too.", verify: "Confirm",
       refresh: "I tapped the link: refresh", ret_err: "The email link didn't work ({m}). Ask for a new email.", ret_half: "First confirmation received. Also confirm with the link sent to your other address.",
       linked_ok: "Done: your account is linked to {e}.", login_ok: "Signed in: welcome {p}!",
       replace_warn: "Warning: this device already has the account {p}, which isn't linked to any email. If you sign in to another account, {p} will be lost for good.",
@@ -79,7 +79,7 @@
       dev_title: "My devices", dev_this: "This device", dev_seen: "Seen {d}", dev_since: "Signed in {d}", dev_out: "Sign out", dev_out_sure: "Confirm", dev_out_all: "Sign out all other devices",
       dev_out_done: "Device signed out: it no longer has access to your chats and won't ring.", dev_all_done: "All your other devices are signed out.",
       dev_none: "No other device signed in.", dev_err: "Can't read the device list right now.",
-      e_email: "Invalid email address.", e_code: "The code must be 6 digits.", e_bad_code: "Wrong or expired code. Ask for a new one.",
+      e_email: "Invalid email address.", e_code: "The code must be 6–10 digits.", e_bad_code: "Wrong or expired code. Ask for a new one.",
       e_taken: "This address is already linked to another account. Use “I already have an account” on the sign-in screen, or another address.",
       e_unknown: "No account is linked to this address.", e_rate: "Too many emails sent for now. Try again in an hour.",
       e_notauth: "Test site: only addresses of the project's team members receive emails.",
@@ -203,15 +203,15 @@
   function codeStep(step, m, mode, email, done) {
     step.innerHTML =
       '<label class="cx-lbl" for="cxCode">' + esc(t("code_lbl")) + "</label>" +
-      '<input class="cx-input cx-code" id="cxCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*">' +
+      '<input class="cx-input cx-code" id="cxCode" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*">' +
       '<div class="cx-actions"><button type="button" class="btn" id="cxVerify">' + esc(t("verify")) + "</button></div>" +
       '<button type="button" class="btn primary wide" id="cxRefresh">' + esc(t("refresh")) + "</button>";
     var code = step.querySelector("#cxCode"), ver = step.querySelector("#cxVerify");
     step.querySelector("#cxRefresh").addEventListener("click", function () { location.reload(); });
-    code.addEventListener("input", function () { code.value = code.value.replace(/\D/g, "").slice(0, 6); });
+    code.addEventListener("input", function () { code.value = code.value.replace(/\D/g, "").slice(0, 10); }); // code e-mail : 6 à 10 chiffres
     ver.addEventListener("click", function () {
       var k = code.value.trim();
-      if (!/^\d{6}$/.test(k)) return msg(m, t("e_code"));
+      if (!/^\d{6,10}$/.test(k)) return msg(m, t("e_code"));
       ver.disabled = true;
       client().then(function (c) {
         return c.auth.verifyOtp({ email: email, token: k, type: mode === "link" ? "email_change" : "email" });

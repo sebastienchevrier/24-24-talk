@@ -29,6 +29,8 @@
       m_rev: "Réviser", m_rev_d: "Vos erreurs et vos leçons terminées", m_ai: "Conversation avec l'IA", m_ai_d: "Pratiquer en discutant",
       m_cult: "Cultures du monde", m_cult_d: "Pays, traditions, histoires", m_prog: "Ma progression", m_prog_d: "Leçons, exercices, objectifs",
       soon: "Bientôt", local_note: "Votre progression est enregistrée sur cet appareil. La synchronisation avec votre compte est la prochaine étape.",
+      reg_h: "Cours pour : {r}", reg_back: "Retour à {r}", reg_none: "Pas encore de cours pour les langues de cette région : ils sont en préparation. La traduction, elle, marche déjà dans ces langues.",
+      reg_all: "Voir tous les cours", reg_af: "Afrique", reg_eu: "Europe", reg_as: "Asie", reg_na: "Amérique du Nord", reg_sa: "Amérique du Sud", reg_oc: "Océanie",
       learn_h: "Apprendre une langue", lang_h: "Langue", level_h: "Niveau", lessons_h: "Leçons", no_lesson: "Pas encore de leçon à ce niveau.",
       done_badge: "Terminée · {s}/{t}", new_badge: "Nouvelle", ex_count: "{n} exercices",
       vocab_h: "Vocabulaire", phrases_h: "Expressions courantes", listen: "Écouter", listen_slow: "Écouter lentement", go_ex: "Commencer les exercices ({n})",
@@ -61,6 +63,8 @@
       m_rev: "Review", m_rev_d: "Your mistakes and finished lessons", m_ai: "Chat with AI", m_ai_d: "Practise by talking",
       m_cult: "World cultures", m_cult_d: "Countries, traditions, stories", m_prog: "My progress", m_prog_d: "Lessons, exercises, goals",
       soon: "Soon", local_note: "Your progress is saved on this device. Syncing it with your account is the next step.",
+      reg_h: "Courses for: {r}", reg_back: "Back to {r}", reg_none: "No course yet for the languages of this region: they are being prepared. Translation already works in these languages.",
+      reg_all: "See all courses", reg_af: "Africa", reg_eu: "Europe", reg_as: "Asia", reg_na: "North America", reg_sa: "South America", reg_oc: "Oceania",
       learn_h: "Learn a language", lang_h: "Language", level_h: "Level", lessons_h: "Lessons", no_lesson: "No lesson at this level yet.",
       done_badge: "Done · {s}/{t}", new_badge: "New", ex_count: "{n} exercises",
       vocab_h: "Vocabulary", phrases_h: "Common phrases", listen: "Listen", listen_slow: "Listen slowly", go_ex: "Start the exercises ({n})",
@@ -191,13 +195,23 @@
     }, function () { if (my === token) root.innerHTML = errorHtml(); });
   }
 
-  function learnScreen(root, my) {
+  // Région venue de Terre connectée (#/learn/apprendre/<région>, 31 oct. 2026) : seules les langues de cette région,
+  // retour vers la région ; sans région, l'écran reste celui de toujours (toutes les langues).
+  var REGIONS = ["af", "eu", "as", "na", "sa", "oc"], region = null;
+  function inRegion(l) { return !region || (l && (l.regions || []).indexOf(region) !== -1); }
+  function learnScreen(root, my, reg) {
+    region = REGIONS.indexOf(reg) !== -1 ? reg : null;
     loadCat().then(function () {
       var p = P.get();
-      var cur = p.lang && langMeta(p.lang) && langMeta(p.lang).status === "available" ? p.lang : null;
-      var head = backLink("#/learn") + '<h1 id="h-ew">' + esc(t("learn_h")) + "</h1>" +
+      var shown = cat.languages.filter(inRegion);
+      var cur = p.lang && langMeta(p.lang) && langMeta(p.lang).status === "available" && inRegion(langMeta(p.lang)) ? p.lang : null;
+      var rn = region ? t("reg_" + region) : "";
+      var head = (region ? '<a class="btn lx-reg-back" id="lxRegBack" href="#/terre/' + region + '">' + (document.documentElement.dir === "rtl" ? "→ " : "← ") + esc(t("reg_back", { r: rn })) + "</a>" : backLink("#/learn")) +
+        '<h1 id="h-ew">' + esc(t("learn_h")) + "</h1>" +
+        (region ? '<p class="muted" id="lxReg">' + esc(t("reg_h", { r: rn })) + ' · <a href="#/learn/apprendre" id="lxRegAll">' + esc(t("reg_all")) + "</a></p>" : "") +
+        (region && !shown.length ? '<p class="lx-note" id="lxRegNone">' + esc(t("reg_none")) + "</p>" : "") +
         '<h2 class="h2" id="lxLangH">' + esc(t("lang_h")) + '</h2><div class="lx-langs seg-grid" role="radiogroup" aria-labelledby="lxLangH">' +
-        cat.languages.map(function (l) {
+        shown.map(function (l) {
           var on = l.id === cur, ok = l.status === "available";
           return '<button type="button" role="radio" class="lx-lang" data-lang="' + esc(l.id) + '" aria-checked="' + on + '"' + (ok ? "" : " disabled") + ">" +
             '<span class="flag" aria-hidden="true">' + l.flag + "</span><b>" + esc(loc(l.name)) + "</b><small lang=\"" + esc(l.id) + "\">" + esc(l.native) + "</small>" +
@@ -209,6 +223,8 @@
         }).join("") + "</div>" +
         '<h2 class="h2">' + esc(t("lessons_h")) + '</h2><div id="lxLessons" aria-live="polite"></div>';
       if (my !== token) return;
+      // Région sans aucun cours : pas de sections vides (Langue, Niveau, Leçons), seulement le message et les liens.
+      if (region && !shown.length) { root.innerHTML = head.slice(0, head.indexOf('<h2 class="h2" id="lxLangH">')); return; }
       root.innerHTML = head;
       paintLessons(root, my);
     }, function () { if (my === token) root.innerHTML = errorHtml(); });
@@ -216,7 +232,7 @@
   function paintLessons(root, my) {
     var box = root.querySelector("#lxLessons");
     var p = P.get();
-    if (!p.lang) { box.innerHTML = '<p class="muted">' + esc(t("start_txt")) + "</p>"; return; }
+    if (!p.lang || (region && cat && !inRegion(langMeta(p.lang)))) { box.innerHTML = '<p class="muted">' + esc(t("start_txt")) + "</p>"; return; }
     box.innerHTML = loadingHtml();
     loadLang(p.lang).then(function (d) {
       if (my !== token) return;
@@ -445,7 +461,7 @@
     var s = lastParts[0] || "";
     root.innerHTML = loadingHtml();
     if (s === "") { dashboard(root, my); return t("title"); }
-    if (s === "apprendre") { learnScreen(root, my); return t("learn_h"); }
+    if (s === "apprendre") { learnScreen(root, my, lastParts[1]); return t("learn_h"); }
     if (s === "lecon") { lessonScreen(root, my, lastParts[1] || ""); return t("title"); }
     if (s === "reviser") { practice(root, my, "review"); return t("rev_h"); }
     if (s === "defi") { practice(root, my, "challenge"); return t("def_h"); }
