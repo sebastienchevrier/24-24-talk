@@ -92,6 +92,26 @@ const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
     await p2.close();
     return { ok: true, detail: m.slice(0, 70) };
   });
+  libOff = false;
+  // 31 oct. 2026 : sur le téléphone de Sébastien, « Photographier » affichait « La caméra ne s'ouvre pas » sans issue.
+  for (const [nom, err, re] of [["refusée par le site", "NotAllowedError", /bloquée/], ["occupée par un appel", "NotReadableError", /déjà prise/]]) {
+    await step("Caméra " + nom + " : message clair et bouton « Appareil photo du téléphone »", async () => {
+      const p3 = await ctx.newPage();
+      p3.on("pageerror", (e) => errors.push(String(e)));
+      await p3.addInitScript((n) => { navigator.mediaDevices.getUserMedia = () => Promise.reject(new DOMException("x", n)); }, err);
+      await p3.goto(EW + "#/everywhere/papier");
+      await p3.waitForSelector("#ppShoot", { timeout: 10000 });
+      const before = await p3.$eval("#ppNative", (l) => l.hidden);
+      await p3.tap("#ppShoot");
+      await p3.waitForSelector("#ppNative:not([hidden])", { timeout: 5000 });
+      const m = (await p3.textContent("#ppMsg")).trim();
+      await p3.setInputFiles("#ppCam", { name: "photo.png", mimeType: "image/png", buffer: PNG });
+      await p3.waitForSelector("#ppOut:not([hidden]), #ppRes:not([hidden])", { timeout: 8000 });
+      if (err === "NotAllowedError") await p3.screenshot({ path: path.join(OUT, "papier-camera-bloquee.png"), fullPage: true });
+      await p3.close();
+      return { ok: before && re.test(m), detail: m.slice(0, 70) + " → photo du téléphone lue" };
+    });
+  }
   await step("Aucune erreur JavaScript, pas de défilement horizontal", async () => {
     const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     return { ok: errors.length === 0 && !wide, detail: errors.join(" | ") || "aucune erreur" };

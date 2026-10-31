@@ -31,7 +31,10 @@
       warn: "Traduction automatique : pour un papier important (justice, santé, argent, titre de séjour), faites vérifier par une personne de confiance ou une association. L'écriture à la main est souvent mal lue.",
       help: "Demander de l'aide dans Entraide",
       snap: "📸 Prendre la photo", cancel: "Annuler",
-      e_cam: "La caméra ne s'ouvre pas. Autorisez la caméra pour ce site, ou utilisez « Choisir une image »."
+      e_cam: "La caméra ne s'ouvre pas. Utilisez « Appareil photo du téléphone » ou « Choisir une image ».",
+      e_cam_no: "La caméra est bloquée pour ONE WORLD. Touchez « Appareil photo du téléphone » ci-dessous : il marche sans autorisation. Pour débloquer : Chrome → ⋮ → Paramètres → Paramètres des sites → Appareil photo.",
+      e_cam_busy: "La caméra est déjà prise par une autre appli (appel, visio). Fermez-la, ou touchez « Appareil photo du téléphone ».",
+      native: "📷 Appareil photo du téléphone"
     },
     en: {
       title: "📄 Understand a document", back: "← Translate",
@@ -48,7 +51,10 @@
       warn: "Machine translation: for an important document (court, health, money, residence permit), have it checked by someone you trust or an association. Handwriting is often misread.",
       help: "Ask for help in Mutual aid",
       snap: "📸 Take the photo", cancel: "Cancel",
-      e_cam: "The camera does not open. Allow the camera for this site, or use “Choose an image”."
+      e_cam: "The camera does not open. Use “Phone camera” or “Choose an image”.",
+      e_cam_no: "The camera is blocked for ONE WORLD. Tap “Phone camera” below: it works without permission. To unblock: Chrome → ⋮ → Settings → Site settings → Camera.",
+      e_cam_busy: "The camera is already used by another app (call, video). Close it, or tap “Phone camera”.",
+      native: "📷 Phone camera"
     }
   };
   function t(k, v) {
@@ -92,7 +98,8 @@
       '<div class="card pp-card">' +
         '<label class="tr-field">' + esc(t("from")) + '<select id="ppFrom">' + langOpts(from) + "</select></label>" +
         '<label class="tr-field">' + esc(t("to")) + '<select id="ppTo">' + langOpts(mine) + "</select></label>" +
-        '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button><input id="ppCam" type="file" accept="image/*" capture="environment" hidden>' +
+        '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button>' +
+        '<label class="btn pp-file" id="ppNative" hidden>' + esc(t("native")) + '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden></label>' +
         '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label></div>' +
         '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
@@ -128,7 +135,12 @@
         var pl = video.play();
         if (pl && pl.catch) pl.catch(function () { /* lecture auto refusée : l'image arrive quand même */ });
         try { camBox.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (e) { /* ignoré */ }
-      }, function () { msg.textContent = t("e_cam"); });
+      }, function (err) {
+        // Caméra refusée ou occupée : l'appareil photo du téléphone (input capture) ne demande aucune autorisation au site.
+        var n = err && err.name;
+        msg.textContent = t(n === "NotAllowedError" || n === "SecurityError" ? "e_cam_no" : n === "NotReadableError" || n === "AbortError" ? "e_cam_busy" : "e_cam");
+        root.querySelector("#ppNative").hidden = false;
+      });
     });
     root.querySelector("#ppCamStop").addEventListener("click", camOff);
     root.querySelector("#ppSnap").addEventListener("click", function () {
