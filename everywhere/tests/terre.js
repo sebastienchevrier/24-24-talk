@@ -61,11 +61,11 @@ const NOMS = { af: "Afrique", eu: "Europe", as: "Asie", na: "Amérique du Nord",
     return { ok: a === b[0] && !b[1] && (await dessine(page)) > 500 && (await page.evaluate(() => EWTerre.running)), detail: "arrêtée, toujours dessinée, repart ensuite" };
   });
   for (const id of Object.keys(NOMS)) {
-    await step("Région « " + NOMS[id] + " » : nom, présentation, deux boutons", async () => {
+    await step("Région « " + NOMS[id] + " » : nom, présentation, ses langues, Écrire", async () => {
       await page.tap('.earth-region[data-region="' + id + '"]');
       const r = await page.evaluate((x) => [document.querySelector("#earthInfoH").textContent, document.querySelector(".earth-info-d").textContent.length,
-        document.querySelector('.earth-region[data-region="' + x + '"]').getAttribute("aria-pressed"), !!document.querySelector("#earthLearn"), !!document.querySelector("#earthWrite"), document.querySelector("#earthLive").textContent], id);
-      return { ok: r[0] === NOMS[id] && r[1] > 30 && r[2] === "true" && r[3] && r[4] && r[5].indexOf(NOMS[id]) !== -1, detail: r[0] };
+        document.querySelector('.earth-region[data-region="' + x + '"]').getAttribute("aria-pressed"), document.querySelectorAll(".earth-lang").length, !!document.querySelector("#earthWrite"), document.querySelector("#earthLive").textContent], id);
+      return { ok: r[0] === NOMS[id] && r[1] > 30 && r[2] === "true" && r[3] >= 4 && r[4] && r[5].indexOf(NOMS[id]) !== -1, detail: r[0] + ", " + r[3] + " langues" };
     });
   }
   await step("Toucher une région sur le globe la choisit", async () => {
@@ -89,10 +89,35 @@ const NOMS = { af: "Afrique", eu: "Europe", as: "Asie", na: "Amérique du Nord",
     const o = await page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle);
     return { ok: f === "oc" && h === "Océanie", detail: "focus " + f + ", contour " + o };
   });
-  await step("Bouton « Découvrir ses langues » ouvre Apprendre", async () => {
-    await page.tap("#earthLearn"); await sleep(600);
-    const r = await page.evaluate(() => [location.hash, document.querySelector("#view-learn").classList.contains("active"), EWTerre.running]);
-    return { ok: r[0] === "#/learn" && r[1] && !r[2], detail: JSON.stringify(r) + " (globe arrêté en quittant)" };
+  // 31 oct. 2026 : Sébastien choisissait Asie et tombait sur « Anglais, Espagnol, Italien » (Apprendre). Chaque langue ouvre maintenant ce qui marche pour elle.
+  await step("Asie : langues d'Asie (japonais, chinois, hindi…), pas d'italien", async () => {
+    await page.tap('.earth-region[data-region="as"]');
+    const codes = await page.$$eval(".earth-lang", (b) => b.map((x) => x.getAttribute("data-lang")));
+    return { ok: ["ja", "zh", "hi", "ko", "vi", "th"].every((c) => codes.includes(c)) && !codes.includes("it") && !codes.includes("es"), detail: codes.length + " langues : " + codes.slice(0, 8).join(", ") + "…" };
+  });
+  await step("Japonais : pas de faux cours, « Parler avec quelqu'un en japonais » ouvre Face à face en japonais", async () => {
+    await page.tap('.earth-lang[data-lang="ja"]');
+    await page.waitForFunction(() => document.querySelector("#earthLearn").textContent.length > 10, null, { timeout: 5000 });
+    const r = [await page.textContent("#earthTalk"), await page.textContent("#earthLearn"), !!(await page.$("#earthLearnGo"))];
+    await page.screenshot({ path: require("path").join(__dirname, "resultats", "terre-asie-japonais.png"), fullPage: true });
+    await page.tap("#earthTalk"); await sleep(600);
+    const o = await page.evaluate(() => [location.hash, JSON.parse(localStorage.getItem("ew_tr_v1") || "{}").other]);
+    return { ok: /japonais/i.test(r[0]) && /pas encore/.test(r[1]) && !r[2] && o[0] === "#/everywhere/face" && o[1] === "ja", detail: JSON.stringify(o) };
+  });
+  await step("Japonais : « Phrases de voyage » ouvre Voyage vers le japonais", async () => {
+    await page.evaluate(() => { location.hash = "#/terre/as"; }); await page.waitForSelector(".earth-lang", { timeout: 5000 });
+    await page.tap('.earth-lang[data-lang="ja"]'); await page.tap("#earthTrip"); await sleep(600);
+    const o = await page.evaluate(() => [location.hash, JSON.parse(localStorage.getItem("ew_voyage_v1") || "{}").dest]);
+    return { ok: o[0] === "#/everywhere/voyage" && o[1] === "ja", detail: JSON.stringify(o) };
+  });
+  await step("Europe → Espagnol : vrai cours, « Apprendre » ouvre le cours d'espagnol", async () => {
+    await page.evaluate(() => { location.hash = "#/terre/eu"; }); await page.waitForSelector(".earth-lang", { timeout: 5000 });
+    await page.tap('.earth-lang[data-lang="es"]');
+    await page.waitForSelector("#earthLearnGo", { timeout: 5000 });
+    await page.tap("#earthLearnGo"); await sleep(800);
+    const r = await page.evaluate(() => [location.hash, JSON.parse(localStorage.getItem("ew_learn_v1") || "{}").lang, EWTerre.running,
+      (document.querySelector('[data-lang="es"][aria-checked="true"], [data-lang="es"].on, [data-lang="es"][aria-pressed="true"]') || {}).tagName || ""]);
+    return { ok: r[0] === "#/learn/apprendre" && r[1] === "es" && !r[2], detail: JSON.stringify(r) };
   });
   await step("Sans réseau après chargement : la Terre revient et fonctionne", async () => {
     await ctx.setOffline(true);

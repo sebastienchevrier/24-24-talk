@@ -716,7 +716,13 @@
     if (window.EWPapier) window.EWPapier.leave();
     var s = (parts || [])[0] || "";
     root.classList.toggle("tr-full", s === "face");
-    if (s === "face") { faceScreen(root); return t("face"); }
+    if (s === "face") {
+      // Langue choisie depuis Terre connectée (31 oct. 2026) : elle devient la langue de l'autre personne.
+      var fo = null;
+      try { fo = sessionStorage.getItem("ew_face_other"); sessionStorage.removeItem("ew_face_other"); } catch (e) { fo = null; }
+      if (fo && M.lang(fo).name !== fo && fo !== prefs().me) { prefs().other = fo; savePrefs(); }
+      faceScreen(root); return t("face");
+    }
     if (s === "appel") { callScreen(root, token); return t("call"); }
     if (s === "langues") { langsScreen(root); return t("my_langs"); }
     if (s === "reglages") { settingsScreen(root); return t("settings"); }
