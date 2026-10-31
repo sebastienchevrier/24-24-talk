@@ -60,6 +60,11 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-accueil.png"), fullPage: true });
     return { ok: names.length === 4 && /#\/community$/.test(names[0]) && /#\/avantages$/.test(names[3]), detail: names.join(", ") };
   });
+  await step("Accueil : tuile « Tout comprendre » juste après Face à face, ouvre la photo à traduire", async () => {
+    const order = await page.$$eval("#homeTiles .home-tile", (n) => n.map((a) => a.id));
+    const r = [await page.textContent("#tilePaper .home-tile-name"), await page.getAttribute("#tilePaper", "href")];
+    return { ok: order.indexOf("tilePaper") === order.indexOf("tileEw") + 1 && r[0] === "Tout comprendre" && /#\/everywhere\/papier$/.test(r[1]), detail: r.join(" → ") };
+  });
   let roomId;
   await step("Community : liste vide, puis création de « Cuisine du monde »", async () => {
     await page.goto(EW + "#/community");

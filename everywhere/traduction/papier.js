@@ -17,8 +17,8 @@
   var lang = "fr";
   var STR = {
     fr: {
-      title: "📄 Comprendre un papier", back: "← Traduire",
-      sub: "Photographiez une lettre, une ordonnance, un formulaire ou un panneau : lisez-le dans votre langue.",
+      title: "📄 Tout comprendre", back: "← Traduire",
+      sub: "Photographiez une lettre, une ordonnance, un formulaire, un panneau, un menu, un écran ou une étiquette : lisez-le dans votre langue.",
       from: "Langue du papier", to: "Ma langue", shoot: "📷 Photographier", pick: "🖼 Choisir une image",
       private: "La photo reste sur votre téléphone. Seul le texte lu est envoyé au service de traduction gratuit.",
       first: "Première fois pour cette langue : le téléphone télécharge ses données de lecture (quelques Mo).",
@@ -37,8 +37,8 @@
       native: "📷 Appareil photo du téléphone"
     },
     en: {
-      title: "📄 Understand a document", back: "← Translate",
-      sub: "Take a photo of a letter, a prescription, a form or a sign: read it in your language.",
+      title: "📄 Understand anything", back: "← Translate",
+      sub: "Take a photo of a letter, a prescription, a form, a sign, a menu, a screen or a label: read it in your language.",
       from: "Language of the document", to: "My language", shoot: "📷 Take a photo", pick: "🖼 Choose an image",
       private: "The photo stays on your phone. Only the text that was read is sent to the free translation service.",
       first: "First time for this language: the phone downloads its reading data (a few MB).",
