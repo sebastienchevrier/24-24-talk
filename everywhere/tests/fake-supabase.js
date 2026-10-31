@@ -136,7 +136,7 @@
             var s = load(); s.pending = a.email; save(s); return R({ data: {}, error: null });
           },
           verifyOtp: function (a) {
-            if (a.token !== "123456") return R(err("Token has expired or is invalid", "otp_expired", 403));
+            if (a.token !== "123456" && a.token !== "12345678") return R(err("Token has expired or is invalid", "otp_expired", 403)); // 6 ou 8 chiffres selon le réglage du serveur
             var s = load();
             if (a.type === "email_change") { s.email = s.new_email; s.new_email = ""; s.anon = false; }
             else { s.session = true; s.email = a.email; s.anon = false; }
