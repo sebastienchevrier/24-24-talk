@@ -10,7 +10,9 @@
   var TXT = {
     fr: {
       title: "Terre connectée", sub: "Touchez une région pour la découvrir. Dans ONE WORLD, chacun écrit dans sa langue et lit dans la sienne.",
-      list: "Les régions du monde", learn: "Découvrir ses langues", write: "Écrire à quelqu'un", close: "Fermer",
+      list: "Les régions du monde", write: "Écrire à quelqu'un", close: "Fermer",
+      langs_h: "Ses langues ({n}) : touchez-en une", talk: "💬 Parler avec quelqu'un en {l}", trip: "🧳 Phrases de voyage en {l}",
+      learn_l: "🎓 Apprendre : {l}", learn_no: "Cours d'apprentissage pas encore disponible pour cette langue : la traduction, elle, marche déjà.",
       globe: "Globe terrestre : six régions reliées entre elles", pick: "Région choisie : {r}",
       af: "Afrique", af_d: "Plus de 2 000 langues : swahili, haoussa, yoruba, amharique, zoulou, arabe, français, anglais…",
       eu: "Europe", eu_d: "Une quarantaine de pays et autant de langues : français, allemand, italien, espagnol, polonais, grec…",
@@ -21,7 +23,9 @@
     },
     en: {
       title: "Connected Earth", sub: "Tap a region to discover it. In ONE WORLD, everyone writes in their language and reads in their own.",
-      list: "Regions of the world", learn: "Discover its languages", write: "Write to someone", close: "Close",
+      list: "Regions of the world", write: "Write to someone", close: "Close",
+      langs_h: "Its languages ({n}): tap one", talk: "💬 Talk with someone in {l}", trip: "🧳 Travel phrases in {l}",
+      learn_l: "🎓 Learn: {l}", learn_no: "No course for this language yet: translation already works.",
       globe: "Globe: six regions connected to each other", pick: "Selected region: {r}",
       af: "Africa", af_d: "Over 2,000 languages: Swahili, Hausa, Yoruba, Amharic, Zulu, Arabic, French, English…",
       eu: "Europe", eu_d: "About forty countries and as many languages: French, German, Italian, Spanish, Polish, Greek…",
@@ -36,6 +40,34 @@
     { id: "af", lat: 4, lon: 20 }, { id: "eu", lat: 50, lon: 12 }, { id: "as", lat: 32, lon: 95 },
     { id: "na", lat: 42, lon: -100 }, { id: "sa", lat: -15, lon: -60 }, { id: "oc", lat: -25, lon: 140 }
   ];
+  // 31 oct. 2026 : chaque région ouvre ses vraies langues (celles que la traduction connaît, langues.js), et chaque langue
+  // ouvre ce qui marche vraiment pour elle : Face à face, phrases de voyage, et Apprendre seulement si un cours existe.
+  var LANGUES = {
+    af: ["sw", "am", "ha", "yo", "ig", "zu", "xh", "af", "st", "so", "rw", "rn", "ln", "sn", "ny", "wo", "ti", "om", "mg", "mos", "ar", "fr", "en", "pt"],
+    eu: ["fr", "en", "es", "de", "it", "pt", "nl", "pl", "ro", "el", "cs", "sv", "da", "nb", "fi", "hu", "bg", "hr", "sk", "sl", "lt", "lv", "et", "is", "ga", "mt",
+      "sq", "mk", "sr", "bs", "uk", "be", "ru", "ca", "eu", "gl", "cy", "lb", "tr"],
+    as: ["zh", "zh-TW", "ja", "ko", "hi", "bn", "ur", "id", "ms", "vi", "th", "tl", "ta", "te", "ml", "kn", "mr", "gu", "pa", "or", "as", "ne", "si", "my", "km",
+      "lo", "mn", "ceb", "jv", "su", "ar", "he", "fa", "tr", "ku", "ps", "az", "hy", "ka", "kk", "ky", "uz", "tg", "tk", "ru"],
+    na: ["en", "es-MX", "es", "fr", "ht"],
+    sa: ["es", "pt-BR", "qu", "gn", "en", "fr"],
+    oc: ["en", "mi", "sm", "to", "fj", "haw", "fr"]
+  };
+  var COURS = null; // langues qui ont un vrai cours dans Apprendre (learn/content/catalogue.json)
+  function cours() {
+    if (COURS) return Promise.resolve(COURS);
+    return fetch("learn/content/catalogue.json").then(function (r) { return r.json(); }).then(function (c) {
+      COURS = (c.languages || []).filter(function (l) { return l.status === "available"; }).map(function (l) { return l.id; });
+      return COURS;
+    }, function () { return []; });
+  }
+  function infoLangue(code) {
+    var M = window.EWMoteur, L = M ? M.lang(code) : { code: code, name: code, flag: "" };
+    var nom = window.EW_LANG_NAME ? window.EW_LANG_NAME(code, ui) : L.name;
+    return { code: code, nom: nom || L.name, flag: L.flag || "", connue: !M || L.name !== code };
+  }
+  function lsMaj(cle, f) {
+    try { var o = JSON.parse(localStorage.getItem(cle) || "{}") || {}; f(o); localStorage.setItem(cle, JSON.stringify(o)); } catch (e) { /* réglage non gardé */ }
+  }
   var LIENS = [["eu", "af"], ["eu", "as"], ["eu", "na"], ["na", "sa"], ["af", "sa"], ["as", "oc"], ["af", "as"], ["na", "as"]];
   var ui = "fr", root = null, cv = null, ctx = null, raf = 0, rot = -20, last = 0, sel = null, drag = null, actif = false;
 
@@ -186,14 +218,43 @@
     var r = null; REGIONS.forEach(function (x) { if (x.id === id) r = x; });
     if (r) rot = -r.lon; // la région vient face à soi
     var box = root.querySelector("#earthInfo");
+    var langs = (LANGUES[id] || []).map(infoLangue).filter(function (l) { return l.connue; });
     box.hidden = false;
     box.innerHTML = '<h2 class="earth-info-h" id="earthInfoH">' + esc(t(id)) + "</h2><p class=\"earth-info-d\">" + esc(t(id + "_d")) + "</p>" +
-      '<div class="earth-actions"><a class="btn primary earth-btn" id="earthLearn" href="#/learn">' + esc(t("learn")) + "</a>" +
-      '<a class="btn earth-btn" id="earthWrite" href="../index.html?b=msg">' + esc(t("write")) + "</a></div>";
+      '<h3 class="earth-langs-h">' + esc(t("langs_h", { n: langs.length })) + "</h3>" +
+      '<div class="earth-langs">' + langs.map(function (l) {
+        return '<button type="button" class="earth-lang" data-lang="' + esc(l.code) + '" aria-pressed="false"><span aria-hidden="true">' + esc(l.flag) + "</span> " + esc(l.nom) + "</button>";
+      }).join("") + "</div>" +
+      '<div class="earth-lang-box" id="earthLang" hidden></div>' +
+      '<div class="earth-actions"><a class="btn earth-btn" id="earthWrite" href="../index.html?b=msg">' + esc(t("write")) + "</a></div>";
+    box.querySelectorAll(".earth-lang").forEach(function (b) { b.addEventListener("click", function () { choisirLangue(b.getAttribute("data-lang")); }); });
     root.querySelectorAll(".earth-region").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-region") === id ? "true" : "false"); });
     var live = root.querySelector("#earthLive");
     if (live) live.textContent = t("pick", { r: t(id) });
     if (reduit()) dessiner(0);
+    try { box.scrollIntoView({ block: "start", behavior: reduit() ? "auto" : "smooth" }); } catch (e) { /* ignoré */ }
+  }
+  function choisirLangue(code) {
+    var l = infoLangue(code), box = root.querySelector("#earthLang");
+    root.querySelectorAll(".earth-lang").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-lang") === code ? "true" : "false"); });
+    box.hidden = false;
+    box.innerHTML = '<button type="button" class="earth-lang-x" id="earthLangX" aria-label="' + esc(t("close")) + '">×</button>' +
+      '<h3 class="earth-lang-h">' + esc(l.flag + " " + l.nom) + "</h3>" +
+      '<div class="earth-actions"><a class="btn primary earth-btn" id="earthTalk" href="#/everywhere/face">' + esc(t("talk", { l: l.nom })) + "</a>" +
+      '<a class="btn earth-btn" id="earthTrip" href="#/everywhere/voyage">' + esc(t("trip", { l: l.nom })) + "</a></div>" +
+      '<p class="earth-learn" id="earthLearn"></p>';
+    box.querySelector("#earthLangX").addEventListener("click", function () { box.hidden = true; root.querySelectorAll(".earth-lang").forEach(function (x) { x.setAttribute("aria-pressed", "false"); }); });
+    box.querySelector("#earthTalk").addEventListener("click", function () { try { sessionStorage.setItem("ew_face_other", code); } catch (e) { /* ignoré */ } });
+    box.querySelector("#earthTrip").addEventListener("click", function () { lsMaj("ew_voyage_v1", function (o) { o.dest = code; }); });
+    var base = code.split("-")[0];
+    cours().then(function (ids) {
+      var p = box.querySelector("#earthLearn");
+      if (!p || box.hidden) return;
+      if (ids.indexOf(base) !== -1) {
+        p.innerHTML = '<a class="btn earth-btn" id="earthLearnGo" href="#/learn/apprendre">' + esc(t("learn_l", { l: l.nom })) + "</a>";
+        p.querySelector("a").addEventListener("click", function () { lsMaj("ew_learn_v1", function (o) { o.lang = base; }); });
+      } else p.textContent = t("learn_no");
+    });
   }
 
   function show(el, parts, uiLang) {
@@ -220,6 +281,7 @@
   }
   function leave() {
     actif = false;
+    var lb = root && root.querySelector("#earthLang"); if (lb) lb.hidden = true;
     if (raf) cancelAnimationFrame(raf);
     raf = 0;
   }
