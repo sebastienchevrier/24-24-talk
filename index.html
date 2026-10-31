@@ -11017,14 +11017,31 @@ const Reseau = (() => {
     log.scrollTop = log.scrollHeight;
   }
 
+  // Un seul envoi à la fois (audit du 31 oct. 2026) : un double appui sur « Envoyer » envoyait le message deux fois,
+  // et la réponse du serveur était ajoutée à la discussion ouverte À CE MOMENT-LÀ, même si on en avait changé entre-temps.
+  let sendBusy = false;
   async function sendMessage(text, kind) {
     const body = String(text || "").trim();
-    if (!body || !currentConv) return;
+    if (!body || !currentConv || sendBusy) return;
+    const conv = currentConv;
     const input = root.querySelector("#netInput");
     const msgEl = root.querySelector("#netChatMsg");
-    const { data, error } = await sb.from("messages")
-      .insert({ conversation_id: currentConv.id, body: body.slice(0, 2000), lang: mySpeak(currentConv.id), kind: kind === "voice" ? "voice" : "text" })
-      .select("id,conversation_id,sender_id,body,lang,kind,created_at").single();
+    sendBusy = true;
+    let res;
+    try {
+      res = await sb.from("messages")
+        .insert({ conversation_id: conv.id, body: body.slice(0, 2000), lang: mySpeak(conv.id), kind: kind === "voice" ? "voice" : "text" })
+        .select("id,conversation_id,sender_id,body,lang,kind,created_at").single();
+    } catch (e) {
+      res = { data: null, error: { message: "" } };
+    } finally {
+      sendBusy = false;
+    }
+    const { data, error } = res;
+    if (currentConv !== conv) {
+      if (!error && data) { conv.last = data; sortConvs(); }
+      return;
+    }
     if (error) {
       const em = String(error.message || "");
       const blocked = /row-level security|policy/i.test(em);
@@ -12056,7 +12073,7 @@ const Reseau = (() => {
         .eq("conversation_id", c.id).order("created_at", { ascending: false }).limit(60)
         .then(({ data }) => {
           if (currentConv !== c || !data) return;
-          chatMsgs = data.slice().reverse();
+          chatMsgs = data.slice().reverse().filter(visibleForMe);
           renderChatMessages();
           if (chatVisible()) markRead();
         }, () => {});

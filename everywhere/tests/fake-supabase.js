@@ -74,6 +74,12 @@
           if (localStorage.getItem("fake_ow_fail") === "1") return Promise.resolve({ data: null, error: { message: "Failed to fetch" } }).then(ok, ko);
           return Promise.resolve({ data: owRun(table, op, payload, filters, single), error: null }).then(ok, ko);
         }
+        // Envoi d'un message : réponse du serveur après « fake_msg_delay » ms (0 par défaut), avec la ligne créée.
+        if (table === "messages" && op === "insert") {
+          var row = Object.assign({ id: "eeeeeeee-0000-4000-8000-" + String(1e11 + (window.__msgSeq = (window.__msgSeq || 0) + 1)).slice(1), sender_id: PROFILE.id, created_at: new Date().toISOString() }, payload);
+          var wait = Number(localStorage.getItem("fake_msg_delay")) || 0;
+          return new Promise(function (res) { setTimeout(res, wait); }).then(function () { return { data: single ? row : [row], error: null }; }).then(ok, ko);
+        }
         if (table === "language_profiles") {
           if (localStorage.getItem("fake_lp_fail") === "1" && op !== "select") return Promise.resolve({ data: null, error: { message: "permission denied", code: "42501" } }).then(ok, ko);
           if (op === "upsert") { localStorage.setItem("fake_lp", JSON.stringify(Object.assign({ updated_at: new Date().toISOString() }, payload))); lpLog("upsert", payload); data = null; }
