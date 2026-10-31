@@ -4987,12 +4987,23 @@ function mmDecode(x) {
 // MyMemory préfère parfois une phrase voisine de sa mémoire (souvent des sous-titres) à sa traduction automatique,
 // qui est juste : « Tu es arrivé à la maison ? » → « Siamo a casa ». Hors correspondance exacte, on prend la traduction
 // automatique (entrée « MT! » de matches) quand elle existe (mesure du 19 oct. 2026 : 2,35 → 2,52 sur 3).
-function mmBest(data) {
+// Essai réel du 31 oct. 2026 : sans entrée « MT! », la mémoire renvoie aussi des phrases abîmées :
+// « Bonjour, comment vas-tu ? » → « Hola XXX, ¿cómo estás? » (nom masqué) et « J'ai besoin d'un médecin » →
+// « هل يوجد دكتور؟ » (« Y a-t-il un médecin ? »). On écarte une proposition qui contient XXX absent de la phrase,
+// ou qui pose une question quand la phrase n'en pose pas, et on prend la suivante (match ≥ 0,9) ; on enlève aussi
+// le tiret de dialogue des sous-titres (« - ¿Hola, cómo estás? »). Même règle dans everywhere/traduction/moteur.js.
+function mmBest(data, src) {
   const rd = data && data.responseData;
   const tr = rd && rd.translatedText;
   const exact = rd && Number(rd.match) >= 1;
-  const mt = !exact && Array.isArray(data && data.matches) ? data.matches.find((m) => m && m["created-by"] === "MT!" && m.translation) : null;
-  return mt ? mt.translation : tr;
+  const list = Array.isArray(data && data.matches) ? data.matches : [];
+  const mt = !exact ? list.find((m) => m && m["created-by"] === "MT!" && m.translation) : null;
+  const s = String(src || "").trim(), ask = /[?？؟]$/.test(s), dash = /^[-–—]/.test(s), xx = /XXX/.test(s);
+  const fits = (t) => !!t && !(!xx && /XXX/.test(t)) && !(!ask && /[?？؟]\s*$/.test(String(t)));
+  const clean = (t) => { t = String(t || ""); if (!dash) t = t.replace(/^\s*[-–—]\s*/, ""); if (!xx) t = t.replace(/\s*XXX+/g, ""); return t.replace(/\s+([,.!?،])/g, "$1").trim(); };
+  const cands = [mt ? mt.translation : tr, tr].concat(list.filter((m) => m && m.translation && Number(m.match) >= 0.9).map((m) => m.translation));
+  for (const c of cands) if (fits(c)) return clean(c);
+  return tr ? clean(mt ? mt.translation : tr) : tr;
 }
 // Le quota épuisé arrive parfois comme un faux texte traduit (« MYMEMORY WARNING… », code 429 dans responseStatus) :
 // il ne doit jamais être affiché ni lu à voix haute comme une traduction.
@@ -5017,7 +5028,7 @@ async function mmFetchOne(text, sourceCode, targetCode) {
   if (!res.ok) throw new Error("SERVER");
   let data;
   try { data = await res.json(); } catch (e) { throw new Error("SERVER"); }
-  const translated = mmBest(data);
+  const translated = mmBest(data, text);
   const st = Number(data && data.responseStatus) || 0;
   const note = String((data && data.responseDetails) || "") + " " + String(translated || "");
   if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");

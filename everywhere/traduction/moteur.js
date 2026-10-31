@@ -58,14 +58,22 @@
   // code 429 dans responseStatus ; il ne doit jamais être affiché ni lu à voix haute comme une traduction.
   // Hors correspondance exacte, la traduction automatique (« MT! ») vaut mieux que la phrase voisine de la mémoire
   // de MyMemory (souvent des sous-titres) : même règle que TALK (mesure du 19 oct. 2026).
-  function best(data) {
+  // Essai réel du 31 oct. 2026 : sans entrée « MT! », la mémoire renvoie aussi « Hola XXX, ¿cómo estás? » ou une
+  // question à la place d'une phrase (« J'ai besoin d'un médecin » → « Y a-t-il un médecin ? ») : on prend alors la
+  // proposition suivante (match ≥ 0,9) et on enlève le tiret des sous-titres. Même règle que mmBest dans index.html.
+  function best(data, src) {
     var rd = data && data.responseData, tr = rd && rd.translatedText;
-    if (rd && Number(rd.match) >= 1) return tr;
-    var mt = data && Array.isArray(data.matches) ? data.matches.filter(function (m) { return m && m["created-by"] === "MT!" && m.translation; })[0] : null;
-    return mt ? mt.translation : tr;
+    var list = data && Array.isArray(data.matches) ? data.matches : [];
+    var mt = rd && Number(rd.match) >= 1 ? null : list.filter(function (m) { return m && m["created-by"] === "MT!" && m.translation; })[0];
+    var s = String(src || "").trim(), ask = /[?？؟]$/.test(s), dash = /^[-–—]/.test(s), xx = /XXX/.test(s);
+    function fits(t) { return !!t && !(!xx && /XXX/.test(t)) && !(!ask && /[?？؟]\s*$/.test(String(t))); }
+    function clean(t) { t = String(t || ""); if (!dash) t = t.replace(/^\s*[-–—]\s*/, ""); if (!xx) t = t.replace(/\s*XXX+/g, ""); return t.replace(/\s+([,.!?،])/g, "$1").trim(); }
+    var cands = [mt ? mt.translation : tr, tr].concat(list.filter(function (m) { return m && m.translation && Number(m.match) >= 0.9; }).map(function (m) { return m.translation; }));
+    for (var i = 0; i < cands.length; i++) if (fits(cands[i])) return clean(cands[i]);
+    return tr ? clean(mt ? mt.translation : tr) : tr;
   }
-  function checkAnswer(data) {
-    var tr = best(data);
+  function checkAnswer(data, src) {
+    var tr = best(data, src);
     var st = Number(data && data.responseStatus) || 0;
     var note = String((data && data.responseDetails) || "") + " " + String(tr || "");
     if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
@@ -94,7 +102,7 @@
         if (!res.ok) throw new Error("SERVER");
         return res.json().catch(function () { throw new Error("SERVER"); });
       })
-      .then(checkAnswer);
+      .then(function (d) { return checkAnswer(d, text); });
   }
 
   // ---------- Lecture à voix haute ----------
