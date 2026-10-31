@@ -568,14 +568,19 @@
         .subscribe(function (st) { if (st === "SUBSCRIBED" && !owner && cur && cur.token === tok) signal({ t: "hello" }); });
     } catch (e) { cur.sig = null; }
   }
+  // Envoi par le serveur (ow_live_signal) : il vérifie le salon, le rôle, le destinataire et la taille,
+  // et écrit lui-même « from ». Le téléphone ne peut plus publier directement sur le canal.
   function signal(p) {
     if (!cur || !cur.sig) return;
-    p.from = cur.me.id;
-    try { cur.sig.send({ type: "broadcast", event: "sig", payload: p }); } catch (e) { /* ignoré */ }
+    try { cur.c.rpc("ow_live_signal", { p_room: cur.room.id, p_msg: p }).then(function () {}, function () {}); } catch (e) { /* ignoré */ }
   }
+  var HOST_ONLY = { live: 1, cam: 1, camoff: 1, end: 1, offer: 1 };
   function onSig(p, owner) {
-    if (!p || !p.from || p.from === cur.me.id) return;
+    if (!p || typeof p.from !== "string" || p.from === cur.me.id) return;
     if (p.to && p.to !== cur.me.id) return;
+    // Un spectateur n'écoute que l'animateur du salon (défense en plus du contrôle du serveur).
+    if (!owner && p.from !== cur.room.owner_id) return;
+    if (owner && HOST_ONLY[p.t]) return;
     if (owner) {
       if (p.t === "hello" && cur.camStream) offerTo(p.from);
       else if (p.t === "answer" && cur.peers[p.from]) cur.peers[p.from].setRemoteDescription(p.sdp).catch(function () {});

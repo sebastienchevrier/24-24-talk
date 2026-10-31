@@ -147,6 +147,26 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-live-spectateur.png") });
     return { ok: true, detail: (await page.textContent("#esCaption")).trim() };
   });
+  await step("Live (spectateur) : fausse offre vidéo d'un autre membre ignorée, vraie offre de l'animateur acceptée, réponse envoyée par le serveur", async () => {
+    await page.waitForFunction((lid) => window.__fakeCh && window.__fakeCh["room:" + lid], liveId, { timeout: 5000 });
+    await page.evaluate(() => {
+      window.__srd = 0;
+      const o = RTCPeerConnection.prototype.setRemoteDescription;
+      RTCPeerConnection.prototype.setRemoteDescription = function (d) { window.__srd++; return o.call(this, d); };
+      window.__rpc = []; window.__chSent = [];
+    });
+    // Offre réelle produite par un vrai RTCPeerConnection (vidéo), envoyée d'abord par un usurpateur.
+    const offer = await page.evaluate(async () => { const pc = new RTCPeerConnection(); pc.addTransceiver("video"); const o = await pc.createOffer(); pc.close(); return { type: o.type, sdp: o.sdp }; });
+    await page.evaluate(([lid, o]) => window.__fakeCh["room:" + lid].emit("sig", { t: "offer", from: "00000000-0000-4000-8000-0000000000e1", sdp: o }), [liveId, offer]);
+    await sleep(400);
+    const fake = await page.evaluate(() => window.__srd);
+    await page.evaluate(([lid, o, kid]) => window.__fakeCh["room:" + lid].emit("sig", { t: "offer", from: kid, sdp: o }), [liveId, offer, KENJI]);
+    await page.waitForFunction(() => (window.__rpc || []).some((c) => c.name === "ow_live_signal" && c.args.p_msg.t === "answer"), null, { timeout: 8000 });
+    const ans = await page.evaluate(() => window.__rpc.find((c) => c.args.p_msg.t === "answer"));
+    const direct = await page.evaluate(() => (window.__chSent || []).filter((x) => /^room:/.test(x.ch)).length);
+    return { ok: fake === 0 && ans.args.p_room === liveId && !("from" in ans.args.p_msg) && direct === 0,
+      detail: "offre usurpée : " + fake + " prise en compte ; réponse par ow_live_signal sans « from » ; " + direct + " envoi direct sur le canal" };
+  });
   await step("Business : publier une annonce de gros (vanille), elle s'affiche avec son prix", async () => {
     await page.goto(EW + "#/business");
     await page.waitForSelector(".es-empty", { timeout: 10000 });
