@@ -4987,12 +4987,23 @@ function mmDecode(x) {
 // MyMemory préfère parfois une phrase voisine de sa mémoire (souvent des sous-titres) à sa traduction automatique,
 // qui est juste : « Tu es arrivé à la maison ? » → « Siamo a casa ». Hors correspondance exacte, on prend la traduction
 // automatique (entrée « MT! » de matches) quand elle existe (mesure du 19 oct. 2026 : 2,35 → 2,52 sur 3).
-function mmBest(data) {
+// Essai réel du 31 oct. 2026 : sans entrée « MT! », la mémoire renvoie aussi des phrases abîmées :
+// « Bonjour, comment vas-tu ? » → « Hola XXX, ¿cómo estás? » (nom masqué) et « J'ai besoin d'un médecin » →
+// « هل يوجد دكتور؟ » (« Y a-t-il un médecin ? »). On écarte une proposition qui contient XXX absent de la phrase,
+// ou qui pose une question quand la phrase n'en pose pas, et on prend la suivante (match ≥ 0,9) ; on enlève aussi
+// le tiret de dialogue des sous-titres (« - ¿Hola, cómo estás? »). Même règle dans everywhere/traduction/moteur.js.
+function mmBest(data, src) {
   const rd = data && data.responseData;
   const tr = rd && rd.translatedText;
   const exact = rd && Number(rd.match) >= 1;
-  const mt = !exact && Array.isArray(data && data.matches) ? data.matches.find((m) => m && m["created-by"] === "MT!" && m.translation) : null;
-  return mt ? mt.translation : tr;
+  const list = Array.isArray(data && data.matches) ? data.matches : [];
+  const mt = !exact ? list.find((m) => m && m["created-by"] === "MT!" && m.translation) : null;
+  const s = String(src || "").trim(), ask = /[?？؟]$/.test(s), dash = /^[-–—]/.test(s), xx = /XXX/.test(s);
+  const fits = (t) => !!t && !(!xx && /XXX/.test(t)) && !(!ask && /[?？؟]\s*$/.test(String(t)));
+  const clean = (t) => { t = String(t || ""); if (!dash) t = t.replace(/^\s*[-–—]\s*/, ""); if (!xx) t = t.replace(/\s*XXX+/g, ""); return t.replace(/\s+([,.!?،])/g, "$1").trim(); };
+  const cands = [mt ? mt.translation : tr, tr].concat(list.filter((m) => m && m.translation && Number(m.match) >= 0.9).map((m) => m.translation));
+  for (const c of cands) if (fits(c)) return clean(c);
+  return tr ? clean(mt ? mt.translation : tr) : tr;
 }
 // Le quota épuisé arrive parfois comme un faux texte traduit (« MYMEMORY WARNING… », code 429 dans responseStatus) :
 // il ne doit jamais être affiché ni lu à voix haute comme une traduction.
@@ -5017,7 +5028,7 @@ async function mmFetchOne(text, sourceCode, targetCode) {
   if (!res.ok) throw new Error("SERVER");
   let data;
   try { data = await res.json(); } catch (e) { throw new Error("SERVER"); }
-  const translated = mmBest(data);
+  const translated = mmBest(data, text);
   const st = Number(data && data.responseStatus) || 0;
   const note = String((data && data.responseDetails) || "") + " " + String(translated || "");
   if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
@@ -10412,7 +10423,7 @@ const Reseau = (() => {
         <p class="net-note">${escapeHtml(t("net_verify_spam"))}</p>
         <div class="row"><button class="btn primary" id="netVerDone">${escapeHtml(t("net_verify_done"))}</button></div>
         <label class="net-label" for="netCode">${escapeHtml(t("net_verify_code"))}</label>
-        <div class="row"><input type="text" id="netCode" class="net-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="123456" />
+        <div class="row"><input type="text" id="netCode" class="net-input" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*" placeholder="12345678" />
           <button class="btn" id="netCodeOk">${escapeHtml(t("net_verify_ok"))}</button></div>
         <div id="netVerMsg"></div>
         <p class="net-note"><button type="button" class="link-btn" id="netResend">${escapeHtml(t("net_verify_resend"))}</button> ·
@@ -10420,7 +10431,8 @@ const Reseau = (() => {
       </div>`;
     const m = root.querySelector("#netVerMsg");
     const code = root.querySelector("#netCode");
-    code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 6); });
+    // 31 oct. 2026 : le code reçu par e-mail peut faire 6 à 10 chiffres (réglage Supabase « longueur du code » ; 8 sur la base de TEST).
+    code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 10); });
     root.querySelector("#netVerDone").addEventListener("click", async (ev) => {
       ev.target.disabled = true;
       const ok = await checkConfirmed();
@@ -10428,7 +10440,7 @@ const Reseau = (() => {
       if (!ok) showMsg(m, escapeHtml(t("net_verify_wait")), "warn");
     });
     root.querySelector("#netCodeOk").addEventListener("click", async (ev) => {
-      if (!/^\d{6}$/.test(code.value)) return showMsg(m, escapeHtml(t("net_verify_bad")), "warn");
+      if (!/^\d{6,10}$/.test(code.value)) return showMsg(m, escapeHtml(t("net_verify_bad")), "warn");
       ev.target.disabled = true;
       const { error } = await sb.auth.verifyOtp({ email: mail, token: code.value, type: "email_change" });
       ev.target.disabled = false;
