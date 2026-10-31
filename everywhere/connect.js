@@ -40,6 +40,7 @@
       replace_warn: "Attention : cet appareil a déjà le compte {p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, {p} sera perdu définitivement.",
       replace_ok: "Je comprends, continuer",
       other_account: "Se connecter à un autre compte",
+      logout: "Se déconnecter de ce téléphone", logout_done: "Vous êtes déconnecté sur ce téléphone. Votre compte est gardé : reconnectez-vous avec votre e-mail.",
       dev_title: "Mes appareils", dev_this: "Cet appareil", dev_seen: "Vu {d}", dev_since: "Connecté {d}", dev_out: "Déconnecter", dev_out_sure: "Confirmer", dev_out_all: "Déconnecter tous les autres appareils",
       dev_out_done: "Appareil déconnecté : il n'a plus accès à vos conversations et ne sonnera plus.", dev_all_done: "Tous vos autres appareils sont déconnectés.",
       dev_none: "Aucun autre appareil connecté.", dev_err: "Impossible de lire la liste des appareils pour le moment.",
@@ -76,6 +77,7 @@
       replace_warn: "Warning: this device already has the account {p}, which isn't linked to any email. If you sign in to another account, {p} will be lost for good.",
       replace_ok: "I understand, continue",
       other_account: "Sign in to another account",
+      logout: "Sign out on this phone", logout_done: "You're signed out on this phone. Your account is kept: sign back in with your email.",
       dev_title: "My devices", dev_this: "This device", dev_seen: "Seen {d}", dev_since: "Signed in {d}", dev_out: "Sign out", dev_out_sure: "Confirm", dev_out_all: "Sign out all other devices",
       dev_out_done: "Device signed out: it no longer has access to your chats and won't ring.", dev_all_done: "All your other devices are signed out.",
       dev_none: "No other device signed in.", dev_err: "Can't read the device list right now.",
@@ -382,7 +384,10 @@
     }
     html += '</section><section class="cx-sec" id="cxDevices"></section>' +
       '<section class="cx-sec cx-del" id="cxDelete"></section>' +
-      '<p class="cx-other"><button type="button" class="link-btn" id="cxOther">' + esc(t("other_account")) + '</button></p><div id="cxOtherBox"></div>';
+      '<p class="cx-other"><button type="button" class="link-btn" id="cxOther">' + esc(t("other_account")) + '</button></p><div id="cxOtherBox"></div>' +
+      // Audit du 31 oct. 2026 : aucun moyen de se déconnecter sur CE téléphone. Proposé seulement si le compte est relié à un
+      // e-mail confirmé (sinon il serait perdu) ; deux appuis, comme pour les autres appareils.
+      (secured ? '<p class="cx-other"><button type="button" class="btn wide" id="cxLogout">' + esc(t("logout")) + '</button></p><div id="cxLogoutMsg" aria-live="polite"></div>' : "");
     card.innerHTML = html;
     card.querySelector("#cxChats").addEventListener("click", function () { opts.openTalk && opts.openTalk("net"); });
     var sec = card.querySelector("#cxSecure");
@@ -392,6 +397,16 @@
         function () { card.querySelector("#cxBox").innerHTML = ""; sec.hidden = false; });
     });
     devices(card.querySelector("#cxDevices"));
+    var lo = card.querySelector("#cxLogout");
+    if (lo) lo.addEventListener("click", function () {
+      if (!lo.classList.contains("sure")) { lo.classList.add("sure"); lo.textContent = t("dev_out_sure"); return; }
+      lo.disabled = true;
+      client().then(function (c) { return c.auth.signOut({ scope: "local" }); }).then(function (x) {
+        if (x && x.error) throw x.error;
+        ["lc_net_auth", "lc_net_joined"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* ignoré */ } });
+        render(card, { openTalk: opts.openTalk, note: t("logout_done"), noteOk: true });
+      }).catch(function (e) { lo.disabled = false; msg(card.querySelector("#cxLogoutMsg"), errText(e)); });
+    });
     deleteBox(card.querySelector("#cxDelete"), prof, card, opts);
     // Autre compte : prévenir si le compte actuel n'est relié à aucun e-mail (il serait perdu).
     var other = card.querySelector("#cxOther"), ob = card.querySelector("#cxOtherBox");
