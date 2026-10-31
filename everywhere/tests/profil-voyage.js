@@ -469,6 +469,28 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       detail: "es→de : " + a.join(" / ") + " · inversé : " + b.join(",") + " · réglages EVERYWHERE inchangés" };
   });
 
+  // =============== CONNECT : se déconnecter de ce téléphone (audit du 31 oct. 2026) ===============
+  await step("CONNECT, se déconnecter de ce téléphone : deux appuis, compte gardé, écran « J'ai déjà un compte » ; absent si le compte n'a pas d'e-mail", async () => {
+    const sb = JSON.stringify({ session: true, email: "moi@exemple.fr", new_email: "", anon: false, pending: "", devices: [{ id: "11111111-1111-4111-8111-111111111111", appareil: "Android", depuis: new Date().toISOString(), vu: new Date().toISOString(), actuel: true }] });
+    const c = await ctxFor({ init: { lc_net_auth: "fake", lc_net_joined: "1", fake_sb: sb } });
+    const pg = await open(c, "#/profil");
+    await pg.waitForSelector("#cxLogout", { timeout: 15000 });
+    await pg.tap("#cxLogout");
+    const first = { auth: await ls(pg, "lc_net_auth"), txt: (await pg.textContent("#cxLogout")).trim() };
+    await pg.tap("#cxLogout");
+    await pg.waitForSelector("#cxHave", { timeout: 8000 });
+    const note = (await pg.textContent(".cx-msg.ok")).trim();
+    const after = { auth: await ls(pg, "lc_net_auth"), joined: await ls(pg, "lc_net_joined"), st: JSON.parse(await ls(pg, "fake_sb") || "{}") };
+    await c.close();
+    const c2 = await ctxFor({ init: { lc_net_auth: "fake" } });
+    const p2 = await open(c2, "#/profil");
+    await p2.waitForSelector("#cxDelOpen", { timeout: 15000 });
+    const anonBtn = await p2.$("#cxLogout");
+    await c2.close();
+    return { ok: first.auth === "fake" && !!first.txt && !after.auth && !after.joined && after.st.session === false && after.st.deleted !== true && /gardé/.test(note) && !anonBtn,
+      detail: "1er appui : « " + first.txt + " » · après : " + note + " · sans e-mail : " + (anonBtn ? "bouton présent" : "pas de bouton") };
+  });
+
   // =============== CONNECT : supprimer mon compte ===============
   await step("CONNECT, supprimer mon compte : explication claire, pseudo à recopier (mauvais pseudo refusé), Annuler ne fait rien", async () => {
     const c = await ctxFor({ init: { lc_net_auth: "fake" } });

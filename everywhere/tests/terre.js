@@ -117,7 +117,38 @@ const NOMS = { af: "Afrique", eu: "Europe", as: "Asie", na: "Amérique du Nord",
     await page.tap("#earthLearnGo"); await sleep(800);
     const r = await page.evaluate(() => [location.hash, JSON.parse(localStorage.getItem("ew_learn_v1") || "{}").lang, EWTerre.running,
       (document.querySelector('[data-lang="es"][aria-checked="true"], [data-lang="es"].on, [data-lang="es"][aria-pressed="true"]') || {}).tagName || ""]);
-    return { ok: r[0] === "#/learn/apprendre" && r[1] === "es" && !r[2], detail: JSON.stringify(r) };
+    return { ok: r[0] === "#/learn/apprendre/eu" && r[1] === "es" && !r[2], detail: JSON.stringify(r) };
+  });
+  // Mission du 31 oct. : Terre → région → Apprendre filtré par région, avec retour vers la région.
+  const ATTENDU = { as: [], af: [], eu: ["en", "es", "it", "de"], na: ["en", "es"], sa: ["es"], oc: ["en"] };
+  for (const id of Object.keys(NOMS)) {
+    await step("Terre → " + NOMS[id] + " → « Cours de langues » : seulement ses cours, retour vers " + NOMS[id], async () => {
+      await page.evaluate((x) => { location.hash = "#/terre/" + x; }, id); await page.waitForSelector("#earthCourses", { timeout: 5000 });
+      await page.$eval("#earthCourses", (a) => a.scrollIntoView({ block: "center" })); await page.tap("#earthCourses");
+      await page.waitForSelector("#lxReg", { timeout: 8000 });
+      const r = await page.evaluate(() => [location.hash, [...document.querySelectorAll(".lx-lang")].map((b) => b.getAttribute("data-lang")),
+        !!document.querySelector("#lxRegNone"), document.querySelector("#lxRegBack").getAttribute("href"), document.querySelector("#lxRegBack").textContent,
+        [...document.querySelectorAll(".lx-lang:not([disabled])")].map((b) => b.getAttribute("data-lang"))]);
+      const ok = r[0] === "#/learn/apprendre/" + id && JSON.stringify(r[1]) === JSON.stringify(ATTENDU[id]) && r[2] === (ATTENDU[id].length === 0) &&
+        r[3] === "#/terre/" + id && r[4].includes(NOMS[id]) && r[5].every((c) => c === "en" || c === "es");
+      if (id === "as") await page.screenshot({ path: require("path").join(__dirname, "resultats", "terre-asie-cours.png"), fullPage: true });
+      await page.$eval("#lxRegBack", (a) => a.scrollIntoView({ block: "center" })); await page.tap("#lxRegBack"); await sleep(500);
+      const back = await page.evaluate(() => [location.hash, (document.querySelector("#earthInfoH") || {}).textContent]);
+      return { ok: ok && back[0] === "#/terre/" + id && back[1] === NOMS[id], detail: "cours " + JSON.stringify(r[1]) + (r[2] ? " + message « en préparation »" : "") + ", retour " + back.join(" ") };
+    });
+  }
+  await step("Région → langue → niveau → leçon → exercice (Europe → Espagnol)", async () => {
+    await page.evaluate(() => { location.hash = "#/learn/apprendre/eu"; }); await page.waitForSelector('.lx-lang[data-lang="es"]', { timeout: 5000 });
+    await page.tap('.lx-lang[data-lang="es"]'); await page.tap('.lx-level[data-level="debutant"]');
+    await page.waitForSelector(".lx-lesson", { timeout: 8000 });
+    await page.tap(".lx-lesson"); await sleep(800);
+    const r = await page.evaluate(() => [location.hash, document.body.innerText.length, JSON.parse(localStorage.getItem("ew_learn_v1") || "{}").lang]);
+    return { ok: /^#\/learn\/lecon\//.test(r[0]) && r[2] === "es", detail: JSON.stringify(r) };
+  });
+  await step("Accès général à Apprendre inchangé : toutes les langues, sans bandeau de région", async () => {
+    await page.evaluate(() => { location.hash = "#/learn/apprendre"; }); await page.waitForSelector(".lx-lang", { timeout: 5000 }); await sleep(200);
+    const r = await page.evaluate(() => [[...document.querySelectorAll(".lx-lang")].map((b) => b.getAttribute("data-lang")), !!document.querySelector("#lxReg"), document.querySelector(".lx-back").getAttribute("href")]);
+    return { ok: JSON.stringify(r[0]) === '["en","es","it","de"]' && !r[1] && r[2] === "#/learn", detail: JSON.stringify(r) };
   });
   await step("Sans réseau après chargement : la Terre revient et fonctionne", async () => {
     await ctx.setOffline(true);
