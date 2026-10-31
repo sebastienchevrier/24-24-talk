@@ -98,16 +98,20 @@
     b.select = function () { return b; };
     return b;
   }
-  function channel() {
+  // Les essais peuvent rejouer un message « broadcast » reçu (window.__fakeCh[nom].emit) et voir ce qui est envoyé (window.__chSent).
+  function channel(name) {
+    var hs = [];
     var c = {
-      on: function () { return c; },
+      on: function (type, filter, cb) { if (type === "broadcast") hs.push({ ev: filter && filter.event, cb: cb }); return c; },
+      emit: function (ev, payload) { hs.forEach(function (h) { if (!h.ev || h.ev === ev) h.cb({ event: ev, payload: payload }); }); },
       subscribe: function (cb) { setTimeout(function () { cb && cb("SUBSCRIBED"); }, 10); return c; },
-      send: function () { return Promise.resolve("ok"); },
+      send: function (m) { (window.__chSent = window.__chSent || []).push({ ch: name, msg: m }); return Promise.resolve("ok"); },
       track: function () { return Promise.resolve("ok"); },
       untrack: function () { return Promise.resolve("ok"); },
       presenceState: function () { return {}; },
       unsubscribe: function () { return Promise.resolve("ok"); }
     };
+    (window.__fakeCh = window.__fakeCh || {})[name] = c;
     return c;
   }
   var R = function (v) { return Promise.resolve(v); };
@@ -150,6 +154,7 @@
         },
         from: builder,
         rpc: function (name, args) {
+          (window.__rpc = window.__rpc || []).push({ name: name, args: args });
           var s = load();
           if (name === "mes_appareils") return R({ data: s.devices, error: null });
           if (name === "deconnecter_appareil") {

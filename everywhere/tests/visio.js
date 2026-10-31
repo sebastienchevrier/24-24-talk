@@ -8,7 +8,7 @@ const C1 = "aaaaaaaa-0000-4000-8000-000000000001";
 // Faux serveur : le téléphone « kenji » échange son identité avec @sebtest ; les canaux temps réel passent par window.__relaySend.
 let FAKE = fs.readFileSync(path.join(__dirname, "fake-supabase.js"), "utf8");
 FAKE = FAKE.replace(/var KENJI = (\{[^}]+\});/, "var KENJI = $1; if (localStorage.getItem('fake_me') === 'kenji') { var __p = PROFILE; PROFILE = KENJI; KENJI = __p; }")
-  .replace(/function channel\(\) \{[\s\S]*?\n  \}\n  var R =/, `function channel(name) {
+  .replace(/(?:\/\/[^\n]*\n  )?function channel\(\w*\) \{[\s\S]*?\n  \}\n  var R =/, `function channel(name) {
     var c = { _h: [],
       on: function (type, f, cb) { c._h.push({ ev: f && f.event, cb: cb }); return c; },
       subscribe: function (cb) { (window.__chs = window.__chs || []).push({ name: name, c: c }); setTimeout(function () { cb && cb("SUBSCRIBED"); }, 10); return c; },
