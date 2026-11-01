@@ -1,6 +1,6 @@
 /* 24/24 ONE WORLD — préférences d'affichage et d'accessibilité. © 2026 Sébastien Chevrier. Tous droits réservés.
    Chargé dans <head> avant l'affichage (pas de flash) : thème, contraste renforcé, taille du texte, animations réduites.
-   Les mêmes réglages (sauf le thème) s'appliquent aussi dans TALK (index.html).
+   Les mêmes réglages s'appliquent aussi dans TALK (index.html), avec la même règle de thème (data-theme = thème affiché).
    Gardées sur cet appareil (clé ew_prefs). Rien n'est envoyé au serveur. */
 (function () {
   "use strict";
@@ -16,10 +16,16 @@
       text: [0, 1, 2].indexOf(p.text) !== -1 ? p.text : DEF.text
     };
   }
+  // OW-WRITE-008 : thème résolu. La classe theme-<choix> garde le choix de la personne (light, dark ou auto) ;
+  // data-theme porte toujours le thème réellement affiché (light ou dark). En Auto, il suit le téléphone, même en direct.
+  var mqDark = null;
+  try { mqDark = window.matchMedia("(prefers-color-scheme: dark)"); } catch (e) { mqDark = null; }
+  function resolve(th) { return th === "auto" ? (mqDark && !mqDark.matches ? "light" : "dark") : th; }
   function apply(p) {
     var h = document.documentElement;
     h.classList.remove("theme-light", "theme-dark", "theme-auto");
     h.classList.add("theme-" + p.theme);
+    h.setAttribute("data-theme", resolve(p.theme));
     h.classList.toggle("contrast-high", !!p.contrast);
     h.classList.toggle("motion-off", !!p.motion);
     h.setAttribute("data-ts", String(p.text));
@@ -35,5 +41,10 @@
     return p;
   }
   apply(read());
-  window.EWPrefs = { read: read, set: set, apply: apply };
+  // Le téléphone passe de clair à sombre (ou l'inverse) : en Auto, l'écran suit tout de suite, sans recharger.
+  if (mqDark) {
+    var onSys = function () { var p = read(); if (p.theme === "auto") apply(p); };
+    try { mqDark.addEventListener("change", onSys); } catch (e) { try { mqDark.addListener(onSys); } catch (e2) { /* navigateur trop ancien */ } }
+  }
+  window.EWPrefs = { read: read, set: set, apply: apply, resolve: resolve };
 })();

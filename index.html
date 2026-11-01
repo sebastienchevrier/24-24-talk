@@ -52,7 +52,15 @@
     // Thème choisi dans le portail (0.8.1) : bleu nuit par défaut, clair au choix, « Auto » suit le téléphone.
     var th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
     h.classList.add("theme-" + th);
-    if (th !== "auto") h.setAttribute("data-theme", th);
+    // OW-WRITE-008 : data-theme = thème réellement affiché (en Auto : celui du téléphone, mis à jour en direct).
+    var mq = null;
+    try { mq = window.matchMedia("(prefers-color-scheme: dark)"); } catch (e) { mq = null; }
+    window.OW_resolveTheme = function (t) { return t === "auto" ? (mq && !mq.matches ? "light" : "dark") : t; };
+    h.setAttribute("data-theme", window.OW_resolveTheme(th));
+    if (mq) {
+      var onSys = function () { if (h.classList.contains("theme-auto")) h.setAttribute("data-theme", window.OW_resolveTheme("auto")); };
+      try { mq.addEventListener("change", onSys); } catch (e) { try { mq.addListener(onSys); } catch (e2) { /* navigateur trop ancien */ } }
+    }
   } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); document.documentElement.classList.add("theme-dark"); }
 })();
 </script>
@@ -8766,7 +8774,7 @@ const A11y = (() => {
     const th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
     h.classList.remove("theme-light", "theme-dark", "theme-auto");
     h.classList.add("theme-" + th);
-    if (th === "auto") h.removeAttribute("data-theme"); else h.setAttribute("data-theme", th);
+    h.setAttribute("data-theme", window.OW_resolveTheme ? window.OW_resolveTheme(th) : (th === "auto" ? "dark" : th));
   }
   function set(k, v) { const p = read(); p[k] = v; safeStore.setItem(KEY, JSON.stringify(p)); apply(p); paint(); }
   function paint() {
