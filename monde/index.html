@@ -182,6 +182,39 @@
   [dir=rtl] .honest{padding:4px 14px 4px 0;}
 
   /* Usages */
+  .sig{font-size:clamp(17px,2vw,20px);font-weight:700;color:#eafff6;margin:4px 0 14px;letter-spacing:.01em;}
+  .sig.center{text-align:center;margin:26px 0 12px;color:var(--mint);}
+  .eco-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px;}
+  .card.eco h3{font-size:17px;letter-spacing:.01em;}
+  .pl{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:5px;}
+  .pl li{position:relative;padding-inline-start:18px;color:#c4d6e0;font-size:14.5px;}
+  .pl li::before{content:"";position:absolute;inset-inline-start:2px;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--mint);}
+  .lim{margin:0;font-size:13.5px;color:#e6d3b8;border-inline-start:2px solid var(--or2);padding-inline-start:8px;}
+  .act{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:auto;padding-top:6px;}
+  .act .st{margin-top:0;}
+  .go{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);color:#eafff6;text-decoration:none;font-weight:700;font-size:14px;}
+  .go:hover,.go:focus-visible{border-color:var(--mint);}
+  .aud{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px;}
+  .aud div{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:rgba(255,255,255,.02);}
+  .aud h3{font-size:16px;margin:0 0 4px;} .aud p{margin:0;font-size:14px;color:#a9bfcb;}
+  .opp{margin-top:34px;}
+  .tags{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-wrap:wrap;gap:8px;}
+  .tags li{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:14.5px;color:#d9ecf2;background:rgba(111,240,192,.04);}
+  .model{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px;}
+  .model .col{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:linear-gradient(180deg,var(--card),var(--card2));display:flex;flex-direction:column;gap:12px;}
+  .model .col.later{border-color:rgba(255,154,60,.35);}
+  .model .st{margin-top:0;}
+  .model .it h3{font-size:17px;margin:0 0 3px;} .model .it p{margin:0;color:#a9bfcb;font-size:14.5px;}
+  .model a{color:#eafff6;}
+  .checks{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .checks li{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:15px;color:#d9ecf2;}
+  .checks svg{flex:none;width:22px;height:22px;color:var(--mint);margin-top:1px;}
+  #confiance .honest{margin-top:14px;}
+  .conv{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:6px;}
+  .conv a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line2);color:#eafff6;text-decoration:none;font-size:14.5px;}
+  .conv a:hover,.conv a:focus-visible{border-color:var(--mint);}
+  @media (max-width:1000px){.eco-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.aud{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:640px){.eco-grid,.model,.checks{grid-template-columns:minmax(0,1fr);}.aud{grid-template-columns:minmax(0,1fr);}}
   .uses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch;}
   .uses .head{grid-column:1/-1;margin-bottom:6px;}
 
@@ -275,6 +308,12 @@
     <symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></symbol>
     <symbol id="i-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16M2 13h20"/></symbol>
     <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+    <symbol id="i-face" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h9v6H7l-3 3V5zM12 13h9v6l-3-3h-6z"/></symbol>
+    <symbol id="i-live" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-sos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.6 3.6M14.8 14.8l3.6 3.6M18.4 5.6l-3.6 3.6M9.2 14.8l-3.6 3.6"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 10h8M8 14h5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12.5-7.5z"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
     <symbol id="i-add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1M19 8v6M16 11h6"/></symbol>
@@ -299,6 +338,7 @@
     <div>
       <span class="eyebrow">Réseau indépendant, libre</span>
       <h1><span>Le monde</span><span>se parle.</span><span>Enfin.</span></h1>
+      <p class="sig">Un monde. Toutes les langues. Une seule connexion.</p>
       <p class="lead"><span>Messagerie, appels, visio et traduction dans la conversation.</span> <span>112 langues proposées pour relier les personnes, les cultures et les opportunités, partout sur la planète.</span></p>
       <div class="ctas">
         <a class="btn orange big" href="../" data-ow-primary><svg aria-hidden="true"><use href="#i-down"/></svg><span>Installer l'application gratuite</span></a>
@@ -319,21 +359,6 @@
       </div>
       <p class="hint">Touchez une ville du globe</p>
       <p class="sr" id="cityLive" aria-live="polite"></p>
-    </div>
-  </div></section>
-
-  <section id="tout"><div class="wrap">
-    <div class="reveal">
-      <p class="kicker">Tout en un, pour un monde sans frontière</p>
-      <h2>Le monde entier, dans votre poche.</h2>
-    </div>
-    <div class="cards">
-      <a class="card reveal" href="../"><span class="sq"><svg aria-hidden="true"><use href="#i-msg"/></svg></span><h3>Messagerie</h3><p>Messages traduits dans la langue de chacun.</p><span class="st on">Disponible</span></a>
-      <a class="card reveal" href="../"><span class="sq"><svg aria-hidden="true"><use href="#i-tel"/></svg></span><h3>Téléphone</h3><p>Appels avec traduction de la parole.</p><span class="st on">Disponible</span></a>
-      <a class="card reveal" href="../index.html?b=call"><span class="sq"><svg aria-hidden="true"><use href="#i-cam"/></svg></span><h3>Visioconférence</h3><p>Parlez et comprenez-vous en vidéo.</p><span class="st on">Disponible</span></a>
-      <a class="card reveal" href="../everywhere/"><span class="sq"><svg aria-hidden="true"><use href="#i-globe"/></svg></span><h3>Face à face</h3><p>Conversation côte à côte, chacun dans sa langue.</p><span class="st on">Disponible</span></a>
-      <a class="card reveal" href="../everywhere/#/everywhere/papier"><span class="sq"><svg aria-hidden="true"><use href="#i-doc"/></svg></span><h3>Tout comprendre</h3><p>Photo d'un papier, d'un panneau ou d'un menu, lue dans votre langue.</p><span class="st on">Disponible</span></a>
-      <a class="card reveal" href="../everywhere/#/learn"><span class="sq"><svg aria-hidden="true"><use href="#i-learn"/></svg></span><h3>Apprendre</h3><p>Progressez dans la langue de votre choix.</p><span class="st beta">Débuts</span></a>
     </div>
   </div></section>
 
@@ -364,6 +389,27 @@
         <div class="chat" id="dChat" aria-live="polite"></div>
         <p class="dnote" id="dNote">Traduit par le même moteur que l'application. Qualité variable selon la langue.</p>
       </div>
+    </div>
+  </div></section>
+
+  <section id="tout"><div class="wrap">
+    <div class="reveal">
+      <p class="kicker">L'écosystème</p>
+      <h2>Onze espaces, un seul compte</h2>
+      <p class="sub">Chaque espace s'ouvre avec un compte gratuit. Le statut affiché est le statut réel.</p>
+    </div>
+    <div class="eco-grid">
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-msg"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD CHAT</span></h3><p>Messages entre deux personnes, traduits dans la langue de chacun.</p><ul class="pl"><li>Vous écrivez dans votre langue, l'autre lit dans la sienne.</li><li>À plusieurs : dans les salons de COMMUNITY.</li></ul><div class="act"><span class="st on">Disponible</span><a class="go" href="../">Ouvrir</a><a class="go" href="#demo">Essayer la démo</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-tel"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD CALL</span></h3><p>Appels où vos phrases s'affichent traduites chez l'autre.</p><ul class="pl"><li>Votre parole devient un texte traduit, en direct.</li><li>Voix réelle possible, chiffrée, d'un téléphone à l'autre.</li></ul><div class="act"><span class="st on">Disponible</span><a class="go" href="../">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-cam"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD VIDEO</span></h3><p>Appels vidéo à deux, avec la traduction des phrases.</p><ul class="pl"><li>La caméra s'allume seulement quand vous le décidez.</li></ul><div class="act"><span class="st on">Disponible</span><a class="go" href="../index.html?b=call">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-face"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD FACE TO FACE</span></h3><p>Deux personnes, deux langues, un seul téléphone posé entre vous.</p><ul class="pl"><li>Un micro pour chacun, traduction dans les deux sens.</li><li>Texte d'origine et traduction à l'écran, lecture à voix haute si le téléphone le permet.</li></ul><p class="lim">Langues choisies à la main : pas encore de détection automatique. Micro selon le navigateur.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/everywhere/face">Ouvrir</a><a class="go" href="#demo">Essayer la démo</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-scan"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD SCAN</span></h3><p>Photographiez un papier, un panneau ou un menu : lisez-le dans votre langue.</p><ul class="pl"><li>Photo ou image de la galerie, lue sur le téléphone, texte lu modifiable.</li><li>La photo ne quitte jamais votre téléphone : seul le texte lu part vers le traducteur.</li></ul><p class="lim">Langue du papier choisie à la main. Copie, partage et alerte sur les lectures incertaines : pas encore.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/everywhere/papier">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-people"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD COMMUNITY</span></h3><p>Salons publics : chacun écrit dans sa langue, tout le monde lit dans la sienne.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/community">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-live"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD LIVE</span></h3><p>Des directs suivis dans votre langue, avec sous-titres traduits.</p><p class="lim">Jusqu'à 12 spectateurs par direct pour l'instant.</p><div class="act"><span class="st beta">Débuts</span><a class="go" href="../everywhere/#/live">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-learn"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD LEARN</span></h3><p>Leçons, exercices et progression dans la langue de votre choix.</p><div class="act"><span class="st beta">Débuts</span><a class="go" href="../everywhere/#/learn">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-case"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD BUSINESS</span></h3><p>Annonces traduites, règles du commerce par pays, douane et outils pour l'argent.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/business">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD SOS</span></h3><p>Numéros d'urgence par pays et phrases utiles traduites, à montrer ou faire écouter.</p><p class="lim">En urgence, appelez d'abord les secours.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/sos">Ouvrir</a></div></article>
+      <article class="card eco reveal"><span class="sq"><svg aria-hidden="true"><use href="#i-compass"/></svg></span><h3><span class="notranslate" translate="no">ONE WORLD DISCOVERY</span></h3><p>Touchez une région du monde : ses langues, des phrases de voyage, quelqu'un à qui écrire.</p><div class="act"><span class="st on">Disponible</span><a class="go" href="../everywhere/#/terre">Ouvrir</a></div></article>
     </div>
   </div></section>
 
@@ -400,6 +446,58 @@
     <a class="card reveal" href="../everywhere/#/entraide"><span class="sq"><svg aria-hidden="true"><use href="#i-help"/></svg></span><h3>S'entraider</h3><p>Demander ou offrir de l'aide, gratuitement, à des gens du monde entier.</p><span class="st on">Disponible</span></a>
   </div></section>
 
+  <section id="publics"><div class="wrap">
+    <div class="reveal"><p class="kicker">Pour qui ?</p><h2>Pour chacun, partout dans le monde</h2></div>
+    <div class="aud reveal">
+      <div><h3>Particuliers</h3><p>Parler avec ses proches et ses amis du monde entier.</p></div>
+      <div><h3>Voyageurs</h3><p>Se faire comprendre partout, même loin de chez soi.</p></div>
+      <div><h3>Touristes</h3><p>Lire un menu ou un panneau, demander son chemin.</p></div>
+      <div><h3>Étudiants</h3><p>Échanger avec d'autres pays et pratiquer une langue.</p></div>
+      <div><h3>Enseignants</h3><p>Faire vivre une langue en classe avec de vrais échanges.</p></div>
+      <div><h3>Entreprises</h3><p>Parler à ses clients et fournisseurs dans leur langue.</p></div>
+      <div><h3>Associations</h3><p>Réunir des membres qui ne parlent pas la même langue.</p></div>
+      <div><h3>Professionnels</h3><p>Hôtels, guides, commerçants : servir chaque client dans sa langue.</p></div>
+      <div><h3>Créateurs</h3><p>Animer un direct suivi dans plusieurs langues.</p></div>
+      <div><h3>Organisations internationales</h3><p>Faire travailler ensemble des équipes de langues différentes.</p></div>
+      <div><h3>Partenaires</h3><p>Construire avec ONE WORLD des services pour le monde entier.</p></div>
+    </div>
+    <div class="reveal opp">
+      <p class="kicker">Opportunités</p>
+      <h2>Ce que la fin de la barrière des langues rend possible</h2>
+      <ul class="tags"><li>Tourisme international</li><li>Commerce</li><li>Éducation</li><li>Communication professionnelle</li><li>Collaboration internationale</li><li>Vie associative</li><li>Échanges culturels</li><li>Créateurs de contenu</li><li>Services linguistiques</li><li>Partenariats internationaux</li></ul>
+    </div>
+  </div></section>
+
+  <section id="modele"><div class="wrap">
+    <div class="reveal"><p class="kicker">Modèle économique</p><h2>Gratuit pour tous, des offres pour aller plus loin</h2></div>
+    <div class="model">
+      <div class="col reveal"><span class="st on">Existe aujourd'hui</span>
+        <div class="it"><h3>Application gratuite</h3><p>Messagerie, appels et traduction, sans abonnement.</p></div>
+        <div class="it"><h3><a href="pro/"><span class="notranslate" translate="no">ONE WORLD Pro</span></a></h3><p>Offre pour les entreprises, avec ses conditions sur la page Pro.</p></div>
+        <div class="it"><h3>Liens partenaires</h3><p>Voyage et services : nous pouvons toucher une commission, sans surcoût pour vous.</p></div>
+      </div>
+      <div class="col later reveal"><span class="st soon">Propositions pour demain</span>
+        <p class="sub small">Pas encore proposé. Aucun tarif n'est fixé.</p>
+        <ul class="tags"><li><span class="notranslate" translate="no">ONE WORLD Premium</span></li><li>Abonnements Business</li><li>Offres Entreprises</li><li>Licences éducatives</li><li><span class="notranslate" translate="no">API</span></li><li>Partenariats</li><li>Services complémentaires</li><li>Événements et services professionnels</li></ul>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="confiance"><div class="wrap">
+    <div class="reveal"><p class="kicker">Confiance</p><h2>Vos données : ce qui est vérifié</h2></div>
+    <ul class="checks reveal">
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Pour créer un compte : un pseudo, une langue et un e-mail confirmé. Ni nom, ni numéro de téléphone.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Messages stockés dans l'Union européenne, visibles seulement par les participants, effacés au bout de 90 jours.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Votre e-mail n'est jamais montré aux autres membres, ni vendu.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Appel traduit : vos phrases passent en direct et ne sont pas enregistrées.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>La photo ne quitte jamais votre téléphone : seul le texte lu part vers le traducteur.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Micro et caméra : votre navigateur vous demande l'autorisation, que vous pouvez retirer à tout moment.</span></li>
+      <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>Vous pouvez supprimer votre compte quand vous voulez, depuis votre profil.</span></li>
+    </ul>
+    <p class="honest reveal">À savoir : les phrases à traduire passent par le service MyMemory, qui peut les conserver. Ne traduisez pas d'informations sensibles. Aucune sécurité n'est absolue.</p>
+    <p class="reveal"><a class="go" href="../#confidentialite">Lire la politique de confidentialité</a></p>
+  </div></section>
+
   <section id="vision" class="manifesto"><div class="wrap reveal">
     <p class="kicker">La vision</p>
     <p class="big">Pendant des millénaires, la langue a séparé les peuples. <em>Aujourd'hui, un seul réseau efface cette frontière :</em> vous parlez, l'autre vous comprend, où qu'il soit sur la planète.</p>
@@ -408,11 +506,6 @@
       <li><b>Libre et indépendant.</b><span>Un réseau qui appartient à ceux qui le font vivre.</span></li>
       <li><b>Chaque voix compte.</b><span>Votre langue, votre culture, votre accent : le monde entier peut enfin les entendre.</span></li>
     </ol>
-    <div class="trust">
-      <div><h3>Vos échanges vous appartiennent</h3><p>Votre profil et votre photo ne sont visibles que par vos contacts.</p></div>
-      <div><h3>Un réseau indépendant</h3><p>Créé en France par son fondateur.</p></div>
-      <div><h3>Sans publicité intrusive</h3><p>Liens partenaires : nous pouvons toucher une commission.</p></div>
-    </div>
   </div></section>
 
   <section><div class="wrap">
@@ -429,6 +522,11 @@
       <div><h2 data-k="Rejoindre {OW}">Rejoindre <span translate="no" class="notranslate">24/24 ONE WORLD</span></h2><p>Participez à un monde plus ouvert, plus humain et plus connecté.</p></div>
       <a class="btn green big" href="../"><svg aria-hidden="true"><use href="#i-add"/></svg><span>Créer mon compte gratuitement</span></a>
     </div>
+    <p class="sig center reveal">Un monde. Toutes les langues. Une seule connexion.</p>
+    <nav class="conv reveal" aria-label="ONE WORLD">
+      <a href="#tout">Découvrir les espaces</a><a href="#demo">Essayer la démonstration</a><a href="#langues">Découvrir les langues</a><a href="pro/">Offres professionnelles</a>
+      <a href="mailto:contact.2424oneworld@gmail.com?subject=ONE%20WORLD">Contacter l'équipe</a><a href="mailto:contact.2424oneworld@gmail.com?subject=Partenariat%20ONE%20WORLD">Devenir partenaire</a>
+    </nav>
   </div></section>
 </main>
 <a class="dock btn orange" id="dock" href="../" data-ow-primary hidden><svg aria-hidden="true"><use href="#i-down"/></svg><span>Installer gratuitement</span></a>

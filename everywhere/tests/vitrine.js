@@ -88,7 +88,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     await q.waitForFunction(() => document.querySelector(".eyebrow").textContent !== "Réseau indépendant, libre");
     const r = await q.evaluate(() => ({ eyebrow: document.querySelector(".eyebrow").textContent, kicker: document.querySelector("#tout .kicker").textContent, avis: !document.getElementById("newLang").hidden, auto: !document.getElementById("autoTr").hidden }));
     await q.close();
-    return { ok: r.eyebrow === "Onafhanklike, vrye netwerk" && r.kicker === "All in one, for a world without borders" && r.avis && !r.auto, detail: JSON.stringify(r) };
+    return { ok: r.eyebrow === "Onafhanklike, vrye netwerk" && r.kicker === "The ecosystem" && r.avis && !r.auto, detail: JSON.stringify(r) };
   });
   for (const [c, attendu] of [["en", "Translation in action"], ["ja", "翻訳を体験"], ["ar", "الترجمة أثناء العمل"], ["de", "Übersetzung in Aktion"]]) {
     await step("Langue « " + c + " » écrite à la main : titre de la démo traduit, pas d'avertissement" + (c === "ar" ? ", page de droite à gauche" : ""), async () => {
@@ -126,16 +126,28 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     panne = false;
     return { ok: /ne répond pas/.test(r.note) && r.bulles === 0, detail: JSON.stringify(r) };
   });
-  await step("Statuts honnêtes : Rencontrer = « Bientôt » (pas de lien), Apprendre = « Débuts », 8 cartes « Disponible »", async () => {
-    const r = await p.evaluate(() => { const c = [...document.querySelectorAll(".card")].map((x) => ({ t: x.querySelector("h3").textContent, s: x.querySelector(".st").textContent, lien: x.tagName === "A" }));
-      return { rencontrer: c.find((x) => x.t === "Rencontrer"), apprendre: c.find((x) => x.t === "Apprendre"), dispo: c.filter((x) => x.s === "Disponible").length }; });
-    return { ok: r.rencontrer.s === "Bientôt" && !r.rencontrer.lien && r.apprendre.s === "Débuts" && r.dispo === 8, detail: JSON.stringify(r) };
+  await step("Statuts honnêtes : 11 espaces ONE WORLD (LIVE et LEARN « Débuts »), Rencontrer « Bientôt » sans lien, limites dites (FACE TO FACE, SCAN)", async () => {
+    const r = await p.evaluate(() => { const e = [...document.querySelectorAll(".card.eco")].map((x) => ({ t: x.querySelector("h3").textContent.replace("ONE WORLD ", ""), s: x.querySelector(".st").textContent, lim: !!x.querySelector(".lim"), h: x.querySelector(".act a").getAttribute("href") }));
+      const u = [...document.querySelectorAll(".uses .card")].map((x) => ({ t: x.querySelector("h3").textContent, s: x.querySelector(".st").textContent, lien: x.tagName === "A" }));
+      return { e, rencontrer: u.find((x) => x.t === "Rencontrer") }; });
+    const noms = r.e.map((x) => x.t).join(","), st = Object.fromEntries(r.e.map((x) => [x.t, x.s]));
+    const ok = noms === "CHAT,CALL,VIDEO,FACE TO FACE,SCAN,COMMUNITY,LIVE,LEARN,BUSINESS,SOS,DISCOVERY" && st.LIVE === "Débuts" && st.LEARN === "Débuts" &&
+      r.e.filter((x) => x.s === "Disponible").length === 9 && r.e.find((x) => x.t === "SCAN").lim && r.e.find((x) => x.t === "FACE TO FACE").lim &&
+      r.rencontrer.s === "Bientôt" && !r.rencontrer.lien;
+    return { ok, detail: noms + " · " + JSON.stringify(st) };
+  });
+  await step("Chaque espace ouvre une vraie route de l'appli (aucune route inventée)", async () => {
+    const hs = await p.evaluate(() => [...document.querySelectorAll(".card.eco .act a")].map((a) => a.getAttribute("href")).filter((h) => h.includes("#/")));
+    const app = fs.readFileSync(path.join(SITE, "everywhere", "espaces", "espaces.js"), "utf8") + fs.readFileSync(path.join(SITE, "everywhere", "index.html"), "utf8") + fs.readFileSync(path.join(SITE, "everywhere", "traduction", "everywhere.js"), "utf8");
+    const bad = hs.filter((h) => { const r = h.split("#/")[1].split("/"); return !(new RegExp('data-route="' + r[0] + '"|kind === "' + r[0] + '"|#/' + r.join("/") + "\\b").test(app)); });
+    return { ok: hs.length === 8 && !bad.length, detail: hs.length + " routes" + (bad.length ? " · inconnues : " + bad.join(",") : " · toutes présentes dans l'appli") };
   });
   await step("Liens internes : tous mènent à un fichier qui existe (appli, portail, pro/, légal)", async () => {
     const hrefs = await p.evaluate(() => [...new Set([...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")))]);
     const bad = [];
     for (const h of hrefs) {
       if (h.startsWith("#")) { if (h.length > 1 && !(await p.$(h))) bad.push(h); continue; }
+      if (h.startsWith("mailto:")) { if (!/^mailto:contact\.2424oneworld@gmail\.com(\?|$)/.test(h)) bad.push(h); continue; }
       const u = new URL(h, M); if (u.origin !== ORIGIN) { bad.push(h); continue; }
       let f = path.join(SITE, decodeURIComponent(u.pathname.slice(BASE.length))); if (!fs.existsSync(f) || fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
       if (!fs.existsSync(f)) bad.push(h);
@@ -229,6 +241,34 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     await q.tap("#cities button[aria-label^='Moscou']"); const c = await q.evaluate(() => document.getElementById("helloWord").textContent);
     await ctx.close();
     return { ok: a === b && c === "Привет", detail: a + " → " + b + " → " + c };
+  });
+  await step("Lecteur d'écran : un seul h1, titres sans saut de niveau, chaque lien et bouton a un nom, zones de repère présentes", async () => {
+    const r = await p.evaluate(() => {
+      const hs = [...document.querySelectorAll("h1,h2,h3")].filter((h) => h.offsetParent !== null).map((h) => +h.tagName[1]);
+      let saut = 0; for (let i = 1; i < hs.length; i++) if (hs[i] > hs[i - 1] + 1) saut++;
+      const sansNom = [...document.querySelectorAll("a[href],button,input,select")].filter((e) => e.offsetParent !== null && !((e.getAttribute("aria-label") || "").trim() || (e.textContent || "").trim() || (e.labels && e.labels[0] && e.labels[0].textContent.trim()) || e.title || e.placeholder)).map((e) => e.outerHTML.slice(0, 60));
+      return { h1: hs.filter((x) => x === 1).length, saut, sansNom, main: !!document.querySelector("main"), header: !!document.querySelector("header"), footer: !!document.querySelector("footer") };
+    });
+    return { ok: r.h1 === 1 && r.saut === 0 && !r.sansNom.length && r.main && r.header && r.footer, detail: JSON.stringify(r).slice(0, 300) };
+  });
+  await step("Réseau et confidentialité : au chargement, aucun appel hors du site sauf Travelpayouts ; rien d'autre que le carnet et la langue gardés sur l'appareil", async () => {
+    const ctx = await browser.newContext({ locale: "fr-FR" }); const ext = [];
+    await ctx.route(/^https?:\/\/(?!localhost)/, (r) => { ext.push(new URL(r.request().url()).host); return r.abort(); });
+    const q = await ctx.newPage(); await q.goto(M + "?lang=fr"); await q.waitForFunction(() => document.querySelector("#cloud button"));
+    await q.evaluate(() => window.scrollTo(0, document.body.scrollHeight)); await q.waitForTimeout(1500);
+    const cles = await q.evaluate(() => { try { return Object.keys(localStorage).concat(Object.keys(sessionStorage)); } catch (e) { return []; } });
+    const cookies = await ctx.cookies(); await ctx.close();
+    const autres = [...new Set(ext)].filter((h) => !/tp-em\.com$/.test(h));
+    return { ok: !autres.length && !cookies.length && cles.every((k) => /^ow_|^lc_|lang/i.test(k)), detail: "hors site : " + ([...new Set(ext)].join(",") || "aucun") + " · stockage : " + (cles.join(",") || "rien") + " · cookies : " + cookies.length };
+  });
+  if (MOTEUR === "chromium") await step("Performance (téléphone faible simulé, processeur ÷4) : globe animé sans tâche JavaScript de plus de 50 ms pendant 3 s", async () => {
+    const ctx = await ctxFor(tel); const q = await open(ctx, M + "?lang=fr");
+    const cdp = await ctx.newCDPSession(q); await cdp.send("Emulation.setCPUThrottlingRate", { rate: 4 });
+    const r = await q.evaluate(() => new Promise((res) => { const longues = []; let n = 0;
+      const po = new PerformanceObserver((l) => l.getEntries().forEach((e) => longues.push(Math.round(e.duration)))); try { po.observe({ type: "longtask", buffered: false }); } catch (e) {}
+      const t0 = performance.now(); (function f() { n++; if (performance.now() - t0 < 3000) requestAnimationFrame(f); else { po.disconnect(); res({ longues, ips: Math.round(n / 3) }); } })(); }));
+    await ctx.close();
+    return { ok: r.longues.length === 0 && r.ips >= 30, detail: "images/s ≈ " + r.ips + " · tâches longues : " + (r.longues.join(",") || "aucune") };
   });
   // ---- Page Pro /monde/pro/ ----
   const P = M + "pro/";
