@@ -30,6 +30,10 @@ jobs:
       - name: Chromium
         working-directory: .github/ci
         run: npx --no-install playwright install --with-deps chromium
+      - name: Deux comptes TEST confirmes (Espaces, changement de compte, deconnexion, anciens jetons)
+        continue-on-error: true
+        timeout-minutes: 17
+        run: node .github/ci/deux-comptes-confirmes.js
       - name: identite-reel contre la base TEST
         continue-on-error: true
         run: OW_REEL=TEST node everywhere/tests/identite-reel.js
