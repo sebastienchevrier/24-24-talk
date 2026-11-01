@@ -114,6 +114,17 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.waitForFunction(() => document.querySelectorAll(".es-room").length === 2, null, { timeout: 5000 });
     return { ok: /Femmes entrepreneures/.test(txt) && /Femmes ·/.test(txt), detail: txt.replace(/\s+/g, " ").trim() };
   });
+  await step("OW-012-A1 : salon « Femmes » ouvert, la mention « Salon public » est affichée au-dessus des messages", async () => {
+    await page.goto(EW + "#/community");
+    await page.waitForSelector(".es-room", { timeout: 10000 });
+    await page.tap('.es-chip[data-f="women"]');
+    await page.waitForFunction(() => document.querySelectorAll(".es-room").length === 1, null, { timeout: 5000 });
+    await page.tap(".es-room");
+    await page.waitForSelector("#esPublic", { timeout: 10000 });
+    const r = await page.evaluate(() => { const n = document.querySelector("#esPublic"), m = document.querySelector("#esMsgs");
+      return { txt: n.textContent, vis: n.getBoundingClientRect().height > 0, before: !!(n.compareDocumentPosition(m) & Node.DOCUMENT_POSITION_FOLLOWING), role: n.getAttribute("role") }; });
+    return { ok: /Salon public/.test(r.txt) && /N'écrivez rien de privé/.test(r.txt) && r.vis && r.before && r.role === "note", detail: r.txt.trim() };
+  });
   await step("Community : la liste montre la communauté (1 membre, par sebtest)", async () => {
     await page.goto(EW + "#/community");
     await page.waitForSelector(".es-room", { timeout: 10000 });

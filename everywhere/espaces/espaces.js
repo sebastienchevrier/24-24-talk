@@ -19,7 +19,7 @@
       f_title_ph_c: "ex. : Cuisine du monde", f_title_ph_l: "ex. : Visite de Bali en direct", create: "Créer", cancel: "Annuler",
       none_c: "Aucune communauté pour l'instant. Créez la première !", none_l: "Aucun direct pour l'instant. Lancez le premier !",
       members: "{n} membre(s)", on_air: "🔴 En direct", by: "par {n}", back_c: "← Communautés", back_l: "← Directs", back_b: "← Annonces",
-      join: "Rejoindre", leave: "Quitter", joined: "Vous êtes membre.", join_to_write: "Rejoignez pour écrire.",
+      join: "Rejoindre", leave: "Quitter", joined: "Vous êtes membre.", join_to_write: "Rejoignez pour écrire.", public_room: "Salon public : tous les membres de ONE WORLD peuvent lire ces messages. N'écrivez rien de privé ici.",
       write_ph: "Écrivez dans votre langue…", send: "Envoyer", empty_room: "Pas encore de message. Lancez la conversation !",
       orig: "Original", translating: "Traduction…", delete_room: "Supprimer", delete_room_q: "Supprimer définitivement « {t} » et tous ses messages ?",
       live_start: "▶ Démarrer le direct", live_stop: "⏹ Arrêter le direct", cam: "📹 Caméra", cam_off: "📹 Couper la caméra",
@@ -92,7 +92,7 @@
       f_title_ph_c: "e.g. World cooking", f_title_ph_l: "e.g. Live tour of Bali", create: "Create", cancel: "Cancel",
       none_c: "No community yet. Create the first one!", none_l: "No live yet. Start the first one!",
       members: "{n} member(s)", on_air: "🔴 Live", by: "by {n}", back_c: "← Communities", back_l: "← Lives", back_b: "← Listings",
-      join: "Join", leave: "Leave", joined: "You are a member.", join_to_write: "Join to write.",
+      join: "Join", leave: "Leave", joined: "You are a member.", join_to_write: "Join to write.", public_room: "Public room: every ONE WORLD member can read these messages. Don't write anything private here.",
       write_ph: "Write in your language…", send: "Send", empty_room: "No message yet. Start the conversation!",
       orig: "Original", translating: "Translating…", delete_room: "Delete", delete_room_q: "Permanently delete “{t}” and all its messages?",
       live_start: "▶ Start the live", live_stop: "⏹ Stop the live", cam: "📹 Camera", cam_off: "📹 Turn camera off",
@@ -340,7 +340,8 @@
       '<div class="es-row">' + (owner ? "" : '<button type="button" class="btn' + (cur.member ? "" : " primary") + '" id="esJoin">' + esc(t(cur.member ? "leave" : "join")) + "</button>") +
       (owner ? '<button type="button" class="btn es-danger" id="esDel">' + esc(t("delete_room")) + "</button>" : "") + "</div></div>" +
       (live ? liveHtml(owner) : "") +
-      '<div class="card es-chat"><div class="es-msgs" id="esMsgs" aria-live="polite"></div>' +
+      // OW-012-A1 : le salon est lisible par tout compte ONE WORLD (règle serveur « lire un salon ») ; on le dit clairement.
+      '<div class="card es-chat"><p class="es-public" id="esPublic" role="note">🔓 ' + esc(t("public_room")) + '</p><div class="es-msgs" id="esMsgs" aria-live="polite"></div>' +
       (cur.member ? '<form class="es-compose" id="esCompose"><button type="button" class="es-mic" id="esMic" aria-label="' + esc(t("mic_t")) + '">' + esc(t("mic")) + '</button><input id="esInput" dir="auto" maxlength="1000" autocomplete="off" placeholder="' + esc(t("write_ph")) + '"><button class="btn primary" type="submit">' + esc(t("send")) + "</button></form>" +
         '<p class="tr-err" id="esErr"></p>'
         : '<p class="muted">' + esc(t(live ? "live_watch" : "join_to_write")) + "</p>") +
@@ -972,6 +973,9 @@
   }
   function show(root, parts, uiLang) {
     leave();
+    // OW-012-A1 : le compte est relu à chaque écran. Avant, il était gardé pour toute la visite : après une
+    // déconnexion, une suppression ou un changement de compte dans Profil, les espaces gardaient l'ancien.
+    uidP = null;
     ui = uiLang || "fr";
     cur = { token: Date.now() + Math.random() };
     var kind = parts[0], sub = parts[1];

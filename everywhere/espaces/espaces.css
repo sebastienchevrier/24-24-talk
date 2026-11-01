@@ -55,3 +55,5 @@
 .es-cu-ban{border-color:#b33;}
 .es-tv{width:100%;border:0;border-radius:12px;display:block;margin:6px 0 12px;background:transparent;}
 .es-aff{display:block;margin-top:4px;font-size:12px;}
+/* OW-012-A1 : mention « salon public » au-dessus des messages */
+.es-public{margin:0 0 .6rem;padding:.5rem .7rem;border-radius:10px;font-size:.9rem;line-height:1.35;background:rgba(255,196,0,.12);border:1px solid rgba(255,196,0,.45);color:inherit}
