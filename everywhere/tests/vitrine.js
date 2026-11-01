@@ -287,6 +287,18 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
       return { ok: r.h.includes(mot) && r.lang === c && r.large <= 1, detail: r.h.slice(0, 70) };
     });
   }
+  await step("Pro aligné sur la grille Tarifs dans ses 9 langues : 14,90 € / utilisateur / mois ou 149 € / an, Enterprise sur devis, plus de 990 € ni d'ancien forfait, « pas encore en vente », lien vers les tarifs", async () => {
+    const q = await ouvrePro(ctxTel, P + "?lang=fr");
+    const bad = [];
+    for (const c of ["fr", "en", "es", "pt", "it", "tr", "hu", "th", "vi"]) {
+      await q.selectOption("#lang", c);
+      const r = await q.evaluate(() => ({ t: document.getElementById("offer").innerText, all: !!document.querySelector('#offer a[href="../tarifs/"]'), body: document.body.innerText }));
+      if (!/14[.,]90/.test(r.t) || !/149/.test(r.t) || /990|2[ .,]?400|4[ .,]?000|1[ .,]?500|USD|\$|QR/.test(r.body) || !r.all || r.t.split("\n").length < 10) bad.push(c);
+    }
+    const fr = await q.evaluate(() => { document.getElementById("lang").value = "fr"; document.getElementById("lang").dispatchEvent(new Event("change")); return document.getElementById("offer").innerText; });
+    await q.close();
+    return { ok: !bad.length && /Pas encore en vente/.test(fr) && /Sur devis/.test(fr) && /À venir/.test(fr), detail: bad.length ? "à revoir : " + bad : "9 langues alignées" };
+  });
   for (const [w, hgt] of [[320, 640], [393, 851], [768, 1024], [1280, 800]]) {
     await step("Pro, écran " + w + " px : aucun défilement de côté, boutons ≥ 40 px, capture", async () => {
       const ctx = await ctxFor({ viewport: { width: w, height: hgt }, hasTouch: w < 900 });
