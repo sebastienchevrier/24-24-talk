@@ -178,7 +178,16 @@
   };
   var ICE = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }];
 
-  var ui = "fr", cur = null, uidP = null, myLang = null, compteGen = 0;
+  var ui = "fr", cur = null, uidP = null, myLang = null, compteGen = 0, afficheId;
+  // Un direct n'est annoncé « en direct » que si l'animateur a donné signe de vie récemment (last_at, renouvelé
+  // chaque minute par son téléphone et à chaque sous-titre par le serveur). Animateur parti sans arrêter (changement
+  // de compte, téléphone éteint, réseau perdu) : l'annonce disparaît d'elle-même, sans fonction serveur nouvelle.
+  var LIVE_FRAIS = 5 * 60 * 1000, LIVE_POULS = 60 * 1000;
+  function enDirect(r) {
+    if (!r || !r.live_on) return false;
+    var t = Date.parse(r.last_at || "");
+    return !t || Date.now() - t < LIVE_FRAIS;
+  }
   function t(k, v) {
     var s = (STR[ui] && STR[ui][k]) || (window.EW_SCREEN_STR && window.EW_SCREEN_STR.espaces && window.EW_SCREEN_STR.espaces[ui] && window.EW_SCREEN_STR.espaces[ui][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
@@ -204,6 +213,7 @@
     var p = G ? sb().then(function (c) { G.adopter(c); return G.moi(); }).then(function (m) {
       // Le compte a changé pendant la lecture (surCompte) : la réponse de l'ancien compte est ignorée.
       if (g !== compteGen) throw new Error("OW_COMPTE_CHANGE");
+      afficheId = m ? m.id : null;
       if (!m) return null;
       myLang = base(m.langue) || ui;
       return { id: m.id, pseudo: m.pseudo, lang: myLang };
@@ -314,7 +324,7 @@
         if (!res.data.length) { list.innerHTML = '<div class="card es-empty"><p>' + esc(t("none_" + k1)) + "</p></div>"; return; }
         list.innerHTML = res.data.map(function (r) {
           return '<a class="card es-room" href="#/' + kind + "/" + esc(r.id) + '">' +
-            (r.live_on ? '<span class="es-live">' + esc(t("on_air")) + "</span>" : "") +
+            (enDirect(r) ? '<span class="es-live">' + esc(t("on_air")) + "</span>" : "") +
             '<b dir="auto" data-tr="' + esc(r.title) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></b>' +
             (r.about ? '<span class="es-about" dir="auto" data-tr="' + esc(r.about) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></span>' : "") +
             '<small class="muted">' + esc(flag(r.lang)) + " " + (r.topic && r.topic !== "other" ? esc(t("tp_" + r.topic)) + " · " : "") + esc(t("members", { n: r.members })) + " · " + esc(t("by", { n: r.owner_name || "?" })) + "</small></a>";
@@ -350,7 +360,7 @@
     root.innerHTML = '<a class="tr-back" href="#/' + kind + '">' + esc(t(live ? "back_l" : "back_c")) + "</a>" +
       '<div class="card es-roomhead"><h1 id="h-es" dir="auto" data-tr="' + esc(rm.title) + '" data-from="' + esc(rm.lang) + '"></h1>' +
       (rm.about ? '<p class="muted" dir="auto" data-tr="' + esc(rm.about) + '" data-from="' + esc(rm.lang) + '"></p>' : "") +
-      '<p class="muted"><span id="esLiveBadge">' + (rm.live_on ? esc(t("on_air")) + " · " : "") + "</span>" + esc(t("members", { n: rm.members })) + " · " + esc(t("by", { n: rm.owner_name || "?" })) + "</p>" +
+      '<p class="muted"><span id="esLiveBadge">' + (enDirect(rm) ? esc(t("on_air")) + " · " : "") + "</span>" + esc(t("members", { n: rm.members })) + " · " + esc(t("by", { n: rm.owner_name || "?" })) + "</p>" +
       '<div class="es-row">' + (owner ? "" : '<button type="button" class="btn' + (cur.member ? "" : " primary") + '" id="esJoin">' + esc(t(cur.member ? "leave" : "join")) + "</button>") +
       (owner ? '<button type="button" class="btn es-danger" id="esDel">' + esc(t("delete_room")) + "</button>" : "") + "</div></div>" +
       (live ? liveHtml(owner) : "") +
@@ -479,7 +489,7 @@
   // ---------- LIVE : sous-titres traduits, voix traduite, caméra de l'animateur ----------
   function liveHtml(owner) {
     return '<div class="card es-livebox"><div class="es-stage" id="esStage"><video id="esVideo" autoplay playsinline muted hidden></video>' +
-      '<div class="es-caption" id="esCaption" dir="auto">' + esc(owner ? t("live_host_hint") : (cur.room.live_on ? "" : t("live_wait"))) + "</div></div>" +
+      '<div class="es-caption" id="esCaption" dir="auto">' + esc(owner ? t("live_host_hint") : (enDirect(cur.room) ? "" : t("live_wait"))) + "</div></div>" +
       '<p class="muted es-small" id="esInterim" dir="auto"></p>' +
       '<div class="es-row">' + (owner
         ? '<button type="button" class="btn primary" id="esLiveGo">' + esc(t(cur.room.live_on ? "live_stop" : "live_start")) + '</button><button type="button" class="btn" id="esCam">' + esc(t("cam")) + "</button>"
@@ -500,6 +510,15 @@
     });
     if (cur.room && !cur.room.live_on) { cur.room.live_on = true; var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
   }
+  // Signe de vie de l'animateur : last_at de SON salon (règle existante « modifier mon salon »), chaque minute.
+  function pouls() {
+    stopPouls();
+    var c = cur.c, id = cur.room.id, tok = cur.token;
+    function battre() { if (!cur || cur.token !== tok) return; c.from("ow_rooms").update({ last_at: new Date().toISOString() }).eq("id", id).then(function () {}, function () {}); }
+    battre();
+    cur.pouls = setInterval(battre, LIVE_POULS);
+  }
+  function stopPouls() { if (cur && cur.pouls) { clearInterval(cur.pouls); cur.pouls = null; } }
   function bindLive(root, owner) {
     var msg = root.querySelector("#esLiveMsg");
     if (owner) {
@@ -507,13 +526,13 @@
       go.addEventListener("click", function () {
         var on = !cur.room.live_on;
         go.disabled = true;
-        cur.c.from("ow_rooms").update({ live_on: on }).eq("id", cur.room.id).then(function (res) {
+        cur.c.from("ow_rooms").update(on ? { live_on: true, last_at: new Date().toISOString() } : { live_on: false }).eq("id", cur.room.id).then(function (res) {
           go.disabled = false;
           if (res.error) throw res.error;
           cur.room.live_on = on;
           go.textContent = t(on ? "live_stop" : "live_start");
           root.querySelector("#esLiveBadge").textContent = on ? t("on_air") + " · " : "";
-          if (on) startCaptions(root); else stopCaptions();
+          if (on) { startCaptions(root); pouls(); } else { stopCaptions(); stopPouls(); }
           signal({ t: on ? "live" : "end" });
         }).catch(function (e) { go.disabled = false; msg.textContent = errText(e); });
       });
@@ -525,7 +544,7 @@
         inp.value = "";
         post(v, "caption").catch(function (err) { msg.textContent = errText(err); });
       });
-      if (cur.room.live_on) startCaptions(root);
+      if (cur.room.live_on) { startCaptions(root); pouls(); }
     } else {
       var vb = root.querySelector("#esVoice");
       vb.addEventListener("click", function () {
@@ -979,6 +998,8 @@
   // ---------- Entrée ----------
   function leave() {
     if (!cur) return;
+    // Le pouls s'arrête : sans nouvelle de l'animateur, l'annonce « en direct » disparaît d'elle-même (voir enDirect).
+    stopPouls();
     stopLive();
     if (cur.poll) clearInterval(cur.poll);
     try { if (cur.rt && cur.c) cur.c.removeChannel(cur.rt); } catch (e) { /* ignoré */ }
@@ -991,14 +1012,32 @@
   // OW-012 lot 4 étape B : changement de compte, déconnexion ou session expirée sur ce téléphone (cet onglet ou un autre).
   // Le salon ou le direct en cours s'arrête (caméra, micro, abonnements temps réel), tout ce qui est affiché est effacé,
   // puis l'écran est redessiné pour le compte actuel (ou « Créez d'abord votre compte »). Rien de l'ancien compte ne reste.
-  function surCompte(ev) {
-    if (ev === "profil-modifie") { compteGen++; uidP = null; myLang = null; return; }
-    if (ev !== "changement-de-compte" && ev !== "deconnexion" && ev !== "expiration") return;
-    compteGen++; uidP = null; myLang = null;
-    if (!cur || !vue) return; // Espaces pas à l'écran : rien d'affiché à effacer
-    leave();
+  function redessiner() {
+    if (!vue) return;
     vue.root.innerHTML = "";
     show(vue.root, vue.parts, vue.ui);
+  }
+  function surCompte(ev) {
+    if (ev === "profil-modifie") { compteGen++; uidP = null; myLang = null; return; }
+    if (ev === "connexion") {
+      // Connexion faite ailleurs (Mon compte, Messagerie, autre onglet) alors que les Espaces sont ouverts.
+      // On attend la lecture en cours, puis on ne redessine QUE si l'écran montre un autre compte (ou aucun) :
+      // pas de double démarrage quand la connexion annoncée est celle que l'écran affiche déjà (INITIAL_SESSION).
+      if (!cur || !vue) return;
+      var tok = cur.token;
+      Promise.resolve(uidP).catch(function () {}).then(function () { return window.OWIdentite.moi(); }).then(function (m) {
+        if (!cur || cur.token !== tok || !m || m.id === afficheId) return;
+        compteGen++; uidP = null; myLang = null;
+        leave();
+        redessiner();
+      }, function () {});
+      return;
+    }
+    if (ev !== "changement-de-compte" && ev !== "deconnexion" && ev !== "expiration") return;
+    compteGen++; uidP = null; myLang = null; afficheId = undefined;
+    if (!cur || !vue) return; // Espaces pas à l'écran : rien d'affiché à effacer
+    leave();
+    redessiner();
   }
   if (window.OWIdentite) window.OWIdentite.ecouter(surCompte);
   function show(root, parts, uiLang) {

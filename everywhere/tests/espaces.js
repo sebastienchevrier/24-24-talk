@@ -408,12 +408,64 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     const r = await page.evaluate(() => ({ salon: !!document.querySelector("#esMsgs, #esVoice, #esCaption"), evts: window.__evOW, etat: OWIdentite.etat(), fuite: document.getElementById("ewEspaces").textContent.includes("Direct de sebtest") }));
     return { ok: !r.salon && !r.fuite && r.evts.includes("expiration") && r.etat === "deconnecte", detail: JSON.stringify(r) };
   });
-  await step("OW-012 B : reconnexion → les Espaces reviennent normalement", async () => {
-    await page.evaluate(() => { localStorage.removeItem("fake_who"); const s = JSON.parse(localStorage.getItem("fake_sb")); s.session = true; localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", "fake"); });
+  await step("OW-012 B : connexion faite AILLEURS (autre écran ou onglet) pendant que les Espaces affichent « Créez d'abord votre compte » → le salon revient tout seul, sans recharger", async () => {
+    await page.evaluate(() => { localStorage.removeItem("fake_who"); const s = JSON.parse(localStorage.getItem("fake_sb")); s.session = true; localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", "fake"); window.__evOW = []; });
+    const url0 = page.url();
     await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    await page.waitForSelector("#esLiveGo", { timeout: 5000 });
+    const r = await page.evaluate(async () => ({ evts: window.__evOW, moi: (await OWIdentite.moi() || {}).pseudo, plus: /Créez d'abord/.test(document.getElementById("ewEspaces").textContent) }));
+    return { ok: r.evts.includes("connexion") && r.moi === "sebtest" && !r.plus && page.url() === url0, detail: JSON.stringify(r) + " · même adresse, pas de rechargement" };
+  });
+  await step("OW-012 B : connexion annoncée pour le compte DÉJÀ affiché (INITIAL_SESSION, SIGNED_IN, jeton renouvelé) → aucun redessin, aucune double initialisation", async () => {
+    await page.goto(EW + "#/community");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    await page.waitForTimeout(200);
+    await page.evaluate(() => { document.getElementById("esNewBtn").__marque = 1; window.__nbListes = 0; const L = document.getElementById("esList"); window.__obs = new MutationObserver(() => {}); });
+    const avant = await page.evaluate(() => document.getElementById("ewEspaces").innerHTML.length);
+    await auth("INITIAL_SESSION", "00000000-0000-4000-8000-0000000000aa");
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    await auth("TOKEN_REFRESHED", "00000000-0000-4000-8000-0000000000aa");
+    await page.waitForTimeout(500);
+    const r = await page.evaluate(() => ({ meme: (document.getElementById("esNewBtn") || {}).__marque === 1, abo: (window.__fakeAuth || []).length }));
+    return { ok: r.meme && r.abo === 1, detail: (r.meme ? "écran intact" : "ÉCRAN REDESSINÉ") + " · " + r.abo + " abonnement aux événements" };
+  });
+  await step("OW-012 B : « en direct » seulement si l'animateur a donné signe de vie depuis moins de 5 min ; direct abandonné (10 min) plus annoncé, côté liste et côté salon", async () => {
+    const ids = await page.evaluate(([kid]) => { const d = JSON.parse(localStorage.getItem("fake_ow")); const now = Date.now();
+      const mk = (id, titre, min) => ({ id, kind: "live", title: titre, about: "", lang: "fr", owner_id: kid, owner_name: "kenji", members: 1, live_on: true, topic: "other", created_at: new Date(now - 36e5).toISOString(), last_at: new Date(now - min * 60000).toISOString() });
+      d.ow_rooms.push(mk("cccccccc-0000-4000-8000-0000000f0001", "Direct vivant", 1), mk("cccccccc-0000-4000-8000-0000000f0002", "Direct abandonné", 10));
+      localStorage.setItem("fake_ow", JSON.stringify(d)); return ["cccccccc-0000-4000-8000-0000000f0001", "cccccccc-0000-4000-8000-0000000f0002"]; }, [KENJI]);
+    await page.goto(EW + "#/live");
+    await page.waitForSelector('a[href="#/live/' + ids[1] + '"]', { timeout: 10000 });
+    const liste = await page.evaluate((ids) => ids.map((id) => !!document.querySelector('a[href="#/live/' + id + '"] .es-live')), ids);
+    await page.goto(EW + "#/live/" + ids[1]);
+    await page.waitForSelector("#esVoice", { timeout: 10000 });
+    const salon = await page.evaluate(() => ({ badge: document.getElementById("esLiveBadge").textContent, attente: document.getElementById("esCaption").textContent }));
+    return { ok: liste[0] === true && liste[1] === false && salon.badge === "" && /pas encore commencé|n'a pas encore/i.test(salon.attente),
+      detail: "liste : vivant " + liste[0] + ", abandonné " + liste[1] + " · salon abandonné : badge « " + salon.badge + " », « " + salon.attente.trim() + " »" };
+  });
+  await step("OW-012 B : l'animateur donne signe de vie au lancement (last_at) et son pouls s'arrête au changement de compte", async () => {
     await page.goto(EW + "#/live");
     await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
-    return { ok: (await page.evaluate(async () => (await OWIdentite.moi() || {}).pseudo)) === "sebtest", detail: "sebtest" };
+    await page.evaluate(() => { window.__pouls = []; const si = window.setInterval, ci = window.clearInterval; window.__cleared = [];
+      window.setInterval = function (f, ms) { const id = si.apply(this, arguments); if (ms === 60000) window.__pouls.push(id); return id; };
+      window.clearInterval = function (id) { window.__cleared.push(id); return ci.apply(this, arguments); }; });
+    await page.tap("#esNewBtn");
+    await page.fill("#esTitle", "Direct du pouls");
+    await page.tap("#esNew button[type=submit]");
+    await page.waitForSelector("#esLiveGo", { timeout: 10000 });
+    const rid = page.url().split("/").pop();
+    await page.evaluate((id) => { const d = JSON.parse(localStorage.getItem("fake_ow")); d.ow_rooms.forEach((r) => { if (r.id === id) r.last_at = new Date(Date.now() - 36e5).toISOString(); }); localStorage.setItem("fake_ow", JSON.stringify(d)); }, rid);
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Arrêter/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    await page.waitForTimeout(200);
+    const age = await page.evaluate((id) => { const r = JSON.parse(localStorage.getItem("fake_ow")).ow_rooms.find((x) => x.id === id); return Date.now() - Date.parse(r.last_at); }, rid);
+    await page.evaluate(() => localStorage.setItem("fake_who", "b"));
+    await auth("SIGNED_IN", AMIRA);
+    await page.waitForSelector("#esVoice", { timeout: 10000 });
+    const p = await page.evaluate(() => ({ pouls: window.__pouls.slice(), arretes: window.__pouls.filter((id) => window.__cleared.includes(id)).length }));
+    await page.evaluate(() => localStorage.removeItem("fake_who"));
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    return { ok: age < 5000 && p.pouls.length >= 1 && p.arretes === p.pouls.length, detail: "signe de vie il y a " + Math.round(age / 1000) + " s · " + p.pouls.length + " pouls lancé(s), " + p.arretes + " arrêté(s)" };
   });
   await step("Sans serveur : message d'erreur et bouton Réessayer (rien d'inventé)", async () => {
     await page.evaluate(() => localStorage.setItem("fake_ow_fail", "1"));

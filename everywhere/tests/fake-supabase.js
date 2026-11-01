@@ -6,10 +6,14 @@
   var PROFILE = { id: "00000000-0000-4000-8000-0000000000aa", pseudo: "sebtest", lang: "fr" };
   // Changement de compte sur le même téléphone (essais OW-012 lot 4) : localStorage « fake_who » = "b" → @amira (arabe).
   // Les essais déclenchent ensuite l'événement supabase-js avec window.__fakeAuth (rappels de onAuthStateChange).
+  // Ne touche à rien tant que « fake_who » n'a jamais servi (d'autres essais, comme visio, remplacent PROFILE eux-mêmes).
+  var avantBascule = null;
   function quiSuisJe() {
     var b = false; try { b = localStorage.getItem("fake_who") === "b"; } catch (e) {}
-    PROFILE.id = b ? "00000000-0000-4000-8000-0000000000ab" : "00000000-0000-4000-8000-0000000000aa";
-    PROFILE.pseudo = b ? "amira" : "sebtest"; PROFILE.lang = b ? "ar" : "fr";
+    if (!b && !avantBascule) return;
+    if (!avantBascule) avantBascule = { id: PROFILE.id, pseudo: PROFILE.pseudo, lang: PROFILE.lang };
+    var v = b ? { id: "00000000-0000-4000-8000-0000000000ab", pseudo: "amira", lang: "ar" } : avantBascule;
+    PROFILE.id = v.id; PROFILE.pseudo = v.pseudo; PROFILE.lang = v.lang;
   }
   quiSuisJe();
   var UA_PC = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36";
