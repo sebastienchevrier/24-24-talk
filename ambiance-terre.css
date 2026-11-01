@@ -5,6 +5,9 @@
    Noir profond, la Terre vue de l'espace avec son horizon turquoise lumineux et des points de lumière.
    Tout est dessiné en CSS (aucune image) : rien à télécharger, aucun droit d'image. Thème clair inchangé.
    © 2026 Sébastien Chevrier. Tous droits réservés. */
+/* OW-WRITE-007 (1er nov. 2026) : le thème clair est posé de deux façons : data-theme="light" dans l'appli (index.html)
+   et la classe .theme-light dans le portail (everywhere/prefs.js, sans data-theme). Les règles sombres ci-dessous excluent
+   donc les deux (:not([data-theme="light"]):not(.theme-light)) ; avant, le portail en clair recevait les cartes sombres. */
 html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
   --bg:#07131d; --bg2:#0a1724; --panel:rgba(13,31,45,.92); --panel2:#11273a; --line:rgba(130,180,210,.16);
   --text:#f0f8fa; --muted:#a3b5c4; --blue:#2bbf8f; --blue2:#4fe0b0; --link:#6ff0c0; --cta:#4fe0b0; --cta-ink:#04201a;
@@ -35,7 +38,7 @@ html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"
    vers le haut et assombrie pour que le texte reste lisible. Fixe, derrière tout, sans bloquer le toucher. */
 html[style], html{background:var(--bg);}
 html::before, html::after{content:"";position:fixed;left:0;right:0;pointer-events:none;z-index:-1;}
-html:not([data-theme="light"])::before{
+html:not([data-theme="light"]):not(.theme-light)::before{
   --ow-img-h:calc(max(100vw, 64vh) / 1.155);
   top:0;height:100vh;
   background:
@@ -45,28 +48,28 @@ html:not([data-theme="light"])::before{
     radial-gradient(120% 60% at 15% 0%, rgba(20,90,90,.28), transparent 70%),
     var(--bg);
 }
-html:not([data-theme="light"])::after{display:none;}
+html:not([data-theme="light"]):not(.theme-light)::after{display:none;}
 @media (prefers-color-scheme: light){ html.theme-auto::before, html.theme-auto::after{display:none;} }
 html.theme-light::before, html.theme-light::after, html[data-theme="light"]::after{display:none;}
 body{background:transparent !important;}
 
 /* Les surfaces laissent deviner la Terre : verre sombre, bord turquoise discret. */
-html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .card, html:not([data-theme="light"]) .tr-big,
-html:not([data-theme="light"]) .net-panel:not(.net-me-page), html:not([data-theme="light"]) .duo-card, html:not([data-theme="light"]) .lx-mod{
+html:not([data-theme="light"]):not(.theme-light) .home-tile, html:not([data-theme="light"]):not(.theme-light) .card, html:not([data-theme="light"]):not(.theme-light) .tr-big,
+html:not([data-theme="light"]):not(.theme-light) .net-panel:not(.net-me-page), html:not([data-theme="light"]):not(.theme-light) .duo-card, html:not([data-theme="light"]):not(.theme-light) .lx-mod{
   background:linear-gradient(160deg,rgba(15,36,52,.94),rgba(11,27,40,.92)) !important;border-color:var(--ow-card-line) !important;
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
-html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{
+html:not([data-theme="light"]):not(.theme-light) .home-tile-ic, html:not([data-theme="light"]):not(.theme-light) .tr-big-ic, html:not([data-theme="light"]):not(.theme-light) .tr-logo, html:not([data-theme="light"]):not(.theme-light) .lx-logo{
   background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;
 }
-html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:var(--ow-ic) !important;}
+html:not([data-theme="light"]):not(.theme-light) .tr-big-ic svg, html:not([data-theme="light"]):not(.theme-light) .tr-logo svg, html:not([data-theme="light"]):not(.theme-light) .lx-logo svg{stroke:var(--ow-ic) !important;}
 /* Barre du bas : bleu nuit, onglet actif vert-turquoise, sans lueur. */
-html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(8,18,28,.94) !important;border-top:1px solid var(--ow-card-line) !important;}
-html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:var(--ow-accent) !important;text-shadow:none;}
+html:not([data-theme="light"]):not(.theme-light) .bbar, html:not([data-theme="light"]):not(.theme-light) .mainnav{background:rgba(8,18,28,.94) !important;border-top:1px solid var(--ow-card-line) !important;}
+html:not([data-theme="light"]):not(.theme-light) .bbar button.on, html:not([data-theme="light"]):not(.theme-light) .mainnav a[aria-current="page"]{color:var(--ow-accent) !important;text-shadow:none;}
 /* Titres : légère lueur, comme l'horizon. */
-html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 1px 14px rgba(0,0,0,.45);}
+html:not([data-theme="light"]):not(.theme-light) .net-topbar-title, html:not([data-theme="light"]):not(.theme-light) header.hero-earth h1, html:not([data-theme="light"]):not(.theme-light) .view h1{text-shadow:0 1px 14px rgba(0,0,0,.45);}
 /* Boutons principaux : vert-turquoise (l'orange reste réservé à la porte d'entrée : toucher.js, index.html). */
-html:not([data-theme="light"]) .primary, html:not([data-theme="light"]) .net-dial, html:not([data-theme="light"]) .net-callbtn, html:not([data-theme="light"]) .install-top-btn, html:not([data-theme="light"]) .btn.primary{
+html:not([data-theme="light"]):not(.theme-light) .primary, html:not([data-theme="light"]):not(.theme-light) .net-dial, html:not([data-theme="light"]):not(.theme-light) .net-callbtn, html:not([data-theme="light"]):not(.theme-light) .install-top-btn, html:not([data-theme="light"]):not(.theme-light) .btn.primary{
   background:linear-gradient(135deg,#6ff0c0,#4fe0b0 45%,#22d3c5) !important;border-color:transparent !important;color:#04201a !important;box-shadow:0 6px 18px rgba(34,211,197,.22);
 }
 /* Ancien globe en filigrane de la Messagerie : remplacé par la Terre de nuit. */
@@ -80,11 +83,11 @@ html.contrast-high, html.contrast-high:not(.theme-light):not(.theme-auto):not([d
 html.contrast-high:not([data-theme="light"]):not(.theme-light){ --line:rgba(150,230,210,.6) !important; --ews-line:rgba(150,230,210,.6) !important; --ow-card-line:rgba(150,230,210,.6); }
 
 /* OW-WRITE-004 : cartes et icônes arrondies comme la référence, retour tactile discret (aucun changement de taille des zones). */
-html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .tr-big, html:not([data-theme="light"]) .duo-card{border-radius:var(--ow-radius) !important;}
-html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{border-radius:var(--ow-radius-s) !important;}
-html:not([data-theme="light"]) .home-tile:hover, html:not([data-theme="light"]) .tr-big:hover, html:not([data-theme="light"]) .duo-card:hover{border-color:rgba(79,224,176,.42) !important;}
-html:not([data-theme="light"]) :is(input,select,textarea):focus-visible{outline:2px solid var(--ow-accent);outline-offset:2px;}
+html:not([data-theme="light"]):not(.theme-light) .home-tile, html:not([data-theme="light"]):not(.theme-light) .tr-big, html:not([data-theme="light"]):not(.theme-light) .duo-card{border-radius:var(--ow-radius) !important;}
+html:not([data-theme="light"]):not(.theme-light) .home-tile-ic, html:not([data-theme="light"]):not(.theme-light) .tr-big-ic, html:not([data-theme="light"]):not(.theme-light) .tr-logo, html:not([data-theme="light"]):not(.theme-light) .lx-logo{border-radius:var(--ow-radius-s) !important;}
+html:not([data-theme="light"]):not(.theme-light) .home-tile:hover, html:not([data-theme="light"]):not(.theme-light) .tr-big:hover, html:not([data-theme="light"]):not(.theme-light) .duo-card:hover{border-color:rgba(79,224,176,.42) !important;}
+html:not([data-theme="light"]):not(.theme-light) :is(input,select,textarea):focus-visible{outline:2px solid var(--ow-accent);outline-offset:2px;}
 /* Textes posés directement sur l'affiche (ex. « Pas encore de discussion ») : plus clairs et ombrés pour rester lisibles. */
-html:not([data-theme="light"]) #netRoot .empty{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.6);}
+html:not([data-theme="light"]):not(.theme-light) #netRoot .empty{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.6);}
 /* Carrés d'icônes verts sur toutes les touches de l'Accueil (certaines touches avaient une règle plus précise dans index.html). */
-html:not([data-theme="light"]) .home-tile[class] .home-tile-ic:not(.x){background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;}
+html:not([data-theme="light"]):not(.theme-light) .home-tile[class] .home-tile-ic:not(.x){background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;}
