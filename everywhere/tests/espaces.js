@@ -443,6 +443,41 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     return { ok: liste[0] === true && liste[1] === false && salon.badge === "" && /pas encore commencé|n'a pas encore/i.test(salon.attente),
       detail: "liste : vivant " + liste[0] + ", abandonné " + liste[1] + " · salon abandonné : badge « " + salon.badge + " », « " + salon.attente.trim() + " »" };
   });
+  await step("OW-012 B : enDirect() strict : last_at absent, null, invalide, futur anormal → pas en direct ; récent → en direct ; plus de 5 min → pas en direct", async () => {
+    const r = await page.evaluate(() => { const f = EWEspaces._enDirect, n = Date.parse("2026-11-01T12:00:00Z"), iso = (ms) => new Date(n + ms).toISOString();
+      return {
+        absent: f({ live_on: true }, n), nul: f({ live_on: true, last_at: null }, n), vide: f({ live_on: true, last_at: "" }, n),
+        invalide: f({ live_on: true, last_at: "pas une date" }, n), nombre: f({ live_on: true, last_at: 12345 }, n),
+        futurAnormal: f({ live_on: true, last_at: iso(10 * 60000) }, n), futurHorloge: f({ live_on: true, last_at: iso(60000) }, n),
+        recent: f({ live_on: true, last_at: iso(-60000) }, n), limite: f({ live_on: true, last_at: iso(-5 * 60000) }, n), vieux: f({ live_on: true, last_at: iso(-6 * 60000) }, n),
+        arrete: f({ live_on: false, last_at: iso(-1000) }, n), liveTexte: f({ live_on: "true", last_at: iso(-1000) }, n) }; });
+    const attendu = { absent: false, nul: false, vide: false, invalide: false, nombre: false, futurAnormal: false, futurHorloge: true, recent: true, limite: false, vieux: false, arrete: false, liveTexte: false };
+    const faux = Object.keys(attendu).filter((k) => r[k] !== attendu[k]);
+    return { ok: !faux.length, detail: faux.length ? "différents : " + faux.join(",") : "12 cas conformes (absent, null, vide, invalide, nombre, futur +10 min, horloge +1 min, récent 1 min, 5 min pile, 6 min, arrêté, live_on texte)" };
+  });
+  await step("OW-012 B : courses — réponse « lancer le direct » arrivée APRÈS le changement de compte : aucun pouls, aucun sous-titre relancé, aucune erreur", async () => {
+    await page.goto(EW + "#/live");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    await page.tap("#esNewBtn");
+    await page.fill("#esTitle", "Direct de la course");
+    await page.tap("#esNew button[type=submit]");
+    await page.waitForSelector("#esLiveGo", { timeout: 10000 });
+    await page.evaluate(async () => { window.__pouls = []; window.__cleared = []; const si = window.setInterval, ci = window.clearInterval;
+      window.setInterval = function (f, ms) { const id = si.apply(this, arguments); if (ms === 60000) window.__pouls.push(id); return id; };
+      window.clearInterval = function (id) { window.__cleared.push(id); return ci.apply(this, arguments); };
+      const c = await OWIdentite.client(), from = c.from.bind(c);
+      c.from = (t) => { const q = from(t); if (t !== "ow_rooms") return q; const up = q.update.bind(q); q.update = (v) => { const b = up(v); const th = b.then.bind(b); b.then = (a, z) => new Promise((ok) => setTimeout(ok, 400)).then(() => th(a, z)); return b; }; return q; };
+      window.__restaurer = () => { c.from = from; }; });
+    const errAvant = errors.length;
+    await page.tap("#esLiveGo");
+    await page.evaluate(() => localStorage.setItem("fake_who", "b"));
+    await auth("SIGNED_IN", AMIRA);
+    await page.waitForTimeout(900);
+    const r = await page.evaluate(() => { window.__restaurer(); return { vivants: window.__pouls.filter((id) => !window.__cleared.includes(id)).length, lances: window.__pouls.length, hote: !!document.querySelector("#esLiveGo") }; });
+    await page.evaluate(() => localStorage.removeItem("fake_who"));
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    return { ok: r.vivants === 0 && !r.hote && errors.length === errAvant, detail: r.lances + " pouls lancé(s), " + r.vivants + " encore actif(s) · commandes animateur : " + (r.hote ? "ENCORE LÀ" : "parties") + " · erreurs JS : " + (errors.length - errAvant) };
+  });
   await step("OW-012 B : l'animateur donne signe de vie au lancement (last_at) et son pouls s'arrête au changement de compte", async () => {
     await page.goto(EW + "#/live");
     await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });

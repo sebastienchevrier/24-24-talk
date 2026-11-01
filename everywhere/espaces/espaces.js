@@ -183,10 +183,15 @@
   // chaque minute par son téléphone et à chaque sous-titre par le serveur). Animateur parti sans arrêter (changement
   // de compte, téléphone éteint, réseau perdu) : l'annonce disparaît d'elle-même, sans fonction serveur nouvelle.
   var LIVE_FRAIS = 5 * 60 * 1000, LIVE_POULS = 60 * 1000;
-  function enDirect(r) {
-    if (!r || !r.live_on) return false;
-    var t = Date.parse(r.last_at || "");
-    return !t || Date.now() - t < LIVE_FRAIS;
+  // Validation stricte : last_at absent, null, illisible ou trop dans le futur = PAS en direct.
+  // Petite marge de 2 min dans le futur pour l'horloge des téléphones (last_at est écrit par celui de l'animateur).
+  var LIVE_FUTUR = 2 * 60 * 1000;
+  function enDirect(r, maintenant) {
+    if (!r || r.live_on !== true || typeof r.last_at !== "string" || !r.last_at) return false;
+    var t = Date.parse(r.last_at);
+    if (!isFinite(t)) return false;
+    var d = (maintenant == null ? Date.now() : maintenant) - t;
+    return d > -LIVE_FUTUR && d < LIVE_FRAIS;
   }
   function t(k, v) {
     var s = (STR[ui] && STR[ui][k]) || (window.EW_SCREEN_STR && window.EW_SCREEN_STR.espaces && window.EW_SCREEN_STR.espaces[ui] && window.EW_SCREEN_STR.espaces[ui][k]) || STR.en[k] || STR.fr[k] || k;
@@ -524,9 +529,11 @@
     if (owner) {
       var go = root.querySelector("#esLiveGo"), cam = root.querySelector("#esCam");
       go.addEventListener("click", function () {
-        var on = !cur.room.live_on;
+        var on = !cur.room.live_on, tokGo = cur.token;
         go.disabled = true;
         cur.c.from("ow_rooms").update(on ? { live_on: true, last_at: new Date().toISOString() } : { live_on: false }).eq("id", cur.room.id).then(function (res) {
+          // Réponse arrivée après un changement de compte ou un changement d'écran : on ne relance rien (ni pouls, ni sous-titres).
+          if (!cur || cur.token !== tokGo) return;
           go.disabled = false;
           if (res.error) throw res.error;
           cur.room.live_on = on;
@@ -534,7 +541,7 @@
           root.querySelector("#esLiveBadge").textContent = on ? t("on_air") + " · " : "";
           if (on) { startCaptions(root); pouls(); } else { stopCaptions(); stopPouls(); }
           signal({ t: on ? "live" : "end" });
-        }).catch(function (e) { go.disabled = false; msg.textContent = errText(e); });
+        }).catch(function (e) { if (!cur || cur.token !== tokGo) return; go.disabled = false; msg.textContent = errText(e); });
       });
       cam.addEventListener("click", function () { toggleHostCam(root); });
       root.querySelector("#esCapForm").addEventListener("submit", function (e) {
@@ -1056,5 +1063,5 @@
     else avantages(root);
     return t(kind);
   }
-  window.EWEspaces = { show: show, leave: leave, _str: STR };
+  window.EWEspaces = { show: show, leave: leave, _str: STR, _enDirect: enDirect };
 })();
