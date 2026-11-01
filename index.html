@@ -356,6 +356,37 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
   .home-tiles:empty{min-height:340px;margin-bottom:100px;}
+  /* Accueil façon capture de référence (OW-WRITE-004, 1er nov. 2026) : l'en-tête Terre laisse la place à un en-tête compact. */
+  body:has(#home.view.active) header.hero-earth{display:none;}
+  body:has(#home.view.active) .install-top{display:none;} /* l'installation reste dans Paramètres */
+  .ow-home-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 2px 14px;border-bottom:1px solid var(--line);}
+  .ow-home-brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  .ow-home-mark{flex:none;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ow-accent,#4fe0b0);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .ow-home-mark img{width:44px;height:44px;border-radius:50%;}
+  .ow-home-name{display:flex;flex-direction:column;line-height:1.15;min-width:0;}
+  .ow-home-name b{font-size:21px;font-weight:800;letter-spacing:.14em;color:var(--text);}
+  .ow-home-name small{font-size:11.5px;font-weight:700;letter-spacing:.32em;color:var(--ow-accent,#4fe0b0);}
+  .ow-home-actions{display:flex;gap:8px;flex:none;}
+  .ow-home-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);display:flex;align-items:center;
+    justify-content:center;padding:0;font:600 19px/1 inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease,border-color .15s;}
+  .ow-home-btn svg{width:21px;height:21px;}
+  .ow-home-btn:active{transform:scale(.94);}
+  .ow-home-av{background:#1c6659;border-color:transparent;color:#eafff6;font-size:15px;font-weight:800;}
+  .ow-home-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px 2px 6px;}
+  .ow-home-stats b{display:block;font-size:22px;font-weight:800;color:var(--text);line-height:1.2;}
+  .ow-home-stats span{display:block;font-size:12px;color:var(--muted);line-height:1.3;margin-top:2px;}
+  .ow-home-eyebrow{margin:26px 2px 6px;font-size:12.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--ow-accent,#4fe0b0);}
+  .ow-home-hello{margin:0 2px;font-size:30px;line-height:1.15;font-weight:800;color:var(--text);overflow-wrap:anywhere;}
+  .ow-home-q{margin:12px 2px 18px;font-size:17px;color:var(--text);}
+  #home .home-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  #home .home-tile{flex-direction:column;align-items:flex-start;justify-content:flex-start;min-height:150px;padding:18px 14px 16px;gap:14px;border-radius:22px;}
+  #home .home-tile::after{display:none;}
+  #home .home-tile-ic{width:50px;height:50px;border-radius:14px;}
+  #home .home-tile-name{font-size:17px;}
+  #home .home-tile-sub{font-size:13.5px;}
+  @media (max-width:340px){ #home .home-tiles{grid-template-columns:1fr;} .ow-home-stats b{font-size:18px;} }
+  html.motion-off .ow-home-btn,html.ow-reduce-motion .ow-home-btn{transition:none;}
+  @media (prefers-reduced-motion:reduce){ .ow-home-btn{transition:none;} }
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -1003,6 +1034,24 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
 
   <!-- ACCUEIL : les deux grandes touches Téléphone et Messagerie -->
   <section id="home" class="view active">
+    <!-- Accueil façon capture de référence (1er nov. 2026) : marque, raccourcis, rond de profil, chiffres, salutation. -->
+    <div class="ow-home-top">
+      <div class="ow-home-brand"><span class="ow-home-mark"><img src="everywhere/logo.svg" alt="" width="40" height="40"></span>
+        <span class="ow-home-name notranslate" translate="no" dir="ltr"><b>24/24</b><small>ONE WORLD</small></span></div>
+      <div class="ow-home-actions">
+        <button type="button" class="ow-home-btn" id="owHomeTr" aria-label="Traduire" data-i18n-aria="tab_tr"><span aria-hidden="true">文</span></button>
+        <button type="button" class="ow-home-btn" id="owHomeSet" aria-label="Paramètres" data-i18n-aria="tab_settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+        <button type="button" class="ow-home-btn ow-home-av" id="owHomeMe" aria-label="Mon profil" data-i18n-aria="net_my_profile"><span id="owHomeInit">👤</span></button>
+      </div>
+    </div>
+    <div class="ow-home-stats">
+      <div><b>24/24</b><span data-i18n="home2_s1">échanges sans frontières horaires</span></div>
+      <div><b>112</b><span data-i18n="home2_s2">langues visées à terme</span></div>
+      <div><b data-i18n="home2_s3n">1 monde</b><span data-i18n="home2_s3">à construire ensemble</span></div>
+    </div>
+    <p class="ow-home-eyebrow" data-i18n="home2_eyebrow">Votre espace mondial</p>
+    <h1 class="ow-home-hello"><span data-i18n="home2_hello">Bonjour</span><span id="owHomeName"></span> <span aria-hidden="true">👋</span></h1>
+    <p class="ow-home-q" data-i18n="home2_q">Que souhaitez-vous faire aujourd'hui ?</p>
     <div class="home-tiles" id="homeTiles"></div>
     <p class="disclaimer langs-n" data-i18n="disclaimer">112 langues, 1 application</p>
   </section>
@@ -3990,6 +4039,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Réseau indépendant, libre",
     ow_demo_cap: "Vous écrivez dans votre langue, chacun lit dans la sienne.",
     ow_caps_t: "Tout ce que vous pouvez faire, avec le monde entier",
+    home2_eyebrow: "Votre espace mondial",
+    home2_hello: "Bonjour",
+    home2_q: "Que souhaitez-vous faire aujourd'hui ?",
+    home2_s1: "échanges sans frontières horaires",
+    home2_s2: "langues visées à terme",
+    home2_s3: "à construire ensemble",
+    home2_s3n: "1 monde",
     promo_html: "🎁 Gratuit pour tous.",
     close: "Fermer",
     tab_home: "Accueil", tab_tr: "🌐 Traduire", tab_conv: "👥 Face à face", tab_hist: "Historique", tab_fav: "Favoris", tab_settings: "Paramètres",
@@ -4064,6 +4120,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Independent, free network",
     ow_demo_cap: "You write in your language, everyone reads in theirs.",
     ow_caps_t: "Everything you can do, with the whole world",
+    home2_eyebrow: "Your global space",
+    home2_hello: "Hello",
+    home2_q: "What would you like to do today?",
+    home2_s1: "exchanges, round the clock",
+    home2_s2: "languages targeted",
+    home2_s3: "to build together",
+    home2_s3n: "1 world",
     promo_html: "🎁 Free for everyone.",
     close: "Close",
     tab_home: "Home", tab_tr: "🌐 Translate", tab_conv: "👥 Face to face", tab_hist: "History", tab_fav: "Favorites", tab_settings: "Settings",
@@ -4138,6 +4201,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Red independiente y libre",
     ow_demo_cap: "Escribes en tu idioma, cada uno lee en el suyo.",
     ow_caps_t: "Todo lo que puedes hacer, con el mundo entero",
+    home2_eyebrow: "Tu espacio mundial",
+    home2_hello: "Hola",
+    home2_q: "¿Qué quieres hacer hoy?",
+    home2_s1: "intercambios sin fronteras horarias",
+    home2_s2: "idiomas como meta",
+    home2_s3: "por construir juntos",
+    home2_s3n: "1 mundo",
     promo_html: "🎁 Gratis para todos.",
     close: "Cerrar",
     tab_home: "Inicio", tab_tr: "🌐 Traducir", tab_conv: "👥 Cara a cara", tab_hist: "Historial", tab_fav: "Favoritos", tab_settings: "Ajustes",
@@ -4212,6 +4282,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Rede independente e livre",
     ow_demo_cap: "Você escreve na sua língua, cada um lê na sua.",
     ow_caps_t: "Tudo o que você pode fazer, com o mundo inteiro",
+    home2_eyebrow: "Seu espaço mundial",
+    home2_hello: "Olá",
+    home2_q: "O que você quer fazer hoje?",
+    home2_s1: "trocas sem fronteiras de horário",
+    home2_s2: "línguas como meta",
+    home2_s3: "para construir juntos",
+    home2_s3n: "1 mundo",
     promo_html: "🎁 Grátis para todos.",
     close: "Fechar",
     tab_home: "Início", tab_tr: "🌐 Traduzir", tab_conv: "👥 Frente a frente", tab_hist: "Histórico", tab_fav: "Favoritos", tab_settings: "Configurações",
@@ -4286,6 +4363,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Unabhängiges, freies Netzwerk",
     ow_demo_cap: "Du schreibst in deiner Sprache, jeder liest in seiner.",
     ow_caps_t: "Alles, was du tun kannst – mit der ganzen Welt",
+    home2_eyebrow: "Dein globaler Raum",
+    home2_hello: "Hallo",
+    home2_q: "Was möchtest du heute tun?",
+    home2_s1: "Austausch ohne Zeitgrenzen",
+    home2_s2: "Sprachen als Ziel",
+    home2_s3: "gemeinsam zu bauen",
+    home2_s3n: "1 Welt",
     promo_html: "🎁 Kostenlos für alle.",
     close: "Schließen",
     tab_home: "Start", tab_tr: "🌐 Übersetzen", tab_conv: "👥 Gegenüber", tab_hist: "Verlauf", tab_fav: "Favoriten", tab_settings: "Einstellungen",
@@ -4360,6 +4444,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Rete indipendente e libera",
     ow_demo_cap: "Scrivi nella tua lingua, ognuno legge nella sua.",
     ow_caps_t: "Tutto quello che puoi fare, con il mondo intero",
+    home2_eyebrow: "Il tuo spazio mondiale",
+    home2_hello: "Ciao",
+    home2_q: "Cosa vuoi fare oggi?",
+    home2_s1: "scambi senza confini di orario",
+    home2_s2: "lingue come obiettivo",
+    home2_s3: "da costruire insieme",
+    home2_s3n: "1 mondo",
     promo_html: "🎁 Gratis per tutti.",
     close: "Chiudi",
     tab_home: "Home", tab_tr: "🌐 Traduci", tab_conv: "👥 Faccia a faccia", tab_hist: "Cronologia", tab_fav: "Preferiti", tab_settings: "Impostazioni",
@@ -4434,6 +4525,13 @@ const UI_STRINGS = {
     ow_eyebrow: "独立、自由的网络",
     ow_demo_cap: "你用自己的语言写，每个人用自己的语言读。",
     ow_caps_t: "与全世界一起，你能做的一切",
+    home2_eyebrow: "你的全球空间",
+    home2_hello: "你好",
+    home2_q: "今天想做什么？",
+    home2_s1: "不受时差限制的交流",
+    home2_s2: "目标语言",
+    home2_s3: "共同建设",
+    home2_s3n: "1 个世界",
     promo_html: "🎁 对所有人免费。",
     close: "关闭",
     tab_home: "首页", tab_tr: "🌐 翻译", tab_conv: "👥 面对面", tab_hist: "历史", tab_fav: "收藏", tab_settings: "设置",
@@ -4508,6 +4606,13 @@ const UI_STRINGS = {
     ow_eyebrow: "独立した自由なネットワーク",
     ow_demo_cap: "あなたは自分の言葉で書き、相手は自分の言葉で読みます。",
     ow_caps_t: "世界中の人と、できること",
+    home2_eyebrow: "あなたのグローバルスペース",
+    home2_hello: "こんにちは",
+    home2_q: "今日は何をしますか？",
+    home2_s1: "時間の壁のない交流",
+    home2_s2: "目標の言語数",
+    home2_s3: "みんなでつくる",
+    home2_s3n: "1つの世界",
     promo_html: "🎁 すべての人に無料。",
     close: "閉じる",
     tab_home: "ホーム", tab_tr: "🌐 翻訳", tab_conv: "👥 対面", tab_hist: "履歴", tab_fav: "お気に入り", tab_settings: "設定",
@@ -4582,6 +4687,13 @@ const UI_STRINGS = {
     ow_eyebrow: "شبكة مستقلة وحرة",
     ow_demo_cap: "تكتب بلغتك، ويقرأ كلٌّ بلغته.",
     ow_caps_t: "كل ما يمكنك فعله، مع العالم كله",
+    home2_eyebrow: "مساحتك العالمية",
+    home2_hello: "مرحبًا",
+    home2_q: "ماذا تريد أن تفعل اليوم؟",
+    home2_s1: "تواصل بلا حدود زمنية",
+    home2_s2: "لغة مستهدفة",
+    home2_s3: "نبنيه معًا",
+    home2_s3n: "عالم واحد",
     promo_html: "🎁 مجاني للجميع.",
     close: "إغلاق",
     tab_home: "الرئيسية", tab_tr: "🌐 ترجمة", tab_conv: "👥 وجهًا لوجه", tab_hist: "السجل", tab_fav: "المفضلة", tab_settings: "الإعدادات",
@@ -4656,6 +4768,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Независимая, свободная сеть",
     ow_demo_cap: "Вы пишете на своём языке, каждый читает на своём.",
     ow_caps_t: "Всё, что вы можете делать — со всем миром",
+    home2_eyebrow: "Ваше глобальное пространство",
+    home2_hello: "Здравствуйте",
+    home2_q: "Что вы хотите сделать сегодня?",
+    home2_s1: "общение без границ во времени",
+    home2_s2: "языков в планах",
+    home2_s3: "строим вместе",
+    home2_s3n: "1 мир",
     promo_html: "🎁 Бесплатно для всех.",
     close: "Закрыть",
     tab_home: "Главная", tab_tr: "🌐 Перевод", tab_conv: "👥 Лицом к лицу", tab_hist: "История", tab_fav: "Избранное", tab_settings: "Настройки",
@@ -4730,6 +4849,13 @@ const UI_STRINGS = {
     ow_eyebrow: "Tambajotra tsy miankina sy malalaka",
     ow_demo_cap: "Manoratra amin'ny fiteninao ianao, samy mamaky amin'ny azy avy.",
     ow_caps_t: "Izay rehetra azonao atao, miaraka amin'izao tontolo izao",
+    home2_eyebrow: "Ny habakao maneran-tany",
+    home2_hello: "Salama",
+    home2_q: "Inona no tianao hatao anio?",
+    home2_s1: "fifanakalozana tsy misy fetra ora",
+    home2_s2: "fiteny kendrena",
+    home2_s3: "hananganantsika miaraka",
+    home2_s3n: "tontolo 1",
     promo_html: "🎁 Maimaimpoana ho an'ny rehetra.",
     close: "Hidiana",
     tab_home: "Fandraisana",
@@ -6030,6 +6156,23 @@ function renderInstall() {
 }
 // Bouton bien visible sur l'accueil : installation directe si le navigateur le permet (Android,
 // ordinateur), sinon il affiche le chemin à suivre (iPhone, Firefox…). Caché une fois installée.
+// Accueil (capture de référence) : salutation au nom du compte, initiales dans le rond de profil, raccourcis vers nos écrans.
+window.OW_homeHello = function (p) {
+  let name = p ? String(p.nom || p.pseudo || "").trim() : "";
+  // Gardé sur l'appareil pour saluer tout de suite au prochain lancement, avant la reconnexion.
+  try { if (p) safeStore.setItem("lc_home_name", name); else name = safeStore.getItem("lc_home_name") || ""; } catch (e) { /* stockage indisponible */ }
+  const n = document.getElementById("owHomeName"), ini = document.getElementById("owHomeInit");
+  if (n) n.textContent = name ? " " + name.split(/\s+/)[0] : "";
+  if (ini) ini.textContent = name ? name.split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join("") : "👤";
+};
+window.OW_homeHello(null);
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("#owHomeTr, #owHomeSet, #owHomeMe");
+  if (!b) return;
+  if (b.id === "owHomeTr") { const x = document.querySelector('.bbar button[data-b="tr"]'); if (x) x.click(); }
+  else if (b.id === "owHomeSet") { const x = document.getElementById("settingsBtn"); if (x) x.click(); }
+  else if (!(window.OW_openProfile && window.OW_openProfile())) { const x = document.querySelector('.bbar button[data-b="msg"]'); if (x) x.click(); }
+});
 function renderInstallTop() {
   const box = document.getElementById("installTop");
   if (!box) return;
@@ -9269,6 +9412,7 @@ const Reseau = (() => {
 
   async function afterProfileReady() {
     document.documentElement.classList.remove("ow-gate"); // compte prêt : toute l'appli s'ouvre
+    try { window.OW_homeHello(profile); } catch (e) { /* Accueil absent */ }
     Stats24.setNet(true);
     if (pushState() === "on") syncPushSub(false);
     else autoPush();
@@ -10666,6 +10810,7 @@ const Reseau = (() => {
         const { error } = await sb.from("profiles").update({ nom }).eq("id", me);
         if (error) return setFlash(escapeHtml(t("net_err_conn")), "err"), render();
         profile.nom = nom;
+        try { window.OW_homeHello(profile); } catch (e) { /* Accueil absent */ }
         setFlash(escapeHtml(t("net_rename_ok")), "ok");
         render();
       });
@@ -10803,6 +10948,7 @@ const Reseau = (() => {
       started = false;
       outChannels.clear();
       safeStore.removeItem("lc_net_joined");
+      safeStore.removeItem("lc_home_name");
       try {
         Object.keys(localStorage).filter((k) => k.indexOf("lc_callhist_") === 0).forEach((k) => safeStore.removeItem(k));
       } catch (e) { /* ignoré */ }

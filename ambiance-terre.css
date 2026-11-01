@@ -1,6 +1,6 @@
 /* 24/24 ONE WORLD — ambiance commune à l'appli, au portail et au site.
    1er nov. 2026 (OW-WRITE-004) : bleu nuit profond, cartes bleu nuit bordées discrètement, icônes dans des carrés verts,
-   accent vert-turquoise, d'après la capture Android validée par Sébastien. L'affiche Terre reste en fond.
+   accent vert-turquoise, fond bleu nuit uni, d'après la capture Android validée par Sébastien.
    Avant : ambiance « Terre de nuit » (20 oct. 2026).
    Noir profond, la Terre vue de l'espace avec son horizon turquoise lumineux et des points de lumière.
    Tout est dessiné en CSS (aucune image) : rien à télécharger, aucun droit d'image. Thème clair inchangé.
@@ -30,7 +30,7 @@ html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"
   }
 }
 
-/* La Terre vue de l'espace, d'après l'affiche créée par Sébastien Chevrier (terre-lave.webp) : villes reliées par des liens
+/* Fond : bleu nuit uni avec deux lueurs discrètes (1er nov. 2026). Avant : la Terre vue de l'espace, d'après l'affiche créée par Sébastien Chevrier (terre-lave.webp) : villes reliées par des liens
    de lumière, soleil de lave sur l'horizon, amis de dos bras dessus bras dessous. En bas de chaque écran, fondue dans le noir
    vers le haut et assombrie pour que le texte reste lisible. Fixe, derrière tout, sans bloquer le toucher. */
 html[style], html{background:var(--bg);}
@@ -39,19 +39,10 @@ html:not([data-theme="light"])::before{
   --ow-img-h:calc(max(100vw, 64vh) / 1.155);
   top:0;height:100vh;
   background:
-    /* fondu vers le noir au-dessus de l'image, et voile pour la lisibilité */
-    linear-gradient(to top, rgba(1,4,9,.22) 0, rgba(1,4,9,.22) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 170px), var(--bg) calc(var(--ow-people-gap,62px) + var(--ow-img-h) - 10px)),
-    /* fondu du bas : aucun bord visible sous l'image */
-    linear-gradient(to top, var(--bg) 0, var(--bg) var(--ow-people-gap,62px), transparent calc(var(--ow-people-gap,62px) + 40px)),
-    url("terre-lave.webp") no-repeat center bottom var(--ow-people-gap,62px) / max(100vw, 64vh) auto,
+    /* 1er nov. 2026 : fond bleu nuit uni comme la capture de référence (l'affiche Terre n'est plus affichée, choix de Sébastien). */
+    radial-gradient(90% 55% at 100% 100%, rgba(16,60,80,.22), transparent 70%),
     /* lueur bleu-vert profonde en haut, comme la référence */
     radial-gradient(120% 60% at 15% 0%, rgba(20,90,90,.28), transparent 70%),
-    /* étoiles */
-    radial-gradient(1px 1px at 12% 8%, rgba(255,255,255,.55), transparent 60%),
-    radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.45), transparent 60%),
-    radial-gradient(1px 1px at 44% 14%, rgba(255,255,255,.35), transparent 60%),
-    radial-gradient(1.5px 1.5px at 90% 18%, rgba(170,255,180,.5), transparent 60%),
-    radial-gradient(1px 1px at 25% 22%, rgba(255,255,255,.3), transparent 60%),
     var(--bg);
 }
 html:not([data-theme="light"])::after{display:none;}
@@ -95,3 +86,5 @@ html:not([data-theme="light"]) .home-tile:hover, html:not([data-theme="light"]) 
 html:not([data-theme="light"]) :is(input,select,textarea):focus-visible{outline:2px solid var(--ow-accent);outline-offset:2px;}
 /* Textes posés directement sur l'affiche (ex. « Pas encore de discussion ») : plus clairs et ombrés pour rester lisibles. */
 html:not([data-theme="light"]) #netRoot .empty{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.6);}
+/* Carrés d'icônes verts sur toutes les touches de l'Accueil (certaines touches avaient une règle plus précise dans index.html). */
+html:not([data-theme="light"]) .home-tile[class] .home-tile-ic:not(.x){background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;}
