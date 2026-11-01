@@ -356,6 +356,9 @@
         if (res[0].error) throw res[0].error;
         if (!res[0].data) { location.replace("#/" + kind); return; }
         cur.c = c; cur.me = me; cur.room = res[0].data; cur.member = !!res[1].data; cur.lastId = 0;
+        // Direct périmé (live_on resté vrai, mais aucun signe de vie depuis 5 min) : traité comme ARRÊTÉ dans tout l'écran.
+        // L'animateur qui revient voit « Démarrer le direct » ; rien ne repart (sous-titres, pouls) sans son clic.
+        if (cur.room.live_on && !enDirect(cur.room)) cur.room.live_on = false;
         paintRoom(root, kind, (res[2].data || []).slice().reverse());
       });
     }).catch(function (e) { if (cur && cur.token === tok) fail(root, e, function () { room(root, kind, id); }); });
@@ -513,7 +516,7 @@
       el.textContent = out;
       if (cur.voice && window.EWMoteur) window.EWMoteur.speak(out, myLang || ui, 1);
     });
-    if (cur.room && !cur.room.live_on) { cur.room.live_on = true; var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
+    if (cur.room && !cur.room.live_on) { cur.room.live_on = true; cur.room.last_at = new Date().toISOString(); var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
   }
   // Signe de vie de l'animateur : last_at de SON salon (règle existante « modifier mon salon »), chaque minute.
   function pouls() {
@@ -537,6 +540,7 @@
           go.disabled = false;
           if (res.error) throw res.error;
           cur.room.live_on = on;
+          if (on) cur.room.last_at = new Date().toISOString();
           go.textContent = t(on ? "live_stop" : "live_start");
           root.querySelector("#esLiveBadge").textContent = on ? t("on_air") + " · " : "";
           if (on) { startCaptions(root); pouls(); } else { stopCaptions(); stopPouls(); }

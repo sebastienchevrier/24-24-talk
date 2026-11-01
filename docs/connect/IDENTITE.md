@@ -76,7 +76,7 @@ Fichier : `everywhere/ow-identite.js`. Tests : `everywhere/tests/identite.js` (p
 ## Niveaux de validation (état au 1er nov. 2026, PR 90)
 | Niveau | Fait ? | Détail |
 |---|---|---|
-| 1. Faux serveur (Chromium) | OUI | identite 23/23, espaces 33/33 (10 essais étape B, dont enDirect strict et courses), e2e, messagerie, visio, terre, expert, piliers, profil-voyage |
+| 1. Faux serveur (Chromium) | OUI | identite 23/23, espaces 36/36 (13 essais étape B : enDirect strict, courses, animateur qui revient dans un direct périmé ou actif), e2e, messagerie, visio, terre, expert, piliers, profil-voyage |
 | 2. Vraie bibliothèque supabase-js 2.117.2 | OUI | identite-reel.js en mode local 12/12 (serveur d'authentification imité) |
 | 3. Vraie base TEST | NON | prêt (`OW_REEL=TEST`), pas lancé : réseau de Claude bloqué vers supabase.co. À lancer depuis un poste ou GitHub Actions. Crée 1 compte anonyme sur TEST. |
 | 4. Vrai téléphone | NON | à faire par Sébastien après fusion sur TEST/PROD : 2 comptes sur le même téléphone, direct en cours. |
@@ -86,3 +86,4 @@ La PROD n'est jamais utilisée pour les essais (page et script la refusent).
 - Capacités existantes vérifiées (lecture TEST, 1er nov.) : colonnes `live_on`, `last_at` ; règle « modifier mon salon » (le propriétaire peut écrire `last_at`) ; `ow_before_msg` met `last_at` à jour à chaque message ; pas de pg_cron. Aucune fonction ni RPC nouvelle.
 - Choix sans SQL : l'animateur renouvelle `last_at` chaque minute pendant son direct ; un salon n'est annoncé « en direct » que si `live_on` vaut vrai ET `last_at` est une date lisible, de moins de 5 min, et pas plus de 2 min dans le futur (horloge des téléphones). `last_at` absent, null ou illisible = pas en direct.
 - Limite : `live_on` reste vrai dans la base (non affiché). Une fermeture côté serveur demanderait du SQL (à proposer et valider séparément).
+- Animateur qui revient dans son salon : si le direct est périmé (`enDirect` faux), il est traité comme arrêté dans tout l'écran : bouton « Démarrer le direct », ni pouls ni sous-titres automatiques, rien d'écrit au serveur. Le clic « Démarrer » réécrit `live_on` et `last_at`. Un direct encore actif (signe de vie < 5 min) reprend normalement.

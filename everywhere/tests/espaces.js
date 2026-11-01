@@ -455,6 +455,52 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     const faux = Object.keys(attendu).filter((k) => r[k] !== attendu[k]);
     return { ok: !faux.length, detail: faux.length ? "différents : " + faux.join(",") : "12 cas conformes (absent, null, vide, invalide, nombre, futur +10 min, horloge +1 min, récent 1 min, 5 min pile, 6 min, arrêté, live_on texte)" };
   });
+  // Animateur qui revient dans SON direct : périmé (10 min) puis actif (1 min).
+  const salonHote = async (titre, minutes) => {
+    const id = await page.evaluate(([titre, min]) => { const d = JSON.parse(localStorage.getItem("fake_ow")); d.seq++;
+      const id = "cccccccc-0000-4000-8000-" + String(1e11 + d.seq).slice(1), now = Date.now();
+      d.ow_rooms.push({ id, kind: "live", title: titre, about: "", lang: "fr", owner_id: "00000000-0000-4000-8000-0000000000aa", owner_name: "sebtest", members: 1, live_on: true, topic: "other", created_at: new Date(now - 36e5).toISOString(), last_at: new Date(now - min * 60000).toISOString() });
+      d.ow_room_members.push({ room_id: id, user_id: "00000000-0000-4000-8000-0000000000aa" });
+      localStorage.setItem("fake_ow", JSON.stringify(d)); return id; }, [titre, minutes]);
+    await page.evaluate(() => { window.__pouls = []; window.__cleared = []; window.__subs = 0; const si = window.__siOrig || window.setInterval, ci = window.__ciOrig || window.clearInterval; window.__siOrig = si; window.__ciOrig = ci;
+      window.setInterval = function (f, ms) { const x = si.apply(this, arguments); if (ms === 60000) window.__pouls.push(x); return x; };
+      window.clearInterval = function (x) { window.__cleared.push(x); return ci.apply(this, arguments); };
+      if (window.EWEcoute && !window.__kaOrig) { window.__kaOrig = window.EWEcoute.keepAwake; window.EWEcoute.keepAwake = function (k) { if (k === "live") window.__subs++; return window.__kaOrig.apply(this, arguments); }; } });
+    await page.goto(EW + "#/live");
+    await page.goto(EW + "#/live/" + id);
+    await page.waitForSelector("#esLiveGo", { timeout: 10000 });
+    await page.waitForTimeout(300);
+    return id;
+  };
+  const lireSalon = (id) => page.evaluate((id) => JSON.parse(localStorage.getItem("fake_ow")).ow_rooms.find((r) => r.id === id), id);
+  await step("OW-012 B : animateur qui revient après 10 min dans son direct périmé → « Démarrer le direct », aucun pouls, aucun sous-titre automatique, rien d'écrit au serveur", async () => {
+    const id = await salonHote("Direct périmé", 10);
+    const r = await page.evaluate(() => ({ bouton: document.querySelector("#esLiveGo").textContent, badge: document.getElementById("esLiveBadge").textContent, pouls: window.__pouls.length, soustitres: window.__subs }));
+    const apres = await lireSalon(id), age = Math.round((Date.now() - Date.parse(apres.last_at)) / 60000);
+    return { ok: /Démarrer/.test(r.bouton) && r.badge === "" && r.pouls === 0 && r.soustitres === 0 && age >= 9,
+      detail: "bouton « " + r.bouton + " » · badge « " + r.badge + " » · " + r.pouls + " pouls · " + r.soustitres + " sous-titres lancés · last_at toujours vieux de " + age + " min (rien réécrit)" };
+  });
+  await step("OW-012 B : direct périmé réactivé UNIQUEMENT après le clic « Démarrer » → live_on et last_at réécrits, pouls lancé, bouton « Arrêter »", async () => {
+    const id = page.url().split("/").pop();
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Arrêter/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    await page.waitForTimeout(200);
+    const s = await lireSalon(id), r = await page.evaluate(() => ({ pouls: window.__pouls.length, soustitres: window.__subs, badge: document.getElementById("esLiveBadge").textContent }));
+    const age = Date.now() - Date.parse(s.last_at);
+    await page.tap("#esLiveGo"); // on l'arrête pour la suite
+    await page.waitForFunction(() => /Démarrer/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    return { ok: s.live_on === true && age < 5000 && r.pouls === 1 && r.soustitres === 1 && /direct/i.test(r.badge),
+      detail: "live_on " + s.live_on + " · last_at il y a " + Math.round(age / 1000) + " s · " + r.pouls + " pouls · " + r.soustitres + " sous-titres · badge « " + r.badge.trim() + " »" };
+  });
+  await step("OW-012 B : direct ACTIF (signe de vie il y a 1 min) → reste en direct à son retour : « Arrêter », pouls et sous-titres repartent", async () => {
+    const id = await salonHote("Direct actif", 1);
+    const r = await page.evaluate(() => ({ bouton: document.querySelector("#esLiveGo").textContent, badge: document.getElementById("esLiveBadge").textContent, lances: window.__pouls.length, pouls: window.__pouls.filter((x) => !window.__cleared.includes(x)).length, soustitres: window.__subs }));
+    const s = await lireSalon(id);
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Démarrer/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    return { ok: /Arrêter/.test(r.bouton) && /direct/i.test(r.badge) && r.pouls === 1 && r.soustitres === 1 && Date.now() - Date.parse(s.last_at) < 5000,
+      detail: "bouton « " + r.bouton + " » · " + r.pouls + " pouls actif (" + r.lances + " lancement(s), jamais deux en même temps) · " + r.soustitres + " sous-titres · last_at renouvelé au retour" };
+  });
   await step("OW-012 B : courses — réponse « lancer le direct » arrivée APRÈS le changement de compte : aucun pouls, aucun sous-titre relancé, aucune erreur", async () => {
     await page.goto(EW + "#/live");
     await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
