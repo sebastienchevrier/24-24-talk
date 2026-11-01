@@ -10,7 +10,7 @@ on:
     branches: [main]
     paths: ["monde/**", "everywhere/tests/vitrine.js", ".github/workflows/compatibilite.yml"]
   push:
-    branches: [claude/refonte-vitrine]
+    branches: [claude/project-thread-c53th1]
   workflow_dispatch: {}
 
 permissions:
