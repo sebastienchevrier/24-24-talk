@@ -93,7 +93,33 @@
     box-shadow:0 0 0 1.5px rgba(111,240,192,.55),0 0 40px rgba(111,240,192,.35),inset 0 0 40px rgba(0,0,0,.4);}
   #globe{position:absolute;inset:0;width:100%;height:100%;display:block;}
   .hello{position:absolute;inset-inline-start:4%;bottom:8%;background:rgba(13,31,45,.86);border:1px solid var(--line2);border-radius:16px;padding:9px 14px;font-size:14px;color:var(--muted);backdrop-filter:blur(6px);}
+  .hello{display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:92%;transition:opacity .35s,transform .35s;}
+  .hello p{margin:0;}
   .hello b{color:#fff;font-size:17px;}
+  .hello.swap{opacity:0;transform:translateY(4px);}
+  .hello .city{display:block;font-size:12px;color:var(--mint);font-weight:700;margin-bottom:1px;}
+  .hello .try{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;background:rgba(111,240,192,.12);border:1px solid rgba(111,240,192,.45);color:#eafff6;font-weight:700;font-size:14px;text-decoration:none;}
+  .hello .try svg{width:12px;height:12px;}
+  .hello .pz{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0;}
+  .hello .pz svg{width:16px;height:16px;}
+  .hello .pz[aria-pressed=true]{color:var(--mint);border-color:var(--mint);}
+  .cities{position:absolute;inset:0;}
+  .cities button{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0;}
+  .cities button:focus-visible{outline:2px solid var(--mint);outline-offset:0;}
+  .hint{position:absolute;inset-inline-end:2%;top:3%;margin:0;font-size:13px;color:var(--muted);background:rgba(13,31,45,.7);border:1px solid var(--line);border-radius:999px;padding:5px 11px;}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .sub.small{font-size:14px;margin:0 0 10px;}
+  .search{width:100%;min-height:44px;margin:0 0 12px;background:#0d1f2d;border:1px solid var(--line2);border-radius:999px;color:var(--ink);font:inherit;font-size:15px;padding:0 18px;}
+  .search:focus{outline:2px solid var(--mint);outline-offset:2px;}
+  .cloud button{font:inherit;cursor:pointer;min-height:40px;}
+  .cloud.found{max-height:none;-webkit-mask-image:none;mask-image:none;}
+  .cloud button.vu{border-color:rgba(111,240,192,.55);color:#eafff6;}
+  .carnet{margin-top:18px;border:1px solid rgba(111,240,192,.3);border-radius:18px;padding:16px;background:rgba(18,55,47,.25);}
+  .carnet h3{margin:0 0 6px;font-size:17px;}
+  .carnet .cl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+  .carnet .cl span{font-size:13px;border-radius:999px;padding:4px 10px;background:#12372f;border:1px solid #1c5147;color:#eafff6;}
+  .carnet .note{margin:0;font-size:13px;color:var(--muted);}
+  .lnk{background:none;border:0;color:var(--mint);font:inherit;text-decoration:underline;cursor:pointer;min-height:40px;padding:0 4px;}
   .auto{margin-top:12px;font-size:12.5px;color:var(--muted);}
   .newlang{font-size:12.5px;color:var(--muted);margin:10px 0 0;}
 
@@ -150,7 +176,7 @@
   /* 112 langues */
   .langs{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:26px;align-items:center;}
   .cloud{display:flex;flex-wrap:wrap;gap:8px;max-height:260px;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent);}
-  .cloud span{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;color:#cfe3ec;background:rgba(255,255,255,.025);}
+  .cloud button{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;color:#cfe3ec;background:rgba(255,255,255,.025);}
   .big112{font-size:clamp(64px,9vw,110px);font-weight:900;line-height:1;background:linear-gradient(180deg,#fff,var(--mint));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .honest{border-inline-start:3px solid var(--or2);padding:4px 0 4px 14px;color:#cfe3ec;font-size:15px;margin-top:16px;}
   [dir=rtl] .honest{padding:4px 14px 4px 0;}
@@ -285,7 +311,14 @@
     <div class="globe-box">
       <img class="earth" src="../globe-filigrane.webp" alt="" width="597" height="549" decoding="async" fetchpriority="high" />
       <canvas id="globe" aria-hidden="true"></canvas>
-      <p class="hello" aria-live="polite"><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
+      <div class="cities" id="cities"></div>
+      <div class="hello" id="hello">
+        <p><span class="city notranslate" translate="no" id="helloCity" hidden></span><b id="helloWord">Bonjour</b> · <span id="helloLang">français</span></p>
+        <a class="try" id="helloTry" href="#demo"><span>Essayer</span> <svg aria-hidden="true"><use href="#i-play"/></svg></a>
+        <button class="pz" id="helloPause" type="button" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg></button>
+      </div>
+      <p class="hint">Touchez une ville du globe</p>
+      <p class="sr" id="cityLive" aria-live="polite"></p>
     </div>
   </div></section>
 
@@ -342,7 +375,18 @@
       <p class="sub">Des plus parlées aux plus rares, chacun peut choisir la sienne.</p>
       <p class="honest">Traduction automatique : la qualité varie selon la langue. Les langues les plus parlées sont les plus fiables.</p>
     </div>
-    <div class="cloud reveal" id="cloud" aria-label="112 langues"></div>
+    <div class="reveal">
+      <p class="sub small">Touchez une langue pour l'essayer dans la démo.</p>
+      <input class="search" id="langFind" type="search" autocomplete="off" />
+      <div class="cloud" id="cloud" aria-label="112 langues"></div>
+      <p class="sub small" id="langNone" hidden>Aucune langue trouvée</p>
+      <div class="carnet" id="carnet" hidden>
+        <h3>Votre carnet de découverte</h3>
+        <p class="sub small">Langues découvertes sur cet appareil :</p>
+        <div class="cl" id="carnetList"></div>
+        <p class="note"><span>Gardé uniquement sur cet appareil. Rien n'est envoyé.</span> <button type="button" class="lnk" id="carnetClear">Effacer</button></p>
+      </div>
+    </div>
   </div></section>
 
   <section><div class="wrap uses">
@@ -402,13 +446,51 @@
   const nm = (c) => { const of = (l) => { try { const n = new Intl.DisplayNames([l], { type: "language" }).of(c) || ""; return n && n !== c ? n : ""; } catch (e) { return ""; } };
     const own = window.owNativeName ? window.owNativeName(c) : ""; return of(window.owSiteLang || "fr") || of(c) || (own && own !== c ? own : c); };
 
-  // « Bonjour » dans plusieurs langues, sur le globe.
-  const hi = [["Bonjour","fr"],["Hello","en"],["こんにちは","ja"],["Hola","es"],["مرحبا","ar"],["Salama","mg"],["สวัสดี","th"],["Olá","pt"],["你好","zh"],["Привет","ru"],["Hallo","de"],["Ciao","it"]];
-  const w = document.getElementById("helloWord"), l = document.getElementById("helloLang");
-  let i = 0;
-  const show = () => { w.textContent = hi[i][0]; l.textContent = nm(hi[i][1]); };
-  document.addEventListener("ow:lang", show);
-  if (!reduce) setInterval(() => { i = (i + 1) % hi.length; show(); }, 2000);
+  const T = (s) => (window.owT ? window.owT(s) : s);
+  // ---------- Carnet de découverte : sur cet appareil seulement (localStorage), rien n'est envoyé ----------
+  const CK = "ow_carnet";
+  const carnetGet = () => { try { const a = JSON.parse(localStorage.getItem(CK) || "[]"); return Array.isArray(a) ? a.filter((x) => typeof x === "string" && /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/.test(x)).slice(0, 200) : []; } catch (e) { return []; } };
+  const carnetBox = document.getElementById("carnet"), carnetList = document.getElementById("carnetList");
+  function carnetShow() { const a = carnetGet(); carnetBox.hidden = !a.length; carnetList.textContent = "";
+    a.forEach((c) => { const s = document.createElement("span"); s.textContent = nm(c); s.lang = window.owSiteLang || "fr"; carnetList.appendChild(s); });
+    document.querySelectorAll("#cloud button").forEach((b) => b.classList.toggle("vu", a.includes(b.dataset.c))); }
+  function carnetAdd(c) { const a = carnetGet(); if (!a.includes(c)) { a.push(c); try { localStorage.setItem(CK, JSON.stringify(a)); } catch (e) { /* navigation privée : carnet désactivé */ } } carnetShow(); }
+  document.getElementById("carnetClear").addEventListener("click", () => { try { localStorage.removeItem(CK); } catch (e) {} carnetShow(); });
+
+  // ---------- Globe vivant : villes (positions sur l'image), salutation et langue de chacune ----------
+  const CITIES = [
+    { n: "Madrid", x: .49, y: .36, h: "¡Hola!", c: "es" }, { n: "New York", x: .21, y: .37, h: "Hello", c: "en" },
+    { n: "São Paulo", x: .27, y: .66, h: "Olá", c: "pt" }, { n: "Lagos", x: .45, y: .53, h: "Ẹ n lẹ", c: "yo" },
+    { n: "Le Caire", x: .59, y: .45, h: "مرحبا", c: "ar" }, { n: "Moscou", x: .6, y: .29, h: "Привет", c: "ru" },
+    { n: "Mumbai", x: .82, y: .5, h: "नमस्ते", c: "hi" }, { n: "Johannesburg", x: .56, y: .79, h: "Sawubona", c: "zu" },
+    { n: "Antananarivo", x: .67, y: .73, h: "Salama", c: "mg" }, { n: "Paris", x: .5, y: .27, h: "Bonjour", c: "fr" }];
+  const LINKS = [[0,1],[0,3],[3,2],[1,2],[0,4],[4,6],[0,5],[5,6],[3,7],[7,8],[4,8],[9,1],[9,0],[6,8],[9,5]];
+  const hello = document.getElementById("hello"), w = document.getElementById("helloWord"), l = document.getElementById("helloLang"),
+    hc = document.getElementById("helloCity"), tryA = document.getElementById("helloTry"), pz = document.getElementById("helloPause"), live = document.getElementById("cityLive");
+  let cur = 9, hot = -1, paused = false, chosen = false;
+  function greet(i, anim) {
+    if (reduce && window.__owFrame) window.__owFrame(0);
+    const go = () => { const k = CITIES[i]; w.textContent = k.h; w.lang = k.c; l.textContent = nm(k.c); hc.textContent = k.n; hc.hidden = false; tryA.dataset.c = k.c; hello.classList.remove("swap"); };
+    if (anim && !reduce) { hello.classList.add("swap"); setTimeout(go, 300); } else go();
+  }
+  function setPause(v) { paused = v; pz.setAttribute("aria-pressed", String(v)); pz.setAttribute("aria-label", T(v ? "Reprendre" : "Mettre en pause")); }
+  pz.addEventListener("click", () => { setPause(!paused); if (!paused) chosen = false; });
+  if (!reduce) setInterval(() => { if (paused || hot >= 0 || chosen || document.hidden) return; cur = (cur + 1) % CITIES.length; greet(cur, true); }, 2600);
+  else pz.hidden = true;
+  document.addEventListener("ow:lang", () => { greet(cur, false); setPause(paused); });
+  // Boutons invisibles posés sur chaque ville : souris, doigt, clavier et lecteur d'écran.
+  const citiesBox = document.getElementById("cities");
+  CITIES.forEach((k, i) => {
+    const b = document.createElement("button"); b.type = "button"; b.style.left = (k.x * 100) + "%"; b.style.top = (k.y * 100) + "%";
+    b.setAttribute("aria-label", k.n + " · " + k.h); b.dataset.i = i;
+    b.addEventListener("pointerenter", () => { hot = i; if (!chosen) greet(i, false); });
+    b.addEventListener("pointerleave", () => { hot = -1; if (!chosen) greet(cur, false); });
+    b.addEventListener("focus", () => { hot = i; });
+    b.addEventListener("blur", () => { hot = -1; });
+    b.addEventListener("click", () => { chosen = true; cur = i; hot = -1; greet(i, false); carnetAdd(k.c); live.textContent = k.n + " : " + k.h + " (" + nm(k.c) + ")"; });
+    citiesBox.appendChild(b);
+  });
+  tryA.addEventListener("click", (e) => { e.preventDefault(); demoTo(tryA.dataset.c || "fr"); });
 
   // Apparition douce des blocs (aucune si « réduire les animations »).
   const io = !reduce && "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .12 }) : null;
@@ -426,8 +508,16 @@
 
   // Nuage des langues de l'application (noms écrits dans chaque langue).
   const cloud = document.getElementById("cloud");
+  const find = document.getElementById("langFind"), none = document.getElementById("langNone");
   const fillCloud = () => { const codes = (window.owSiteCodes || []).slice(0, 112); cloud.innerHTML = "";
-    codes.forEach((c) => { const s = document.createElement("span"); s.textContent = (window.owNativeName && window.owNativeName(c)) || c; s.lang = c; cloud.appendChild(s); }); };
+    codes.forEach((c) => { const b = document.createElement("button"); b.type = "button"; b.dataset.c = c; const own = (window.owNativeName && window.owNativeName(c)) || c;
+      b.textContent = own; b.lang = c; const loc = nm(c); b.dataset.s = (own + " " + loc + " " + c).toLowerCase(); if (loc && loc !== own) b.title = loc;
+      b.addEventListener("click", () => { carnetAdd(c); demoTo(c); }); cloud.appendChild(b); });
+    find.placeholder = T("Chercher une langue"); find.setAttribute("aria-label", T("Chercher une langue")); filtre(); carnetShow(); };
+  function filtre() { const q = find.value.trim().toLowerCase(); let n = 0;
+    cloud.querySelectorAll("button").forEach((b) => { const ok = !q || b.dataset.s.includes(q); b.hidden = !ok; if (ok) n++; });
+    cloud.classList.toggle("found", !!q); none.hidden = n > 0; }
+  find.addEventListener("input", filtre);
   document.addEventListener("ow:lang", fillCloud);
 
   // Globe : l'image de la Terre de nuit déjà utilisée par l'application (globe-filigrane.webp), teintée vert-bleu,
@@ -439,8 +529,9 @@
   function size() { const r = cv.getBoundingClientRect(); W = r.width; cv.width = cv.height = Math.round(W * dpr); }
   size(); addEventListener("resize", () => { size(); if (reduce) frame(0); });
   // Repères sur l'image (x, y dans le carré de la zone, 0..1) : Paris, New York, São Paulo, Lagos, Le Caire, Moscou, Inde, Johannesburg, Madagascar, Islande.
-  const P = [[.49,.36],[.21,.37],[.27,.66],[.45,.53],[.59,.45],[.6,.29],[.82,.5],[.56,.79],[.67,.73],[.36,.22]];
-  const L = [[0,1],[0,3],[3,2],[1,2],[0,4],[4,6],[0,5],[5,6],[3,7],[7,8],[4,8],[9,1],[9,0],[6,8]];
+  const P = CITIES.map((k) => [k.x, k.y]), L = LINKS;
+  let vis = true;
+  if ("IntersectionObserver" in window) new IntersectionObserver((es) => es.forEach((e) => { const was = vis; vis = e.isIntersecting; if (vis && !was && run && !reduce) requestAnimationFrame(frame); }), { threshold: 0 }).observe(cv);
   // Orbites autour du globe, comme sur la maquette.
   const O = [[.5,.5,.47,.17,-.35],[.5,.5,.45,.2,.5]];
   let run = true;
@@ -449,19 +540,24 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, W);
     ctx.lineWidth = 1; ctx.strokeStyle = "rgba(111,240,192,.28)";
     O.forEach(([x, y, rx, ry, a]) => { ctx.beginPath(); ctx.ellipse(x * W, y * W, rx * W, ry * W, a, 0, 7); ctx.stroke(); });
+    const f = hot >= 0 ? hot : (chosen ? cur : -1);
     L.forEach(([a, b], n) => {
+      const on = f < 0 || a === f || b === f; ctx.globalAlpha = on ? 1 : .35;
       const x0 = P[a][0] * W, y0 = P[a][1] * W, x2 = P[b][0] * W, y2 = P[b][1] * W, mx = (x0 + x2) / 2, my = (y0 + y2) / 2;
       const dx = x2 - x0, dy = y2 - y0, len = Math.hypot(dx, dy) || 1, bow = len * .28, x1 = mx - dy / len * bow, y1 = my + dx / len * bow - bow * .35;
       const g = ctx.createLinearGradient(x0, y0, x2, y2); g.addColorStop(0, "rgba(111,240,192,.75)"); g.addColorStop(.5, "rgba(190,255,230,.9)"); g.addColorStop(1, "rgba(111,240,192,.75)");
-      ctx.strokeStyle = g; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
+      ctx.strokeStyle = g; ctx.lineWidth = f >= 0 && on ? 2.4 : 1.3; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.quadraticCurveTo(x1, y1, x2, y2); ctx.stroke();
       const t = (ph + n * .173) % 1, u = 1 - t, px = u * u * x0 + 2 * u * t * x1 + t * t * x2, py = u * u * y0 + 2 * u * t * y1 + t * t * y2;
       ctx.fillStyle = n % 4 === 0 ? "rgba(255,196,107,.95)" : "rgba(235,255,247,.95)"; ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 8;
-      ctx.beginPath(); ctx.arc(px, py, 2.4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.arc(px, py, f >= 0 && on ? 3.2 : 2.4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
     });
+    ctx.globalAlpha = 1;
+    if (f >= 0) { const r = reduce ? 13 : 11 + 5 * Math.sin(now / 260); ctx.strokeStyle = "rgba(111,240,192,.9)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P[f][0] * W, P[f][1] * W, r, 0, 7); ctx.stroke(); }
     P.forEach(([x, y]) => { ctx.fillStyle = "rgba(111,240,192,.28)"; ctx.beginPath(); ctx.arc(x * W, y * W, 7, 0, 7); ctx.fill(); ctx.fillStyle = "#f0fff8"; ctx.beginPath(); ctx.arc(x * W, y * W, 2.6, 0, 7); ctx.fill(); });
-    if (run && !reduce) requestAnimationFrame(frame);
+    if (run && vis && !reduce) requestAnimationFrame(frame);
   }
   document.addEventListener("visibilitychange", () => { const was = run; run = !document.hidden; if (run && !was && !reduce) requestAnimationFrame(frame); });
+  window.__owFrame = frame;
   requestAnimationFrame(frame);
 
   // ---------- Démonstration réelle, sans inscription ----------
@@ -471,7 +567,6 @@
   const sFrom = document.getElementById("dFrom"), sTo = document.getElementById("dTo"), chat = document.getElementById("dChat"),
     note = document.getElementById("dNote"), form = document.getElementById("dForm"), inp = document.getElementById("dIn");
   const noteTxt = note.textContent;
-  const T = (s) => (window.owT ? window.owT(s) : s);
   function fillSel() {
     const keepF = sFrom.value, keepT = sTo.value;
     [sFrom, sTo].forEach((s) => { s.innerHTML = ""; DEMO.forEach((c) => { const o = document.createElement("option"); o.value = c; o.textContent = nm(c); s.appendChild(o); }); });
@@ -481,6 +576,15 @@
   }
   document.addEventListener("ow:lang", () => { sFrom.value = ""; sTo.value = ""; fillSel(); chat.innerHTML = ""; });
   document.getElementById("dSwap").addEventListener("click", () => { const a = sFrom.value; sFrom.value = sTo.value; sTo.value = a; });
+  // Depuis le globe ou la liste des langues : la démo se règle sur cette langue, puis on y descend.
+  function demoTo(c) {
+    [sFrom, sTo].forEach((s) => { if (![...s.options].some((o) => o.value === c)) { const o = document.createElement("option"); o.value = c; o.textContent = nm(c); s.appendChild(o); } });
+    sTo.value = c;
+    if (sFrom.value === c) { const me = window.owNewLang || "fr"; sFrom.value = me !== c && DEMO.includes(me) ? me : (c === "en" ? "fr" : "en"); }
+    chat.innerHTML = "";
+    document.getElementById("demo").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    const b = document.querySelector("#dPhr button"); if (b) b.focus({ preventScroll: true });
+  }
   const mmCode = (c) => (c === "zh" ? "zh-CN" : c);
   let seq = 0;
   async function translate(text, from, to) {
@@ -504,7 +608,7 @@
     try {
       const out = await translate(text, from, to);
       if (my !== seq) return;
-      wait.textContent = out; wait.lang = to; const s = document.createElement("small"); s.textContent = nm(to) + " · " + T("Traduction automatique"); wait.appendChild(s);
+      wait.textContent = out; wait.lang = to; carnetAdd(to); const s = document.createElement("small"); s.textContent = nm(to) + " · " + T("Traduction automatique"); wait.appendChild(s);
     } catch (e) {
       if (my !== seq) return;
       wait.remove(); note.classList.add("err");

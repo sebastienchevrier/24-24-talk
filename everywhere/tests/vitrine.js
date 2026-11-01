@@ -52,7 +52,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     return ctx;
   }
   const errors = [];
-  const open = async (ctx, url) => { const p = await ctx.newPage(); p.on("pageerror", (e) => errors.push(String(e))); await p.goto(url); await p.waitForFunction(() => window.owT && document.querySelector("#cloud span")); return p; };
+  const open = async (ctx, url) => { const p = await ctx.newPage(); p.on("pageerror", (e) => errors.push(String(e))); await p.goto(url); await p.waitForFunction(() => window.owT && document.querySelector("#cloud button")); return p; };
 
   const tel = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, hasTouch: true, isMobile: MOTEUR !== "firefox" };
   const ctxTel = await ctxFor(tel);
@@ -71,7 +71,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
   await step("Français : chaque texte visible vient de K ou K2 (rien d'oublié par la traduction)", async () => {
     const all = new Set(K.concat(K2));
     const orphelins = await p.evaluate((all) => { const s = new Set(all), out = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n;
-      while ((n = w.nextNode())) { const el = n.parentElement; if (!el || el.closest("script,style,select,.notranslate,[translate=no],#helloWord,#helloLang,#langCode,#cloud,#dChat,svg,[data-k]")) continue; const t = n.nodeValue.trim(); if (t && !s.has(t) && !/^[·⇄]$/.test(t)) out.push(t); } return out; }, [...all]);
+      while ((n = w.nextNode())) { const el = n.parentElement; if (!el || el.closest("script,style,select,.notranslate,[translate=no],#helloWord,#helloLang,#helloCity,#langCode,#cloud,#carnetList,#dChat,svg,[data-k]")) continue; const t = n.nodeValue.trim(); if (t && !s.has(t) && !/^[·⇄]$/.test(t)) out.push(t); } return out; }, [...all]);
     return { ok: orphelins.length === 0, detail: orphelins.length ? orphelins.join(" | ") : K2.length + " nouveaux textes, tous reconnus" };
   });
   await step("K2 écrit à la main en 10 langues (fr + 9), même nombre d'entrées, aucune vide", async () => {
@@ -181,6 +181,54 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     await p.addScriptTag({ path: AXE });
     const v = await p.evaluate(async () => (await axe.run(document, { resultTypes: ["violations"] })).violations.filter((x) => x.impact === "critical" || x.impact === "serious").map((x) => x.id + "×" + x.nodes.length));
     return { ok: !v.length, detail: v.join(", ") || "aucune" };
+  });
+  // ---- « Le monde vivant » : globe, salutations, langues, carnet ----
+  await step("Monde vivant : toucher une ville met la bulle dans sa langue, puis « Essayer » règle la démo sur cette langue", async () => {
+    const ctx = await ctxFor(tel); const q = await open(ctx, M + "?lang=fr");
+    await q.evaluate(() => { try { localStorage.clear(); } catch (e) {} });
+    await q.tap("#cities button[aria-label^='Le Caire']");
+    const a = await q.evaluate(() => ({ mot: document.getElementById("helloWord").textContent, ville: document.getElementById("helloCity").textContent, annonce: document.getElementById("cityLive").textContent }));
+    await q.tap("#helloTry"); await q.waitForTimeout(400);
+    const b = await q.evaluate(() => ({ vers: document.getElementById("dTo").value, de: document.getElementById("dFrom").value, focus: document.activeElement && document.activeElement.closest("#dPhr") !== null }));
+    await ctx.close();
+    return { ok: a.mot === "مرحبا" && a.ville === "Le Caire" && /arabe/.test(a.annonce) && b.vers === "ar" && b.de === "fr" && b.focus, detail: JSON.stringify(a) + " " + JSON.stringify(b) };
+  });
+  await step("Monde vivant : villes atteignables au clavier (vrais boutons nommés), bulle en pause au bouton", async () => {
+    const ctx = await ctxFor({ viewport: { width: 1280, height: 800 } }); const q = await open(ctx, M + "?lang=fr");
+    const n = await q.evaluate(() => [...document.querySelectorAll("#cities button")].filter((b) => b.getAttribute("aria-label") && b.tabIndex >= 0).length);
+    await q.focus("#cities button[aria-label^='Mumbai']"); await q.keyboard.press("Enter");
+    const mot = await q.evaluate(() => document.getElementById("helloWord").textContent);
+    await q.click("#helloPause"); const p1 = await q.evaluate(() => document.getElementById("helloPause").getAttribute("aria-pressed"));
+    await ctx.close();
+    return { ok: n === 10 && mot === "नमस्ते" && p1 === "true", detail: n + " villes · " + mot + " · pause=" + p1 };
+  });
+  await step("Monde vivant : recherche de langue, toucher une langue règle la démo et l'ajoute au carnet (gardé après rechargement, effaçable)", async () => {
+    const ctx = await ctxFor(tel); const q = await open(ctx, M + "?lang=fr");
+    await q.evaluate(() => { try { localStorage.clear(); } catch (e) {} }); await q.reload(); await q.waitForFunction(() => window.owT && document.querySelector("#cloud button"));
+    await q.fill("#langFind", "swahili");
+    const vis = await q.evaluate(() => [...document.querySelectorAll("#cloud button")].filter((b) => !b.hidden).map((b) => b.dataset.c));
+    await q.evaluate(() => document.querySelector("#cloud button[data-c=sw]").click()); await q.waitForTimeout(300);
+    const vers = await q.evaluate(() => document.getElementById("dTo").value);
+    await q.reload(); await q.waitForFunction(() => window.owT && document.querySelector("#cloud button"));
+    const apres = await q.evaluate(() => ({ cache: document.getElementById("carnet").hidden, n: document.querySelectorAll("#carnetList span").length }));
+    await q.click("#carnetClear");
+    const vide = await q.evaluate(() => document.getElementById("carnet").hidden);
+    await ctx.close();
+    return { ok: vis.includes("sw") && vis.length < 10 && vers === "sw" && !apres.cache && apres.n === 1 && vide, detail: "trouvées " + vis.join(",") + " · démo vers " + vers + " · carnet après rechargement " + apres.n + " · effacé " + vide };
+  });
+  await step("Monde vivant : aucun appel au traducteur sans geste du visiteur (globe, bulle, liste)", async () => {
+    appels = 0; const ctx = await ctxFor(tel); const q = await open(ctx, M + "?lang=fr");
+    await q.tap("#cities button[aria-label^='Paris']"); await q.tap("#helloTry"); await q.waitForTimeout(3000);
+    const n = appels; await ctx.close();
+    return { ok: n === 0, detail: n + " appel(s)" };
+  });
+  await step("Monde vivant, « réduire les animations » : la bulle ne tourne pas, mais toucher une ville marche", async () => {
+    const ctx = await ctxFor(Object.assign({}, tel, { reducedMotion: "reduce" })); const q = await open(ctx, M + "?lang=fr");
+    const a = await q.evaluate(() => document.getElementById("helloWord").textContent); await q.waitForTimeout(3000);
+    const b = await q.evaluate(() => document.getElementById("helloWord").textContent);
+    await q.tap("#cities button[aria-label^='Moscou']"); const c = await q.evaluate(() => document.getElementById("helloWord").textContent);
+    await ctx.close();
+    return { ok: a === b && c === "Привет", detail: a + " → " + b + " → " + c };
   });
   // ---- Page Pro /monde/pro/ ----
   const P = M + "pro/";

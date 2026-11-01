@@ -1525,7 +1525,18 @@
     "Parlez à vos clients du monde entier dans leur langue : hôtels, agences, commerce en ligne, import-export.",
     "Découvrir l'offre Pro",
     "Participez à un monde plus ouvert, plus humain et plus connecté.",
-    "Créer mon compte gratuitement"
+    "Créer mon compte gratuitement",
+    "Essayer",
+    "Touchez une ville du globe",
+    "Chercher une langue",
+    "Votre carnet de découverte",
+    "Langues découvertes sur cet appareil :",
+    "Effacer",
+    "Gardé uniquement sur cet appareil. Rien n'est envoyé.",
+    "Aucune langue trouvée",
+    "Mettre en pause",
+    "Reprendre",
+    "Touchez une langue pour l'essayer dans la démo."
     ];
   var T2 = {
     "en": [
@@ -1578,7 +1589,18 @@
     "Talk to your customers around the world in their language: hotels, agencies, online shops, import-export.",
     "Discover the Pro offer",
     "Be part of a more open, more human and more connected world.",
-    "Create my free account"
+    "Create my free account",
+    "Try it",
+    "Tap a city on the globe",
+    "Search a language",
+    "Your discovery notebook",
+    "Languages discovered on this device:",
+    "Clear",
+    "Kept only on this device. Nothing is sent.",
+    "No language found",
+    "Pause",
+    "Resume",
+    "Tap a language to try it in the demo."
     ],
     "es": [
     "Funciones",
@@ -1630,7 +1652,18 @@
     "Habla con tus clientes de todo el mundo en su idioma: hoteles, agencias, comercio online, importación y exportación.",
     "Descubrir la oferta Pro",
     "Forma parte de un mundo más abierto, más humano y más conectado.",
-    "Crear mi cuenta gratis"
+    "Crear mi cuenta gratis",
+    "Probar",
+    "Toca una ciudad del globo",
+    "Buscar un idioma",
+    "Tu cuaderno de descubrimientos",
+    "Idiomas descubiertos en este dispositivo:",
+    "Borrar",
+    "Se guarda solo en este dispositivo. No se envía nada.",
+    "Ningún idioma encontrado",
+    "Pausar",
+    "Reanudar",
+    "Toca un idioma para probarlo en la demo."
     ],
     "pt": [
     "Funcionalidades",
@@ -1682,7 +1715,18 @@
     "Fale com seus clientes do mundo inteiro no idioma deles: hotéis, agências, comércio online, importação e exportação.",
     "Conhecer a oferta Pro",
     "Participe de um mundo mais aberto, mais humano e mais conectado.",
-    "Criar minha conta grátis"
+    "Criar minha conta grátis",
+    "Experimentar",
+    "Toque numa cidade do globo",
+    "Procurar uma língua",
+    "O seu caderno de descobertas",
+    "Línguas descobertas neste aparelho:",
+    "Apagar",
+    "Guardado apenas neste aparelho. Nada é enviado.",
+    "Nenhuma língua encontrada",
+    "Pausar",
+    "Retomar",
+    "Toque numa língua para experimentá-la na demo."
     ],
     "de": [
     "Funktionen",
@@ -1734,7 +1778,18 @@
     "Sprechen Sie mit Ihren Kunden weltweit in ihrer Sprache: Hotels, Agenturen, Onlinehandel, Import-Export.",
     "Das Pro-Angebot entdecken",
     "Seien Sie Teil einer offeneren, menschlicheren und vernetzteren Welt.",
-    "Kostenloses Konto erstellen"
+    "Kostenloses Konto erstellen",
+    "Ausprobieren",
+    "Tippe auf eine Stadt auf dem Globus",
+    "Sprache suchen",
+    "Dein Entdeckungsheft",
+    "Auf diesem Gerät entdeckte Sprachen:",
+    "Löschen",
+    "Nur auf diesem Gerät gespeichert. Nichts wird gesendet.",
+    "Keine Sprache gefunden",
+    "Pausieren",
+    "Fortsetzen",
+    "Tippe auf eine Sprache, um sie in der Demo auszuprobieren."
     ],
     "it": [
     "Funzionalità",
@@ -1786,7 +1841,18 @@
     "Parla con i tuoi clienti di tutto il mondo nella loro lingua: hotel, agenzie, commercio online, import-export.",
     "Scopri l'offerta Pro",
     "Partecipa a un mondo più aperto, più umano e più connesso.",
-    "Crea il mio account gratis"
+    "Crea il mio account gratis",
+    "Prova",
+    "Tocca una città sul globo",
+    "Cerca una lingua",
+    "Il tuo quaderno di scoperte",
+    "Lingue scoperte su questo dispositivo:",
+    "Cancella",
+    "Salvato solo su questo dispositivo. Non viene inviato nulla.",
+    "Nessuna lingua trovata",
+    "Pausa",
+    "Riprendi",
+    "Tocca una lingua per provarla nella demo."
     ],
     "zh": [
     "功能",
@@ -1838,7 +1904,18 @@
     "用客户的语言与全球客户沟通：酒店、旅行社、电商、进出口。",
     "了解专业版",
     "加入一个更开放、更有人情味、联系更紧密的世界。",
-    "免费创建我的账户"
+    "免费创建我的账户",
+    "试一试",
+    "点击地球上的城市",
+    "搜索语言",
+    "你的发现笔记",
+    "在此设备上发现的语言：",
+    "清除",
+    "仅保存在此设备上，不会发送任何内容。",
+    "未找到语言",
+    "暂停",
+    "继续",
+    "点击一种语言，在演示中试用。"
     ],
     "ja": [
     "機能",
@@ -1890,7 +1967,18 @@
     "世界中のお客様と、その方の言語で話しましょう：ホテル、旅行会社、ネットショップ、輸出入。",
     "Pro プランを見る",
     "もっと開かれた、もっと人間らしい、もっとつながった世界へ。",
-    "無料でアカウントを作成"
+    "無料でアカウントを作成",
+    "試してみる",
+    "地球儀の都市をタップ",
+    "言語を検索",
+    "発見ノート",
+    "この端末で見つけた言語：",
+    "消去",
+    "この端末にのみ保存され、何も送信されません。",
+    "言語が見つかりません",
+    "一時停止",
+    "再開",
+    "言語をタップしてデモで試せます。"
     ],
     "ar": [
     "الميزات",
@@ -1942,7 +2030,18 @@
     "تحدّث مع عملائك حول العالم بلغتهم: الفنادق، الوكالات، التجارة الإلكترونية، الاستيراد والتصدير.",
     "اكتشف عرض Pro",
     "شارك في عالم أكثر انفتاحاً وإنسانية وترابطاً.",
-    "أنشئ حسابي مجاناً"
+    "أنشئ حسابي مجاناً",
+    "جرّب",
+    "المس مدينة على الكرة الأرضية",
+    "ابحث عن لغة",
+    "دفتر اكتشافاتك",
+    "اللغات المكتشفة على هذا الجهاز:",
+    "مسح",
+    "محفوظ على هذا الجهاز فقط. لا يُرسل أي شيء.",
+    "لم يتم العثور على أي لغة",
+    "إيقاف مؤقت",
+    "استئناف",
+    "المس لغة لتجربتها في العرض."
     ],
     "ru": [
     "Возможности",
@@ -1994,7 +2093,18 @@
     "Говорите с клиентами по всему миру на их языке: отели, агентства, интернет-магазины, импорт и экспорт.",
     "Узнать о тарифе Pro",
     "Станьте частью более открытого, человечного и связанного мира.",
-    "Создать бесплатный аккаунт"
+    "Создать бесплатный аккаунт",
+    "Попробовать",
+    "Коснитесь города на глобусе",
+    "Найти язык",
+    "Ваш блокнот открытий",
+    "Языки, открытые на этом устройстве:",
+    "Очистить",
+    "Хранится только на этом устройстве. Ничего не отправляется.",
+    "Язык не найден",
+    "Пауза",
+    "Продолжить",
+    "Коснитесь языка, чтобы попробовать его в демо."
     ]
     };
   var IDX2 = {};
