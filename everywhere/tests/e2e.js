@@ -110,6 +110,28 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       const l2 = await ip.$eval("#owDemo", (b) => b.dataset.lang);
       return { ok: /On s'appelle ce soir/.test(a1.src) && a1.play && a1.l !== "fr" && l2 !== a1.l, detail: a1.l + " → " + l2 };
     });
+    // OW-WRITE-010 : défauts trouvés par l'audit 009 (bouton d'entrée devenu vert après 007 ; carte d'inscription illisible en clair sur grand écran).
+    const obLook = () => ip.evaluate(() => {
+      const lum = (c) => { const m = c.match(/[\d.]+/g).map(Number); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); };
+      const g = document.getElementById("netNext"), o = document.querySelector("#net .ob, .ob"), h = o && o.querySelector("h2, h1, b");
+      const bg = getComputedStyle(o).backgroundColor, fg = getComputedStyle(h || o).color;
+      const a = (bg.match(/[\d.]+/g) || [])[3]; const bgL = a !== undefined && +a < 0.5 ? lum(getComputedStyle(document.body).backgroundColor === "rgba(0, 0, 0, 0)" ? "rgb(244, 246, 251)" : getComputedStyle(document.body).backgroundColor) : lum(bg);
+      const L1 = Math.max(bgL, lum(fg)), L2 = Math.min(bgL, lum(fg));
+      return { btn: getComputedStyle(g).backgroundImage, ratio: Math.round(((L1 + 0.05) / (L2 + 0.05)) * 100) / 100, theme: document.documentElement.getAttribute("data-theme") };
+    });
+    await step("Porte d'entrée : bouton « Continuer » orange en thème sombre (régression de 007)", async () => {
+      const r = await obLook();
+      return { ok: r.theme === "dark" && /255, 196, 107/.test(r.btn) && /255, 122, 26/.test(r.btn), detail: r.theme + " · " + r.btn.slice(0, 70) };
+    });
+    await step("Inscription sur grand écran en thème clair : carte lisible (contraste ≥ 4,5:1) et bouton orange", async () => {
+      await ip.setViewportSize({ width: 1280, height: 800 });
+      await ip.evaluate(() => { localStorage.setItem("ew_prefs", JSON.stringify({ theme: "light" })); });
+      await ip.reload();
+      await ip.waitForSelector("#netPseudo", { timeout: 20000 });
+      await ip.waitForTimeout(600);
+      const r = await obLook();
+      return { ok: r.theme === "light" && r.ratio >= 4.5 && /255, 122, 26/.test(r.btn), detail: r.theme + " · contraste " + r.ratio + ":1" };
+    });
     await ictx.close();
   }
 
