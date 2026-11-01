@@ -91,3 +91,30 @@ html:not([data-theme="light"]):not(.theme-light) :is(input,select,textarea):focu
 html:not([data-theme="light"]):not(.theme-light) #netRoot .empty{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.6);}
 /* Carrés d'icônes verts sur toutes les touches de l'Accueil (certaines touches avaient une règle plus précise dans index.html). */
 html:not([data-theme="light"]):not(.theme-light) .home-tile[class] .home-tile-ic:not(.x){background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;}
+
+/* OW-WRITE-011 (1er nov. 2026) : thème clair dans l'identité verte ONE WORLD (choix de Sébastien, d'après sa capture Android
+   du thème sombre). Avant : clair bleu (#2f6ae6 / #1f5fe0). Fond clair légèrement vert, accents vert émeraude foncé,
+   contraste AA vérifié : vert #0b7a5c sur blanc 5,4:1 (texte blanc sur bouton idem), lien #0b6b52 6,6:1.
+   :root[...] (0,2,0), chargé en dernier : passe devant les jetons clairs d'index.html, style.css et shell.css. */
+:root[data-theme="light"], :root.theme-light{
+  --bg:#f3f8f6; --bg2:#e7f1ed; --panel:#ffffff; --panel2:#ecf5f1; --line:#d3e4dd;
+  --text:#10201c; --muted:#4a5f5a;
+  --blue:#0b7a5c; --blue2:#0b6b52; --link:#0b6b52; --cta:#0b7a5c; --cta-ink:#ffffff;
+  --teal:#0b7a5c; --teal2:#075e47; --on-primary:#ffffff;
+  --ews-bg:#f3f8f6; --ews-bg2:#ffffff; --ews-panel:#ffffff; --ews-line:#d3e4dd; --ews-text:#10201c; --ews-muted:#4a5f5a;
+  --ews-teal:#0b7a5c; --ews-teal2:#075e47;
+  --ow-ic-bg:#dcefe8; --ow-ic:#0b6b52; --ow-av-bg:#0f5c4c; --ow-av:#ffffff;
+  --ow-accent:#0b6b52; --ow-accent2:#0b7a5c; --ow-glow:11,122,92;
+}
+:root.contrast-high[data-theme="light"], :root.contrast-high.theme-light{ --muted:var(--text); --line:#4f6b62; }
+:root[data-theme="light"] .primary:active, :root.theme-light .primary:active{ background:#075e47; }
+/* Messagerie en clair : ronds verts lettres blanches (avant : ronds bleu nuit), pastille et heure non lue en vert lisible
+   (l'heure #8fb0ff faisait 2:1 sur blanc). */
+:root[data-theme="light"] body.net-full span.net-av, :root.theme-light body.net-full span.net-av{
+  background:linear-gradient(160deg,#127a5f,#0f5c4c) !important;color:#ffffff;border:1px solid rgba(11,107,82,.25);}
+:root[data-theme="light"] body.net-full .net-story-plus, :root.theme-light body.net-full .net-story-plus{
+  background:#dcefe8;color:#0b6b52;border:1px solid rgba(11,107,82,.3);}
+:root[data-theme="light"] body.net-full #netMeStory .net-av{box-shadow:0 0 0 2px rgba(11,122,92,.55);}
+:root[data-theme="light"] body.net-full .net-row-count{background:#0b7a5c;}
+:root[data-theme="light"] body.net-full .net-row.unread .net-row-when{color:#0b6b52;}
+:root[data-theme="light"] body.net-full .net-search{background:#ffffff;border-color:var(--line);}
