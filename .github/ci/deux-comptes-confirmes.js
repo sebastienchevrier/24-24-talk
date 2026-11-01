@@ -64,10 +64,14 @@ async function compte(lettre) {
   const relu = await A.c.from("ow_rooms").select("title").eq("id", salon.id).single();
   rec(!upB.error && upB.data.length === 0 && relu.data && relu.data.title === salon.title ? "PASS" : "FAIL", "Espaces : B ne peut pas modifier le salon de A", (upB.error ? upB.error.code : upB.data.length + " ligne touchée") + ", titre relu : " + (relu.data && relu.data.title));
   rec(!delB.error && delB.data.length === 0 && relu.data ? "PASS" : "FAIL", "Espaces : B ne peut pas supprimer le salon de A", delB.error ? delB.error.code : delB.data.length + " ligne supprimée");
-  const owB = await B.c.from("ow_rooms").insert({ kind: "community", title: "Usurpation", owner_id: A.id }).select("id");
-  if (!owB.error && owB.data && owB.data.length) await A.c.from("ow_rooms").delete().eq("id", owB.data[0].id);
-  rec(owB.error ? "PASS" : "FAIL", "Espaces : B ne peut pas créer un salon au nom de A", owB.error ? owB.error.code : "créé (effacé)");
-
+  // Le serveur doit ignorer un owner_id forcé : le salon appartient toujours à celui qui le crée (déclencheur TEST)
+  const owB = await B.c.from("ow_rooms").insert({ kind: "community", title: "Essai owner force", owner_id: A.id }).select("id,owner_id").single();
+  if (owB.error) rec("PASS", "Espaces : B ne peut pas créer un salon au nom de A", "refusé " + owB.error.code);
+  else {
+    const proprio = owB.data.owner_id;
+    const nettoie = await B.c.from("ow_rooms").delete().eq("id", owB.data.id).select("id");
+    rec(proprio === B.id ? "PASS" : "FAIL", "Espaces : B ne peut pas créer un salon au nom de A (owner_id forcé ignoré)", "propriétaire réel : " + (proprio === B.id ? "B" : proprio === A.id ? "A !" : proprio) + ", salon effacé par B : " + (nettoie.data ? nettoie.data.length : nettoie.error && nettoie.error.code));
+  }
   // Changement de compte : le client de B prend la session de A puis revient à B
   const ancienB = B.s.access_token, refreshB = B.s.refresh_token;
   const sw = await B.c.auth.setSession({ access_token: A.s.access_token, refresh_token: A.s.refresh_token });

@@ -21,7 +21,8 @@ async function rest(jeton, chemin) {
   rec(A.user.id !== B.user.id ? "PASS" : "FAIL", "Deux comptes TEST distincts créés", "A=" + A.user.id.slice(0, 8) + "… B=" + B.user.id.slice(0, 8) + "…");
 
   // 1) Espaces : lecture des salons par A et B
-  const la = await rest(A.access_token, "ow_rooms?select=id,owner_id,members&limit=50");
+  const la = await rest(A.access_token, "ow_rooms?select=id,owner_id,members,title&limit=50");
+  if (Array.isArray(la.corps)) la.corps.forEach(r => console.log("            salon visible : « " + r.title + " » propriétaire " + String(r.owner_id).slice(0, 8) + "…"));
   const lb = await rest(B.access_token, "ow_rooms?select=id,owner_id,members&limit=50");
   const n = Array.isArray(la.corps) ? la.corps.length : -1;
   rec(la.code === 200 && lb.code === 200 ? "PASS" : "FAIL", "Espaces : A et B connectés peuvent lire les salons", "HTTP " + la.code + "/" + lb.code + ", " + n + " salon(s) visibles");
