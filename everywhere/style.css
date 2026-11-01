@@ -14,12 +14,15 @@
 /* Thème du portail (prefs.js) : bleu nuit par défaut depuis 0.8.0 (maquette validée le 14 octobre 2026), clair au choix. */
 html.theme-light, html.theme-auto{ --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; }
 html.theme-light{ --bg:#f5f8ff; --bg2:#eaf0fb; --panel:#ffffff; --panel2:#eef3fc; --line:#d8e1f3; --text:#0d1733; --muted:#4d5b80;
-  --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --ok:#0f8a4c; --warn:#9a5b00; --err:#c62848; color-scheme:light; }
+  --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --ok:#0f8a4c; --warn:#9a5b00; --err:#c62848; color-scheme:light;
+  /* OW-WRITE-006 : carrés d'icônes et avatar en version claire (le sombre vient d'ambiance-terre.css). */
+  --ow-ic-bg:#dcefe8; --ow-ic:#0b6b52; --ow-av-bg:#0f5c4c; --ow-av:#ffffff; }
 html.theme-dark, html.theme-auto{ --on-primary:#06122b; }
 html.theme-dark{ --bg:#07131d; --bg2:#0a1724; --panel:#0d1f2d; --panel2:#11273a; --line:#1a3042; --text:#f0f8fa; --muted:#a3b5c4;
   --teal:#4fe0b0; --teal2:#22d3c5; --blue:#7aa7ff; --ok:#3ddc84; --warn:#ffb020; --err:#ff6b86; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; color-scheme:dark; }
 html.theme-auto{ --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; }
-@media (prefers-color-scheme: light){ html.theme-auto{ --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; } }
+@media (prefers-color-scheme: light){ html.theme-auto{ --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff;
+  --ow-ic-bg:#dcefe8; --ow-ic:#0b6b52; --ow-av-bg:#0f5c4c; --ow-av:#ffffff; } }
 /* Contraste renforcé : texte secondaire aussi foncé que le texte principal, bordures plus marquées. */
 html.contrast-high{ --muted:var(--text); }
 html.contrast-high.theme-light{ --line:#5b6b91; --text:#000814; }
@@ -34,8 +37,7 @@ html{height:100%;}
 body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
   font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;overflow:hidden;}
 @supports (height:100dvh){ body{height:100dvh;} }
-/* Fond plus vivant (17 oct. 2026) : lueurs turquoise, violette et bleue, les tuiles ne changent pas. */
-body{background:radial-gradient(90% 50% at 0% 0%,rgba(31,226,205,.16),transparent 70%),radial-gradient(90% 55% at 100% 42%,rgba(124,77,255,.22),transparent 70%),radial-gradient(110% 55% at 10% 100%,rgba(47,106,230,.26),transparent 70%),var(--bg);}
+/* Fond : bleu nuit uni (var(--bg)) ; les halos discrets viennent d'ambiance-terre.css (OW-WRITE-006, ancien fond violet retiré). */
 a{color:var(--teal);}
 button{font:inherit;color:inherit;}
 :focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
@@ -66,43 +68,49 @@ main:focus{outline:none;}
 .pad{padding:18px 16px 28px;max-width:960px;margin:0 auto;}
 
 
-.h1{font-size:24px;margin:4px 0 6px;}
+.h1{font-size:24px;margin:4px 0 6px;font-weight:800;letter-spacing:-.01em;line-height:1.2;}
 .h2{font-size:17px;margin:4px 0 12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
 .muted{color:var(--muted);}
-.note{color:var(--muted);font-size:13.5px;margin:12px 2px 0;}
+.note{color:var(--muted);font-size:14px;line-height:1.45;margin:12px 2px 0;}
 
 .app-grid,.app-list{display:grid;gap:12px;grid-template-columns:1fr;}
-.app-card{position:relative;display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:16px;border-radius:18px;
-  border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),var(--panel));
-  color:var(--text);text-decoration:none;min-height:88px;}
-a.app-card:hover{border-color:var(--accent);}
-.app-card .app-ic{width:56px;height:56px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#06121f;}
+/* OW-WRITE-006 : cartes d'application comme les tuiles de l'accueil (surface bleu pétrole, carré d'icône vert, « Ouvrir » émeraude). */
+.app-card{position:relative;display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:16px;border-radius:var(--ow-radius,20px);
+  border:1px solid var(--line);background:var(--panel);
+  color:var(--text);text-decoration:none;min-height:88px;transition:border-color .15s ease,transform .15s ease;}
+a.app-card:hover{border-color:var(--teal);}
+a.app-card:active{transform:scale(.99);}
+.app-card .app-ic{width:56px;height:56px;border-radius:var(--ow-radius-s,14px);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--ow-ic-bg,#1c5147);color:var(--ow-ic,#6ff0c0);}
 .app-card .app-ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 .app-card b{display:block;font-size:18px;}
 .app-card small{display:block;color:var(--muted);font-size:14px;margin-top:2px;}
-.app-card .go{margin-left:auto;font-weight:800;color:var(--accent);white-space:nowrap;}
+.app-card .go{margin-inline-start:auto;font-weight:800;color:var(--teal);white-space:nowrap;}
 .app-card.reserved{border-style:dashed;background:var(--panel);}
 .app-card.reserved .app-ic{background:var(--panel2);color:var(--muted);}
 .badge{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);margin-top:6px;}
 
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:14px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--ow-radius,20px);padding:16px;margin-top:14px;}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;border-bottom:1px solid var(--line);}
 .row:last-child{border-bottom:none;}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line);
-  background:var(--panel2);font-weight:800;cursor:pointer;text-decoration:none;color:var(--text);}
+  background:var(--panel2);font-weight:800;cursor:pointer;text-decoration:none;color:var(--text);transition:transform .12s ease,filter .12s ease,border-color .15s ease;}
+.btn:hover{border-color:color-mix(in srgb,var(--teal) 55%,var(--line));}
+.btn:active{transform:scale(.98);filter:brightness(1.08);}
+.btn:disabled, .btn[aria-disabled="true"], .link-btn:disabled, .link-btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;transform:none;filter:none;}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:var(--on-primary,#04161a);}
 .btn.wide{width:100%;margin-top:10px;}
 .btn.danger{background:transparent;border:2px solid var(--err);color:var(--err);font-weight:700;}
 .cx-del{border-top:1px solid var(--line);margin-top:18px;padding-top:6px;}
-.link-btn{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;}
+.link-btn{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-weight:700;cursor:pointer;transition:border-color .15s ease,background-color .15s ease;}
+.link-btn:active{background:color-mix(in srgb,var(--teal) 16%,var(--panel2));border-color:var(--teal);}
 /* Interrupteur : rail de 52×30 dessiné, mais zone à toucher de 56×44 (taille minimale conseillée sur téléphone). */
 .toggle{width:56px;height:44px;padding:0;border:none;background:none;position:relative;cursor:pointer;flex-shrink:0;}
 .toggle::before{content:"";position:absolute;left:2px;top:7px;width:52px;height:30px;border-radius:999px;background:var(--line);}
 .toggle::after{content:"";position:absolute;top:10px;left:5px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;}
-.toggle[aria-checked="true"]::before{background:var(--ok);}
+.toggle[aria-checked="true"]::before{background:var(--teal);} /* état actif : vert émeraude (bleu en thème clair), OW-WRITE-006 */
 .toggle[aria-checked="true"]::after{left:27px;}
 .profile-head{display:flex;align-items:center;gap:14px;}
-.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04161a;display:flex;align-items:center;
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--ow-av-bg,#1c6659);color:var(--ow-av,#f0fff9);display:flex;align-items:center;
   justify-content:center;font-size:28px;font-weight:900;flex-shrink:0;}
 .profile-head b{font-size:20px;display:block;}
 .state{text-align:center;padding:18px 6px;}
@@ -148,7 +156,9 @@ html.reduce-motion *{animation:none !important;transition:none !important;}
 .cx-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
 .cx-lbl{font-weight:700;font-size:15px;}
 .cx-input{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 14px;font-size:17px;width:100%;box-sizing:border-box;}
-.cx-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.cx-input:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal);}
+.cx-input::placeholder{color:var(--muted);opacity:1;}
+.cx-input:disabled{opacity:.6;cursor:not-allowed;}
 .cx-code{letter-spacing:.4em;font-size:24px;text-align:center;font-variant-numeric:tabular-nums;}
 .cx-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
 .cx-actions .btn{flex:1 1 140px;}
