@@ -869,7 +869,7 @@
   }
   function bourse(root) {
     var loc = TV_LOC[ui] || TV_LOC[base(ui)] || "en";
-    var dark = !(window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches);
+    var dark = document.documentElement.getAttribute("data-theme") !== "light"; // OW-WRITE-008 : thème affiché (Clair, Sombre ou Auto résolu)
     root.innerHTML = backB() + headB("bo_t", "bo_sub") +
       '<div class="card" id="boBox"><button type="button" class="btn primary" id="boLoad">' + esc(t("bo_load")) + '</button><p class="muted es-small">' + esc(t("bo_priv")) + "</p></div>" +
       '<div class="card"><h2 class="tr-h2">' + esc(t("bo_web")) + "</h2>" +
