@@ -34,7 +34,7 @@
 .es-caption{position:relative;z-index:1;padding:16px 14px;text-align:center;color:#fff;font-size:21px;line-height:1.35;font-weight:700;text-shadow:0 1px 3px #000,0 0 10px #000;}
 .es-chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none;}
 .es-chip{flex-shrink:0;min-height:40px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:0 14px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;}
-.es-chip[aria-selected=true]{background:#2ee07a;border-color:#2ee07a;color:#04140a;}
+.es-chip[aria-selected=true]{background:#2bbf8f;border-color:#4fe0b0;color:#04201a;} /* vert émeraude + liseré turquoise, OW-WRITE-005 */
 .es-kind{align-self:flex-start;font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;background:var(--panel2);border:1px solid var(--line);}
 .es-price{position:absolute;top:14px;inset-inline-end:16px;font-weight:800;font-size:17px;color:#2ee07a;}
 .es-ad p{margin:2px 0;color:var(--text);white-space:pre-wrap;}
