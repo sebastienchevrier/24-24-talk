@@ -5,7 +5,7 @@ name: Tests reels base TEST
 on:
   push:
     branches: [claude/test-reel-test]
-    paths-ignore: ['.github/ci/codes-*.json']
+    paths-ignore: ['.github/ci/codes-*.json', '.github/ci/liens-*.json']
   workflow_dispatch: {}
 
 permissions:
@@ -32,12 +32,26 @@ jobs:
         working-directory: .github/ci
         run: npx --no-install playwright install --with-deps chromium
       - name: Deux comptes TEST confirmes (Espaces, changement de compte, deconnexion, anciens jetons)
+        if: ${{ hashFiles('.github/ci/ESSAI-LIEN') == '' }}
         continue-on-error: true
         timeout-minutes: 17
         run: node .github/ci/deux-comptes-confirmes.js
       - name: identite-reel contre la base TEST
+        if: ${{ hashFiles('.github/ci/ESSAI-LIEN') == '' }}
         continue-on-error: true
         run: OW_REEL=TEST node everywhere/tests/identite-reel.js
       - name: Deux comptes TEST (Espaces, changement de compte, deconnexion, anciens jetons)
+        if: ${{ hashFiles('.github/ci/ESSAI-LIEN') == '' }}
         continue-on-error: true
         run: node .github/ci/deux-comptes-test.js
+      - name: Etape H - bouton Confirmer mon e-mail ouvert dans un autre navigateur
+        if: ${{ hashFiles('.github/ci/ESSAI-LIEN') != '' }}
+        timeout-minutes: 18
+        run: node .github/ci/lien-email.js
+      - name: Captures de l'essai du lien
+        if: ${{ always() && hashFiles('.github/ci/ESSAI-LIEN') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures-lien
+          path: captures-lien/
+          retention-days: 14
