@@ -106,13 +106,17 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     return { ok: r.moi === "Je t'appelle ce soir ?" && r.lui === "[fr|ja] Je t'appelle ce soir ?" && appels === 1, detail: JSON.stringify(r) };
   });
   await step("Démo : phrase libre, langues échangées (ja → fr), zh envoyé en zh-CN", async () => {
+    const etat = () => p.evaluate(() => ({ de: document.getElementById("dFrom").value, vers: document.getElementById("dTo").value,
+      chat: document.getElementById("dChat").textContent.slice(0, 120), note: document.getElementById("dNote").textContent.slice(0, 80) }));
+    const attend = async (re) => { try { await p.waitForFunction((src) => new RegExp(src).test((document.querySelector("#dChat .bub.them") || {}).textContent || ""), re.source, { timeout: 10000 }); return true; } catch (e) { return false; } };
     await p.click("#dSwap");
+    const apresEchange = await etat();
     await p.fill("#dIn", "テスト"); await p.click("#dForm button");
-    await p.waitForFunction(() => /\[ja\|fr\]/.test((document.querySelector("#dChat .bub.them") || {}).textContent || ""));
+    if (!(await attend(/\[ja\|fr\]/))) return { ok: false, detail: "après ⇄ : " + JSON.stringify(apresEchange) + " · après envoi : " + JSON.stringify(await etat()) + " · appels moteur : " + appels };
     await p.selectOption("#dTo", "zh"); await p.click("#dForm button");
-    await p.waitForFunction(() => /\[ja\|zh-CN\]/.test((document.querySelector("#dChat .bub.them") || {}).textContent || ""));
+    if (!(await attend(/\[ja\|zh-CN\]/))) return { ok: false, detail: "zh : " + JSON.stringify(await etat()) };
     await p.click("#dSwap");
-    return { ok: true };
+    return { ok: true, detail: "ja→fr puis ja→zh-CN" };
   });
   await step("Démo : moteur en panne → message honnête, AUCUNE traduction inventée", async () => {
     panne = true;
@@ -153,10 +157,11 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
       await q.evaluate(() => document.querySelectorAll(".reveal").forEach((e) => e.classList.add("on")));
       await q.waitForTimeout(800);
       const r = await q.evaluate(() => ({ large: document.documentElement.scrollWidth - innerWidth,
+        qui: [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > innerWidth + 1 && !e.closest(".globe,.box")).slice(-3).map((e) => e.tagName.toLowerCase() + (e.className && typeof e.className === "string" ? "." + e.className.split(" ")[0] : "") + ":" + Math.round(e.getBoundingClientRect().right)),
         petits: [...document.querySelectorAll("a.btn,button,.lang")].filter((e) => { const b = e.getBoundingClientRect(); return b.width && b.height && b.height < 40; }).map((e) => e.textContent.trim().slice(0, 20)) }));
       await q.screenshot({ path: path.join(OUT, "vitrine-" + ETIQ + "-" + w + ".png"), fullPage: true });
       await ctx.close();
-      return { ok: r.large <= 1 && !r.petits.length, detail: "débord " + r.large + " px" + (r.petits.length ? " · petits : " + r.petits.join(",") : "") };
+      return { ok: r.large <= 1 && !r.petits.length, detail: "débord " + r.large + " px" + (r.large > 1 ? " (" + r.qui.join(", ") + ")" : "") + (r.petits.length ? " · petits : " + r.petits.join(",") : "") };
     });
   }
   await step("« Réduire les animations » : globe figé, blocs visibles d'emblée, « Bonjour » ne tourne pas", async () => {
@@ -198,10 +203,11 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
       const ctx = await ctxFor({ viewport: { width: w, height: hgt }, hasTouch: w < 900 });
       const q = await ouvrePro(ctx, P + "?lang=fr");
       const r = await q.evaluate(() => ({ large: document.documentElement.scrollWidth - innerWidth,
+        qui: [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > innerWidth + 1 && !e.closest(".globe,.box")).slice(-3).map((e) => e.tagName.toLowerCase() + (e.className && typeof e.className === "string" ? "." + e.className.split(" ")[0] : "") + ":" + Math.round(e.getBoundingClientRect().right)),
         petits: [...document.querySelectorAll("a.btn,button,.lang")].filter((e) => { const b = e.getBoundingClientRect(); return b.width && b.height && b.height < 40; }).map((e) => e.textContent.trim().slice(0, 20)) }));
       await q.screenshot({ path: path.join(OUT, "pro-" + ETIQ + "-" + w + ".png"), fullPage: true });
       await ctx.close();
-      return { ok: r.large <= 1 && !r.petits.length, detail: "débord " + r.large + " px" + (r.petits.length ? " · petits : " + r.petits.join(",") : "") };
+      return { ok: r.large <= 1 && !r.petits.length, detail: "débord " + r.large + " px" + (r.large > 1 ? " (" + r.qui.join(", ") + ")" : "") + (r.petits.length ? " · petits : " + r.petits.join(",") : "") };
     });
   }
   await step("Pro : accessibilité (axe-core), aucune violation grave ou critique", async () => {
