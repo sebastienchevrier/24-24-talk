@@ -6,6 +6,10 @@ Ce dossier décrit comment une demande d'écriture dans ce dépôt passe de Chat
 puis revient à Sébastien pour décision. Un « paquet » est une demande écrite, complète et
 numérotée, qui dit exactement quoi changer, quoi ne pas toucher et comment vérifier.
 
+Documents du dossier : [PROTOCOL.md](PROTOCOL.md) (procédure détaillée et transmission),
+[TEMPLATE.md](TEMPLATE.md) (modèle de paquet), [REPORT-TEMPLATE.md](REPORT-TEMPLATE.md) (modèle de rapport),
+[STATUS.md](STATUS.md) (registre).
+
 Étiquettes utilisées : **EXISTANT** (vérifié dans le dépôt), **PROPOSITION** (idée, rien n'est fait).
 
 ## 1. Le circuit réel (EXISTANT)
@@ -35,7 +39,7 @@ copier-coller de Sébastien. Aucun paquet ne doit supposer le contraire.
 - Une correction d'un paquet déjà exécuté reçoit un **nouveau numéro** (elle cite l'ancien dans « Dépendances »).
 - Une simple correction du texte **avant** exécution garde le numéro et ajoute un suffixe de version : `OW-WRITE-007 v2`.
 - ChatGPT tient le compteur. Claude vérifie avant d'exécuter que le numéro n'existe pas déjà
-  (recherche dans les titres de Pull Requests et dans [registre](#7-registre-des-paquets) ci-dessous).
+  (recherche dans les titres de Pull Requests et dans [STATUS.md](STATUS.md)).
 
 ## 3. Informations obligatoires d'un paquet
 
@@ -112,15 +116,13 @@ Règles :
 
 ## 7. Registre des paquets
 
-| Paquet | Objet | Branche | État |
-|---|---|---|---|
-| OW-WRITE-001 | Mise en place du système de paquets (ce dossier) | `feature/ow-packet-system` | PR ouverte, à fusionner par Sébastien |
-
-Chaque nouveau paquet ajoute sa ligne à ce tableau dans sa propre Pull Request.
+Le registre est tenu dans [STATUS.md](STATUS.md) (identifiant, objectif, date, branche, état, commit, PR, tests).
+Chaque nouveau paquet y ajoute sa ligne dans sa propre Pull Request.
 
 ## 8. Compte rendu obligatoire
 
-Après chaque paquet, Claude écrit dans le fil, en texte simple (pas de tableau), à copier pour ChatGPT :
+Le rapport complet suit [REPORT-TEMPLATE.md](REPORT-TEMPLATE.md) et va dans la description de la Pull Request.
+Après chaque paquet, Claude écrit aussi dans le fil, en texte simple (pas de tableau), ce résumé à copier pour ChatGPT :
 
 ```
 OW-WRITE-NNN — COMPTE RENDU
