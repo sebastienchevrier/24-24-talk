@@ -40,6 +40,12 @@ html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
   display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;}
 .icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .icon-btn[aria-current="page"]{border-color:var(--ews-teal);color:var(--ews-teal);}
+/* OW-WRITE-006 : états nets des boutons ronds du haut (appui, désactivé), comme l'accueil. */
+.icon-btn{transition:background-color .15s ease,color .15s ease;}
+.icon-btn:active{background:color-mix(in srgb,var(--ews-teal) 18%,var(--ews-panel));color:var(--ews-teal);}
+.icon-btn:disabled, .icon-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;}
+html.motion-off .icon-btn{transition:none;}
+@media (prefers-reduced-motion:reduce){ .icon-btn{transition:none;} }
 a.icon-btn{text-decoration:none;}
 
 .mainnav{display:flex;justify-content:space-around;background:var(--ews-bg2);border-top:1px solid var(--ews-line);
