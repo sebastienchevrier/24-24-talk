@@ -509,6 +509,47 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   .ob-go[hidden]{display:none;}
   .ob-foot{text-align:center;margin-top:14px;font-size:14px;}
   .ob-foot a{color:var(--muted);}
+  /* OW-WRITE-003 (1er nov. 2026) : première visite. Les possibilités réelles de l'appli (mêmes noms que les tuiles de l'Accueil),
+     bouton d'action orange (#ffc46b → #ff7a1a) sur la porte d'entrée, textes lisibles sur la photo, deux colonnes sur grand écran. */
+  .ow-caps{max-width:520px;margin:22px auto 8px;padding:0 4px;}
+  .ow-caps-t{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--text);text-align:center;}
+  .ow-caps-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .ow-cap{display:flex;align-items:center;gap:10px;min-width:0;padding:10px;border-radius:16px;border:1px solid var(--line);
+    background:rgba(4,10,14,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:owRise .45s ease both;}
+  .ow-cap:nth-child(2){animation-delay:.05s;} .ow-cap:nth-child(3){animation-delay:.1s;} .ow-cap:nth-child(4){animation-delay:.15s;}
+  .ow-cap:nth-child(5){animation-delay:.2s;} .ow-cap:nth-child(6){animation-delay:.25s;}
+  .ow-cap-ic{flex:none;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    background:rgba(60,240,140,.12);color:#5dff9e;}
+  .ow-cap-ic svg{width:20px;height:20px;}
+  .ow-cap-txt{min-width:0;display:flex;flex-direction:column;line-height:1.2;}
+  .ow-cap-name{font-size:14px;font-weight:700;color:var(--text);}
+  .ow-cap-sub{font-size:12px;color:var(--muted);overflow-wrap:anywhere;}
+  :root[data-theme="light"] .ow-cap{background:var(--panel2);-webkit-backdrop-filter:none;backdrop-filter:none;}
+  :root[data-theme="light"] .ow-cap-ic{color:#0a8a4a;background:rgba(10,138,74,.1);}
+  html:not([data-theme="light"]) .ow-welcome-eyebrow,html:not([data-theme="light"]) .ow-welcome-slogan,html:not([data-theme="light"]) .ow-demo-cap,
+  html:not([data-theme="light"]) .ob-d,html:not([data-theme="light"]) .ob-hint,html:not([data-theme="light"]) .ob-count{text-shadow:0 1px 3px rgba(0,0,0,.85);}
+  html:not([data-theme="light"]) .ow-demo{background:rgba(4,10,14,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+  html:not([data-theme="light"]) .ow-caps-t,html:not([data-theme="light"]) .ob-foot{text-shadow:0 1px 3px rgba(0,0,0,.85);}
+  html:not([data-theme="light"]) body.ob-on .ob{margin-top:2px;padding:10px 12px 8px;border-radius:20px;border:1px solid var(--line);
+    background:rgba(4,10,14,.58);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+  html:not([data-theme="light"]) .btn.primary.ob-go{background:linear-gradient(90deg,#ffc46b,#ff7a1a) !important;color:#1f0d00 !important;
+    border-color:transparent !important;box-shadow:0 8px 24px rgba(255,122,26,.32) !important;}
+  @media (hover:hover){ .ob-go:hover{filter:brightness(1.06);} }
+  @media (min-width:960px){
+    body.ob-on main{max-width:1040px;}
+    body.ob-on #netRoot:has(> .ob){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);column-gap:56px;align-items:start;
+      grid-template-areas:"w o" "d o" "c o";padding-top:4vh;}
+    body.ob-on #netRoot:has(> .ob) > .ow-welcome{grid-area:w;}
+    body.ob-on #netRoot:has(> .ob) > .ow-demo{grid-area:d;max-width:none;width:100%;margin:6px 0 0;box-sizing:border-box;}
+    body.ob-on #netRoot:has(> .ob) > .ow-caps{grid-area:c;max-width:none;margin:18px 0 0;padding:0;}
+    body.ob-on #netRoot:has(> .ob) > .ob{grid-area:o;width:100%;max-width:none;margin:0;padding:24px;box-sizing:border-box;border-radius:24px;
+      border:1px solid var(--line);background:rgba(4,10,14,.66);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
+    body.ob-on #netRoot:has(> .ob) .ow-welcome h1{font-size:38px;}
+    body.ob-on #netRoot:has(> .ob) .ow-welcome img{width:64px;height:64px;}
+    body.ob-on #netRoot:has(> .ob) .ow-logo{width:64px;height:64px;}
+  }
+  @media (prefers-reduced-motion: reduce){ .ow-cap{animation:none!important;} }
+  html.ow-reduce-motion .ow-cap,html.motion-off .ow-cap{animation:none!important;}
   .link-btn{background:none;border:0;padding:4px 0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer;min-height:44px;}
   .net-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;margin:14px 2px 2px;}
   .net-check input{width:20px;height:20px;flex:0 0 auto;margin:0;}
@@ -3948,6 +3989,7 @@ const UI_STRINGS = {
     slogan: "Le monde se parle. Enfin.",
     ow_eyebrow: "Réseau indépendant, libre",
     ow_demo_cap: "Vous écrivez dans votre langue, chacun lit dans la sienne.",
+    ow_caps_t: "Tout ce que vous pouvez faire, avec le monde entier",
     promo_html: "🎁 Gratuit pour tous.",
     close: "Fermer",
     tab_home: "Accueil", tab_tr: "🌐 Traduire", tab_conv: "👥 Face à face", tab_hist: "Historique", tab_fav: "Favoris", tab_settings: "Paramètres",
@@ -4021,6 +4063,7 @@ const UI_STRINGS = {
     slogan: "The world speaks. At last.",
     ow_eyebrow: "Independent, free network",
     ow_demo_cap: "You write in your language, everyone reads in theirs.",
+    ow_caps_t: "Everything you can do, with the whole world",
     promo_html: "🎁 Free for everyone.",
     close: "Close",
     tab_home: "Home", tab_tr: "🌐 Translate", tab_conv: "👥 Face to face", tab_hist: "History", tab_fav: "Favorites", tab_settings: "Settings",
@@ -4094,6 +4137,7 @@ const UI_STRINGS = {
     slogan: "El mundo conversa. Por fin.",
     ow_eyebrow: "Red independiente y libre",
     ow_demo_cap: "Escribes en tu idioma, cada uno lee en el suyo.",
+    ow_caps_t: "Todo lo que puedes hacer, con el mundo entero",
     promo_html: "🎁 Gratis para todos.",
     close: "Cerrar",
     tab_home: "Inicio", tab_tr: "🌐 Traducir", tab_conv: "👥 Cara a cara", tab_hist: "Historial", tab_fav: "Favoritos", tab_settings: "Ajustes",
@@ -4167,6 +4211,7 @@ const UI_STRINGS = {
     slogan: "O mundo conversa. Finalmente.",
     ow_eyebrow: "Rede independente e livre",
     ow_demo_cap: "Você escreve na sua língua, cada um lê na sua.",
+    ow_caps_t: "Tudo o que você pode fazer, com o mundo inteiro",
     promo_html: "🎁 Grátis para todos.",
     close: "Fechar",
     tab_home: "Início", tab_tr: "🌐 Traduzir", tab_conv: "👥 Frente a frente", tab_hist: "Histórico", tab_fav: "Favoritos", tab_settings: "Configurações",
@@ -4240,6 +4285,7 @@ const UI_STRINGS = {
     slogan: "Die Welt spricht miteinander. Endlich.",
     ow_eyebrow: "Unabhängiges, freies Netzwerk",
     ow_demo_cap: "Du schreibst in deiner Sprache, jeder liest in seiner.",
+    ow_caps_t: "Alles, was du tun kannst – mit der ganzen Welt",
     promo_html: "🎁 Kostenlos für alle.",
     close: "Schließen",
     tab_home: "Start", tab_tr: "🌐 Übersetzen", tab_conv: "👥 Gegenüber", tab_hist: "Verlauf", tab_fav: "Favoriten", tab_settings: "Einstellungen",
@@ -4313,6 +4359,7 @@ const UI_STRINGS = {
     slogan: "Il mondo dialoga. Finalmente.",
     ow_eyebrow: "Rete indipendente e libera",
     ow_demo_cap: "Scrivi nella tua lingua, ognuno legge nella sua.",
+    ow_caps_t: "Tutto quello che puoi fare, con il mondo intero",
     promo_html: "🎁 Gratis per tutti.",
     close: "Chiudi",
     tab_home: "Home", tab_tr: "🌐 Traduci", tab_conv: "👥 Faccia a faccia", tab_hist: "Cronologia", tab_fav: "Preferiti", tab_settings: "Impostazioni",
@@ -4386,6 +4433,7 @@ const UI_STRINGS = {
     slogan: "世界终于能对话了。",
     ow_eyebrow: "独立、自由的网络",
     ow_demo_cap: "你用自己的语言写，每个人用自己的语言读。",
+    ow_caps_t: "与全世界一起，你能做的一切",
     promo_html: "🎁 对所有人免费。",
     close: "关闭",
     tab_home: "首页", tab_tr: "🌐 翻译", tab_conv: "👥 面对面", tab_hist: "历史", tab_fav: "收藏", tab_settings: "设置",
@@ -4459,6 +4507,7 @@ const UI_STRINGS = {
     slogan: "世界が語り合う。ついに。",
     ow_eyebrow: "独立した自由なネットワーク",
     ow_demo_cap: "あなたは自分の言葉で書き、相手は自分の言葉で読みます。",
+    ow_caps_t: "世界中の人と、できること",
     promo_html: "🎁 すべての人に無料。",
     close: "閉じる",
     tab_home: "ホーム", tab_tr: "🌐 翻訳", tab_conv: "👥 対面", tab_hist: "履歴", tab_fav: "お気に入り", tab_settings: "設定",
@@ -4532,6 +4581,7 @@ const UI_STRINGS = {
     slogan: "العالم يتحاور. أخيرًا.",
     ow_eyebrow: "شبكة مستقلة وحرة",
     ow_demo_cap: "تكتب بلغتك، ويقرأ كلٌّ بلغته.",
+    ow_caps_t: "كل ما يمكنك فعله، مع العالم كله",
     promo_html: "🎁 مجاني للجميع.",
     close: "إغلاق",
     tab_home: "الرئيسية", tab_tr: "🌐 ترجمة", tab_conv: "👥 وجهًا لوجه", tab_hist: "السجل", tab_fav: "المفضلة", tab_settings: "الإعدادات",
@@ -4605,6 +4655,7 @@ const UI_STRINGS = {
     slogan: "Мир говорит друг с другом. Наконец-то.",
     ow_eyebrow: "Независимая, свободная сеть",
     ow_demo_cap: "Вы пишете на своём языке, каждый читает на своём.",
+    ow_caps_t: "Всё, что вы можете делать — со всем миром",
     promo_html: "🎁 Бесплатно для всех.",
     close: "Закрыть",
     tab_home: "Главная", tab_tr: "🌐 Перевод", tab_conv: "👥 Лицом к лицу", tab_hist: "История", tab_fav: "Избранное", tab_settings: "Настройки",
@@ -4678,6 +4729,7 @@ const UI_STRINGS = {
     slogan: "Mifampiresaka izao tontolo izao. Tamin'ny farany.",
     ow_eyebrow: "Tambajotra tsy miankina sy malalaka",
     ow_demo_cap: "Manoratra amin'ny fiteninao ianao, samy mamaky amin'ny azy avy.",
+    ow_caps_t: "Izay rehetra azonao atao, miaraka amin'izao tontolo izao",
     promo_html: "🎁 Maimaimpoana ho an'ny rehetra.",
     close: "Hidiana",
     tab_home: "Fandraisana",
@@ -10225,6 +10277,17 @@ const Reseau = (() => {
       setTimeout(() => { show(); out.classList.remove("typing"); void out.offsetWidth; out.classList.add("pop"); }, 650);
     }, 2400);
   }
+  // Ce que l'on peut faire avec ONE WORLD (OW-WRITE-003) : uniquement des fonctions qui existent déjà, avec les mêmes noms,
+  // icônes et traductions que les tuiles de l'Accueil (aucune fonction fictive, rien n'est cliquable avant l'inscription).
+  function owCapsHtml() {
+    const caps = [[ICON_MSG, "home_msg"], [ICON_PHONE, "home_phone"], [ICON_GLOBE_EW, "home_ew"],
+      [ICON_PAPER, "home_paper"], [ICON_TRIP, "home_trip"], [ICON_LEARN, "home_learn"]];
+    return `<section class="ow-caps" aria-labelledby="owCapsT">
+        <h2 class="ow-caps-t" id="owCapsT">${escapeHtml(t("ow_caps_t"))}</h2>
+        <ul class="ow-caps-list">${caps.map(([ic, k]) => `<li class="ow-cap"><span class="ow-cap-ic">${ic}</span>
+          <span class="ow-cap-txt"><span class="ow-cap-name">${escapeHtml(t(k))}</span><span class="ow-cap-sub">${escapeHtml(t(k + "_sub"))}</span></span></li>`).join("")}</ul>
+      </section>`;
+  }
   // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
   let setupStep = 0;
   function renderSetup() {
@@ -10250,7 +10313,7 @@ const Reseau = (() => {
         <button class="btn primary ob-go" id="netNext">${escapeHtml(t("ob_next"))}</button>
         <button class="btn primary ob-go" id="netCreate">${escapeHtml(t("net_create"))}</button>
         <div class="ob-foot">${setupStep > 0 ? `<button type="button" class="link-btn" id="netBack">← ${escapeHtml(t("ob_back"))}</button>` : `<a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a>`}</div>
-      </div>`;
+      </div>${setupStep === 0 ? owCapsHtml() : ""}`;
     owDemoStart();
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
