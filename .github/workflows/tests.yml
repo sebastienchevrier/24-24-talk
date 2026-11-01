@@ -1,0 +1,45 @@
+# 24/24 ONE WORLD — tests automatiques à chaque PR (OW-AUTONOMY-002, PR n° 1). © 2026 Sébastien Chevrier.
+# Ce que fait ce robot : il récupère le code de la PR, installe Chromium et lance toutes les suites de everywhere/tests/
+# avec un FAUX serveur local. Il n'a accès à aucune base (ni PROD ni TEST), à aucun secret, et ne publie rien :
+# il ne peut que LIRE le dépôt. Résultat : coche verte ou croix rouge sur la PR, et un tableau dans l'onglet « Summary ».
+name: Tests automatiques
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Permissions minimales : lecture du code uniquement (pas d'écriture, pas d'issues, pas de déploiement).
+permissions:
+  contents: read
+
+# Un nouveau push sur la même PR annule le passage précédent (économie de minutes).
+concurrency:
+  group: tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Récupérer le code (sans garder d'identifiant Git)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Node.js 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+
+      - name: Outils de test (versions figées par package-lock.json, aucun script d'installation)
+        working-directory: .github/ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Chromium pour Playwright
+        working-directory: .github/ci
+        run: npx --no-install playwright install --with-deps chromium
+
+      - name: Lancer toutes les suites
+        run: node .github/ci/run-tests.js
