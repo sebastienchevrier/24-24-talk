@@ -1,0 +1,38 @@
+# 24/24 ONE WORLD — essais RÉELS sur la base TEST seulement (jamais la PROD). © 2026 Sébastien Chevrier.
+# Lancé à la main ou par un push sur la branche claude/test-reel-test. Aucun secret, lecture seule du dépôt.
+name: Tests reels base TEST
+
+on:
+  push:
+    branches: [claude/test-reel-test]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  reel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      NODE_PATH: ${{ github.workspace }}/.github/ci/node_modules
+      SB_SDK: ${{ github.workspace }}/.github/ci/node_modules/@supabase/supabase-js/dist/umd/supabase.js
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+      - name: Outils de test
+        working-directory: .github/ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Chromium
+        working-directory: .github/ci
+        run: npx --no-install playwright install --with-deps chromium
+      - name: identite-reel contre la base TEST
+        continue-on-error: true
+        run: OW_REEL=TEST node everywhere/tests/identite-reel.js
+      - name: Deux comptes TEST (Espaces, changement de compte, deconnexion, anciens jetons)
+        continue-on-error: true
+        run: node .github/ci/deux-comptes-test.js
