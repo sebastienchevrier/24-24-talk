@@ -1,4 +1,4 @@
-/* 24/24 ONE WORLD — essais de la vitrine /monde/ et /monde/pro/ (refonte du 1er nov. 2026). © 2026 Sébastien Chevrier.
+/* 24/24 ONE WORLD — essais de la vitrine /monde/, /monde/pro/ et /monde/tarifs/ (refonte du 1er nov. 2026). © 2026 Sébastien Chevrier.
    Aucun accès à Internet : le site est servi en local, le moteur de traduction de la démo est simulé (et sa panne aussi).
    Navigateur : MOTEUR=chromium (défaut) | firefox | webkit (moteur de Safari). Lancer : node everywhere/tests/vitrine.js */
 const pw = require("playwright");
@@ -306,6 +306,94 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     const v = await q.evaluate(async () => (await axe.run(document, { resultTypes: ["violations"] })).violations.filter((x) => x.impact === "critical" || x.impact === "serious").map((x) => x.id + "×" + x.nodes.length));
     await q.close();
     return { ok: !v.length, detail: v.join(", ") || "aucune" };
+  });
+  // ---------- Page Tarifs /monde/tarifs/ (grille proposée, pas encore en vente) ----------
+  const TF = M + "tarifs/";
+  const ouvreTarifs = async (ctx, url) => { const q = await ctx.newPage(); q.on("pageerror", (e) => errors.push("tarifs: " + String(e))); await q.goto(url); await q.waitForSelector(".plan"); return q; };
+  await step("Tarifs : 4 grandes cartes Free, Plus, Pro, Enterprise avec badges, prix et notes demandés", async () => {
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
+    const r = await q.evaluate(() => [...document.querySelectorAll(".plan")].map((c) => ({ h: c.querySelector("h2").textContent.trim(), b: c.querySelector(".badge").textContent.trim(), p: [...c.querySelector(".price").children].map((x) => x.textContent.trim()).join(" "), a: c.querySelector(".alt").textContent.trim(), n: (c.querySelector(".note,.close") || {}).textContent || "", f: c.querySelectorAll(".feats li").length, btn: c.querySelector(".act .btn").textContent.trim() })));
+    await q.close();
+    const want = [["ONE WORLD Free", "GRATUIT À VIE", "0 € / mois", "", 8, "Commencer gratuitement", "Notre porte d'entrée mondiale."],
+      ["ONE WORLD Plus", "RECOMMANDÉ AUX PARTICULIERS", "5,99 € / mois", "ou 59,90 € / an", 7, "Découvrir Plus", "deux mois offerts"],
+      ["ONE WORLD Pro", "ÉQUIPES ET ENTREPRISES", "14,90 € / utilisateur / mois", "ou 149 € / utilisateur / an", 8, "Choisir Pro", "minimum de sièges à définir"],
+      ["ONE WORLD Enterprise", "GRANDS COMPTES", "Sur devis", "", 6, "Contacter notre équipe", "nombre d'utilisateurs"]];
+    const bad = want.filter((w, i) => { const c = r[i]; return !c || c.h !== w[0] || c.b !== w[1] || c.p !== w[2] || (w[3] && c.a !== w[3]) || c.f !== w[4] || c.btn !== w[5] || !c.n.includes(w[6]); });
+    return { ok: r.length === 4 && !bad.length, detail: bad.length ? JSON.stringify(r) : r.map((c) => c.h.replace("ONE WORLD ", "") + " " + c.p).join(" · ") };
+  });
+  await step("Tarifs honnêtes : « pas encore en vente », aucun formulaire ni paiement, chaque fonction non livrée marquée, Free entièrement disponible", async () => {
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
+    const r = await q.evaluate(() => ({ bandeau: document.querySelector(".notice").textContent, forms: document.querySelectorAll("form,input,iframe,[type=submit]").length,
+      payer: /acheter maintenant|payer maintenant|stripe|paypal|carte bancaire\s*:/i.test(document.body.innerText),
+      freeSoon: document.querySelectorAll(".plan.free .feats li.soon").length,
+      sansStatut: [...document.querySelectorAll(".plan:not(.free) .feats li")].filter((li) => !li.querySelector(".st")).length,
+      achat: [...document.querySelectorAll("tbody tr")].find((tr) => /Achat possible/.test(tr.textContent)).textContent }));
+    await q.close();
+    return { ok: /pas encore en vente/.test(r.bandeau) && /aucun paiement/.test(r.bandeau) && !r.forms && !r.payer && !r.freeSoon && !r.sansStatut && /Plus.*|Pas encore.*Pas encore.*Pas encore/.test(r.achat),
+      detail: JSON.stringify({ forms: r.forms, payer: r.payer, freeSoon: r.freeSoon, sansStatut: r.sansStatut }) };
+  });
+  await step("Tarifs : tableau comparatif (5 colonnes, limites « à définir », communiquer entre utilisateurs inclus en Free)", async () => {
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
+    const r = await q.evaluate(() => { const rows = [...document.querySelectorAll("tbody tr")].map((tr) => [...tr.children].map((c) => c.textContent.trim()));
+      return { cols: [...document.querySelectorAll("thead th")].map((t) => t.textContent.trim()), rows }; });
+    await q.close();
+    const essentiels = r.rows.filter((x) => /^(Messages traduits|Appels et visio|Conversation côte)/.test(x[0]));
+    const ok = r.cols.join("|") === "Fonctionnalité|Free|Plus|Pro|Enterprise" && r.rows.length >= 15 && r.rows.every((x) => x.length === 5)
+      && r.rows.some((x) => x.join(" ").includes("à définir")) && essentiels.length === 3 && essentiels.every((x) => /^Inclus/.test(x[1]));
+    return { ok, detail: r.rows.length + " lignes · " + r.cols.join("|") };
+  });
+  await step("Tarifs : boutons vers de vraies destinations (Free → appli, Plus → comparatif, Pro et Enterprise → e-mail de l'équipe) ; la vitrine mène aux tarifs", async () => {
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
+    const r = await q.evaluate(() => ({ btn: [...document.querySelectorAll(".plan .act a")].map((a) => a.href), cmp: !!document.getElementById("comparer"),
+      liens: [...document.querySelectorAll("a[href]")].map((a) => a.href).filter((h) => !h.startsWith("mailto:")) }));
+    await q.close();
+    const mail = r.btn.filter((h) => h.startsWith("mailto:"));
+    const app = ORIGIN + BASE;
+    const internes = r.liens.map((h) => new URL(h)).filter((u) => u.origin === ORIGIN).map((u) => u.pathname);
+    const manquants = internes.filter((pth) => { let f = path.join(SITE, decodeURIComponent(pth.slice(BASE.length))); if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html"); return !fs.existsSync(f); });
+    const v = await p.evaluate(() => [...document.querySelectorAll('a[href="tarifs/"]')].length);
+    const ok = r.btn[0] === app && /\/monde\/tarifs\/[^#]*#comparer$/.test(r.btn[1]) && r.cmp && mail.length === 3 && mail.every((h) => h.startsWith("mailto:contact.2424oneworld@gmail.com?subject=")) && !manquants.length && v >= 3;
+    return { ok, detail: "e-mails " + mail.length + " · liens internes " + internes.length + (manquants.length ? " · manquants : " + manquants : "") + " · liens vitrine→tarifs " + v };
+  });
+  await step("Tarifs en anglais (écrit à la main) ; autre langue → anglais avec avertissement", async () => {
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=en");
+    const en = await q.evaluate(() => ({ h1: document.querySelector("h1").textContent, lang: document.documentElement.lang, nl: document.getElementById("newLang").hidden, fr: [...document.querySelectorAll("[data-t]")].filter((e) => /[àéèêç]|\b(le|la|les|des|pour|avec)\b/i.test(e.textContent) && !/Sébastien/.test(e.textContent)).map((e) => e.getAttribute("data-t")) }));
+    await q.goto(TF + "?lang=ja"); const ja = await q.evaluate(() => ({ h1: document.querySelector("h1").textContent, nl: document.getElementById("newLang").hidden }));
+    await q.close();
+    return { ok: en.h1 === "Choose your ONE WORLD experience" && en.lang === "en" && en.nl && !en.fr.length && ja.h1 === en.h1 && !ja.nl, detail: en.fr.length ? "restés en français : " + en.fr : "en + ja OK" };
+  });
+  for (const [w, hgt] of [[320, 640], [393, 851], [768, 1024], [1280, 800], [1920, 1080]]) {
+    await step("Tarifs, écran " + w + " px : aucun défilement de côté, grandes cartes non compressées, boutons ≥ 44 px, capture", async () => {
+      const ctx = await ctxFor({ viewport: { width: w, height: hgt }, hasTouch: w < 900 });
+      const q = await ouvreTarifs(ctx, TF + "?lang=fr");
+      const r = await q.evaluate(() => { const cards = [...document.querySelectorAll(".plan")].map((c) => c.getBoundingClientRect());
+        return { large: document.documentElement.scrollWidth - innerWidth, cols: new Set(cards.map((b) => Math.round(b.top))).size, minW: Math.round(Math.min(...cards.map((b) => b.width))),
+          petits: [...document.querySelectorAll("a.btn,.lang")].filter((e) => { const b = e.getBoundingClientRect(); return b.width && b.height < 44; }).map((e) => e.textContent.trim().slice(0, 20)) }; });
+      await q.screenshot({ path: path.join(OUT, "tarifs-" + ETIQ + "-" + w + ".png"), fullPage: true });
+      await ctx.close();
+      const lignes = w >= 1241 ? 1 : w > 720 ? 2 : 4;
+      return { ok: r.large <= 1 && !r.petits.length && r.cols === lignes && r.minW >= Math.min(280, w - 40), detail: "débord " + r.large + " px · " + r.cols + " rangée(s) · carte la plus étroite " + r.minW + " px" + (r.petits.length ? " · petits : " + r.petits : "") };
+    });
+  }
+  await step("Tarifs : clavier (lien d'évitement, focus visible sur les 4 boutons, tableau atteignable) et « réduire les animations »", async () => {
+    const ctx = await ctxFor({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+    const q = await ouvreTarifs(ctx, TF + "?lang=fr");
+    const vus = [];
+    for (let i = 0; i < 60; i++) { await q.keyboard.press("Tab"); const f = await q.evaluate(() => { const a = document.activeElement; const cs = getComputedStyle(a); return { t: (a.getAttribute("data-t") || a.className || a.tagName), o: cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) >= 2 }; }); vus.push(f); }
+    const r = await q.evaluate(() => ({ sb: getComputedStyle(document.documentElement).scrollBehavior }));
+    await ctx.close();
+    const has = (k) => vus.some((v) => v.t === k && v.o);
+    const ok = vus[0].t === "skip" && ["btnFree", "btnPlus", "btnPro", "btnEnt"].every(has) && vus.some((v) => v.t === "tbl" && v.o) && r.sb === "auto";
+    return { ok, detail: "ordre : " + vus.slice(0, 12).map((v) => v.t).join(",") + "… · défilement " + r.sb };
+  });
+  await step("Tarifs : accessibilité (axe-core), aucune violation grave ou critique, un seul h1", async () => {
+    const AXE = process.env.AXE || require.resolve("axe-core/axe.min.js");
+    const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
+    await q.addScriptTag({ path: AXE });
+    const v = await q.evaluate(async () => (await axe.run(document, { resultTypes: ["violations"] })).violations.filter((x) => x.impact === "critical" || x.impact === "serious").map((x) => x.id + "×" + x.nodes.length));
+    const h1 = await q.evaluate(() => document.querySelectorAll("h1").length);
+    await q.close();
+    return { ok: !v.length && h1 === 1, detail: v.join(", ") || "aucune" };
   });
   await step("Aucune erreur JavaScript", async () => ({ ok: errors.length === 0, detail: errors.join(" | ").slice(0, 300) || "aucune" }));
 

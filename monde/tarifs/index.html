@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<!-- 24/24 ONE WORLD — page Tarifs (grille proposée, pas encore en vente). © 2026 Sébastien Chevrier. Tous droits réservés. -->
+<title>Tarifs — 24/24 ONE WORLD</title>
+<meta name="description" content="ONE WORLD est gratuit pour communiquer. Grille proposée des offres Free, Plus, Pro et Enterprise : pas encore en vente." />
+<meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="../../everywhere/logo.svg" type="image/svg+xml" />
+<style>
+  :root{
+    --bg:#000;--card:#07090b;--card2:#0b0e11;--line:rgba(220,235,245,.12);--line2:rgba(111,240,192,.3);
+    --ink:#f5fbff;--muted:#a3b4bd;--dim:#7f929c;--mint:#6ff0c0;
+    --free:#4fe0b0;--plus:#6cb2ff;--pro:#b79bff;--ent:#ffa04d;--r:22px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;} *,*::before,*::after{animation:none !important;transition:none !important;}}
+  html,body{max-width:100%;}
+  body{margin:0;background:radial-gradient(1000px 520px at 50% -180px,rgba(43,191,143,.20),transparent 70%),var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;}
+  h1,h2,h3{text-wrap:balance;line-height:1.1;margin:0;} p{text-wrap:pretty;margin:0;}
+  .wrap{max-width:1360px;margin:0 auto;padding:0 20px;}
+  .notranslate,.brand{direction:ltr;unicode-bidi:isolate;}
+  :focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:10px;}
+  .skip{position:absolute;left:-9999px;top:8px;background:#fff;color:#000;padding:10px 14px;border-radius:10px;z-index:50;}
+  .skip:focus{left:12px;}
+
+  /* En-tête */
+  .top{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  .top .wrap{display:flex;align-items:center;gap:14px;height:68px;}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;white-space:nowrap;}
+  .ring{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#000;border:2px solid var(--mint);box-shadow:0 0 18px rgba(111,240,192,.35);}
+  .ring img{width:72%;height:72%;display:block;}
+  .brand .nm{display:flex;flex-direction:column;line-height:1.05;}
+  .brand .nm b{font-size:19px;font-weight:800;}
+  .brand .nm i{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.3em;color:var(--mint);}
+  nav.menu{display:flex;gap:4px;margin-inline-start:auto;}
+  nav.menu a{text-decoration:none;color:#d4e4ec;font-size:15px;padding:9px 13px;border-radius:999px;border:1px solid transparent;}
+  nav.menu a:hover{border-color:var(--line2);color:#fff;}
+  nav.menu a[aria-current]{border-color:var(--line2);color:#fff;}
+  .tr{display:flex;align-items:center;gap:10px;}
+  nav.menu + .tr{margin-inline-start:6px;}
+  .lang{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 30px 0 12px;border:1px solid var(--line);border-radius:999px;font-weight:700;font-size:14px;}
+  .lang select{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer;font-size:16px;-webkit-appearance:none;appearance:none;}
+  .lang::after{content:"";position:absolute;inset-inline-end:12px;top:50%;width:7px;height:7px;border:solid #cfe3ec;border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);pointer-events:none;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;border-radius:999px;padding:14px 22px;border:0;cursor:pointer;font-size:16px;font-family:inherit;line-height:1.2;min-height:48px;text-align:center;}
+  .btn.green{background:linear-gradient(180deg,#7ff5c9,#3fd9a2);color:#04241a;box-shadow:0 6px 24px rgba(79,224,176,.32);}
+  .top .btn{padding:11px 18px;font-size:15px;min-height:44px;}
+
+  /* Ouverture */
+  .head{padding:64px 0 26px;text-align:center;}
+  .kicker{color:var(--mint);font-weight:800;font-size:15px;margin:0 0 12px;}
+  .head h1{font-size:clamp(34px,5.6vw,64px);font-weight:800;letter-spacing:-.02em;max-width:16ch;margin:0 auto;}
+  .head .sub{color:var(--muted);font-size:clamp(17px,1.9vw,21px);max-width:44ch;margin:18px auto 0;}
+  .central{display:inline-block;margin:28px auto 0;padding:14px 22px;border:1px solid var(--line2);border-radius:16px;background:rgba(79,224,176,.06);
+    box-shadow:0 0 40px rgba(79,224,176,.12);font-weight:700;font-size:clamp(16px,1.7vw,19px);max-width:52ch;}
+  .notice{display:flex;gap:14px;align-items:flex-start;max-width:900px;margin:30px auto 0;padding:18px 20px;border:1px solid rgba(255,196,107,.35);border-radius:16px;background:rgba(255,160,77,.06);text-align:start;}
+  .notice svg{flex:none;width:24px;height:24px;color:#ffc46b;margin-top:2px;}
+  .notice b{display:block;font-size:17px;margin-bottom:4px;}
+  .notice p{color:#d7e2e8;font-size:15.5px;}
+  .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin:22px 0 0;padding:0;list-style:none;color:var(--muted);font-size:14.5px;}
+  .legend li{display:flex;align-items:center;gap:8px;}
+
+  /* Cartes */
+  .plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:44px 0 0;padding:0;list-style:none;}
+  .plan{--c:var(--free);position:relative;display:flex;flex-direction:column;min-height:860px;padding:30px 26px 28px;border:1px solid var(--line);border-radius:var(--r);
+    background:linear-gradient(180deg,var(--card2),var(--card));overflow:hidden;}
+  .plan::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.9;}
+  .plan::after{content:"";position:absolute;inset:-120px -40px auto -40px;height:220px;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 22%,transparent),transparent);pointer-events:none;}
+  .plan.plus{--c:var(--plus);} .plan.pro{--c:var(--pro);} .plan.ent{--c:var(--ent);}
+  .plan.free{border-color:rgba(79,224,176,.38);box-shadow:0 0 0 1px rgba(79,224,176,.12),0 18px 60px rgba(79,224,176,.10);}
+  .plan > *{position:relative;z-index:1;}
+  .badge{align-self:flex-start;display:inline-block;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:#000;background:var(--c);}
+  .plan h2{font-size:clamp(26px,2.2vw,31px);font-weight:800;margin-top:22px;}
+  .plan h2 .w{color:var(--c);}
+  .plan h2 .notranslate{white-space:nowrap;}
+  @media (min-width:1241px){.plan .alt{font-size:22px;} .plan h2{font-size:28px;}}
+  .for{color:var(--ink);font-size:18px;font-weight:800;margin-top:18px;}
+  .price{margin-top:18px;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;}
+  .price .amt{font-size:clamp(44px,4.4vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;}
+  .price .per{color:var(--muted);font-size:16px;font-weight:600;}
+  .alt{margin-top:10px;color:var(--ink);font-size:clamp(24px,2.2vw,28px);font-weight:800;line-height:1.15;}
+  .alt:empty{display:none;}
+  .alt.small{font-size:16px;font-weight:600;color:#d7e2e8;}
+  .plan.plus .alt{color:var(--free);}
+  .plan hr{border:0;border-top:1px solid var(--line);margin:24px 0 20px;width:100%;}
+  .feats{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .feats li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:16px;line-height:1.45;}
+  .feats li svg{width:20px;height:20px;margin-top:2px;color:var(--c);}
+  .feats li.soon svg{color:var(--dim);}
+  .feats .st{display:inline-block;margin-inline-start:6px;padding:1px 8px;border:1px solid rgba(220,235,245,.24);border-radius:999px;font-size:12.5px;font-weight:700;color:#c8d6dd;white-space:nowrap;vertical-align:1px;}
+  .note{margin-top:22px;padding-top:16px;border-top:1px dashed var(--line);color:var(--muted);font-size:14.5px;}
+  .close{margin-top:22px;font-weight:800;font-size:17px;color:var(--free);}
+  .plan .act{margin-top:auto;padding-top:28px;display:flex;flex-direction:column;gap:10px;}
+  .plan .act .btn{width:100%;}
+  .btn.c{background:transparent;color:var(--ink);border:1.5px solid var(--c);}
+  .btn.c:hover{background:color-mix(in srgb,var(--c) 14%,transparent);}
+  .act small{color:var(--muted);font-size:13.5px;text-align:center;}
+  .act .sec{color:#e6f0f5;font-size:14.5px;text-align:center;text-decoration:underline;text-underline-offset:3px;padding:10px 0;}
+
+  /* Comparatif */
+  section{padding:72px 0 0;}
+  .sh h2{font-size:clamp(26px,3.4vw,40px);font-weight:800;max-width:24ch;}
+  .sh p{color:var(--muted);font-size:17px;max-width:62ch;margin-top:12px;}
+  .always{display:flex;gap:14px;align-items:flex-start;margin-top:24px;padding:18px 20px;border:1px solid var(--line2);border-radius:16px;background:rgba(79,224,176,.05);max-width:900px;}
+  .always svg{flex:none;width:24px;height:24px;color:var(--free);margin-top:2px;}
+  .always p{font-size:16.5px;font-weight:600;}
+  .tbl{margin-top:28px;border:1px solid var(--line);border-radius:18px;overflow-x:auto;background:var(--card);}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px;}
+  caption{position:absolute;left:-9999px;}
+  th,td{padding:14px 16px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line);}
+  thead th{position:sticky;top:0;background:#0d1114;font-size:14.5px;font-weight:800;}
+  thead th span{display:inline-block;padding:4px 10px;border-radius:999px;color:#000;}
+  thead .f span{background:var(--free);} thead .p span{background:var(--plus);} thead .o span{background:var(--pro);} thead .e span{background:var(--ent);}
+  tbody th{font-weight:700;width:30%;}
+  tbody th,tbody td{background:var(--card);}
+  tbody tr:last-child th,tbody tr:last-child td{border-bottom:0;}
+  tbody th{position:sticky;inset-inline-start:0;z-index:1;border-inline-end:1px solid var(--line);}
+  td .y{color:var(--free);font-weight:700;}
+  td .d{color:#ffd28f;}
+  td .n{color:var(--dim);}
+  td .s{color:#c8d6dd;}
+  .tbl-hint{display:none;margin-top:10px;color:var(--dim);font-size:13.5px;}
+  .fine{margin-top:20px;color:var(--muted);font-size:14.5px;max-width:80ch;display:grid;gap:8px;}
+
+  .end{margin:72px 0 0;padding:34px 28px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);display:flex;flex-wrap:wrap;gap:18px 26px;align-items:center;justify-content:space-between;}
+  .end h2{font-size:clamp(22px,2.6vw,30px);font-weight:800;}
+  .end p{color:var(--muted);margin-top:6px;}
+  .end .links{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn.ghost{background:rgba(255,255,255,.03);color:var(--ink);border:1.5px solid rgba(220,240,250,.32);}
+  .btn.ghost:hover{border-color:var(--mint);}
+  footer{margin-top:64px;border-top:1px solid var(--line);padding:26px 0 40px;color:var(--dim);font-size:14px;}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 22px;}
+  .newlang{max-width:900px;margin:18px auto 0;color:var(--muted);font-size:14px;}
+
+  /* Tablette : deux grandes cartes par ligne */
+  @media (max-width:1240px){ .plans{grid-template-columns:repeat(2,minmax(0,1fr));} .plan{min-height:0;} }
+  @media (max-width:900px){ nav.menu{display:none;} .tr{margin-inline-start:auto;} }
+  /* Téléphone : une grande carte par ligne, rien de compressé */
+  @media (max-width:720px){
+    .plans{grid-template-columns:minmax(0,1fr);gap:20px;}
+    .plan{padding:28px 22px 26px;}
+    .head{padding-top:42px;}
+    .tbl-hint{display:block;}
+    .end{padding:26px 20px;}
+  }
+  @media (max-width:420px){
+    .wrap{padding:0 16px;}
+    .top .wrap{gap:8px;height:62px;}
+    .ring{width:40px;height:40px;} .brand .nm b{font-size:16px;} .brand .nm i{font-size:10.5px;letter-spacing:.24em;}
+    .top .btn{padding:10px 14px;font-size:14px;}
+    .lang{padding:0 26px 0 10px;}
+    .lang::after{inset-inline-end:10px;}
+    .plan{padding:26px 18px 24px;}
+  }
+  @media (max-width:350px){ .top .btn .long{display:none;} .top .btn{padding:10px 12px;} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5" stroke-width="1.6"/><path d="M7.8 12.3l2.8 2.8 5.6-6"/></symbol>
+    <symbol id="i-soon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.5" stroke-dasharray="3 3"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></symbol>
+  </defs>
+</svg>
+<a class="skip" href="#offres" data-t="skip">Aller aux offres</a>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="../" aria-label="24/24 ONE WORLD"><span class="ring"><img src="../../everywhere/logo.svg" alt="" width="40" height="40" /></span><span class="nm notranslate" translate="no"><b>24/24</b><i>ONE WORLD</i></span></a>
+  <nav class="menu" aria-label="Menu">
+    <a href="../" data-t="navHome">Découvrir ONE WORLD</a>
+    <a href="#offres" aria-current="page" data-t="navPrices">Tarifs</a>
+    <a href="#comparer" data-t="navCompare">Comparer</a>
+  </nav>
+  <span class="tr"><label class="lang"><b id="langCode">FR</b><select id="langSel" aria-label="Langue · Language"><option value="fr">Français</option><option value="en">English</option></select></label><a class="btn green" href="../../"><span class="long" data-t="join">Rejoindre</span><span class="short" aria-hidden="true"></span></a></span>
+</div></header>
+
+<main>
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker" data-t="kicker">Tarifs</p>
+      <h1 data-t="h1">Choisissez votre expérience ONE WORLD</h1>
+      <p class="sub" data-t="sub">Communiquez, traduisez et découvrez le monde. Commencez gratuitement et évoluez selon vos besoins.</p>
+      <p class="central" data-t="central">ONE WORLD est gratuit pour communiquer. Passez à une offre supérieure pour aller encore plus loin.</p>
+      <div class="notice" role="note"><svg aria-hidden="true"><use href="#i-info"/></svg><div><b data-t="nT">Grille proposée, pas encore en vente</b><p data-t="nP">Aujourd'hui, l'application est gratuite et aucun paiement n'est possible. Plus, Pro et Enterprise ouvriront quand le paiement et leurs fonctions seront prêts. Les prix ci-dessous sont des propositions et peuvent encore changer.</p></div></div>
+      <p class="newlang" id="newLang" hidden>This page is shown in English until it is translated into your language.</p>
+      <ul class="legend">
+        <li><svg width="20" height="20" style="color:var(--free)" aria-hidden="true"><use href="#i-ok"/></svg><span data-t="lgOk">Disponible aujourd'hui</span></li>
+        <li><svg width="20" height="20" style="color:var(--dim)" aria-hidden="true"><use href="#i-soon"/></svg><span data-t="lgSoon">À venir : pas encore dans l'application</span></li>
+      </ul>
+    </div>
+
+    <ul class="plans" id="offres" aria-label="Offres">
+      <!-- FREE -->
+      <li class="plan free" aria-labelledby="h-free">
+        <span class="badge" data-t="bFree">GRATUIT À VIE</span>
+        <h2 id="h-free"><span class="notranslate" translate="no">ONE WORLD</span> <span class="w notranslate" translate="no">Free</span></h2>
+        <p class="price"><span class="amt" data-t="pFree">0 €</span><span class="per" data-t="perMonth">/ mois</span></p>
+        <p class="alt small" data-t="aFree">Sans carte bancaire, sans limite de durée.</p>
+        <p class="for" data-t="fFree">Pour tout le monde.</p>
+        <hr />
+        <ul class="feats">
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr1">Messagerie et traduction de base</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr2">Appels et visioconférence selon les capacités disponibles</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr3">Conversation côte à côte</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr4">Traduction de texte</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr5">Découverte des langues</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr6">Accès au monde vivant</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr7">Quelques traductions de documents par photographie</span></li>
+          <li class="ok"><svg aria-hidden="true"><use href="#i-ok"/></svg><span data-t="fr8">Fonctionnalités essentielles accessibles sans abonnement</span></li>
+        </ul>
+        <p class="close" data-t="cFree">Notre porte d'entrée mondiale.</p>
+        <div class="act">
+          <a class="btn green" href="../../" data-t="btnFree">Commencer gratuitement</a>
+          <small data-t="sFree">Créer un compte gratuit, dans le navigateur du téléphone.</small>
+        </div>
+      </li>
+      <!-- PLUS -->
+      <li class="plan plus" aria-labelledby="h-plus">
+        <span class="badge" data-t="bPlus">RECOMMANDÉ AUX PARTICULIERS</span>
+        <h2 id="h-plus"><span class="notranslate" translate="no">ONE WORLD</span> <span class="w notranslate" translate="no">Plus</span></h2>
+        <p class="price"><span class="amt" data-t="pPlus">5,99 €</span><span class="per" data-t="perMonth">/ mois</span></p>
+        <p class="alt" data-t="aPlus">ou 59,90 € / an</p>
+        <p class="for" data-t="fPlus">Pour les utilisateurs réguliers.</p>
+        <hr />
+        <ul class="feats">
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl1">Plafonds de traduction plus élevés</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl2">Plus de documents photographiés et traduits</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl3">OCR et détection automatique de langue, selon les capacités disponibles</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl4">Historique avancé des traductions</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl5">Organisation et recherche des documents</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl6">Personnalisation supplémentaire</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="pl7">Assistance prioritaire selon les moyens disponibles</span><em class="st" data-t="soon">À venir</em></span></li>
+        </ul>
+        <p class="note" data-t="nPlus">L'abonnement annuel représente environ deux mois offerts par rapport au tarif mensuel.</p>
+        <div class="act">
+          <a class="btn c" href="#comparer" data-t="btnPlus">Découvrir Plus</a>
+          <a class="sec" href="mailto:contact.2424oneworld@gmail.com?subject=ONE%20WORLD%20Plus%20%3A%20me%20pr%C3%A9venir%20de%20l%27ouverture" data-t="wPlus">Être prévenu de l'ouverture</a>
+          <small data-t="sNot">Pas encore en vente : aucun paiement possible aujourd'hui.</small>
+        </div>
+      </li>
+      <!-- PRO -->
+      <li class="plan pro" aria-labelledby="h-pro">
+        <span class="badge" data-t="bPro">ÉQUIPES ET ENTREPRISES</span>
+        <h2 id="h-pro"><span class="notranslate" translate="no">ONE WORLD</span> <span class="w notranslate" translate="no">Pro</span></h2>
+        <p class="price"><span class="amt" data-t="pPro">14,90 €</span><span class="per" data-t="perUser">/ utilisateur / mois</span></p>
+        <p class="alt" data-t="aPro">ou 149 € / utilisateur / an</p>
+        <p class="for" data-t="fPro">Pour les professionnels.</p>
+        <hr />
+        <ul class="feats">
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po1">Espace de travail professionnel</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po2">Gestion des membres et des équipes</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po3">Administration centralisée</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po4">Gestion des accès et des droits</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po5">Outils avancés de traduction professionnelle</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po6">Organisation des documents</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po7">Facturation professionnelle</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="po8">Support professionnel selon contrat</span><em class="st" data-t="soon">À venir</em></span></li>
+        </ul>
+        <p class="note" data-t="nPro">Proposition de prix à tester, avec un minimum de sièges à définir.</p>
+        <div class="act">
+          <a class="btn c" href="mailto:contact.2424oneworld@gmail.com?subject=ONE%20WORLD%20Pro" data-t="btnPro">Choisir Pro</a>
+          <small data-t="sMail">Pas de paiement en ligne : vous écrivez à l'équipe, qui vous répond par e-mail.</small>
+        </div>
+      </li>
+      <!-- ENTERPRISE -->
+      <li class="plan ent" aria-labelledby="h-ent">
+        <span class="badge" data-t="bEnt">GRANDS COMPTES</span>
+        <h2 id="h-ent"><span class="notranslate" translate="no">ONE WORLD</span> <span class="w notranslate" translate="no">Enterprise</span></h2>
+        <p class="price"><span class="amt" data-t="pEnt">Sur devis</span></p>
+        <p class="alt"></p>
+        <p class="for" data-t="fEnt">Pour les organisations ayant des besoins spécifiques.</p>
+        <hr />
+        <ul class="feats">
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en1">Déploiement adapté</span><em class="st" data-t="ask">Sur demande</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en2">Gestion de grandes équipes</span><em class="st" data-t="soon">À venir</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en3">Intégrations personnalisées</span><em class="st" data-t="ask">Sur demande</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en4">Accompagnement</span><em class="st" data-t="ask">Sur demande</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en5">Conditions de support contractuelles</span><em class="st" data-t="ask">Sur demande</em></span></li>
+          <li class="soon"><svg aria-hidden="true"><use href="#i-soon"/></svg><span><span data-t="en6">Engagements de sécurité et de disponibilité négociés</span><em class="st" data-t="ask">Sur demande</em></span></li>
+        </ul>
+        <p class="note" data-t="nEnt">Prix déterminé par le nombre d'utilisateurs, les services et les engagements demandés.</p>
+        <div class="act">
+          <a class="btn c" href="mailto:contact.2424oneworld@gmail.com?subject=ONE%20WORLD%20Enterprise" data-t="btnEnt">Contacter notre équipe</a>
+          <small data-t="sMail">Pas de paiement en ligne : vous écrivez à l'équipe, qui vous répond par e-mail.</small>
+        </div>
+      </li>
+    </ul>
+
+    <section id="comparer" aria-labelledby="h-cmp">
+      <div class="sh">
+        <p class="kicker" data-t="cmpK">Comparer</p>
+        <h2 id="h-cmp" data-t="cmpH">Ce qui doit rester gratuit et ce qui devient payant</h2>
+        <p data-t="cmpP">Les limites chiffrées ne sont pas encore fixées : elles sont marquées « à définir ».</p>
+      </div>
+      <div class="always"><svg aria-hidden="true"><use href="#i-heart"/></svg><p data-t="always">Communiquer entre utilisateurs restera toujours gratuit : écrire, appeler et se voir, traduit, avec l'offre Free.</p></div>
+      <div class="tbl" role="region" aria-labelledby="h-cmp" tabindex="0">
+        <table>
+          <caption data-t="cmpH">Ce qui doit rester gratuit et ce qui devient payant</caption>
+          <thead><tr><th scope="col" data-t="colF">Fonctionnalité</th><th scope="col" class="f"><span class="notranslate" translate="no">Free</span></th><th scope="col" class="p"><span class="notranslate" translate="no">Plus</span></th><th scope="col" class="o"><span class="notranslate" translate="no">Pro</span></th><th scope="col" class="e"><span class="notranslate" translate="no">Enterprise</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-t="r1">Messages traduits entre utilisateurs</th><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td></tr>
+            <tr><th scope="row" data-t="r2">Appels et visioconférence</th><td><span class="y" data-t="vCap">Inclus, selon les capacités disponibles</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td></tr>
+            <tr><th scope="row" data-t="r3">Conversation côte à côte</th><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td></tr>
+            <tr><th scope="row" data-t="r4">Découverte des langues et monde vivant</th><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td><td><span class="y" data-t="vInc">Inclus</span></td></tr>
+            <tr><th scope="row" data-t="r5">Traduction de texte</th><td><span class="y" data-t="vBase">Inclus, plafond à définir</span></td><td><span class="d" data-t="vHigh">Plafond plus élevé, à définir</span></td><td><span class="d" data-t="vDef">À définir</span></td><td><span class="s" data-t="vQuote">Sur devis</span></td></tr>
+            <tr><th scope="row" data-t="r6">Documents photographiés et traduits</th><td><span class="y" data-t="vFew">Quelques-uns, nombre à définir</span></td><td><span class="d" data-t="vMore">Davantage, nombre à définir</span></td><td><span class="d" data-t="vDef">À définir</span></td><td><span class="s" data-t="vQuote">Sur devis</span></td></tr>
+            <tr><th scope="row" data-t="r7">Détection automatique de la langue</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r8">Historique avancé des traductions</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r9">Organisation et recherche des documents</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r10">Personnalisation</th><td><span class="y" data-t="vEss">Essentielle</span></td><td><span class="d" data-t="vExtra">Supplémentaire, à venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="s" data-t="vQuote">Sur devis</span></td></tr>
+            <tr><th scope="row" data-t="r11">Espace de travail, membres et équipes</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r12">Administration, accès et droits</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r13">Facturation professionnelle</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="n" data-t="vNo">Non</span></td><td><span class="d" data-t="vSoon">À venir</span></td><td><span class="d" data-t="vSoon">À venir</span></td></tr>
+            <tr><th scope="row" data-t="r14">Intégrations personnalisées</th><td><span class="n" data-t="vNo">Non</span></td><td><span class="n" data-t="vNo">Non</span></td><td><span class="n" data-t="vNo">Non</span></td><td><span class="s" data-t="vQuote">Sur devis</span></td></tr>
+            <tr><th scope="row" data-t="r15">Assistance</th><td><span class="y" data-t="vMail">Par e-mail</span></td><td><span class="d" data-t="vPrio">Prioritaire, selon les moyens disponibles</span></td><td><span class="d" data-t="vContract">Selon contrat</span></td><td><span class="s" data-t="vNeg">Contractuelle, négociée</span></td></tr>
+            <tr><th scope="row" data-t="r16">Sécurité et disponibilité</th><td><span class="y" data-t="vPol">Celles décrites dans la politique de confidentialité</span></td><td><span class="y" data-t="vSame">Identiques à Free</span></td><td><span class="y" data-t="vSame">Identiques à Free</span></td><td><span class="s" data-t="vNeg2">Engagements négociés</span></td></tr>
+            <tr><th scope="row" data-t="r17">Prix proposé</th><td><span class="y" data-t="vP0">0 €, à vie</span></td><td><span class="s" data-t="vP1">5,99 € / mois ou 59,90 € / an</span></td><td><span class="s" data-t="vP2">14,90 € / utilisateur / mois ou 149 € / utilisateur / an</span></td><td><span class="s" data-t="vQuote">Sur devis</span></td></tr>
+            <tr><th scope="row" data-t="r18">Achat possible aujourd'hui</th><td><span class="y" data-t="vFreeNow">Gratuit, ouvert à tous</span></td><td><span class="n" data-t="vNotYet">Pas encore</span></td><td><span class="n" data-t="vNotYet">Pas encore</span></td><td><span class="n" data-t="vNotYet">Pas encore</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-hint" data-t="hint">Faites glisser le tableau pour voir toutes les offres.</p>
+      <div class="fine">
+        <p data-t="fine1">Les prix sont exprimés en euros. Ce sont des propositions de lancement : ils peuvent changer avant l'ouverture des offres payantes.</p>
+        <p data-t="fine2">« À venir » veut dire que la fonction n'existe pas encore dans l'application. Elle ne sera vendue qu'une fois disponible.</p>
+        <p data-t="fine3">La traduction est proposée dans 112 langues, avec une qualité variable selon la langue.</p>
+      </div>
+    </section>
+
+    <div class="end">
+      <div><h2 data-t="endH">Commencez gratuitement dès aujourd'hui</h2><p data-t="endP">Une question sur les offres ? L'équipe vous répond par e-mail.</p></div>
+      <div class="links">
+        <a class="btn green" href="../../" data-t="btnFree">Commencer gratuitement</a>
+        <a class="btn ghost" href="mailto:contact.2424oneworld@gmail.com?subject=Tarifs%20ONE%20WORLD" data-t="contact">Contacter l'équipe</a>
+        <a class="btn ghost" href="../" data-t="back">Retour à la vitrine</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer><div class="wrap">
+  <span data-t="copy">© 2026 Sébastien Chevrier, propriétaire exclusif. Tous droits réservés.</span>
+  <span><a href="../../#cgu" data-t="cgu">Conditions</a> · <a href="../../#confidentialite" data-t="priv">Confidentialité</a> · <a href="../../#mentions" data-t="legal">Mentions légales</a></span>
+</div></footer>
+
+<script>
+(function () {
+  "use strict";
+  // Français : texte de la page. Anglais : écrit à la main. Autres langues : anglais, avec un avertissement.
+  var EN = {
+    skip: "Skip to the plans", navHome: "Discover ONE WORLD", navPrices: "Pricing", navCompare: "Compare", join: "Join",
+    kicker: "Pricing", h1: "Choose your ONE WORLD experience",
+    sub: "Communicate, translate and discover the world. Start for free and grow as your needs grow.",
+    central: "ONE WORLD is free for communicating. Move up to a higher plan to go even further.",
+    nT: "Proposed pricing, not on sale yet",
+    nP: "Today, the app is free and no payment is possible. Plus, Pro and Enterprise will open when payment and their features are ready. The prices below are proposals and may still change.",
+    lgOk: "Available today", lgSoon: "Coming: not in the app yet",
+    bFree: "FREE FOREVER", fFree: "For everyone.", pFree: "€0", perMonth: "/ month", aFree: "No bank card, no time limit.",
+    fr1: "Messaging and basic translation", fr2: "Calls and video calls, depending on available capabilities", fr3: "Side-by-side conversation",
+    fr4: "Text translation", fr5: "Discovering languages", fr6: "Access to the living world", fr7: "A few document translations from photos",
+    fr8: "Essential features available with no subscription", cFree: "Our gateway to the world.",
+    btnFree: "Start for free", sFree: "Create a free account, in your phone's browser.",
+    bPlus: "RECOMMENDED FOR INDIVIDUALS", fPlus: "For regular users.", pPlus: "€5.99", aPlus: "or €59.90 / year",
+    pl1: "Higher translation limits", pl2: "More documents photographed and translated", pl3: "OCR and automatic language detection, depending on available capabilities",
+    pl4: "Advanced translation history", pl5: "Document organisation and search", pl6: "Extra personalisation", pl7: "Priority support, as resources allow",
+    soon: "Coming", ask: "On request",
+    nPlus: "The yearly plan works out at about two months free compared with the monthly price.",
+    btnPlus: "Discover Plus", wPlus: "Get notified when it opens", sNot: "Not on sale yet: no payment possible today.",
+    bPro: "TEAMS AND BUSINESSES", fPro: "For professionals.", pPro: "€14.90", perUser: "/ user / month", aPro: "or €149 / user / year",
+    po1: "Professional workspace", po2: "Member and team management", po3: "Central administration", po4: "Access and permission management",
+    po5: "Advanced professional translation tools", po6: "Document organisation", po7: "Business invoicing", po8: "Professional support under contract",
+    nPro: "Price proposal to be tested, with a minimum number of seats still to be set.",
+    btnPro: "Choose Pro", sMail: "No online payment: you write to the team, who replies by email.",
+    bEnt: "LARGE ACCOUNTS", fEnt: "For organisations with specific needs.", pEnt: "Custom quote",
+    en1: "Tailored deployment", en2: "Management of large teams", en3: "Custom integrations", en4: "Guidance and support",
+    en5: "Contractual support terms", en6: "Negotiated security and availability commitments",
+    nEnt: "Price set by the number of users, the services and the commitments requested.", btnEnt: "Contact our team",
+    cmpK: "Compare", cmpH: "What stays free and what becomes paid",
+    cmpP: "Number limits are not set yet: they are marked “to be defined”.",
+    always: "Communicating between users will always be free: writing, calling and seeing each other, translated, with the Free plan.",
+    colF: "Feature",
+    r1: "Translated messages between users", r2: "Calls and video calls", r3: "Side-by-side conversation", r4: "Discovering languages and the living world",
+    r5: "Text translation", r6: "Photographed and translated documents", r7: "Automatic language detection", r8: "Advanced translation history",
+    r9: "Document organisation and search", r10: "Personalisation", r11: "Workspace, members and teams", r12: "Administration, access and permissions",
+    r13: "Business invoicing", r14: "Custom integrations", r15: "Support", r16: "Security and availability", r17: "Proposed price", r18: "Can be bought today",
+    vInc: "Included", vCap: "Included, depending on available capabilities", vBase: "Included, limit to be defined", vHigh: "Higher limit, to be defined",
+    vDef: "To be defined", vQuote: "Custom quote", vFew: "A few, number to be defined", vMore: "More, number to be defined", vNo: "No", vSoon: "Coming",
+    vEss: "Essential", vExtra: "Extra, coming", vMail: "By email", vPrio: "Priority, as resources allow", vContract: "Under contract", vNeg: "Contractual, negotiated",
+    vPol: "As described in the privacy policy", vSame: "Same as Free", vNeg2: "Negotiated commitments", vP0: "€0, forever",
+    vP1: "€5.99 / month or €59.90 / year", vP2: "€14.90 / user / month or €149 / user / year", vFreeNow: "Free, open to everyone", vNotYet: "Not yet",
+    hint: "Swipe the table to see every plan.",
+    fine1: "Prices are in euros. They are launch proposals and may change before the paid plans open.",
+    fine2: "“Coming” means the feature does not exist in the app yet. It will only be sold once it is available.",
+    fine3: "Translation is offered in 112 languages, with quality that varies by language.",
+    endH: "Start for free today", endP: "A question about the plans? The team replies by email.", contact: "Contact the team", back: "Back to the showcase",
+    copy: "© 2026 Sébastien Chevrier, exclusive owner. All rights reserved.", cgu: "Terms", priv: "Privacy", legal: "Legal notice",
+    title: "Pricing — 24/24 ONE WORLD"
+  };
+  var els = [].slice.call(document.querySelectorAll("[data-t]"));
+  var FR = {}; els.forEach(function (e) { FR[e.getAttribute("data-t")] = e.textContent; }); FR.title = document.title;
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function pick() {
+    var q = /[?&]lang=([A-Za-z-]{2,10})/.exec(location.search);
+    var c = [q && q[1], store("ow_site_lang"), store("lc_uilang")].concat(navigator.languages || [navigator.language]);
+    for (var i = 0; i < c.length; i++) if (c[i]) return String(c[i]);
+    return "fr";
+  }
+  function apply(code) {
+    var base = code.toLowerCase().split("-")[0], use = base === "fr" ? "fr" : "en", D = use === "fr" ? FR : EN;
+    els.forEach(function (e) { var k = e.getAttribute("data-t"); if (D[k] !== undefined) e.textContent = D[k]; });
+    document.title = D.title;
+    document.documentElement.lang = use;
+    document.getElementById("langCode").textContent = use.toUpperCase();
+    document.getElementById("langSel").value = use;
+    document.getElementById("newLang").hidden = base === "fr" || base === "en";
+  }
+  apply(pick());
+  document.getElementById("langSel").addEventListener("change", function () { store("ow_site_lang", this.value); apply(this.value); });
+})();
+</script>
+</body>
+</html>

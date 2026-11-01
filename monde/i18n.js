@@ -1635,7 +1635,10 @@
     "Découvrir les langues",
     "Offres professionnelles",
     "Contacter l'équipe",
-    "Devenir partenaire"
+    "Devenir partenaire",
+    "Tarifs",
+    "Voir la grille tarifaire proposée",
+    "Une grille de prix est proposée, pas encore en vente : aucun paiement n'est possible aujourd'hui."
     ];
   var T2 = {
     "en": [
@@ -1798,7 +1801,10 @@
     "Discover the languages",
     "Business offers",
     "Contact the team",
-    "Become a partner"
+    "Become a partner",
+    "Pricing",
+    "See the proposed pricing",
+    "A price list is proposed, not on sale yet: no payment is possible today."
     ],
     "es": [
     "Funciones",
@@ -1960,7 +1966,10 @@
     "Descubrir los idiomas",
     "Ofertas profesionales",
     "Contactar con el equipo",
-    "Ser socio"
+    "Ser socio",
+    "Precios",
+    "Ver la tabla de precios propuesta",
+    "Se propone una tabla de precios, todavía no a la venta: hoy no se puede pagar."
     ],
     "pt": [
     "Funcionalidades",
@@ -2122,7 +2131,10 @@
     "Descobrir as línguas",
     "Ofertas profissionais",
     "Contactar a equipa",
-    "Tornar-se parceiro"
+    "Tornar-se parceiro",
+    "Preços",
+    "Ver a tabela de preços proposta",
+    "É proposta uma tabela de preços, ainda não à venda: hoje não é possível pagar."
     ],
     "de": [
     "Funktionen",
@@ -2284,7 +2296,10 @@
     "Sprachen entdecken",
     "Angebote für Profis",
     "Team kontaktieren",
-    "Partner werden"
+    "Partner werden",
+    "Preise",
+    "Vorgeschlagene Preise ansehen",
+    "Eine Preisliste ist vorgeschlagen, aber noch nicht im Verkauf: Heute ist keine Zahlung möglich."
     ],
     "it": [
     "Funzionalità",
@@ -2446,7 +2461,10 @@
     "Scopri le lingue",
     "Offerte professionali",
     "Contatta il team",
-    "Diventa partner"
+    "Diventa partner",
+    "Prezzi",
+    "Vedi i prezzi proposti",
+    "È proposto un listino prezzi, non ancora in vendita: oggi non è possibile pagare."
     ],
     "zh": [
     "功能",
@@ -2608,7 +2626,10 @@
     "探索语言",
     "专业方案",
     "联系团队",
-    "成为合作伙伴"
+    "成为合作伙伴",
+    "价格",
+    "查看拟定价格",
+    "已提出价格方案，尚未开售：目前无法付款。"
     ],
     "ja": [
     "機能",
@@ -2770,7 +2791,10 @@
     "言語を見る",
     "プロ向けプラン",
     "チームに連絡",
-    "パートナーになる"
+    "パートナーになる",
+    "料金",
+    "提案中の料金を見る",
+    "料金案を公開中ですが、まだ販売していません。現在お支払いはできません。"
     ],
     "ar": [
     "الميزات",
@@ -2932,7 +2956,10 @@
     "اكتشف اللغات",
     "العروض المهنية",
     "تواصل مع الفريق",
-    "كن شريكًا"
+    "كن شريكًا",
+    "الأسعار",
+    "اطّلع على الأسعار المقترحة",
+    "قائمة أسعار مقترحة، غير معروضة للبيع بعد: لا يمكن الدفع اليوم."
     ],
     "ru": [
     "Возможности",
@@ -3094,7 +3121,10 @@
     "Узнать о языках",
     "Предложения для бизнеса",
     "Связаться с командой",
-    "Стать партнёром"
+    "Стать партнёром",
+    "Цены",
+    "Посмотреть предлагаемые цены",
+    "Предложена сетка цен, но в продаже её пока нет: оплатить сегодня нельзя."
     ]
     };
   var IDX2 = {};
