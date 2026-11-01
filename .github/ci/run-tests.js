@@ -18,14 +18,28 @@ const DUREE_MAX = 15 * 60 * 1000; // une suite bloquée est arrêtée au bout de
 
 // Échecs CONNUS et ATTENDUS sur ce dépôt (production) : dependances.js contient 3 contrôles écrits pour la copie
 // de TEST (config.js et index.html doivent y viser la base de TEST). Sur la production, ils échouent par construction.
-// Seuls ces 3 libellés exacts sont tolérés ; tout autre « ÉCHEC » de dependances.js rend la suite rouge.
+// Règle stricte : le NOM COMPLET de chaque contrôle (texte entre « ÉCHEC  » et « — détail ») doit être exactement
+// l'un de ces 3 noms, chacun doit échouer exactement une fois, et aucun autre échec n'est accepté.
+// Le détail après « — » n'est pas comparé : il contient des valeurs mesurées (adresse, état), pas le nom du contrôle.
 const ECHECS_ATTENDUS = {
   "dependances.js": [
-    "ÉCHEC  Mode TEST : everywhere/config.js vise la base de TEST",
-    "ÉCHEC  Garde-fou : adresse de production avec env « test »",
-    "ÉCHEC  Garde-fou TALK : index.html vise la base de TEST",
+    "Mode TEST : everywhere/config.js vise la base de TEST, bandeau « test »",
+    "Garde-fou : adresse de production avec env « test » → aucun serveur ; avec env « production » → serveur gardé, même version figée",
+    "Garde-fou TALK : index.html vise la base de TEST et efface l'adresse si c'est celle de production",
   ],
 };
+// Nom d'un contrôle en échec, tel qu'écrit par rec() dans dependances.js : "ÉCHEC" + "  " + nom + ("  — " + détail).
+function nomEchec(ligne) {
+  const reste = ligne.slice("ÉCHEC  ".length);
+  const i = reste.indexOf("  — ");
+  return i === -1 ? reste.trimEnd() : reste.slice(0, i);
+}
+// Vrai seulement si les échecs sont EXACTEMENT les noms attendus, chacun une seule fois.
+function echecsConformes(echecs, attendus) {
+  const noms = echecs.map(nomEchec);
+  if (noms.length !== attendus.length) return false;
+  return attendus.every((a) => noms.filter((n) => n === a).length === 1) && noms.every((n) => attendus.includes(n));
+}
 
 const env = Object.assign({}, process.env, {
   NODE_PATH: MODULES, // require("playwright") et axe-core trouvés depuis everywhere/tests/
@@ -34,6 +48,7 @@ const env = Object.assign({}, process.env, {
 });
 delete env.OW_REEL; // jamais de base réelle depuis les tests automatiques
 
+function main() {
 const suites = fs.readdirSync(DOSSIER).filter((f) => f.endsWith(".js") && !AIDES.has(f)).sort();
 const bilan = [];
 for (const f of suites) {
@@ -52,10 +67,9 @@ for (const f of suites) {
   if (r.error && r.error.code === "ETIMEDOUT") { etat = "ROUGE"; note = "arrêtée après 15 min"; }
   else if (r.status === 0) etat = "VERT";
   else if (r.status === 1 && ECHECS_ATTENDUS[f]) {
-    const echecs = lignes.filter((l) => l.startsWith("ÉCHEC"));
-    const inattendus = echecs.filter((l) => !ECHECS_ATTENDUS[f].some((p) => l.startsWith(p)));
-    if (echecs.length && !inattendus.length) { etat = "VERT"; note = echecs.length + " échec(s) attendu(s) : contrôles propres à la copie de TEST"; }
-    else { etat = "ROUGE"; note = inattendus.length + " échec(s) inattendu(s)"; }
+    const echecs = lignes.filter((l) => l.startsWith("ÉCHEC  "));
+    if (echecsConformes(echecs, ECHECS_ATTENDUS[f])) { etat = "VERT"; note = echecs.length + " échec(s) attendu(s), noms exacts : contrôles propres à la copie de TEST"; }
+    else { etat = "ROUGE"; note = "échecs différents des " + ECHECS_ATTENDUS[f].length + " attendus : " + echecs.map(nomEchec).join(" | ").slice(0, 300); }
   } else { etat = "ROUGE"; note = "code de sortie " + r.status; }
   bilan.push({ f, etat, score, secondes, note });
 }
@@ -68,3 +82,7 @@ const texte = "## Tests automatiques 24/24 ONE WORLD\n\n" + tableau.join("\n") +
 console.log("\n" + texte);
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, texte);
 process.exit(rouges.length ? 1 : 0);
+}
+
+module.exports = { nomEchec, echecsConformes, ECHECS_ATTENDUS }; // pour vérifier la règle sans lancer les suites
+if (require.main === module) main();
