@@ -133,13 +133,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: u.pathname === BASE + "index.html" && u.search === "?ew=1" && r.ew === "#/everywhere" && r.trip === "#/everywhere/voyage" && r.learn === "#/learn" && r.frames === 0,
       detail: u.pathname + u.search + " · " + r.ew + " · " + r.trip + " · " + r.learn };
   });
-  await step("Accueil bleu nuit, planète dessinée en CSS (sans image), icônes en dégradé, barre du bas bleu nuit avec onglet actif cyan", async () => {
+  await step("Accueil bleu nuit, planète dessinée en CSS (sans image), icônes en dégradé, barre du bas bleu nuit avec onglet actif vert émeraude", async () => {
     const c = await page.evaluate(() => ({ home: getComputedStyle(document.getElementById("view-accueil")).backgroundColor,
       sky: getComputedStyle(document.querySelector("#view-accueil .home-head")).backgroundImage,
       talk: getComputedStyle(document.querySelector("#cardTalk .duo-ic")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
       act: getComputedStyle(document.querySelector('#mainnav a[aria-current="page"]') || document.querySelector("#mainnav a")).color }));
-    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgba(1, 6, 10, 0.82)" /* ambiance Terre de nuit, 20 oct. 2026 */,
-      detail: "fond " + c.home + " · barre du bas " + c.nav };
+    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgba(8, 18, 28, 0.94)" && c.act === "rgb(79, 224, 176)" /* identité ONE WORLD, OW-WRITE-004, 1er nov. 2026 */,
+      detail: "fond " + c.home + " · barre du bas " + c.nav + " · onglet actif " + c.act };
   });
   await step("Accueil : aucune mention de prix, ni compte à rebours ni date de fin (17 oct. 2026)", async () => {
     const r = await page.evaluate(() => ({ txt: document.body.innerText, cd: !!document.getElementById("countdown"), api: !!window.EWCountdown }));
@@ -1111,15 +1111,19 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await ctx.newPage();
   const errs = [];
   page.on("pageerror", (e) => errs.push(String(e)));
-  await step("Non-régression : TALK ouvert seul garde son en-tête, son bandeau et ses touches", async () => {
+  await step("Non-régression : TALK ouvert seul garde son en-tête (accueil façon capture, ancien en-tête gardé), son bandeau et ses touches", async () => {
     await page.goto(ORIGIN + BASE);
     await page.waitForSelector("#tilePhone");
     await sleep(800);
-    const r = await page.evaluate(() => ({ emb: document.documentElement.classList.contains("embedded") || document.documentElement.classList.contains("ew-shell") || !!document.getElementById("ewsNav"),
-      hero: getComputedStyle(document.querySelector("header.hero-earth")).display !== "none", banner: !!document.querySelector(".test-banner") && getComputedStyle(document.querySelector(".test-banner")).display !== "none" }));
+    const vis = (sel) => { const el = document.querySelector(sel); return !!el && getComputedStyle(el).display !== "none" && el.getBoundingClientRect().height > 0; };
+    const r = await page.evaluate((visSrc) => { const vis = eval(visSrc); return { emb: document.documentElement.classList.contains("embedded") || document.documentElement.classList.contains("ew-shell") || !!document.getElementById("ewsNav"),
+      // OW-WRITE-004 (1er nov. 2026) : sur l'accueil, l'en-tête façon capture remplace le grand en-tête.
+      head: vis(".ow-home-top") && vis(".ow-home-name") && vis("#owHomeTr") && vis("#owHomeSet") && vis("#owHomeMe") && vis(".ow-home-hello"),
+      heroHome: vis("header.hero-earth"), heroKept: !!document.querySelector("header.hero-earth #settingsBtn"), banner: !!document.querySelector(".test-banner") && getComputedStyle(document.querySelector(".test-banner")).display !== "none" }; }, vis.toString());
     // Bandeau « SITE DE TEST » attendu sur le test seulement, jamais sur la production.
     const prod = /env:\s*"production"/.test(fs.readFileSync(path.join(__dirname, "..", "config.js"), "utf8"));
-    return { ok: !r.emb && r.hero && r.banner === !prod && !errs.length, detail: errs.join(" | ").slice(0, 160) || "aucune erreur" };
+    const ok = !r.emb && r.head && !r.heroHome && r.heroKept && r.banner === !prod && !errs.length;
+    return { ok, detail: errs.join(" | ").slice(0, 160) || ("en-tête accueil " + r.head + " · ancien en-tête masqué sur l'accueil, gardé dans la page " + r.heroKept) };
   });
   await page.screenshot({ path: path.join(OUT, "talk-seul.png") });
   await ctx.close();
