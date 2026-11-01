@@ -25,7 +25,7 @@
       live_start: "▶ Démarrer le direct", live_stop: "⏹ Arrêter le direct", cam: "📹 Caméra", cam_off: "📹 Couper la caméra",
       live_voice: "🔊 Écouter la voix traduite", live_voice_off: "🔇 Couper la voix", live_wait: "Le direct n'a pas encore commencé.",
       live_host_hint: "Parlez : vos phrases s'affichent en sous-titres, traduites pour chaque spectateur.",
-      live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).",
+      live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).", live_pouls_ko: "⚠ Votre direct n'est plus renouvelé ({m}). Les spectateurs ne le verront plus « en direct » d'ici 5 minutes. Nouvel essai automatique chaque minute.", on_air_ko: "⚠ Direct non renouvelé",
       live_no_mic: "Ce navigateur ne sait pas écouter : écrivez vos sous-titres ci-dessous.", caption_ph: "Sous-titre à envoyer…",
       live_viewers: "{n} spectateur(s) en vidéo", cam_fail: "Caméra indisponible : autorisez-la dans Chrome.",
       b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_logistics: "Transport", b_customs: "Douane", b_partner: "Partenariat",
@@ -98,7 +98,7 @@
       live_start: "▶ Start the live", live_stop: "⏹ Stop the live", cam: "📹 Camera", cam_off: "📹 Turn camera off",
       live_voice: "🔊 Hear the translated voice", live_voice_off: "🔇 Mute the voice", live_wait: "The live hasn't started yet.",
       live_host_hint: "Speak: your sentences appear as subtitles, translated for each viewer.",
-      live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.",
+      live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.", live_pouls_ko: "⚠ Your live can no longer be renewed ({m}). Viewers will stop seeing it as live within 5 minutes. Retrying automatically every minute.", on_air_ko: "⚠ Live not renewed",
       live_no_mic: "This browser can't listen: type your subtitles below.", caption_ph: "Subtitle to send…",
       live_viewers: "{n} viewer(s) on video", cam_fail: "Camera unavailable: allow it in your browser settings.",
       b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_logistics: "Shipping", b_customs: "Customs", b_partner: "Partnership",
@@ -519,14 +519,45 @@
     if (cur.room && !cur.room.live_on) { cur.room.live_on = true; cur.room.last_at = new Date().toISOString(); var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
   }
   // Signe de vie de l'animateur : last_at de SON salon (règle existante « modifier mon salon »), chaque minute.
+  // Chaque battement est vérifié : erreur Supabase (res.error), rejet réseau, ou 0 ligne renouvelée (session finie,
+  // salon supprimé, règle refusée) → l'animateur est prévenu ; au battement réussi suivant, l'écran redevient normal.
+  // Une réponse tardive (autre compte, autre écran, pouls arrêté) ne touche jamais l'écran actuel.
   function pouls() {
     stopPouls();
-    var c = cur.c, id = cur.room.id, tok = cur.token;
-    function battre() { if (!cur || cur.token !== tok) return; c.from("ow_rooms").update({ last_at: new Date().toISOString() }).eq("id", id).then(function () {}, function () {}); }
-    battre();
+    var c = cur.c, id = cur.room.id, tok = cur.token, gen = (cur.poulsGen = (cur.poulsGen || 0) + 1);
+    function actuel() { return cur && cur.token === tok && cur.poulsGen === gen && !!cur.pouls; }
+    function battre() {
+      if (!actuel()) return;
+      var p;
+      try { p = Promise.resolve(c.from("ow_rooms").update({ last_at: new Date().toISOString() }).eq("id", id).select("id")); }
+      catch (e) { p = Promise.reject(e); }
+      p.then(function (res) {
+        if (!actuel()) return;
+        if (res && res.error) return poulsKo(res.error);
+        if (!res || !Array.isArray(res.data) || res.data.length !== 1) return poulsKo(new Error("0"));
+        poulsOk();
+      }, function (e) { if (actuel()) poulsKo(e); });
+    }
     cur.pouls = setInterval(battre, LIVE_POULS);
+    battre();
   }
-  function stopPouls() { if (cur && cur.pouls) { clearInterval(cur.pouls); cur.pouls = null; } }
+  function poulsKo(e) {
+    cur.poulsKo = true;
+    var m = String((e && (e.message || e.code)) || e || "");
+    var why = m === "0" ? "session ?" : /fetch|network|NETWORK|OFF|Failed/i.test(m) ? t("e_net") : m.slice(0, 60);
+    var el = document.getElementById("esLiveMsg"); if (el) { el.textContent = t("live_pouls_ko", { m: why }); el.setAttribute("data-pouls", "ko"); }
+    var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air_ko") + " · ";
+  }
+  function poulsOk() {
+    var el = document.getElementById("esLiveMsg");
+    if (el && el.getAttribute("data-pouls") === "ko") el.textContent = "";
+    if (el) el.setAttribute("data-pouls", "ok");
+    if (!cur.poulsKo) return;
+    cur.poulsKo = false;
+    var b = document.getElementById("esLiveBadge"); if (b && cur.room && cur.room.live_on) b.textContent = t("on_air") + " · ";
+  }
+  function stopPouls() { if (cur && cur.pouls) { clearInterval(cur.pouls); cur.pouls = null; } if (cur) { cur.poulsGen = (cur.poulsGen || 0) + 1; cur.poulsKo = false; }
+    var el = document.getElementById("esLiveMsg"); if (el && el.getAttribute("data-pouls") === "ko") { el.textContent = ""; el.removeAttribute("data-pouls"); } }
   function bindLive(root, owner) {
     var msg = root.querySelector("#esLiveMsg");
     if (owner) {

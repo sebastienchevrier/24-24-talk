@@ -548,6 +548,110 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
     return { ok: age < 5000 && p.pouls.length >= 1 && p.arretes === p.pouls.length, detail: "signe de vie il y a " + Math.round(age / 1000) + " s · " + p.pouls.length + " pouls lancé(s), " + p.arretes + " arrêté(s)" };
   });
+  // ---------- PR 90 : pouls de l'animateur vérifié (erreur Supabase, rejet réseau, 0 ligne, reprise, courses) ----------
+  // Le battement (setInterval 60 s) est capturé pour être déclenché à la main ; la réponse du serveur au battement
+  // (update { last_at } seul) est pilotée par window.__pm : "ok" (vrai faux serveur), "err" (res.error), "reject" (réseau),
+  // "zero" (0 ligne renouvelée), "lentErr" (erreur arrivée 400 ms plus tard).
+  const pilotePouls = () => page.evaluate(async () => {
+    window.__beats = []; window.__pm = "ok"; window.__beatCalls = 0;
+    const si = window.__siP || window.setInterval; window.__siP = si;
+    window.setInterval = function (f, ms) { const x = si.apply(this, arguments); if (ms === 60000) window.__beats.push(f); return x; };
+    const c = await OWIdentite.client();
+    if (!c.__fromP) c.__fromP = c.from.bind(c);
+    const from = c.__fromP;
+    c.from = (t) => { const q = from(t); if (t !== "ow_rooms") return q; const up = q.update.bind(q);
+      q.update = (v) => { const b = up(v); if (Object.keys(v).join() !== "last_at") return b; window.__beatCalls++;
+        const th = b.then.bind(b), m = window.__pm;
+        b.then = (a, z) => m === "err" ? Promise.resolve({ data: null, error: { message: "permission denied for table ow_rooms", code: "42501" } }).then(a, z)
+          : m === "reject" ? Promise.reject(new TypeError("Failed to fetch")).then(a, z)
+          : m === "zero" ? Promise.resolve({ data: [], error: null }).then(a, z)
+          : m === "lentErr" ? new Promise((ok) => setTimeout(ok, 400)).then(() => ({ data: null, error: { message: "JWT expired", code: "PGRST301" } })).then(a, z)
+          : th(a, z);
+        return b; };
+      return q; };
+  });
+  const battre = async (mode, attente) => { await page.evaluate((m) => { window.__pm = m; const f = window.__beats[window.__beats.length - 1]; f && f(); }, mode); await page.waitForTimeout(attente || 150); };
+  const etatPouls = () => page.evaluate(() => { const m = document.getElementById("esLiveMsg"), b = document.getElementById("esLiveBadge");
+    return { msg: m ? m.textContent : null, etat: m ? m.getAttribute("data-pouls") : null, badge: b ? b.textContent.trim() : null }; });
+  const directHote = async (titre) => {
+    await page.goto(EW + "#/live");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    await pilotePouls();
+    await page.tap("#esNewBtn");
+    await page.fill("#esTitle", titre);
+    await page.tap("#esNew button[type=submit]");
+    await page.waitForSelector("#esLiveGo", { timeout: 10000 });
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Arrêter/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    await page.waitForTimeout(200);
+    return page.url().split("/").pop();
+  };
+  await step("PR 90 pouls : renouvellement réussi → last_at réécrit, état « ok », badge « En direct », aucun avertissement", async () => {
+    const id = await directHote("Pouls réussi");
+    await page.evaluate((id) => { const d = JSON.parse(localStorage.getItem("fake_ow")); d.ow_rooms.forEach((r) => { if (r.id === id) r.last_at = new Date(Date.now() - 4 * 60000).toISOString(); }); localStorage.setItem("fake_ow", JSON.stringify(d)); }, id);
+    await battre("ok");
+    const e = await etatPouls(), s = await lireSalon(id), age = Date.now() - Date.parse(s.last_at);
+    return { ok: e.etat === "ok" && e.msg === "" && /En direct/.test(e.badge) && !/⚠/.test(e.badge) && age < 5000 && await page.evaluate(() => window.__beats.length) >= 1,
+      detail: "état " + e.etat + " · badge « " + e.badge + " » · last_at il y a " + Math.round(age / 1000) + " s" };
+  });
+  await step("PR 90 pouls : erreur Supabase dans res.error → animateur prévenu, plus de faux « En direct »", async () => {
+    await battre("err");
+    const e = await etatPouls();
+    return { ok: e.etat === "ko" && /plus renouvelé/.test(e.msg) && /permission denied/.test(e.msg) && /non renouvelé/.test(e.badge) && !/En direct/.test(e.badge), detail: "badge « " + e.badge + " » · message « " + e.msg.slice(0, 90) + "… »" };
+  });
+  await step("PR 90 pouls : reprise après erreur → message effacé, badge « En direct » rétabli", async () => {
+    await battre("ok");
+    const e = await etatPouls();
+    return { ok: e.etat === "ok" && e.msg === "" && /En direct/.test(e.badge) && !/⚠/.test(e.badge), detail: "état " + e.etat + " · badge « " + e.badge + " »" };
+  });
+  await step("PR 90 pouls : rejet réseau (promesse rejetée) → animateur prévenu « pas de connexion », puis reprise", async () => {
+    await battre("reject");
+    const e1 = await etatPouls();
+    await battre("ok");
+    const e2 = await etatPouls();
+    return { ok: e1.etat === "ko" && /Pas de connexion/.test(e1.msg) && /non renouvelé/.test(e1.badge) && e2.etat === "ok" && e2.msg === "" && /En direct/.test(e2.badge),
+      detail: "pendant : « " + e1.badge + " » · après : « " + e2.badge + " »" };
+  });
+  await step("PR 90 pouls : 0 ligne renouvelée (session finie ou salon supprimé, sans erreur) → pas de faux « En direct »", async () => {
+    await battre("zero");
+    const e = await etatPouls();
+    await battre("ok");
+    return { ok: e.etat === "ko" && /non renouvelé/.test(e.badge) && !/En direct/.test(e.badge), detail: "badge « " + e.badge + " » · message « " + e.msg.slice(0, 70) + "… »" };
+  });
+  await step("PR 90 pouls : arrêt du direct pendant une erreur → avertissement retiré, aucun pouls actif", async () => {
+    await battre("err");
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Démarrer/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    const n = await page.evaluate(() => window.__beatCalls);
+    await battre("ok");
+    const e = await etatPouls(), n2 = await page.evaluate(() => window.__beatCalls);
+    return { ok: e.etat !== "ko" && !/⚠|direct/i.test(e.badge) && n2 === n, detail: "badge « " + e.badge + " » · battement après l'arrêt : " + (n2 - n) };
+  });
+  await step("PR 90 pouls : changement de compte PENDANT une requête → la réponse tardive de l'ancien compte ne touche pas l'écran actuel", async () => {
+    await directHote("Pouls course compte");
+    const errAvant = errors.length;
+    await battre("lentErr", 0);
+    await page.evaluate(() => localStorage.setItem("fake_who", "b"));
+    await auth("SIGNED_IN", AMIRA);
+    await page.waitForTimeout(800);
+    const e = await etatPouls(), hote = await page.evaluate(() => !!document.querySelector("#esLiveGo"));
+    await page.evaluate(() => localStorage.removeItem("fake_who"));
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    await page.waitForTimeout(300);
+    return { ok: e.etat !== "ko" && !/non renouvelé|plus renouvelé/.test((e.msg || "") + (e.badge || "")) && !hote && errors.length === errAvant,
+      detail: "écran du nouveau compte : message « " + (e.msg || "") + " », badge « " + (e.badge || "") + " » · commandes animateur : " + (hote ? "ENCORE LÀ" : "parties") + " · erreurs JS : " + (errors.length - errAvant) };
+  });
+  await step("PR 90 pouls : sortie de l'écran PENDANT une requête → aucune trace sur l'écran suivant, aucune erreur", async () => {
+    await directHote("Pouls course écran");
+    const errAvant = errors.length;
+    await battre("lentErr", 0);
+    await page.goto(EW + "#/community");
+    await page.waitForTimeout(800);
+    const r = await page.evaluate(() => ({ ko: !!document.querySelector("[data-pouls=ko]"), texte: /plus renouvelé|non renouvelé/.test(document.body.textContent) }));
+    await page.evaluate(() => { window.__pm = "ok"; });
+    await page.goto(EW + "#/live"); // l'essai suivant ouvre #/community : on le quitte pour qu'il soit vraiment rechargé
+    return { ok: !r.ko && !r.texte && errors.length === errAvant, detail: "avertissement sur l'écran suivant : " + (r.ko || r.texte ? "OUI" : "non") + " · erreurs JS : " + (errors.length - errAvant) };
+  });
   await step("Sans serveur : message d'erreur et bouton Réessayer (rien d'inventé)", async () => {
     await page.evaluate(() => localStorage.setItem("fake_ow_fail", "1"));
     await page.goto(EW + "#/community");
