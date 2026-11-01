@@ -335,6 +335,86 @@ const KENJI = "00000000-0000-4000-8000-0000000000b1";
     await page.screenshot({ path: path.join(OUT, "espaces-avantages.png"), fullPage: true });
     return { ok: n === 4 && /\/24-24-talk\/\?ajouter=sebtest&i=5$/.test(url), detail: n + " partenaires, lien " + url.replace(ORIGIN, "") };
   });
+  // ---- OW-012 lot 4 étape B : Espaces branchés sur le gardien d'identité OWIdentite ----
+  const AMIRA = "00000000-0000-4000-8000-0000000000ab";
+  const auth = (ev, who) => page.evaluate(([e, w]) => { (window.__fakeAuth || []).forEach((cb) => cb(e, w ? { user: { id: w } } : null)); }, [ev, who]);
+  await step("OW-012 B : les Espaces lisent le compte par le gardien OWIdentite (chargé une fois, client adopté, « connecte »)", async () => {
+    await page.goto(EW + "#/community");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    const r = await page.evaluate(async () => ({ g: !!window.OWIdentite, n: document.querySelectorAll('script[src$="ow-identite.js"]').length, etat: OWIdentite.etat(), moi: (await OWIdentite.moi() || {}).pseudo,
+      meme: (await OWIdentite.client()) === (await EWConnect.client()), abo: (window.__fakeAuth || []).length }));
+    return { ok: r.g && r.n === 1 && r.etat === "connecte" && r.moi === "sebtest" && r.meme && r.abo === 1, detail: JSON.stringify(r) };
+  });
+  let secretId = null;
+  await step("OW-012 B : changement de compte PENDANT un direct (A anime, caméra allumée) → direct arrêté, caméra éteinte, canaux fermés, écran redessiné pour B (spectateur), rien de A", async () => {
+    await page.goto(EW + "#/live");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    await page.tap("#esNewBtn");
+    await page.fill("#esTitle", "Direct de sebtest");
+    await page.tap("#esNew button[type=submit]");
+    await page.waitForSelector("#esLiveGo", { timeout: 10000 });
+    secretId = page.url().split("/").pop();
+    await page.evaluate(() => { const g = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices); window.__flux = [];
+      navigator.mediaDevices.getUserMedia = (c) => g(c).then((s) => { window.__flux.push(s); return s; }); });
+    await page.tap("#esLiveGo");
+    await page.waitForFunction(() => /Arrêter/.test(document.querySelector("#esLiveGo").textContent), null, { timeout: 5000 });
+    await page.fill("#esCapInput", "Phrase privée de sebtest");
+    await page.tap("#esCapForm button");
+    await page.waitForFunction(() => /Phrase privée/.test(document.querySelector("#esCaption").textContent), null, { timeout: 5000 });
+    await page.tap("#esCam");
+    await page.waitForFunction(() => { const v = document.querySelector("#esVideo"); return v && !v.hidden && v.videoWidth > 0; }, null, { timeout: 10000 });
+    await page.evaluate(() => { window.__fakeRemoved = 0; localStorage.setItem("lc_photos_v1", '{"x":"photo de A"}'); localStorage.setItem("lc_hidden_msgs", "[1]"); localStorage.setItem("lc_uilang", "fr"); });
+    // Sur le même téléphone, le compte devient @amira (connexion depuis Mon compte, ou un autre onglet).
+    await page.evaluate(() => localStorage.setItem("fake_who", "b"));
+    await auth("SIGNED_IN", AMIRA);
+    await page.waitForSelector("#esVoice", { timeout: 10000 });
+    const r = await page.evaluate(() => ({
+      hote: !!document.querySelector("#esLiveGo, #esCam, #esCapForm"),
+      cam: (window.__flux || []).every((s) => s.getTracks().every((t) => t.readyState === "ended")) && (window.__flux || []).length > 0,
+      video: (() => { const v = document.querySelector("#esVideo"); return !v || v.hidden || !v.srcObject; })(),
+      canaux: window.__fakeRemoved || 0,
+      moi: OWIdentite.etat() + ":" + (window.__fakeAuth ? "" : ""),
+      photos: localStorage.getItem("lc_photos_v1"), masques: localStorage.getItem("lc_hidden_msgs"), uilang: localStorage.getItem("lc_uilang") }));
+    const me = await page.evaluate(async () => (await OWIdentite.moi() || {}).pseudo);
+    await page.screenshot({ path: path.join(OUT, "espaces-changement-compte.png") });
+    return { ok: !r.hote && r.cam && r.video && r.canaux >= 2 && me === "amira" && r.photos === null && r.masques === null && r.uilang === "fr",
+      detail: "commandes de l'animateur : " + (r.hote ? "ENCORE LÀ" : "parties") + " · caméra " + (r.cam ? "éteinte" : "ALLUMÉE") + " · " + r.canaux + " canaux fermés · compte affiché : " + me + " · photos/masqués de A : " + (r.photos === null && r.masques === null ? "effacés" : "RESTÉS") + " · langue de l'écran gardée : " + r.uilang };
+  });
+  await step("OW-012 B : réponse lente pour l'ancien compte arrivée après le changement → ignorée (l'écran ne montre jamais les données de A)", async () => {
+    // Retour à @sebtest, puis la liste est demandée ; le compte change pendant que le serveur répond.
+    await page.evaluate(() => localStorage.removeItem("fake_who"));
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    await page.goto(EW + "#/community");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    const r = await page.evaluate(async () => {
+      const G = window.OWIdentite; G.profilModifie(); // relecture du profil, rendue lente
+      const c = await G.client(), from = c.from.bind(c); let lent = true;
+      c.from = (t) => { const q = from(t); if (t !== "profiles" || !lent) return q; const ms = q.maybeSingle.bind(q); q.maybeSingle = () => new Promise((ok) => setTimeout(() => ok(ms()), 300)); return q; };
+      location.hash = "#/live"; await new Promise((ok) => setTimeout(ok, 50));
+      localStorage.setItem("fake_who", "b"); (window.__fakeAuth || []).forEach((cb) => cb("SIGNED_IN", { user: { id: "00000000-0000-4000-8000-0000000000ab" } }));
+      await new Promise((ok) => setTimeout(ok, 700)); lent = false; c.from = from;
+      return { moi: (await G.moi() || {}).pseudo, nouveau: !!document.querySelector("#esNewBtn") };
+    });
+    return { ok: r.moi === "amira" && r.nouveau, detail: JSON.stringify(r) };
+  });
+  await step("OW-012 B : déconnexion (session vraiment partie) → « Créez d'abord votre compte », plus aucun salon ni message à l'écran", async () => {
+    await page.goto(EW + "#/live/" + secretId);
+    await page.waitForSelector("#esVoice", { timeout: 10000 });
+    await page.evaluate(() => { const s = JSON.parse(localStorage.getItem("fake_sb") || "null") || { session: true, email: "", new_email: "", anon: true, pending: "", devices: [] };
+      s.session = false; localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.removeItem("lc_net_auth");
+      window.__evOW = []; OWIdentite.ecouter((e) => window.__evOW.push(e)); });
+    await auth("SIGNED_OUT", null);
+    await page.waitForFunction(() => /Créez d'abord votre compte/.test(document.getElementById("ewEspaces").textContent), null, { timeout: 5000 });
+    const r = await page.evaluate(() => ({ salon: !!document.querySelector("#esMsgs, #esVoice, #esCaption"), evts: window.__evOW, etat: OWIdentite.etat(), fuite: document.getElementById("ewEspaces").textContent.includes("Direct de sebtest") }));
+    return { ok: !r.salon && !r.fuite && r.evts.includes("expiration") && r.etat === "deconnecte", detail: JSON.stringify(r) };
+  });
+  await step("OW-012 B : reconnexion → les Espaces reviennent normalement", async () => {
+    await page.evaluate(() => { localStorage.removeItem("fake_who"); const s = JSON.parse(localStorage.getItem("fake_sb")); s.session = true; localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", "fake"); });
+    await auth("SIGNED_IN", "00000000-0000-4000-8000-0000000000aa");
+    await page.goto(EW + "#/live");
+    await page.waitForSelector("#esNewBtn:not([hidden])", { timeout: 10000 });
+    return { ok: (await page.evaluate(async () => (await OWIdentite.moi() || {}).pseudo)) === "sebtest", detail: "sebtest" };
+  });
   await step("Sans serveur : message d'erreur et bouton Réessayer (rien d'inventé)", async () => {
     await page.evaluate(() => localStorage.setItem("fake_ow_fail", "1"));
     await page.goto(EW + "#/community");

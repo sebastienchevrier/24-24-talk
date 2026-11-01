@@ -178,7 +178,7 @@
   };
   var ICE = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }];
 
-  var ui = "fr", cur = null, uidP = null, myLang = null;
+  var ui = "fr", cur = null, uidP = null, myLang = null, compteGen = 0;
   function t(k, v) {
     var s = (STR[ui] && STR[ui][k]) || (window.EW_SCREEN_STR && window.EW_SCREEN_STR.espaces && window.EW_SCREEN_STR.espaces[ui] && window.EW_SCREEN_STR.espaces[ui][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
@@ -195,8 +195,19 @@
   }
   function sb() { return window.EWConnect && window.EWConnect.client ? window.EWConnect.client() : Promise.reject(new Error("OFF")); }
   // Mon compte (identifiant, langue de lecture) : celui de la Messagerie, sur ce téléphone.
+  // OW-012 lot 4 étape B : lu par le gardien d'identité unique (everywhere/ow-identite.js) : une seule lecture de
+  // profiles partagée, et l'écran est prévenu d'un changement de compte, d'une déconnexion ou d'une session expirée.
+  // Sans le gardien (fichier absent), l'ancienne lecture directe reste en secours.
   function account() {
-    if (!uidP) uidP = sb().then(function (c) {
+    if (uidP) return uidP;
+    var G = window.OWIdentite, g = compteGen;
+    var p = G ? sb().then(function (c) { G.adopter(c); return G.moi(); }).then(function (m) {
+      // Le compte a changé pendant la lecture (surCompte) : la réponse de l'ancien compte est ignorée.
+      if (g !== compteGen) throw new Error("OW_COMPTE_CHANGE");
+      if (!m) return null;
+      myLang = base(m.langue) || ui;
+      return { id: m.id, pseudo: m.pseudo, lang: myLang };
+    }) : sb().then(function (c) {
       return c.auth.getSession().then(function (r) {
         var u = r && r.data && r.data.session && r.data.session.user;
         if (!u) return null;
@@ -207,7 +218,8 @@
           return { id: u.id, pseudo: prof.pseudo, lang: myLang };
         });
       });
-    }).catch(function (e) { uidP = null; throw e; });
+    });
+    uidP = p.catch(function (e) { if (g === compteGen) uidP = null; throw e; });
     return uidP;
   }
   // Traduction pour moi : rien à faire si le texte est déjà dans ma langue.
@@ -290,6 +302,7 @@
     });
     var tok = cur.token;
     Promise.all([sb(), account()]).then(function (r) {
+      if (!cur || cur.token !== tok) return;
       if (!r[1]) { noAccount(root.querySelector("#esList")); root.querySelector("#esNewBtn").hidden = true; return; }
       var q = r[0].from("ow_rooms").select("*").eq("kind", kind);
       if (topic && topic !== "all") q = q.eq("topic", topic);
@@ -317,6 +330,7 @@
     busy(root);
     Promise.all([sb(), account()]).then(function (r) {
       var c = r[0], me = r[1];
+      if (!cur || cur.token !== tok) return;
       if (!me) { noAccount(root); return; }
       return Promise.all([
         c.from("ow_rooms").select("*").eq("id", id).maybeSingle(),
@@ -699,6 +713,7 @@
       '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
     root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
     Promise.all([sb(), account()]).then(function (r) {
+      if (!cur || cur.token !== tok) return;
       if (!r[1]) { noAccount(root.querySelector("#esList")); return; }
       var q = r[0].from("ow_listings").select("*").eq("status", "open");
       if (filter !== "all") q = q.eq("kind", filter);
@@ -971,8 +986,24 @@
     cur.token = -1;
     cur = null;
   }
+  // Écran affiché (pour le redessiner au nouveau compte).
+  var vue = null;
+  // OW-012 lot 4 étape B : changement de compte, déconnexion ou session expirée sur ce téléphone (cet onglet ou un autre).
+  // Le salon ou le direct en cours s'arrête (caméra, micro, abonnements temps réel), tout ce qui est affiché est effacé,
+  // puis l'écran est redessiné pour le compte actuel (ou « Créez d'abord votre compte »). Rien de l'ancien compte ne reste.
+  function surCompte(ev) {
+    if (ev === "profil-modifie") { compteGen++; uidP = null; myLang = null; return; }
+    if (ev !== "changement-de-compte" && ev !== "deconnexion" && ev !== "expiration") return;
+    compteGen++; uidP = null; myLang = null;
+    if (!cur || !vue) return; // Espaces pas à l'écran : rien d'affiché à effacer
+    leave();
+    vue.root.innerHTML = "";
+    show(vue.root, vue.parts, vue.ui);
+  }
+  if (window.OWIdentite) window.OWIdentite.ecouter(surCompte);
   function show(root, parts, uiLang) {
     leave();
+    vue = { root: root, parts: parts, ui: uiLang };
     // OW-012-A1 : le compte est relu à chaque écran. Avant, il était gardé pour toute la visite : après une
     // déconnexion, une suppression ou un changement de compte dans Profil, les espaces gardaient l'ancien.
     uidP = null;

@@ -18,8 +18,8 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
 
 // Faux client supabase-js, installé dans la page.
 const MOCK = () => {
-  const A = { id: "aaaaaaaa-0000-4000-8000-00000000000a", email: "a@exemple.org", is_anonymous: false };
-  const B = { id: "bbbbbbbb-0000-4000-8000-00000000000b", email: "b@exemple.org", is_anonymous: false };
+  const A = { id: "aaaaaaaa-0000-4000-8000-00000000000a", email: "a@exemple.org", email_confirmed_at: "2026-10-19T08:00:00Z", is_anonymous: false };
+  const B = { id: "bbbbbbbb-0000-4000-8000-00000000000b", email: "b@exemple.org", email_confirmed_at: "2026-10-20T08:00:00Z", is_anonymous: false };
   const PROFILS = { [A.id]: { id: A.id, pseudo: "anna", nom: "Anna", lang: "fr" }, [B.id]: { id: B.id, pseudo: "bilal", nom: "Bilal", lang: "ar" } };
   const M = window.__mock = { A, B, PROFILS, user: null, cb: null, lectures: 0, delai: 0, signOutErreur: null, rpcErreur: null, getSessionErreur: null, rpcAppels: 0 };
   M.connecter = (u) => { M.user = u; localStorage.setItem("lc_net_auth", JSON.stringify({ user: u })); };
@@ -86,9 +86,9 @@ const etatStockage = (page) => page.evaluate(([P, D]) => ({
   }
   let page = await page0();
 
-  await step("Étape A : aucun écran de l'appli ne charge encore le gardien (zéro changement de comportement)", async () => {
+  await step("Étape B : seul le portail (everywhere/index.html, pour les Espaces) charge le gardien ; Messagerie, site et admin inchangés", async () => {
     const pages = ["index.html", "everywhere/index.html", "monde/index.html", "gestion/index.html"].filter((f) => fs.existsSync(path.join(SITE, f)) && /ow-identite\.js/.test(fs.readFileSync(path.join(SITE, f), "utf8")));
-    return { ok: pages.length === 0, detail: pages.length ? "chargé dans " + pages.join(", ") : "seulement la page d'essai" };
+    return { ok: pages.join(",") === "everywhere/index.html", detail: "chargé dans " + (pages.join(", ") || "aucune page") };
   });
   await step("Sans session : moi() = null, état « deconnecte »", async () => {
     const r = await page.evaluate(async () => [await OWIdentite.moi(), OWIdentite.etat()]);
@@ -129,6 +129,22 @@ const etatStockage = (page) => page.evaluate(([P, D]) => ({
     const r = await page.evaluate(async () => { const C = { id: "cccccccc-0000-4000-8000-00000000000c", email: "", is_anonymous: true }; __mock.connecter(C); __mock.emettre("SIGNED_IN"); return [await OWIdentite.moi(), OWIdentite.etat()]; });
     await page.evaluate(() => { __mock.connecter(__mock.A); __mock.emettre("SIGNED_IN"); });
     return { ok: r[0] === null && r[1] === "sans-profil", detail: JSON.stringify(r) };
+  });
+  await step("E-mail confirmé : vrai indicateur Supabase (email_confirmed_at) → emailConfirme = true", async () => {
+    const r = await page.evaluate(async () => { const U = { id: "dddddddd-0000-4000-8000-00000000000d", email: "d@exemple.org", email_confirmed_at: "2026-10-30T10:00:00Z", is_anonymous: false };
+      __mock.PROFILS[U.id] = { id: U.id, pseudo: "dina", nom: "Dina", lang: "es" }; __mock.connecter(U); __mock.emettre("SIGNED_IN"); const m = await OWIdentite.moi(); return m && [m.email, m.emailConfirme]; });
+    return { ok: r && r[0] === "d@exemple.org" && r[1] === true, detail: JSON.stringify(r) };
+  });
+  await step("E-mail présent mais NON confirmé (email_confirmed_at vide) → emailConfirme = false", async () => {
+    const r = await page.evaluate(async () => { const U = { id: "eeeeeeee-0000-4000-8000-00000000000e", email: "e@exemple.org", email_confirmed_at: null, is_anonymous: false };
+      __mock.PROFILS[U.id] = { id: U.id, pseudo: "eli", nom: "Eli", lang: "en" }; __mock.connecter(U); __mock.emettre("SIGNED_IN"); const m = await OWIdentite.moi(); return m && [m.email, m.emailConfirme]; });
+    return { ok: r && r[0] === "e@exemple.org" && r[1] === false, detail: JSON.stringify(r) };
+  });
+  await step("Compte anonyme (adresse en attente, même avec une date) → emailConfirme = false", async () => {
+    const r = await page.evaluate(async () => { const U = { id: "ffffffff-0000-4000-8000-00000000000f", email: "", new_email: "f@exemple.org", email_confirmed_at: "2026-10-30T10:00:00Z", is_anonymous: true };
+      __mock.PROFILS[U.id] = { id: U.id, pseudo: "fred", nom: "Fred", lang: "de" }; __mock.connecter(U); __mock.emettre("SIGNED_IN"); const m = await OWIdentite.moi(); return m && [m.email, m.emailConfirme]; });
+    await page.evaluate(() => { __mock.connecter(__mock.A); __mock.emettre("SIGNED_IN"); });
+    return { ok: r && r[0] === "" && r[1] === false, detail: JSON.stringify(r) };
   });
   await step("Déconnexion qui échoue (réseau) : RIEN n'est effacé, la session reste", async () => {
     await page.evaluate(REMPLIR);

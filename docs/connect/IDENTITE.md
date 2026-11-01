@@ -17,7 +17,7 @@ Fichier : `everywhere/ow-identite.js`. Tests : `everywhere/tests/identite.js` (p
 |---|---|
 | `adopter(client)` | L'écran confie son client supabase-js. Le premier adopté reste l'unique référence de la page. |
 | `client()` | Promesse du client. |
-| `moi()` | Renvoie `{ id, pseudo, nom, langue, email, emailConfirme }` ou `null`. Plusieurs demandes en même temps donnent une seule lecture. |
+| `moi()` | Renvoie `{ id, pseudo, nom, langue, email, emailConfirme }` ou `null`. Plusieurs demandes en même temps donnent une seule lecture. `emailConfirme` = vrai indicateur Supabase `email_confirmed_at` (jamais la simple présence d'une adresse) ; toujours `false` pour un compte anonyme. |
 | `etat()` | `inconnu`, `chargement`, `connecte`, `sans-profil`, `deconnecte`, `hors-ligne` ou `expire`. |
 | `ecouter(fn)` | `fn(evenement, moi)` reçoit `connexion`, `deconnexion`, `changement-de-compte`, `expiration`, `profil-modifie`, `hors-ligne` ou `en-ligne`. |
 | `proteger(promesse)` | Ignore une réponse arrivée après un changement de compte (`OW_COMPTE_CHANGE`). |
@@ -58,9 +58,17 @@ Fichier : `everywhere/ow-identite.js`. Tests : `everywhere/tests/identite.js` (p
 ## Migration (une PR par étape)
 | Étape | Contenu |
 |---|---|
-| A | Gardien seul et testé. Aucun écran ne le charge (cette étape). |
-| B | Pilote Espaces. |
-| C | Mon compte (`connect.js`). |
+| A | Gardien seul et testé. Aucun écran ne le charge. (PR 89) |
+| B | Pilote Espaces : le portail charge le gardien, `espaces.js` lit le compte par `moi()` et écoute `ecouter()`. Changement de compte, déconnexion ou session expirée : salon ou direct arrêté (caméra, micro, temps réel), écran vidé puis redessiné pour le compte actuel. Les autres écrans du portail ne sont pas branchés. |
+| C | Mon compte (`connect.js`). Reste à faire ici : désabonner les notifications push (`push_subs`) côté serveur à la déconnexion. |
 | D | Face à face et Profil de langue. |
-| E | Messagerie (`index.html`), par des points d'accroche, sans réécriture. |
+| E | Messagerie (`index.html`), par des points d'accroche, sans réécriture. Abonnement push du téléphone retiré à la déconnexion et au changement de compte. |
 | F | Retrait des anciens mécanismes, après les tests. |
+
+## Essais
+- `everywhere/tests/identite.js` : gardien seul, faux client (dont e-mail confirmé, non confirmé, anonyme).
+- `everywhere/tests/identite-reel.js` : gardien + VRAIE bibliothèque supabase-js 2.117.2 (empreinte SRI vérifiée).
+  - Mode local (par défaut) : serveur d'authentification imité, aucune sortie sur Internet.
+  - Mode TEST (`OW_REEL=TEST`) : vraie base TEST, crée 1 compte anonyme par passage ; la PROD est refusée.
+  - Constat sur la vraie bibliothèque : un renouvellement refusé lors d'un appel explicite `refreshSession()` ne supprime pas la session ; c'est à l'ouverture (jeton expiré) que supabase-js la supprime. Le gardien suit la session réelle dans les deux cas.
+- `everywhere/tests/espaces.js` : étape B (changement de compte pendant un direct, réponse lente de l'ancien compte, déconnexion, reconnexion).
