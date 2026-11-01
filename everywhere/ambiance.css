@@ -1,15 +1,16 @@
-/* 24/24 ONE WORLD — ambiance commune (19 oct. 2026), la même que le site vitrine et l'accueil de l'appli :
-   bleu nuit uni, texte clair, boutons blancs, cartes discrètes, aucune couleur vive. © 2026 Sébastien Chevrier. */
+/* 24/24 ONE WORLD — ambiance commune du portail. © 2026 Sébastien Chevrier.
+   1er nov. 2026 (OW-WRITE-004) : bleu nuit profond, cartes bleu nuit, accent vert-turquoise, comme la capture Android de référence.
+   ../ambiance-terre.css, chargé après, porte les mêmes valeurs pour toute l'appli. */
 html.theme-dark, html:not(.theme-light):not(.theme-auto){
-  --bg:#070b1c; --bg2:#0b1024; --panel:#0d1329; --panel2:#121a36; --line:rgba(160,180,255,.14); --text:#eef2ff; --muted:#9aa6c8;
-  --teal:#eef2ff; --on-primary:#070b1c;
-  --ews-bg:#070b1c; --ews-bg2:rgba(7,11,28,.92); --ews-panel:#0d1329; --ews-line:rgba(160,180,255,.14); --ews-text:#eef2ff; --ews-muted:#9aa6c8; --ews-teal:#eef2ff;
+  --bg:#07131d; --bg2:#0a1724; --panel:#0d1f2d; --panel2:#11273a; --line:rgba(130,180,210,.16); --text:#f0f8fa; --muted:#a3b5c4;
+  --teal:#4fe0b0; --on-primary:#04201a;
+  --ews-bg:#07131d; --ews-bg2:rgba(8,18,28,.94); --ews-panel:#0d1f2d; --ews-line:rgba(130,180,210,.16); --ews-text:#f0f8fa; --ews-muted:#a3b5c4; --ews-teal:#4fe0b0;
 }
 @media (prefers-color-scheme: dark){
   html.theme-auto{
-    --bg:#070b1c; --bg2:#0b1024; --panel:#0d1329; --panel2:#121a36; --line:rgba(160,180,255,.14); --text:#eef2ff; --muted:#9aa6c8;
-    --teal:#eef2ff; --on-primary:#070b1c;
-    --ews-bg:#070b1c; --ews-bg2:rgba(7,11,28,.92); --ews-panel:#0d1329; --ews-line:rgba(160,180,255,.14); --ews-text:#eef2ff; --ews-muted:#9aa6c8; --ews-teal:#eef2ff;
+    --bg:#07131d; --bg2:#0a1724; --panel:#0d1f2d; --panel2:#11273a; --line:rgba(130,180,210,.16); --text:#f0f8fa; --muted:#a3b5c4;
+    --teal:#4fe0b0; --on-primary:#04201a;
+    --ews-bg:#07131d; --ews-bg2:rgba(8,18,28,.94); --ews-panel:#0d1f2d; --ews-line:rgba(130,180,210,.16); --ews-text:#f0f8fa; --ews-muted:#a3b5c4; --ews-teal:#4fe0b0;
   }
 }
 body{background:var(--bg) !important;}
@@ -19,12 +20,12 @@ body{background:var(--bg) !important;}
 /* Grandes cartes EVERYWHERE et LEARN : sobres, comme les tuiles de l'accueil. */
 .tr-big, .tr-big.face, .tr-big.trip, .tr-big.call, .tr-big.learn, .tr-big.invite{background:var(--panel) !important;border:1px solid var(--line);color:var(--text) !important;box-shadow:none !important;}
 .tr-big small{color:var(--muted);opacity:1;}
-.tr-big-ic{background:rgba(31,226,205,.10) !important;}
-.tr-big-ic svg{stroke:#1fe2cd !important;}
-/* En-têtes EVERYWHERE et LEARN : titre clair, pastille discrète (plus de vert ni de violet). */
+.tr-big-ic{background:#1c5147 !important;}
+.tr-big-ic svg{stroke:#6ff0c0 !important;}
+/* En-têtes EVERYWHERE et LEARN : titre clair, pastille dans un carré vert (référence du 1er nov. 2026). */
 .tr-head h1, .lx-head h1{color:var(--text) !important;letter-spacing:.02em;}
-.tr-logo, .lx-logo{background:rgba(31,226,205,.10) !important;color:#1fe2cd;}
-.tr-logo svg, .lx-logo svg{stroke:#1fe2cd !important;}
+.tr-logo, .lx-logo{background:#1c5147 !important;color:#6ff0c0;}
+.tr-logo svg, .lx-logo svg{stroke:#6ff0c0 !important;}
 /* Barre du haut : le nom tient sur une ligne, comme dans l'appli. */
 .brand-txt span{color:inherit !important;font-weight:800;}
 @media (max-width:400px){ .topbar{gap:4px;padding-left:8px;padding-right:8px;} .brand-txt{font-size:13px;letter-spacing:0;} .brand img{width:30px;height:30px;} }

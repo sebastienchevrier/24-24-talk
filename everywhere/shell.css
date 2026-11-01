@@ -2,8 +2,9 @@
    Chargée par le portail (everywhere/) ET par 24/24 TALK : même apparence partout, identité Terre.
    Jetons préfixés --ews- pour ne jamais entrer en conflit avec les styles de TALK. */
 :root{
-  --ews-bg:#050b18; --ews-bg2:#0b1526; --ews-panel:#111c2e; --ews-line:#1d2b45;
-  --ews-text:#f4f7fa; --ews-muted:#a8b5c8; --ews-teal:#21d4fd; --ews-teal2:#21d4fd;
+  /* Sombre par défaut : bleu nuit et accent vert-turquoise (OW-WRITE-004, capture Android de référence). */
+  --ews-bg:#07131d; --ews-bg2:#0a1724; --ews-panel:#0d1f2d; --ews-line:#1a3042;
+  --ews-text:#f0f8fa; --ews-muted:#a3b5c4; --ews-teal:#4fe0b0; --ews-teal2:#4fe0b0;
   --ews-nav-h:64px; --ews-top-h:56px;
   --ews-sat:env(safe-area-inset-top,0px); --ews-sab:env(safe-area-inset-bottom,0px);
   --ews-sal:env(safe-area-inset-left,0px); --ews-sar:env(safe-area-inset-right,0px);
@@ -18,8 +19,8 @@
    TALK seul (sans classe theme-*) garde son apparence actuelle. */
 html.theme-light, html.theme-auto{ --ews-teal:#1f5fe0; --ews-teal2:#1749b8; }
 html.theme-light{ --ews-bg:#f5f8ff; --ews-bg2:#ffffff; --ews-panel:#ffffff; --ews-line:#d8e1f3; --ews-text:#0d1733; --ews-muted:#4d5b80; }
-html.theme-dark{ --ews-bg:#050b18; --ews-bg2:#0b1526; --ews-panel:#111c2e; --ews-line:#1d2b45; --ews-text:#f4f7fa; --ews-muted:#a8b5c8;
-  --ews-teal:#21d4fd; --ews-teal2:#21d4fd; }
+html.theme-dark{ --ews-bg:#07131d; --ews-bg2:#0a1724; --ews-panel:#0d1f2d; --ews-line:#1a3042; --ews-text:#f0f8fa; --ews-muted:#a3b5c4;
+  --ews-teal:#4fe0b0; --ews-teal2:#4fe0b0; }
 @media (prefers-color-scheme: dark){ html.theme-auto{ --ews-teal:#7aa7ff; --ews-teal2:#a9c6ff; } }
 html.contrast-high{ --ews-muted:var(--ews-text); }
 html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
@@ -35,7 +36,7 @@ html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
 .brand-txt span{color:var(--ews-teal2);font-weight:700;}
 .topbar-title{flex:1;min-width:0;text-align:center;font-weight:800;font-size:15px;color:var(--ews-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 @media (max-width:479px){ .topbar-title{visibility:hidden;} }
-.icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--ews-line);background:var(--ews-panel);color:var(--ews-text);
+.icon-btn{width:44px;height:44px;border-radius:14px;border:1px solid var(--ews-line);background:var(--ews-panel);color:var(--ews-text);
   display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;}
 .icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .icon-btn[aria-current="page"]{border-color:var(--ews-teal);color:var(--ews-teal);}
@@ -47,6 +48,10 @@ a.icon-btn{text-decoration:none;}
   text-decoration:none;color:var(--ews-muted);font:700 12px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;border-radius:12px;}
 .mainnav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .mainnav a[aria-current="page"]{color:var(--ews-teal);background:color-mix(in srgb,var(--ews-teal) 12%,transparent);}
+.mainnav a{transition:color .15s ease,background-color .15s ease;}
+.mainnav a:active{background:color-mix(in srgb,var(--ews-teal) 18%,transparent);}
+html.motion-off .mainnav a{transition:none;}
+@media (prefers-reduced-motion:reduce){ .mainnav a{transition:none;} }
 
 /* ---------- 24/24 TALK dans la coquille (html.ew-shell, posé par TALK quand on vient d'EVERYWHERE) ---------- */
 html.ew-shell header.hero-earth, html.ew-shell .install-top, html.ew-shell #installCard{display:none !important;}

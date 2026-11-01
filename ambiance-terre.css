@@ -1,23 +1,32 @@
-/* 24/24 ONE WORLD — ambiance « Terre de nuit » (20 oct. 2026), commune à l'appli, au portail et au site.
+/* 24/24 ONE WORLD — ambiance commune à l'appli, au portail et au site.
+   1er nov. 2026 (OW-WRITE-004) : bleu nuit profond, cartes bleu nuit bordées discrètement, icônes dans des carrés verts,
+   accent vert-turquoise, d'après la capture Android validée par Sébastien. L'affiche Terre reste en fond.
+   Avant : ambiance « Terre de nuit » (20 oct. 2026).
    Noir profond, la Terre vue de l'espace avec son horizon turquoise lumineux et des points de lumière.
    Tout est dessiné en CSS (aucune image) : rien à télécharger, aucun droit d'image. Thème clair inchangé.
    © 2026 Sébastien Chevrier. Tous droits réservés. */
 html.theme-dark, html:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
-  --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
-  --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
-  --teal:#4dfc8a; --on-primary:#00110f;
-  --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
-  --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
-  --ow-glow:60,250,130;
+  --bg:#07131d; --bg2:#0a1724; --panel:rgba(13,31,45,.92); --panel2:#11273a; --line:rgba(130,180,210,.16);
+  --text:#f0f8fa; --muted:#a3b5c4; --blue:#2bbf8f; --blue2:#4fe0b0; --link:#6ff0c0; --cta:#4fe0b0; --cta-ink:#04201a;
+  --teal:#4fe0b0; --on-primary:#04201a;
+  --ews-bg:#07131d; --ews-bg2:rgba(8,18,28,.94); --ews-panel:#0d1f2d; --ews-line:rgba(130,180,210,.16);
+  --ews-text:#f0f8fa; --ews-muted:#a3b5c4; --ews-teal:#4fe0b0; --ews-teal2:#4fe0b0;
+  --ow-glow:79,224,176;
+  /* Jetons communs OW-WRITE-004 (référence : capture Android validée par Sébastien, 1er nov. 2026). */
+  --ow-card:#0d1f2d; --ow-card-line:rgba(130,180,210,.16); --ow-radius:22px; --ow-radius-s:14px;
+  --ow-ic-bg:#1c5147; --ow-ic:#6ff0c0; --ow-accent:#4fe0b0; --ow-accent2:#22d3c5;
 }
 @media (prefers-color-scheme: dark){
   html.theme-auto:not([data-theme="light"]){
-    --bg:#010409; --bg2:#020a10; --panel:rgba(8,24,14,.78); --panel2:#08190f; --line:rgba(60,240,150,.18);
-    --text:#effff3; --muted:#93b8a0; --blue:#12b862; --blue2:#4dfc8a; --link:#7dff9f; --cta:#4dfc8a; --cta-ink:#00110f;
-    --teal:#4dfc8a; --on-primary:#00110f;
-    --ews-bg:#010409; --ews-bg2:rgba(1,6,10,.88); --ews-panel:#08190f; --ews-line:rgba(60,240,140,.16);
-    --ews-text:#effff3; --ews-muted:#93b8a0; --ews-teal:#4dfc8a; --ews-teal2:#4dfc8a;
-    --ow-glow:60,250,130;
+    --bg:#07131d; --bg2:#0a1724; --panel:rgba(13,31,45,.92); --panel2:#11273a; --line:rgba(130,180,210,.16);
+    --text:#f0f8fa; --muted:#a3b5c4; --blue:#2bbf8f; --blue2:#4fe0b0; --link:#6ff0c0; --cta:#4fe0b0; --cta-ink:#04201a;
+    --teal:#4fe0b0; --on-primary:#04201a;
+    --ews-bg:#07131d; --ews-bg2:rgba(8,18,28,.94); --ews-panel:#0d1f2d; --ews-line:rgba(130,180,210,.16);
+    --ews-text:#f0f8fa; --ews-muted:#a3b5c4; --ews-teal:#4fe0b0; --ews-teal2:#4fe0b0;
+    --ow-glow:79,224,176;
+    /* Jetons communs OW-WRITE-004 (référence : capture Android validée par Sébastien, 1er nov. 2026). */
+    --ow-card:#0d1f2d; --ow-card-line:rgba(130,180,210,.16); --ow-radius:22px; --ow-radius-s:14px;
+    --ow-ic-bg:#1c5147; --ow-ic:#6ff0c0; --ow-accent:#4fe0b0; --ow-accent2:#22d3c5;
   }
 }
 
@@ -35,6 +44,8 @@ html:not([data-theme="light"])::before{
     /* fondu du bas : aucun bord visible sous l'image */
     linear-gradient(to top, var(--bg) 0, var(--bg) var(--ow-people-gap,62px), transparent calc(var(--ow-people-gap,62px) + 40px)),
     url("terre-lave.webp") no-repeat center bottom var(--ow-people-gap,62px) / max(100vw, 64vh) auto,
+    /* lueur bleu-vert profonde en haut, comme la référence */
+    radial-gradient(120% 60% at 15% 0%, rgba(20,90,90,.28), transparent 70%),
     /* étoiles */
     radial-gradient(1px 1px at 12% 8%, rgba(255,255,255,.55), transparent 60%),
     radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.45), transparent 60%),
@@ -51,21 +62,21 @@ body{background:transparent !important;}
 /* Les surfaces laissent deviner la Terre : verre sombre, bord turquoise discret. */
 html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .card, html:not([data-theme="light"]) .tr-big,
 html:not([data-theme="light"]) .net-panel:not(.net-me-page), html:not([data-theme="light"]) .duo-card, html:not([data-theme="light"]) .lx-mod{
-  background:linear-gradient(160deg,rgba(6,26,18,.66),rgba(4,20,12,.62)) !important;border-color:rgba(60,240,150,.22) !important;
-  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  background:linear-gradient(160deg,rgba(15,36,52,.94),rgba(11,27,40,.92)) !important;border-color:var(--ow-card-line) !important;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
 html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{
-  background:linear-gradient(135deg,rgba(150,255,110,.16),rgba(40,230,120,.14)) !important;color:#4dfc8a !important;box-shadow:0 0 18px rgba(50,250,150,.22) !important;
+  background:var(--ow-ic-bg) !important;color:var(--ow-ic) !important;box-shadow:none !important;
 }
-html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:#4dfc8a !important;}
-/* Barre du bas : verre noir, onglet actif turquoise lumineux. */
-html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(1,6,10,.82) !important;border-top:1px solid rgba(60,240,140,.14) !important;}
-html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:#5dff9e !important;text-shadow:0 0 12px rgba(60,255,150,.55);}
+html:not([data-theme="light"]) .tr-big-ic svg, html:not([data-theme="light"]) .tr-logo svg, html:not([data-theme="light"]) .lx-logo svg{stroke:var(--ow-ic) !important;}
+/* Barre du bas : bleu nuit, onglet actif vert-turquoise, sans lueur. */
+html:not([data-theme="light"]) .bbar, html:not([data-theme="light"]) .mainnav{background:rgba(8,18,28,.94) !important;border-top:1px solid var(--ow-card-line) !important;}
+html:not([data-theme="light"]) .bbar button.on, html:not([data-theme="light"]) .mainnav a[aria-current="page"]{color:var(--ow-accent) !important;text-shadow:none;}
 /* Titres : légère lueur, comme l'horizon. */
-html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 0 22px rgba(60,255,150,.3);}
-/* Boutons principaux : turquoise lumineux. */
+html:not([data-theme="light"]) .net-topbar-title, html:not([data-theme="light"]) header.hero-earth h1, html:not([data-theme="light"]) .view h1{text-shadow:0 1px 14px rgba(0,0,0,.45);}
+/* Boutons principaux : vert-turquoise (l'orange reste réservé à la porte d'entrée : toucher.js, index.html). */
 html:not([data-theme="light"]) .primary, html:not([data-theme="light"]) .net-dial, html:not([data-theme="light"]) .net-callbtn, html:not([data-theme="light"]) .install-top-btn, html:not([data-theme="light"]) .btn.primary{
-  background:linear-gradient(135deg,#b4ff6e,#3cf27a 45%,#14c96a) !important;border-color:transparent !important;color:#00110f !important;box-shadow:0 0 22px rgba(60,255,150,.3);
+  background:linear-gradient(135deg,#6ff0c0,#4fe0b0 45%,#22d3c5) !important;border-color:transparent !important;color:#04201a !important;box-shadow:0 6px 18px rgba(34,211,197,.22);
 }
 /* Ancien globe en filigrane de la Messagerie : remplacé par la Terre de nuit. */
 body.net-full::before{display:none !important;}
@@ -75,4 +86,12 @@ body.net-full::before{display:none !important;}
 html.contrast-high, html.contrast-high:not(.theme-light):not(.theme-auto):not([data-theme="light"]){
   --muted:var(--text) !important; --ews-muted:var(--ews-text) !important;
 }
-html.contrast-high:not([data-theme="light"]):not(.theme-light){ --line:rgba(120,255,180,.55) !important; --ews-line:rgba(120,255,180,.55) !important; }
+html.contrast-high:not([data-theme="light"]):not(.theme-light){ --line:rgba(150,230,210,.6) !important; --ews-line:rgba(150,230,210,.6) !important; --ow-card-line:rgba(150,230,210,.6); }
+
+/* OW-WRITE-004 : cartes et icônes arrondies comme la référence, retour tactile discret (aucun changement de taille des zones). */
+html:not([data-theme="light"]) .home-tile, html:not([data-theme="light"]) .tr-big, html:not([data-theme="light"]) .duo-card{border-radius:var(--ow-radius) !important;}
+html:not([data-theme="light"]) .home-tile-ic, html:not([data-theme="light"]) .tr-big-ic, html:not([data-theme="light"]) .tr-logo, html:not([data-theme="light"]) .lx-logo{border-radius:var(--ow-radius-s) !important;}
+html:not([data-theme="light"]) .home-tile:hover, html:not([data-theme="light"]) .tr-big:hover, html:not([data-theme="light"]) .duo-card:hover{border-color:rgba(79,224,176,.42) !important;}
+html:not([data-theme="light"]) :is(input,select,textarea):focus-visible{outline:2px solid var(--ow-accent);outline-offset:2px;}
+/* Textes posés directement sur l'affiche (ex. « Pas encore de discussion ») : plus clairs et ombrés pour rester lisibles. */
+html:not([data-theme="light"]) #netRoot .empty{color:var(--text);text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 12px rgba(0,0,0,.6);}
