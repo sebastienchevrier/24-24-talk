@@ -12287,7 +12287,9 @@ const Reseau = (() => {
 
   // Retour sur l'appli (téléphone déverrouillé, autre appli quittée) : Android coupe souvent la
   // connexion en arrière-plan, on recharge donc la liste et la discussion ouverte.
-  document.addEventListener("visibilitychange", () => {
+  // OW-012-A1 : même rattrapage quand le réseau revient alors que l'appli est restée à l'écran (avant : seulement
+  // au retour sur l'appli). Les messages arrivés pendant la coupure s'affichent sans recharger la page.
+  function resyncAfterGap() {
     if (document.visibilityState !== "visible" || !profile || !sb) return;
     if (call && call.state === "active") return;
     if (screen === "chat" && currentConv) {
@@ -12303,7 +12305,9 @@ const Reseau = (() => {
     } else {
       loadConversations().then(() => { if (screen === "home" && isActiveTab()) render(); }, () => {});
     }
-  });
+  }
+  document.addEventListener("visibilitychange", resyncAfterGap);
+  window.addEventListener("online", resyncAfterGap);
   // Fermeture de l'appli pendant un appel : on prévient l'autre téléphone.
   window.addEventListener("pagehide", () => {
     if (call) sendSignal(call.otherId, { t: call.state === "incoming" ? "decline" : "hangup", callId: call.id });

@@ -29,7 +29,7 @@
     if (table === "profiles") return [KENJI, MARIA];
     // Un message reçu de @kenji (en français, pour ne pas dépendre du service de traduction).
     if (table === "messages") return [{ id: "bbbbbbbb-0000-4000-8000-000000000001", conversation_id: C1, sender_id: KENJI.id, body: "Bonjour depuis Tokyo",
-      lang: "fr", kind: "text", created_at: new Date(Date.now() - 6e5).toISOString() }];
+      lang: "fr", kind: "text", created_at: new Date(Date.now() - 6e5).toISOString() }].concat(window.__fakeExtraMsgs || []);
     return [];
   }
   // Profil linguistique : la ligne du compte est gardée dans localStorage « fake_lp » ; chaque écriture est notée dans « fake_lp_log ».

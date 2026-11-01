@@ -3,6 +3,7 @@
    2. Un message envoyé juste avant de changer de discussion ne s'affiche pas dans l'autre discussion.
    3. Un message supprimé « pour moi » ne réapparaît pas au retour sur l'appli.
    4. Les notifications d appel ne disent plus « Dieu vous appelle » (danois, lituanien, letton).
+   5. (OW-012-A1) Session gardée après actualisation ; message arrivé pendant une coupure réseau affiché au retour du réseau.
    Lancer : node everywhere/tests/messagerie.js */
 const { chromium } = require("playwright");
 const http = require("http"), fs = require("fs"), path = require("path");
@@ -59,6 +60,25 @@ const C1 = "aaaaaaaa-0000-4000-8000-000000000001", C2 = "aaaaaaaa-0000-4000-8000
     await page.waitForTimeout(900);
     const b = (await bubbles(page)).filter((x) => /Pour Kenji seulement/.test(x)).length;
     return { ok: b === 0, detail: b + " bulle(s) « Pour Kenji seulement » chez @maria" };
+  });
+  await step("Actualisation de la page : la session et les discussions sont toujours là (faux serveur)", async () => {
+    await page.reload();
+    // Après actualisation l'appli rouvre l'accueil (comportement actuel) : la liste des discussions est rechargée en arrière-plan, preuve que le compte est toujours connecté.
+    await page.waitForSelector('.net-row.net-conv[data-id="' + C1 + '"]', { state: "attached", timeout: 30000 });
+    const auth = await page.evaluate(() => localStorage.getItem("lc_net_auth"));
+    await page.goto(page.url().split("?")[0] + "?b=msg");
+    await page.waitForSelector('.net-row.net-conv[data-id="' + C1 + '"]', { timeout: 30000 });
+    return { ok: !!auth, detail: "lc_net_auth " + (auth ? "présent" : "absent") + ", discussions rechargées, Messagerie rouverte" };
+  });
+  await step("Coupure réseau puis retour du réseau, appli restée à l'écran : le message arrivé pendant la coupure s'affiche", async () => {
+    await openConv(page, C1);
+    await ctx.setOffline(true);
+    await page.evaluate((c) => { window.__fakeExtraMsgs = [{ id: "bbbbbbbb-0000-4000-8000-0000000000aa", conversation_id: c, sender_id: "00000000-0000-4000-8000-0000000000b1", body: "Arrivé pendant la coupure", lang: "fr", kind: "text", created_at: new Date().toISOString() }]; }, C1);
+    await page.waitForTimeout(300);
+    await ctx.setOffline(false);
+    await page.waitForTimeout(900);
+    const b = (await bubbles(page)).filter((x) => /Arrivé pendant la coupure/.test(x)).length;
+    return { ok: b === 1, detail: b + " bulle(s) « Arrivé pendant la coupure »" };
   });
   await step("Messagerie : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
   await ctx.close();
