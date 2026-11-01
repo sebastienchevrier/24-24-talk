@@ -369,6 +369,8 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   body:has(#home.view.active) .install-top{display:none;} /* l'installation reste dans Paramètres */
   .ow-home-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 2px 14px;border-bottom:1px solid var(--line);}
   .ow-home-brand{display:flex;align-items:center;gap:12px;min-width:0;}
+  /* OW-WRITE-010 : accent lisible en thème clair (vert foncé, contraste ≥ 4,5:1) ; en sombre il vient d'ambiance-terre.css. */
+  :root[data-theme="light"]{--ow-accent:#0b6b52;}
   .ow-home-mark{flex:none;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ow-accent,#4fe0b0);display:flex;align-items:center;justify-content:center;overflow:hidden;}
   .ow-home-mark img{width:44px;height:44px;border-radius:50%;}
   .ow-home-name{display:flex;flex-direction:column;line-height:1.15;min-width:0;}
@@ -571,7 +573,9 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
   html:not([data-theme="light"]) .ow-caps-t,html:not([data-theme="light"]) .ob-foot{text-shadow:0 1px 3px rgba(0,0,0,.85);}
   html:not([data-theme="light"]) body.ob-on .ob{margin-top:2px;padding:10px 12px 8px;border-radius:20px;border:1px solid var(--line);
     background:rgba(4,10,14,.58);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
-  html:not([data-theme="light"]) .btn.primary.ob-go{background:linear-gradient(90deg,#ffc46b,#ff7a1a) !important;color:#1f0d00 !important;
+  /* Porte d'entrée orange dans tous les thèmes (OW-WRITE-010) : « body » et la classe .ob-go doublée rendent la règle
+     plus précise (0,4,2) que .btn.primary d'ambiance-terre.css (0,4,1), chargé après (régression de OW-WRITE-007). */
+  html body .btn.primary.ob-go.ob-go{background:linear-gradient(90deg,#ffc46b,#ff7a1a) !important;color:#1f0d00 !important;
     border-color:transparent !important;box-shadow:0 8px 24px rgba(255,122,26,.32) !important;}
   @media (hover:hover){ .ob-go:hover{filter:brightness(1.06);} }
   @media (min-width:960px){
@@ -583,6 +587,8 @@ window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "cs", "
     body.ob-on #netRoot:has(> .ob) > .ow-caps{grid-area:c;max-width:none;margin:18px 0 0;padding:0;}
     body.ob-on #netRoot:has(> .ob) > .ob{grid-area:o;width:100%;max-width:none;margin:0;padding:24px;box-sizing:border-box;border-radius:24px;
       border:1px solid var(--line);background:rgba(4,10,14,.66);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
+    /* Thème clair (OW-WRITE-010) : carte claire, sinon texte foncé sur verre sombre (contraste 1,2:1). */
+    :root[data-theme="light"] body.ob-on #netRoot:has(> .ob) > .ob{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 10px 30px rgba(20,30,60,.08);}
     body.ob-on #netRoot:has(> .ob) .ow-welcome h1{font-size:38px;}
     body.ob-on #netRoot:has(> .ob) .ow-welcome img{width:64px;height:64px;}
     body.ob-on #netRoot:has(> .ob) .ow-logo{width:64px;height:64px;}

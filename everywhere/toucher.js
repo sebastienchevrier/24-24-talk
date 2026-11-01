@@ -43,13 +43,14 @@
   css.textContent = [
     // Orange de la porte d'entrée : « html » devant suffit à passer devant les anciennes couleurs, sans !important.
     "html .ob-go,html .install-top-btn,html [data-ow-primary]{background:linear-gradient(90deg,#ffc46b,#ff7a1a);color:#1f0d00;border-color:transparent;}",
-    ":root{--ow-accent:#ff9a3c;--ow-accent-light:#ffc46b;--ow-accent-strong:#ff7a1a;--ow-glow:0 0 0 1px rgba(255,140,40,.20),0 0 16px rgba(255,140,40,.16);}",
+    // Jetons propres aux boutons (OW-WRITE-010) : noms distincts de --ow-accent / --ow-glow d'ambiance-terre.css, qui ont un autre sens.
+    ":root{--ow-touch-accent:#ff9a3c;--ow-touch-accent-light:#ffc46b;--ow-touch-accent-strong:#ff7a1a;--ow-touch-glow:0 0 0 1px rgba(255,140,40,.20),0 0 16px rgba(255,140,40,.16);}",
     ":where(button,[role=button],.btn,.primary,[data-ow-interactive],.home-tile,.ew-card,.chip,a.tile,a.card){-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform 130ms ease,filter 130ms ease;}",
     ".ow-press{transform:translateY(1px) scale(.98);filter:brightness(1.06);}",
     ".ow-liquide.ow-press{border-radius:18px;transform:scale(.975);filter:saturate(1.08) brightness(1.05);}",
     // Contour clavier identique partout.
     ":where(button,[role=button],a[href],input,select,textarea,.btn,.primary,[data-ow-interactive],.home-tile,.ew-card,.chip):focus-visible{outline:3px solid #ffc46b;outline-offset:3px;}",
-    ":where(.ob-go,[data-ow-primary]){box-shadow:var(--ow-glow);}",
+    ":where(.ob-go,[data-ow-primary]){box-shadow:var(--ow-touch-glow);}",
     "@media (hover:hover) and (pointer:fine){:where(.btn.primary,.ob-go,[data-ow-primary]):not(:disabled):hover{filter:brightness(1.05);}}",
     // Respiration seulement là où on la demande (data-ow-breathe), en opacité (peu coûteux), arrêtée page cachée.
     "[data-ow-breathe]{animation:owRespire 3s ease-in-out infinite;}",
