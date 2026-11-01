@@ -5,6 +5,7 @@ name: Tests reels base TEST
 on:
   push:
     branches: [claude/test-reel-test]
+    paths-ignore: ['.github/ci/codes-*.json']
   workflow_dispatch: {}
 
 permissions:

@@ -29,17 +29,15 @@ async function compte(lettre) {
   const c = client();
   const s = await c.auth.signInAnonymously(); if (s.error) throw new Error("anonyme " + lettre + " : " + s.error.message);
   const id = s.data.user.id, pseudo = "pr90" + lettre + RUN.slice(-6);
-  const p = await c.from("profiles").insert({ id, pseudo, lang: "fr", nom: "Essai PR90 " + lettre.toUpperCase() });
-  if (p.error) throw new Error("profil " + lettre + " : " + p.error.code + " " + p.error.message);
   const email = "contact.2424oneworld+pr90" + lettre + RUN + "@gmail.com";
   const u = await c.auth.updateUser({ email, data: { email_lang: "fr" } });
   if (u.error) throw new Error("e-mail " + lettre + " : " + u.error.message);
-  return { c, id, email };
+  return { c, id, email, pseudo, lettre };
 }
 (async () => {
   let A, B;
   try { A = await compte("a"); B = await compte("b"); }
-  catch (e) { rec("NON EXÉCUTÉ", "Création de 2 comptes TEST avec profil", e.message); return fin(); }
+  catch (e) { rec("NON EXÉCUTÉ", "Création de 2 comptes TEST et demande d'e-mail", e.message); return fin(); }
   console.log("ATTENTE DES CODES pour " + A.email + " et " + B.email + " (fichier .github/ci/codes-" + RUN + ".json)");
   const k = await codes();
   if (!k) { rec("NON EXÉCUTÉ", "Confirmation des e-mails", "codes non reçus en 15 min"); return fin(); }
@@ -47,9 +45,12 @@ async function compte(lettre) {
     const v = await X.c.auth.verifyOtp({ email: X.email, token: String(code), type: "email_change" });
     if (v.error) { rec("FAIL", "Confirmation de l'e-mail " + X.email.split("+")[1], v.error.message); return fin(); }
     X.s = v.data.session || (await X.c.auth.getSession()).data.session;
+    if (v.data.session) await X.c.auth.setSession({ access_token: v.data.session.access_token, refresh_token: v.data.session.refresh_token });
+    const p = await X.c.from("profiles").insert({ id: X.id, pseudo: X.pseudo, lang: "fr", nom: "Essai PR90 " + X.lettre.toUpperCase() });
+    if (p.error) { rec("FAIL", "Profil après confirmation " + X.lettre, p.error.code + " " + p.error.message); return fin(); }
   }
   const okA = A.s && A.s.user.email_confirmed_at, okB = B.s && B.s.user.email_confirmed_at;
-  rec(okA && okB ? "PASS" : "FAIL", "Deux comptes TEST distincts, profil + e-mail confirmé (vrai code reçu)", "A=" + A.id.slice(0, 8) + "… B=" + B.id.slice(0, 8) + "…");
+  rec(okA && okB ? "PASS" : "FAIL", "Deux comptes TEST distincts, e-mail confirmé (vrai code reçu) puis profil", "A=" + A.id.slice(0, 8) + "… B=" + B.id.slice(0, 8) + "…");
 
   // Espaces : A crée un salon
   const ins = await A.c.from("ow_rooms").insert({ kind: "community", title: "Essai PR90 a effacer", about: "essai automatique", lang: "fr" }).select("*").single();
