@@ -379,7 +379,9 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     const ctx = await ctxFor({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
     const q = await ouvreTarifs(ctx, TF + "?lang=fr");
     const vus = [];
-    for (let i = 0; i < 60; i++) { await q.keyboard.press("Tab"); const f = await q.evaluate(() => { const a = document.activeElement; const cs = getComputedStyle(a); return { t: (a.getAttribute("data-t") || a.className || a.tagName), o: cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) >= 2 }; }); vus.push(f); }
+    // Safari sur Mac : Tab seul saute les liens (réglage du système) ; Option+Tab les parcourt tous, comme un vrai utilisateur au clavier.
+    const TAB = MOTEUR === "webkit" && process.platform === "darwin" ? "Alt+Tab" : "Tab";
+    for (let i = 0; i < 60; i++) { await q.keyboard.press(TAB); const f = await q.evaluate(() => { const a = document.activeElement; const cs = getComputedStyle(a); return { t: (a.getAttribute("data-t") || a.className || a.tagName), o: cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) >= 2 }; }); vus.push(f); }
     const r = await q.evaluate(() => ({ sb: getComputedStyle(document.documentElement).scrollBehavior }));
     await ctx.close();
     const has = (k) => vus.some((v) => v.t === k && v.o);
@@ -390,7 +392,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     const AXE = process.env.AXE || require.resolve("axe-core/axe.min.js");
     const q = await ouvreTarifs(ctxTel, TF + "?lang=fr");
     await q.addScriptTag({ path: AXE });
-    const v = await q.evaluate(async () => (await axe.run(document, { resultTypes: ["violations"] })).violations.filter((x) => x.impact === "critical" || x.impact === "serious").map((x) => x.id + "×" + x.nodes.length));
+    const v = await q.evaluate(async () => (await axe.run(document, { resultTypes: ["violations"] })).violations.filter((x) => x.impact === "critical" || x.impact === "serious").map((x) => x.id + "×" + x.nodes.length + " [" + x.nodes.slice(0, 4).map((n) => n.target.join(" ") + " " + ((n.any[0] || {}).message || "").slice(0, 90)).join(" ; ") + "]"));
     const h1 = await q.evaluate(() => document.querySelectorAll("h1").length);
     await q.close();
     return { ok: !v.length && h1 === 1, detail: v.join(", ") || "aucune" };
