@@ -5,7 +5,7 @@ name: Tests reels base TEST
 on:
   push:
     branches: [claude/test-reel-test]
-    paths-ignore: ['.github/ci/codes-*.json', '.github/ci/liens-*.json']
+    paths-ignore: ['.github/ci/codes-*.json', '.github/ci/liens-*.json', 'apercus-vitrine/**']
   workflow_dispatch: {}
 
 permissions:
