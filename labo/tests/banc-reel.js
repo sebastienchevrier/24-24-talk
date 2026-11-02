@@ -58,12 +58,14 @@ async function ia(req) {
     lignes.push({ famille: c.famille, source: c.t, preedition: r.C.preedition.faits.length ? r.C.preedition.texte : null, registres: r.B.registres, expressions: r.B.expressions.map((x) => x.id),
       brut: r.D.brut || null, brut_erreur: r.D.brut_erreur || null, controle_brut: r.E.brut || null,
       preedite: r.D.preedite || null, preedite_erreur: r.D.preedite_erreur || null, controle_preedite: r.E.preedite || null,
+      gratuit: r.D.gratuit || null, gratuit_source: r.D.gratuit_source || null, controle_gratuit: r.E.gratuit || null,
       ia: r.D.ia || null, ia_erreur: r.D.ia_erreur || null, controle_ia: r.E.ia || null });
     const L = lignes[lignes.length - 1];
     const f = (E) => (E ? E.ok + "✓ " + E.echecs + "✗" + (E.a_relire ? " " + E.a_relire + "?" : "") : "—");
     console.log(`[${vers}] ${c.famille.padEnd(18)} ${c.t.slice(0, 44).padEnd(44)} | MM ${f(L.controle_brut)} ${L.brut_erreur || ""} | PRE ${L.preedition ? f(L.controle_preedite) : "—"} | IA ${avecIA ? (L.ia_erreur || f(L.controle_ia)) : "—"}`);
     console.log(`        MM : ${L.brut || L.brut_erreur}`);
     if (L.preedition) console.log(`        PRE: ${L.preedite || L.preedite_erreur}`);
+    if (L.preedition) console.log(`        GRATUIT retenu : ${L.gratuit_source}`);
     if (avecIA) console.log(`        IA : ${L.ia ? L.ia.traduction : L.ia_erreur}`);
   }
   const somme = (k) => lignes.reduce((s, l) => s + (l[k] ? l[k].echecs : 0), 0);
@@ -72,8 +74,8 @@ async function ia(req) {
   const bilan = {
     langue: vers, date: new Date().toISOString(), phrases: lignes.length, phrases_avec_expression: idio.length, appels_mymemory: appels, caracteres_envoyes: caracteres,
     erreurs_mymemory: lignes.filter((l) => l.brut_erreur).length,
-    problemes_detectes: { mymemory: somme("controle_brut"), mymemory_preedite_sur_les_phrases_preeditees: somme("controle_preedite"), ia: avecIA ? somme("controle_ia") : null },
-    mot_a_mot_detecte: { mymemory: litteral("controle_brut"), mymemory_preedite: litteral("controle_preedite"), ia: avecIA ? litteral("controle_ia") : null },
+    problemes_detectes: { mymemory: somme("controle_brut"), meilleur_gratuit: somme("controle_gratuit"), mymemory_preedite_sur_les_phrases_preeditees: somme("controle_preedite"), ia: avecIA ? somme("controle_ia") : null },
+    mot_a_mot_detecte: { mymemory: litteral("controle_brut"), meilleur_gratuit: litteral("controle_gratuit"), mymemory_preedite: litteral("controle_preedite"), ia: avecIA ? litteral("controle_ia") : null },
     avertissement: "Contrôles automatiques seulement (nombres, noms, émojis, longueur, mots-pièges). La qualité réelle demande une relecture native.",
   };
   console.log("\nBILAN " + JSON.stringify(bilan));

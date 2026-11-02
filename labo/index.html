@@ -151,7 +151,7 @@
     var o = r.D.ia;
     h += col("IA de test (Groq)" + (o && o.modele ? " · " + o.modele : ""), o && o.traduction, r.D.ia_erreur ? (iaEtat === "non branchée" ? "IA pas encore branchée (clé à créer)." : r.D.ia_erreur) : null, r.E.ia,
       o ? '<p class="muted">Registre vu par l\'IA : ' + esc(o.registre_detecte) + (o.remarques ? " · " + esc(o.remarques) : "") + (o.ms ? " · " + o.ms + " ms" : "") + "</p>" : "");
-    h += "</div><p class=\"muted\">✓ contrôle réussi · ✗ problème détecté · ? à relire par un humain. Les contrôles automatiques ne remplacent pas une relecture native.</p>";
+    h += "</div>" + (r.D.gratuit_source ? "<p>Choix gratuit retenu : <strong>" + esc(r.D.gratuit_source) + "</strong> <span class=\"muted\">(la traduction directe garde mieux le ton ; la pré-édition ne sert qu'à réparer du mot-à-mot ou un ajout suspect)</span></p>" : "") + "<p class=\"muted\">✓ contrôle réussi · ✗ problème détecté · ? à relire par un humain. Les contrôles automatiques ne remplacent pas une relecture native.</p>";
     $("sortie").innerHTML = h; $("sortie").hidden = false;
   }
   function lancer() {

@@ -252,13 +252,15 @@
     "fr.briser-la-glace": { sw: ["barafu"] },
     "fr.trente-et-un": { en: ["thirty-one", "31"], es: ["treinta y uno", "31"], ar: ["31", "واحد وثلاثين"], zh: ["31", "三十一"], sw: ["31", "thelathini na moja"] },
     "fr.cartonner": { en: ["cardboard", "carton"], es: ["cartón"], ar: ["كرتون"], zh: ["纸板"], sw: ["katoni"] },
+    "fr.a-la-bourre": { en: ["drunk", "stuffing"], es: ["borracho"], ar: ["سكران", "ثمل"], zh: ["醉"], sw: ["mlevi"] },
+    "fr.avoir-les-boules": { en: ["balls"], es: ["bolas"], ar: ["كرات"], zh: ["球"], sw: ["mipira"] },
     "fr.c-est-le-pied": { en: ["foot"], es: ["pie"], ar: ["قدم"], zh: ["脚"], sw: ["mguu"] },
   };
   var NUM_AR = { "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4", "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9", "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9" };
   function chiffresLatins(t) { return String(t || "").replace(/[٠-٩۰-۹]/g, function (c) { return NUM_AR[c]; }); }
   var NB_MOTS = { en: { 7: "seven", 9: "nine", 10: "ten", 12: "twelve", 70: "seventy", 90: "ninety" }, es: { 7: "siete", 9: "nueve", 10: "diez", 12: "doce", 70: "setenta", 90: "noventa" } };
 
-  function controler(source, cible, analyse, versLangue, base) {
+  function controler(source, cible, analyse, versLangue, base, reference) {
     var c = String(cible || ""), cl = chiffresLatins(c), low = cl.toLowerCase(), rep = [];
     var srcNb = analyse && analyse.nombres ? analyse.nombres : extraireNombres(source);
     var cibleNb = extraireNombres(cl);
@@ -282,7 +284,16 @@
       rep.push({ controle: "nom propre " + n, ok: ok3, detail: ok3 ? "gardé" : "absent ou traduit" });
     });
     (String(source).match(/https?:\/\/\S+/g) || []).forEach(function (u) { var ok4 = c.indexOf(u) >= 0; rep.push({ controle: "lien", ok: ok4, detail: ok4 ? "gardé" : "lien modifié" }); });
-    var ls = String(source).length, lc = c.length;
+    // Pollution par la mémoire de sous-titres de MyMemory (mesuré le 2 nov. : « - لقد فقدت الوعي - دعني أرى, سيدة (أندروود) ») :
+    // parenthèses, tiret de dialogue ou nom en alphabet latin absents de la phrase source.
+    var src = String(source);
+    var pol = [];
+    if (/[()（）]/.test(c) && !/[()]/.test(src)) pol.push("parenthèses");
+    if (/(^|\s)[-–—]\s/.test(c) && !/(^|\s)[-–—]\s/.test(src)) pol.push("tiret de dialogue");
+    if (!latin) (c.match(/\b[A-Z][a-z]{2,}\b/g) || []).forEach(function (w) { if (src.indexOf(w) < 0 && !/^(OK|Ok)$/.test(w)) pol.push("mot « " + w + " »"); });
+    if (pol.length) rep.push({ controle: "ajout suspect", ok: false, detail: "texte étranger à la phrase (" + pol.join(", ") + ") : réponse probablement tirée d'une autre phrase" });
+    // La longueur se compare à la phrase réellement envoyée (la phrase pré-éditée est souvent plus courte).
+    var ls = String(reference || source).length, lc = c.length;
     if (ls > 25 && lc) {
       var ideo = /^(zh|ja|ko)$/.test(versLangue), r = lc / ls, min = ideo ? 0.15 : 0.45, max = ideo ? 1.2 : 2.2;
       rep.push({ controle: "longueur", ok: r >= min && r <= max, detail: "rapport " + r.toFixed(2) + (r < min ? " : OMISSION probable" : r > max ? " : AJOUT probable" : "") });
@@ -311,14 +322,25 @@
     var jobs = [];
     if (moteurs && moteurs.mymemory) {
       jobs.push(moteurs.mymemory(texte, de, vers).then(function (t) { r.D.brut = t; r.E.brut = controler(texte, t, B, vers, base); }, function (e) { r.D.brut_erreur = String(e && e.message || e); }));
-      if (C.faits.length) jobs.push(moteurs.mymemory(C.texte, de, vers).then(function (t) { r.D.preedite = t; r.E.preedite = controler(texte, t, B, vers, base); }, function (e) { r.D.preedite_erreur = String(e && e.message || e); }));
+      if (C.faits.length) jobs.push(moteurs.mymemory(C.texte, de, vers).then(function (t) { r.D.preedite = t; r.E.preedite = controler(texte, t, B, vers, base, C.texte); }, function (e) { r.D.preedite_erreur = String(e && e.message || e); }));
     }
     if (moteurs && moteurs.ia) {
       var indices = B.expressions.map(function (x) { return { expression: x.extrait, sens: x.sens, equivalent_connu: x.eq && x.eq[vers] ? x.eq[vers].t : null }; });
       jobs.push(moteurs.ia({ texte: texte, de: de, vers: vers, style: cons.style, consigne: cons.texte, registre_source: cons.registre_source, expressions: indices, ironie_possible: B.ironie_possible })
         .then(function (o) { r.D.ia = o; r.E.ia = controler(texte, o && o.traduction, B, vers, base); }, function (e) { r.D.ia_erreur = String(e && e.message || e); }));
     }
-    return Promise.all(jobs).then(function () { return r; });
+    return Promise.all(jobs).then(function () {
+      // « Meilleur gratuit » : la traduction directe garde mieux le ton (« I can't be bothered ») ; la phrase pré-éditée
+      // ne sert qu'à RÉPARER une traduction directe où le contrôle voit du mot-à-mot ou un ajout suspect.
+      if (r.D.brut || r.D.preedite) {
+        var casse = r.E.brut && r.E.brut.resultats.some(function (x) { return x.ok === false && /MOT À MOT|ajout suspect|non traduit/.test(x.detail + " " + x.controle); });
+        var prendPre = r.D.preedite && (!r.D.brut || casse);
+        r.D.gratuit = prendPre ? r.D.preedite : r.D.brut;
+        r.D.gratuit_source = prendPre ? "pré-édition (réparation)" : "MyMemory direct";
+        r.E.gratuit = prendPre ? r.E.preedite : r.E.brut;
+      }
+      return r;
+    });
   }
 
   var api = { identifier: identifier, comprendre: comprendre, preediter: preediter, consigne: consigne, controler: controler, traduire: traduire, extraireNombres: extraireNombres, nomsPropres: nomsPropres, STYLES: STYLES, PIEGES: PIEGES };

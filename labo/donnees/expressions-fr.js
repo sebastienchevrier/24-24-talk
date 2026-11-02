@@ -167,7 +167,7 @@
     "fr.jeter-l-eponge": [["a jet[ée] l'[ée]ponge", "a abandonné"], ["jeter l'[ée]ponge", "abandonner"]],
     "fr.c-est-le-pied": [["c'est (?:trop )?le pied", "c'est très agréable"]],
     "fr.ras-le-bol": [["j'en ai ras[- ]le[- ]bol", "j'en ai assez"], ["ras[- ]le[- ]bol", "assez"]],
-    "fr.tete-dans-les-nuages": [["as (?:encore )?la t[eê]te dans les nuages", "es distrait"], ["a la t[eê]te dans les nuages", "est distrait"]],
+    "fr.tete-dans-les-nuages": [["as encore la t[eê]te dans les nuages", "es encore distrait"], ["as la t[eê]te dans les nuages", "es distrait"], ["a la t[eê]te dans les nuages", "est distrait"]],
     "fr.briser-la-glace": [["briser la glace", "mettre fin à la gêne"]],
     "fr.pas-mes-oignons": [["occupe-toi de tes oignons", "ça ne te regarde pas"], ["ce ne sont pas mes oignons", "ça ne me regarde pas"]],
     "fr.avoir-le-coup-de-main": [["avoir le coup de main", "avoir l'habitude du geste"]],
