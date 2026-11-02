@@ -36,6 +36,8 @@
   body{margin:0;background:radial-gradient(1200px 700px at 78% -10%,rgba(43,191,143,.13),transparent 60%),radial-gradient(900px 600px at -10% 30%,rgba(30,90,140,.18),transparent 60%),var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   html,body{max-width:100%;}
+  /* Mots très longs (géorgien, tamoul, télougou…) : coupés plutôt que de faire déborder la page sur téléphone. */
+  body{overflow-wrap:anywhere;hyphens:auto;}
   a{color:inherit;}
   h1,h2,h3{text-wrap:balance;line-height:1.12;margin:0;} p{text-wrap:pretty;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
