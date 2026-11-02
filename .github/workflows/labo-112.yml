@@ -6,6 +6,11 @@
 name: Labo — 112 langues
 on:
   workflow_dispatch:
+  # Tant que ce fichier n'est pas sur main, GitHub ne permet pas de le lancer à la main : il part quand la batterie
+  # ou la liste des langues change sur la branche du labo.
+  push:
+    branches: [claude/labo-linguistique]
+    paths: ["labo/donnees/langues-112.js", "labo/tests/batterie-registres.js", "labo/tests/banc-112.js", "labo/tests/rapport-112.js", ".github/workflows/labo-112.yml"]
   schedule:
     - cron: "0 5 * * 1"
 permissions:
