@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<!-- 24/24 ONE WORLD — page Diagnostic (lot 1 : essais sur appareils réels). © 2026 Sébastien Chevrier. Tous droits réservés.
+     Cette page ne fait que LIRE ce que le téléphone sait faire. Aucun compte, aucune base, aucun envoi de données.
+     Rien n'est demandé au téléphone sans un geste : micro, caméra et réseau d'appel ne sont testés que sur un bouton. -->
+<title>Diagnostic — 24/24 ONE WORLD</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#06101c" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="../everywhere/logo.svg" type="image/svg+xml" />
+<style>
+  :root{--bg:#06101c;--card:#0c1a2b;--line:rgba(220,235,245,.14);--ink:#f5fbff;--muted:#a9bac6;
+    --ok:#4fe0b0;--ko:#ff8a80;--mid:#ffd27a;--orange:#ff9a3d;--r:18px;}
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{margin:0;background:radial-gradient(900px 480px at 50% -160px,rgba(79,160,255,.18),transparent 70%),var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important;}}
+  main{max-width:720px;margin:0 auto;padding:24px 16px 48px;}
+  h1{font-size:1.6rem;margin:0 0 6px;line-height:1.2;} h2{font-size:1.1rem;margin:0 0 10px;}
+  p{margin:0 0 10px;color:var(--muted);}
+  :focus-visible{outline:3px solid var(--ok);outline-offset:3px;border-radius:10px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:14px 0;}
+  .btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;border:0;border-radius:14px;font:inherit;font-weight:700;
+    font-size:1.05rem;cursor:pointer;background:var(--orange);color:#1a0d00;text-decoration:none;padding:10px 16px;}
+  .btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600;min-height:48px;margin-top:10px;}
+  textarea{width:100%;min-height:120px;margin:10px 0 0;background:#030912;color:var(--ink);border:1px solid var(--line);border-radius:12px;
+    padding:10px;font:0.85rem/1.4 ui-monospace,Menlo,Consolas,monospace;resize:vertical;word-break:break-all;}
+  #copie{min-height:1.5em;margin-top:8px;color:var(--ok);font-weight:600;}
+  ul.res{list-style:none;margin:0;padding:0;}
+  ul.res li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);}
+  ul.res li:first-child{border-top:0;}
+  ul.res .v{text-align:right;font-weight:600;overflow-wrap:anywhere;}
+  .ok{color:var(--ok);} .ko{color:var(--ko);} .mid{color:var(--mid);}
+  .tests{display:grid;gap:0;}
+  small{color:var(--muted);}
+  a{color:var(--ok);}
+</style>
+</head>
+<body>
+<main>
+  <h1>Diagnostic de ton téléphone</h1>
+  <p>Cette page regarde ce que ton téléphone sait faire pour ONE WORLD. Elle n'envoie rien : le résultat reste sur ton écran.</p>
+
+  <section class="card" aria-labelledby="t-code">
+    <h2 id="t-code">1. Copie le code et colle-le dans la discussion avec Claude</h2>
+    <button class="btn" id="copier" type="button">Copier le code</button>
+    <div id="copie" role="status" aria-live="polite"></div>
+    <label for="code" class="sr"><small>Code de diagnostic</small></label>
+    <textarea id="code" readonly></textarea>
+  </section>
+
+  <section class="card" aria-labelledby="t-plus">
+    <h2 id="t-plus">2. Essais en plus (facultatif)</h2>
+    <p>Chaque bouton demande une autorisation au téléphone. Rien n'est enregistré : le micro et la caméra s'éteignent aussitôt. Ensuite, copie à nouveau le code.</p>
+    <div class="tests">
+      <button class="btn sec" id="b-micro" type="button">Essayer le micro</button>
+      <button class="btn sec" id="b-camera" type="button">Essayer la caméra</button>
+      <button class="btn sec" id="b-reseau" type="button">Essayer le réseau d'appel</button>
+    </div>
+    <p style="margin-top:10px"><small>Le réseau d'appel contacte les mêmes serveurs de connexion que les appels de l'appli (Google et Cloudflare), sans rien envoyer d'autre.</small></p>
+  </section>
+
+  <section class="card" aria-labelledby="t-res">
+    <h2 id="t-res">Ce que ton téléphone sait faire</h2>
+    <ul class="res" id="res"></ul>
+  </section>
+
+  <p><a href="../">Retour à ONE WORLD</a></p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var V = "OWDIAG1";
+  var R = {};      // valeurs courtes pour le code
+  var ORDRE = [];  // ordre d'affichage
+  var NOMS = {
+    nav: "Navigateur", os: "Système", inst: "Appli installée", ecran: "Écran", langue: "Langue", fuseau: "Fuseau horaire",
+    reseau: "Réseau", micro: "Micro (autorisation)", camera: "Caméra (autorisation)", notif: "Notifications",
+    push: "Notifications appli fermée", webrtc: "Appels (WebRTC)", dictee: "Dictée vocale", voix: "Voix de lecture",
+    bt: "Bluetooth", partage: "Partage", vibre: "Vibreur", scan: "Lecture de code QR", stock: "Stockage",
+    traducteur: "Traducteur intégré", essai_micro: "Essai micro", essai_camera: "Essai caméra", essai_reseau: "Essai réseau d'appel"
+  };
+
+  function set(k, v) { if (ORDRE.indexOf(k) < 0) ORDRE.push(k); R[k] = String(v); }
+
+  // Lecture lisible d'un résultat : vert (oui/granted), rouge (non/denied), jaune (le reste).
+  function classe(v) {
+    if (/^(oui|granted|ok)/.test(v)) return "ok";
+    if (/^(non|denied|ko|absent)/.test(v)) return "ko";
+    return "mid";
+  }
+  function lisible(v) {
+    return v.replace(/^granted/, "autorisé").replace(/^denied/, "refusé").replace(/^prompt/, "à demander").replace(/^default/, "à demander")
+      .replace(/^unknown/, "inconnu");
+  }
+
+  function rendre() {
+    var ul = document.getElementById("res");
+    ul.textContent = "";
+    ORDRE.forEach(function (k) {
+      var li = document.createElement("li");
+      var a = document.createElement("span"); a.textContent = NOMS[k] || k;
+      var b = document.createElement("span"); b.className = "v " + classe(R[k]); b.textContent = lisible(R[k]);
+      li.appendChild(a); li.appendChild(b); ul.appendChild(li);
+    });
+    var d = new Date();
+    var code = V + "|" + d.toISOString().slice(0, 16) + "Z|" + ORDRE.map(function (k) { return k + "=" + R[k].replace(/[|=]/g, "/"); }).join("|");
+    document.getElementById("code").value = code;
+  }
+
+  // Navigateur et système, depuis l'identifiant du navigateur (aucune autre source).
+  function navigateur() {
+    var ua = navigator.userAgent || "", m, nav = "inconnu", os = "inconnu";
+    if ((m = ua.match(/EdgA?\/([\d]+)/))) nav = "Edge " + m[1];
+    else if ((m = ua.match(/SamsungBrowser\/([\d]+)/))) nav = "Samsung Internet " + m[1];
+    else if ((m = ua.match(/OPR\/([\d]+)/))) nav = "Opera " + m[1];
+    else if ((m = ua.match(/(?:Firefox|FxiOS)\/([\d]+)/))) nav = "Firefox " + m[1];
+    else if ((m = ua.match(/CriOS\/([\d]+)/))) nav = "Chrome iOS " + m[1];
+    else if ((m = ua.match(/Chrome\/([\d]+)/))) nav = "Chrome " + m[1];
+    else if ((m = ua.match(/Version\/([\d.]+).*Safari/))) nav = "Safari " + m[1];
+    if ((m = ua.match(/Android ([\d.]+)/))) os = "Android " + m[1];
+    else if ((m = ua.match(/(?:iPhone|iPad|iPod).*OS ([\d_]+)/))) os = "iOS " + m[1].replace(/_/g, ".");
+    else if (/Macintosh/.test(ua)) os = navigator.maxTouchPoints > 1 ? "iPadOS" : "macOS";
+    else if (/Windows/.test(ua)) os = "Windows";
+    else if (/Linux/.test(ua)) os = "Linux";
+    set("nav", nav); set("os", os);
+  }
+
+  function perm(nom, cle) {
+    if (!navigator.permissions || !navigator.permissions.query) { set(cle, "inconnu"); return Promise.resolve(); }
+    return navigator.permissions.query({ name: nom }).then(function (p) { set(cle, p.state); }, function () { set(cle, "inconnu"); });
+  }
+
+  function voix() {
+    if (!("speechSynthesis" in window)) { set("voix", "non"); return Promise.resolve(); }
+    return new Promise(function (ok) {
+      var fin = function () {
+        var v = speechSynthesis.getVoices() || [];
+        var langues = {};
+        v.forEach(function (x) { if (x.lang) langues[x.lang.slice(0, 2).toLowerCase()] = 1; });
+        set("voix", v.length ? "oui " + v.length + " voix, " + Object.keys(langues).length + " langues" : "aucune voix");
+        ok();
+      };
+      if ((speechSynthesis.getVoices() || []).length) return fin();
+      var t = setTimeout(fin, 1500);
+      speechSynthesis.onvoiceschanged = function () { clearTimeout(t); fin(); };
+    });
+  }
+
+  function stockage() {
+    if (!navigator.storage || !navigator.storage.estimate) { set("stock", "inconnu"); return Promise.resolve(); }
+    return navigator.storage.estimate().then(function (e) {
+      set("stock", "oui " + Math.round((e.quota || 0) / 1048576) + " Mo dispo");
+    }, function () { set("stock", "inconnu"); });
+  }
+
+  function lire() {
+    navigateur();
+    var inst = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+    set("inst", inst ? "oui" : "non (navigateur)");
+    set("ecran", Math.round(screen.width) + "x" + Math.round(screen.height) + " x" + (window.devicePixelRatio || 1));
+    set("langue", (navigator.languages && navigator.languages.slice(0, 3).join(",")) || navigator.language || "inconnu");
+    try { set("fuseau", Intl.DateTimeFormat().resolvedOptions().timeZone || "inconnu"); } catch (e) { set("fuseau", "inconnu"); }
+    var c = navigator.connection || {};
+    set("reseau", (navigator.onLine ? "en ligne" : "hors ligne") + (c.type ? " " + c.type : "") + (c.effectiveType ? " " + c.effectiveType : ""));
+    set("webrtc", "RTCPeerConnection" in window ? "oui" : "non");
+    set("dictee", ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) ? "oui" : "non");
+    set("notif", "Notification" in window ? Notification.permission : "non");
+    set("push", ("serviceWorker" in navigator && "PushManager" in window) ? "oui" : "non");
+    set("bt", "bluetooth" in navigator ? "oui" : "non");
+    set("partage", "share" in navigator ? "oui" : "non");
+    set("vibre", "vibrate" in navigator ? "oui" : "non");
+    set("scan", "BarcodeDetector" in window ? "oui" : "non");
+    set("traducteur", "Translator" in self ? "oui" : "non");
+    set("micro", "…"); set("camera", "…");
+    rendre();
+    return Promise.all([perm("microphone", "micro"), perm("camera", "camera"), voix(), stockage()]).then(rendre);
+  }
+
+  function essaiMedia(type, cle, bouton) {
+    bouton.disabled = true;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { set(cle, "non (pas d'accès)"); rendre(); bouton.disabled = false; return; }
+    var c = type === "audio" ? { audio: true } : { video: true };
+    navigator.mediaDevices.getUserMedia(c).then(function (s) {
+      s.getTracks().forEach(function (t) { t.stop(); }); // éteint tout de suite : rien n'est enregistré
+      set(cle, "ok");
+    }, function (e) { set(cle, "ko " + ((e && e.name) || "erreur")); })
+      .then(function () { return perm(type === "audio" ? "microphone" : "camera", type === "audio" ? "micro" : "camera"); })
+      .then(function () { rendre(); bouton.disabled = false; });
+  }
+
+  // Mêmes serveurs de connexion (STUN) que les appels de l'appli. Compte les types de chemins trouvés.
+  function essaiReseau(bouton) {
+    if (!("RTCPeerConnection" in window)) { set("essai_reseau", "non (pas de WebRTC)"); rendre(); return; }
+    bouton.disabled = true;
+    set("essai_reseau", "en cours…"); rendre();
+    var n = { host: 0, srflx: 0, relay: 0, prflx: 0 }, fini = false, pc;
+    function fin() {
+      if (fini) return; fini = true;
+      try { pc.close(); } catch (e) {}
+      var ok = n.srflx > 0 ? "ok" : "ko";
+      set("essai_reseau", ok + " direct:" + n.host + " public:" + n.srflx + " relais:" + n.relay);
+      rendre(); bouton.disabled = false;
+    }
+    try {
+      pc = new RTCPeerConnection({ iceServers: [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }] });
+      pc.createDataChannel("diag");
+      pc.onicecandidate = function (e) {
+        if (!e.candidate) return fin();
+        var m = /typ (\w+)/.exec(e.candidate.candidate || "");
+        if (m && n.hasOwnProperty(m[1])) n[m[1]]++;
+      };
+      pc.createOffer().then(function (o) { return pc.setLocalDescription(o); }).catch(fin);
+      setTimeout(fin, 8000);
+    } catch (e) { set("essai_reseau", "ko " + (e.name || "erreur")); rendre(); bouton.disabled = false; }
+  }
+
+  document.getElementById("copier").addEventListener("click", function () {
+    var t = document.getElementById("code"), msg = document.getElementById("copie");
+    var bien = function () { msg.textContent = "Code copié. Colle-le dans la discussion."; };
+    var secours = function () {
+      t.focus(); t.select();
+      try { document.execCommand("copy") ? bien() : (msg.textContent = "Appuie longuement sur le code pour le copier."); }
+      catch (e) { msg.textContent = "Appuie longuement sur le code pour le copier."; }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(bien, secours);
+    else secours();
+  });
+  document.getElementById("b-micro").addEventListener("click", function () { essaiMedia("audio", "essai_micro", this); });
+  document.getElementById("b-camera").addEventListener("click", function () { essaiMedia("video", "essai_camera", this); });
+  document.getElementById("b-reseau").addEventListener("click", function () { essaiReseau(this); });
+
+  window.owDiagPret = lire().then(function () { document.documentElement.setAttribute("data-pret", "1"); });
+})();
+</script>
+</body>
+</html>
