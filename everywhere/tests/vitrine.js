@@ -77,19 +77,20 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
   const LOT1 = ["hi", "bn", "id", "tr", "vi", "ko", "pl", "nl", "th", "sw"];
   const LOT2 = ["fa", "ur", "uk", "ms", "ro", "el", "cs", "hu", "sv", "he"];
   const LOT3 = ["ta", "te", "mr", "tl", "am", "ha", "yo", "ig", "my", "km"];
-  const MAIN = LOT1.concat(LOT2, LOT3);
+  const LOT4 = ["da", "nb", "fi", "bg", "hr", "sk", "sl", "lt", "lv", "et"];
+  const MAIN = LOT1.concat(LOT2, LOT3, LOT4);
   // Chiffres persans / arabes-indiens ramenés aux chiffres latins pour la comparaison (۱۱۲ = 112).
   const chiffres = (t) => String(t).replace(/[\u06F0-\u06F9]/g, (d) => d.charCodeAt(0) - 0x06F0).replace(/[\u0660-\u0669]/g, (d) => d.charCodeAt(0) - 0x0660);
-  await step("K2 écrit à la main en 40 langues (fr + 9 du 1er nov. + lots 1, 2 et 3 de 10), même nombre d'entrées, aucune vide", async () => {
+  await step("K2 écrit à la main en 50 langues (fr + 9 du 1er nov. + lots 1 à 4), même nombre d'entrées, aucune vide", async () => {
     const l = Object.keys(T2), bad = l.filter((c) => T2[c].length !== K2.length || T2[c].some((x) => !x || !String(x).trim()));
-    return { ok: l.length === 39 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].concat(MAIN).every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
+    return { ok: l.length === 49 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].concat(MAIN).every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
   });
-  await step("Lots 1, 2 et 3 (" + MAIN.join(" ") + ") : vraiment traduit, ≥ 95 % des 163 textes différents de l'anglais", async () => {
+  await step("Lots 1 à 4 (" + MAIN.join(" ") + ") : vraiment traduit, ≥ 95 % des 163 textes différents de l'anglais", async () => {
     // Peuvent rester identiques à l'anglais : noms propres et mots internationaux (Pro, Demo…).
     const faibles = MAIN.map((c) => [c, T2[c].filter((x, i) => x === T2.en[i]).length]).filter(([, n]) => n > Math.floor(K2.length * 0.05));
     return { ok: !faibles.length, detail: MAIN.map((c) => c + ":" + T2[c].filter((x, i) => x === T2.en[i]).length).join(" ") + " identiques à l'anglais" };
   });
-  await step("Lots 1, 2 et 3 : noms et chiffres intouchables gardés (ONE WORLD, MyMemory, COMMUNITY, Pro, 112, 90, 12), aucun montant ajouté", async () => {
+  await step("Lots 1 à 4 : noms et chiffres intouchables gardés (ONE WORLD, MyMemory, COMMUNITY, Pro, 112, 90, 12), aucun montant ajouté", async () => {
     const err = [];
     for (const c of MAIN) T2.en.forEach((en, i) => {
       for (const w of ["ONE WORLD", "MyMemory", "COMMUNITY", "Pro"]) if (new RegExp("\\b" + w + "\\b").test(en) && !T2[c][i].includes(w)) err.push(c + "#" + i + " " + w);
@@ -98,7 +99,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     });
     return { ok: !err.length, detail: err.slice(0, 8).join(" | ") || "tout gardé dans les " + MAIN.length + " langues" };
   });
-  await step("Lots 1, 2 et 3 : la mention « pas encore en vente / aucun paiement » existe et diffère de l'anglais dans chaque langue", async () => {
+  await step("Lots 1 à 4 : la mention « pas encore en vente / aucun paiement » existe et diffère de l'anglais dans chaque langue", async () => {
     const i = K2.indexOf("Une grille de prix est proposée, pas encore en vente : aucun paiement n'est possible aujourd'hui.");
     const bad = MAIN.filter((c) => !T2[c][i] || T2[c][i] === T2.en[i] || T2[c][i].length < 20);
     return { ok: i >= 0 && !bad.length, detail: MAIN.map((c) => c + ": " + T2[c][i].slice(0, 30)).slice(0, 3).join(" · ") };
@@ -120,7 +121,8 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     ["hi", "अनुवाद काम करते हुए"], ["bn", "অনুবাদ কাজ করছে"], ["id", "Terjemahan beraksi"], ["tr", "Çeviri iş başında"], ["vi", "Bản dịch hoạt động"],
     ["ko", "번역이 작동하는 모습"], ["pl", "Tłumaczenie w działaniu"], ["nl", "Vertaling in actie"], ["th", "การแปลขณะใช้งานจริง"], ["sw", "Tafsiri ikifanya kazi"],
     ["fa", "ترجمه در عمل"], ["ur", "ترجمہ عملی طور پر"], ["uk", "Переклад у дії"], ["ms", "Terjemahan beraksi"], ["ro", "Traducerea în acțiune"], ["el", "Η μετάφραση σε δράση"], ["cs", "Překlad v akci"], ["hu", "Fordítás működés közben"], ["sv", "Översättning i praktiken"], ["he", "התרגום בפעולה"],
-    ["ta", "செயலில் மொழிபெயர்ப்பு"], ["te", "పనిలో అనువాదం"], ["mr", "भाषांतर प्रत्यक्ष कृतीत"], ["tl", "Pagsasalin sa aksyon"], ["am", "ትርጉም በተግባር"], ["ha", "Fassara a aikace"], ["yo", "Ìtumọ̀ ní ìṣe"], ["ig", "Ntụgharị asụsụ na-arụ ọrụ"], ["my", "ဘာသာပြန်ခြင်း လက်တွေ့"], ["km", "ការបកប្រែកំពុងដំណើរការ"]]) {
+    ["ta", "செயலில் மொழிபெயர்ப்பு"], ["te", "పనిలో అనువాదం"], ["mr", "भाषांतर प्रत्यक्ष कृतीत"], ["tl", "Pagsasalin sa aksyon"], ["am", "ትርጉም በተግባር"], ["ha", "Fassara a aikace"], ["yo", "Ìtumọ̀ ní ìṣe"], ["ig", "Ntụgharị asụsụ na-arụ ọrụ"], ["my", "ဘာသာပြန်ခြင်း လက်တွေ့"], ["km", "ការបកប្រែកំពុងដំណើរការ"],
+    ["da", "Oversættelse i praksis"], ["nb", "Oversettelse i praksis"], ["fi", "Käännös toiminnassa"], ["bg", "Преводът в действие"], ["hr", "Prijevod na djelu"], ["sk", "Preklad v akcii"], ["sl", "Prevod v akciji"], ["lt", "Vertimas veikia"], ["lv", "Tulkojums darbībā"], ["et", "Tõlge tegevuses"]]) {
     await step("Langue « " + c + " » écrite à la main : titre de la démo traduit, pas d'avertissement" + (RTL.includes(c) ? ", page de droite à gauche" : ""), async () => {
       const q = await open(ctxTel, M + "?lang=" + c);
       const r = await q.evaluate(() => ({ t: document.querySelector("#demo h2").textContent, avis: !document.getElementById("newLang").hidden, dir: document.documentElement.dir, large: document.documentElement.scrollWidth > innerWidth + 1 }));
