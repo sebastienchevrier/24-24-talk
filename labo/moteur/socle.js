@@ -200,9 +200,10 @@
   var CHIFFRES_MOTS = { septante: "70", huitante: "80", nonante: "90", "quatre-vingt-dix": "90", "quatre-vingts": "80" };
   function extraireNombres(t) {
     var out = [];
-    var s = String(t || "").replace(/(\d)[\s  ](?=\d{3}\b)/g, "$1");
-    (s.match(/\d+(?:[.,]\d+)?/g) || []).forEach(function (n) { out.push(n.replace(",", ".")); });
-    Object.keys(CHIFFRES_MOTS).forEach(function (k) { if (U("\\b" + k + "\\b", "i").test(t)) out.push(CHIFFRES_MOTS[k]); });
+    // Séparateurs de milliers (1 250, 1,250, 1.250) retirés ; heures « 2:30 », « 2.30 », « 14h30 » découpées en heure et minutes.
+    var s = String(t || "").replace(/(\d)[\s\u00a0\u202f,.](?=\d{3}(?!\d))/g, "$1").replace(/(\d{1,2})[:.h](\d{2})(?!\d)/g, "$1 $2");
+    (s.match(/\d+(?:,\d+)?/g) || []).forEach(function (n) { out.push(n.replace(",", ".")); });
+    Object.keys(CHIFFRES_MOTS).forEach(function (k) { if (U("\\b" + k + "\\b", "i").test(t)) out.push("~" + CHIFFRES_MOTS[k]); }); // « ~ » : nombre écrit en lettres
     return out;
   }
   // Mots qui commencent souvent une phrase française : jamais pris pour un nom propre en début de phrase.
@@ -264,17 +265,32 @@
     var c = String(cible || ""), cl = chiffresLatins(c), low = cl.toLowerCase(), rep = [];
     var srcNb = analyse && analyse.nombres ? analyse.nombres : extraireNombres(source);
     var cibleNb = extraireNombres(cl);
+    // Swahili : l'heure se compte depuis 6 h du matin (9 h = « saa 3 asubuhi », 14 h = « saa 8 mchana »).
+    var heuresSrc = [], mh, reH = /(\d{1,2})\s?h(?:\s?\d{2})?(?![\p{L}])/giu;
+    while ((mh = reH.exec(String(source)))) heuresSrc.push(+mh[1]);
+    var saa = [], ms, reS = /\bsaa\s+(\d{1,2})/gi;
+    while ((ms = reS.exec(c))) saa.push(+ms[1]);
     srcNb.forEach(function (n) {
+      if (n.charAt(0) === "~") { // nombre écrit en lettres dans la source (« septante ») : la cible peut l'écrire en lettres aussi
+        var v = n.slice(1), okv = cibleNb.indexOf(v) >= 0;
+        rep.push({ controle: "nombre " + v + " (écrit en lettres)", ok: okv ? true : null, detail: okv ? "présent" : "à relire : la traduction l'écrit peut-être en lettres" });
+        return;
+      }
       var ok = cibleNb.indexOf(n) >= 0;
       var h = +n;
+      if (!ok && versLangue === "sw" && heuresSrc.indexOf(h) >= 0 && saa.indexOf(((h + 6) % 12) || 12) >= 0) ok = true;
       // Heure « 14 h » rendue « 2 pm » : acceptée. Petit nombre écrit en lettres : accepté.
-      if (!ok && h > 12 && h <= 23 && cibleNb.indexOf(String(h - 12)) >= 0 && /\b(p\.?m\.?|afternoon|evening|tarde|下午|晚上|مساء|jioni|mchana)/i.test(cl)) ok = true;
+      if (!ok && h > 12 && h <= 23 && cibleNb.indexOf(String(h - 12)) >= 0 && (/\b(p\.?m\.?|afternoon|evening|tarde|jioni|mchana)\b/i.test(cl) || /下午|晚上|مساء/.test(cl))) ok = true;
       if (!ok && NB_MOTS[versLangue] && NB_MOTS[versLangue][h] && low.indexOf(NB_MOTS[versLangue][h]) >= 0) ok = true;
       if (!ok && n.indexOf(".") > 0 && cibleNb.indexOf(n.replace(".", "")) >= 0) ok = true;
       rep.push({ controle: "nombre " + n, ok: ok, detail: ok ? "présent" : "ABSENT ou modifié dans la traduction" });
     });
     // Heures en swahili : « saa 9 » = 15 h (les heures se comptent depuis 6 h du matin).
-    if (versLangue === "sw" && /\b\d{1,2}\s?h\b/i.test(source) && /\bsaa\s+\d/i.test(c)) rep.push({ controle: "heure en swahili", ok: false, detail: "« saa N » se compte depuis 6 h : vérifier l'heure (piège connu, mesuré le 19 oct.)" });
+    if (versLangue === "sw" && heuresSrc.length && saa.length) {
+      var attendu = heuresSrc.map(function (x) { return ((x + 6) % 12) || 12; });
+      var okS = saa.every(function (x) { return attendu.indexOf(x) >= 0; });
+      rep.push({ controle: "heure en swahili", ok: okS, detail: okS ? "« saa " + saa.join(", ") + " » correspond (heures comptées depuis 6 h)" : "« saa " + saa.join(", ") + " » au lieu de « saa " + attendu.join(", ") + " » : heure FAUSSE (les heures se comptent depuis 6 h)" });
+    }
     var srcEm = (String(source).match(EMOJI) || []);
     if (srcEm.length) { var ok2 = srcEm.every(function (e) { return c.indexOf(e) >= 0; }); rep.push({ controle: "émojis", ok: ok2, detail: ok2 ? "gardés" : "émoji perdu" }); }
     var latin = !/^(ar|zh|ja|ko|th|ru|uk|he|fa|ur|hi|el|ka|hy|am|bn|ta|te|my|km|lo|si|ne|mr|gu|pa|or|as|kn|ml|ps|ti|mn|kk|ky|tg|be|bg|mk|sr)$/.test(versLangue);

@@ -30,7 +30,7 @@
     { famille: "ironie", t: "Bravo, encore en retard… comme d'habitude 🙄", ironie: true },
     { famille: "ironie", t: "Génial, il pleut des cordes et j'ai oublié mon parapluie.", ironie: false, expressions: ["fr.pleut-des-cordes"], note: "ironie sans signe écrit : le prototype NE la repère PAS (limite assumée)" },
     { famille: "régional", t: "La marmaille joue devant la case.", regional: ["marmaille", "la case"] },
-    { famille: "régional", t: "Il y avait septante personnes à la fête.", regional: ["septante"], nombres: ["70"] },
+    { famille: "régional", t: "Il y avait septante personnes à la fête.", regional: ["septante"], nombres: ["~70"] },
     { famille: "faux amis", t: "Actuellement, je travaille dans une librairie.", fauxAmis: ["actuellement", "librairie"] },
     { famille: "faux amis", t: "Elle est très sensible.", fauxAmis: ["sensible"] },
     { famille: "ambigu", t: "Je suis allé chez l'avocat ce matin.", ambigu: true },
