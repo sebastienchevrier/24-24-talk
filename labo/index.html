@@ -71,8 +71,9 @@
 "use strict";
 (function () {
   var S = window.OW_SOCLE, D = window.OW_EXPRESSIONS_FR, B = window.OW_BATTERIE;
-  // Fonction IA du projet Supabase de TEST (jamais la production). La clé « publishable » ci-dessous est publique par nature
-  // (faite pour être dans un site) ; la fonction est déployée sans vérification de jeton et se protège seule (origine, taille, débit).
+  // Fonction IA du projet Supabase de TEST (jamais la production). Elle exige un jeton d'accès : depuis cette page, elle
+  // répond « accès protégé » et l'IA se mesure avec le banc d'essai (labo/tests/banc-reel.js). La clé « publishable »
+  // ci-dessous est publique par nature (faite pour être dans un site).
   var IA_URL = "https://tbynnefrrxzxufcptijc.supabase.co/functions/v1/labo-traduire";
   var IA_ANON = "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR";
   var VERS = [["en", "Anglais"], ["es", "Espagnol"], ["ar", "Arabe"], ["zh", "Chinois"], ["sw", "Swahili"], ["pt", "Portugais"], ["de", "Allemand"], ["it", "Italien"], ["ja", "Japonais"], ["ko", "Coréen"], ["ru", "Russe"], ["hi", "Hindi"], ["mg", "Malgache"], ["fr", "Français"]];
@@ -120,7 +121,7 @@
   function ia(req) {
     var ctrl = new AbortController(), tm = setTimeout(function () { ctrl.abort(); }, 25000);
     return fetch(IA_URL, { method: "POST", signal: ctrl.signal, headers: { "Content-Type": "application/json", apikey: IA_ANON }, body: JSON.stringify(req) })
-      .then(function (r) { clearTimeout(tm); return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { iaEtat = r.status === 503 || r.status === 404 ? "non branchée" : "erreur"; throw new Error(j.erreur || ("IA " + r.status)); } iaEtat = "branchée"; return j; }); });
+      .then(function (r) { clearTimeout(tm); return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { iaEtat = r.status === 503 || r.status === 404 ? "non branchée" : r.status === 401 ? "accès protégé" : "erreur"; throw new Error(r.status === 401 ? "IA à accès protégé : elle se mesure avec le banc d'essai, pas depuis cette page." : (j.erreur || ("IA " + r.status))); } iaEtat = "branchée"; return j; }); });
   }
 
   // ---------- Affichage

@@ -2,7 +2,8 @@
 # © 2026 Sébastien Chevrier. Tous droits réservés.
 # Lancé seulement quand le dossier labo/ change dans une PR, ou à la main (onglet Actions).
 # Une langue par machine : chaque machine a sa propre adresse, donc son propre quota gratuit MyMemory.
-# N'utilise aucun secret, ne touche ni à l'application ni à Supabase.
+# N'utilise aucun secret : l'IA est appelée via la fonction labo-traduire du projet Supabase de TEST, qui garde
+# la clé Groq de son côté. Ne touche ni à l'application, ni à la PROD, ni aux données Supabase.
 name: Labo linguistique — banc réel
 on:
   pull_request:
@@ -12,13 +13,22 @@ on:
       ia:
         description: "Inclure l'IA de test (fonction labo-traduire du projet de TEST)"
         type: boolean
-        default: false
+        default: true
+      batterie:
+        description: "base = 35 phrases (mêmes 270 appels MyMemory que la phase 3) ; p4 = 29 phrases de la phase 4"
+        type: choice
+        options: [base, p4]
+        default: base
+      modele:
+        description: "Modèle Groq (vide = celui du serveur)"
+        type: string
+        default: ""
 permissions:
   contents: read
 jobs:
   banc:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -29,10 +39,14 @@ jobs:
         with:
           node-version: 22
       - name: Banc réel vers ${{ matrix.langue }}
-        run: node labo/tests/banc-reel.js ${{ matrix.langue }} ${{ (github.event_name == 'pull_request' || inputs.ia) && '--ia' || '' }}
+        env:
+          BATTERIE: ${{ inputs.batterie || 'base' }}
+          MODELE: ${{ inputs.modele }}
+          IA: ${{ (github.event_name == 'pull_request' || inputs.ia) && '--ia' || '' }}
+        run: node labo/tests/banc-reel.js "${{ matrix.langue }}" $IA --batterie "$BATTERIE" ${MODELE:+--modele "$MODELE"}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: banc-${{ matrix.langue }}
+          name: banc-${{ inputs.batterie || 'base' }}-${{ matrix.langue }}
           path: labo/tests/resultats/
           retention-days: 30

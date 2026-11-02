@@ -9,6 +9,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const S = require(path.join(SITE, "labo", "moteur", "socle.js"));
 const D = require(path.join(SITE, "labo", "donnees", "expressions-fr.js"));
 const BT = require(path.join(SITE, "labo", "tests", "batterie.js"));
+const B4 = require(path.join(SITE, "labo", "tests", "batterie-phase4.js"));
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json" };
 const server = http.createServer((req, res) => {
   const u = new URL(req.url, "http://x");
@@ -80,6 +81,51 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
     const liens = pages.filter((f) => /labo\//.test(fs.readFileSync(path.join(SITE, f), "utf8")));
     const noindex = /<meta name="robots" content="noindex, nofollow"/.test(fs.readFileSync(path.join(SITE, "labo", "index.html"), "utf8"));
     return { ok: !liens.length && noindex, detail: "pages vérifiées " + pages.length + " · liens vers labo " + liens.length + " · noindex " + noindex };
+  });
+
+  // ---------- Phase 4 : batterie spécifique et contrôles de fidélité du sens (moteur seul, simulé)
+  await step("Phase 4 : batterie de 29 phrases en 9 familles, mêmes 5 langues ; la batterie de base reste à 35 phrases", async () => {
+    const fam = [...new Set(B4.cas.map((c) => c.famille))];
+    const attendues = ["idiomes", "argot", "familier", "soutenu", "métaphores", "doubles sens", "négations", "heures, dates, nombres", "contexte"];
+    const okL = JSON.stringify(B4.langues) === JSON.stringify(BT.langues);
+    return { ok: B4.cas.length === 29 && attendues.every((f) => fam.includes(f)) && okL && BT.cas.length === 35 && B4.cas.filter((c) => c.contexte).length === 3,
+      detail: B4.cas.length + " phrases · " + fam.length + " familles · langues " + B4.langues.join(",") + " · base " + BT.cas.length };
+  });
+  await step("Phase 4 : bonnes traductions anglaises (écrites à la main) → aucune fausse alerte de sens", async () => {
+    const bon = { "Je ne viendrai jamais à cette fête.": "I will never come to this party.", "Tu viens ou pas ? On t'attend depuis une plombe.": "Are you coming or not? We've been waiting for ages.",
+      "Le rendez-vous est le vendredi 3 avril à 8 h 15.": "The appointment is on Friday, April 3 at 8:15.", "J'ai payé 1 499,99 € pour 2 billets le 31 décembre.": "I paid €1,499.99 for 2 tickets on December 31.",
+      "Il ne saurait être question de reporter cette réunion.": "Postponing this meeting is out of the question.", "Oui, elle l'a visité hier et elle l'adore.": "Yes, she visited it yesterday and she loves it." };
+    const ko = Object.keys(bon).map((t) => { const c = B4.cas.find((x) => x.t === t); const an = S.comprendre(t, "fr", D); return S.controler(t, bon[t], an, "en", D).echecs + S.verifierSens(t, bon[t], "en", c).echecs; });
+    return { ok: ko.every((n) => n === 0), detail: "fausses alertes " + ko.join(",") };
+  });
+  await step("Phase 4 : sens trahi détecté (négation perdue, question perdue, mois changé, vouvoiement perdu, mot à mot, chiffre changé)", async () => {
+    const c = (t) => B4.cas.find((x) => x.t === t);
+    const v = (t, trad, l) => S.verifierSens(t, trad, l, c(t)).echecs + S.controler(t, trad, S.comprendre(t, "fr", D), l, D).echecs;
+    const r = [
+      v("Je ne viendrai jamais à cette fête.", "I will come to this party.", "en"),
+      v("Tu viens ou pas ? On t'attend depuis une plombe.", "You are coming. We have been waiting for a lead.", "en"),
+      v("Le rendez-vous est le vendredi 3 avril à 8 h 15.", "La cita es el viernes 3 de mayo a las 8:15.", "es"),
+      v("Enchanté. Vous pouvez m'appeler quand vous voulez.", "Encantado. Puedes llamarme cuando quieras.", "es"),
+      v("Mon patron m'a passé un savon.", "My boss gave me a soap.", "en"),
+      v("Le train part à 23 h 45, quai 12, dimanche.", "The train leaves at 11:45 pm, platform 13, Sunday.", "en"),
+      v("Je ne viendrai jamais à cette fête.", "我永远不会来参加这个聚会。", "zh") === 0 ? 1 : 0,
+    ];
+    return { ok: r.every((n) => n >= 1), detail: "alertes par cas " + r.join(",") };
+  });
+  await step("Phase 4 : le contexte de conversation est transmis à l'IA (simulée), jamais à MyMemory", async () => {
+    let vuIA = null, vuMM = [];
+    await S.traduire("Oui, ils ont volé la victoire !", "fr", "en", { contexte: ["Tu as vu le match hier soir ?"] },
+      { mymemory: (t) => { vuMM.push(t); return Promise.resolve("Yes, they stole the win!"); }, ia: (req) => { vuIA = req; return Promise.resolve({ traduction: "Yes, they stole the win!" }); } }, D);
+    const ok = vuIA && Array.isArray(vuIA.contexte) && vuIA.contexte[0] === "Tu as vu le match hier soir ?" && vuMM.every((t) => !/match/.test(t));
+    return { ok, detail: "contexte IA " + JSON.stringify(vuIA && vuIA.contexte) + " · textes MyMemory " + vuMM.length };
+  });
+  await step("Sécurité : aucune clé Groq dans le dépôt ; la fonction lit GROQ_API_KEY côté serveur et ne journalise aucun texte", async () => {
+    const fichiers = [];
+    (function walk(d) { fs.readdirSync(d, { withFileTypes: true }).forEach((e) => { const p = path.join(d, e.name); if (e.isDirectory()) { if (!/node_modules|\.git$/.test(p)) walk(p); } else if (/\.(js|ts|html|yml|json|md)$/.test(e.name)) fichiers.push(p); }); })(path.join(SITE, "labo"));
+    const fuite = fichiers.filter((f) => /gsk_[A-Za-z0-9]{20,}/.test(fs.readFileSync(f, "utf8")));
+    const fn = fs.readFileSync(path.join(SITE, "labo", "serveur", "labo-traduire.ts"), "utf8");
+    const okFn = /Deno\.env\.get\("GROQ_API_KEY"\)/.test(fn) && !/console\.(log|info|warn|error)/.test(fn);
+    return { ok: !fuite.length && okFn, detail: "fichiers lus " + fichiers.length + " · clé Groq trouvée " + fuite.length + " · fonction sans journal " + okFn };
   });
 
   // ---------- Page (Chromium, MyMemory et IA simulées)

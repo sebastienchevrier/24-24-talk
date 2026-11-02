@@ -207,7 +207,7 @@
     return out;
   }
   // Mots qui commencent souvent une phrase française : jamais pris pour un nom propre en début de phrase.
-  var DEBUTS = /^(Je|Tu|Il|Elle|On|Nous|Vous|Ils|Elles|Le|La|Les|Un|Une|Ce|Cette|Ces|Mon|Ma|Mes|Ton|Ta|Tes|Son|Sa|Ses|Notre|Votre|Leur|Bon|Bonne|Bonjour|Bonsoir|Salut|Merci|Madame|Monsieur|Bravo|Génial|Super|Dites|Rendez|Et|Mais|Ou|Donc|Or|Car|Si|Quand|Comme|Pour|Avec|Dans|Sur|Hier|Demain|Aujourd|Oui|Non|Allez|Voici|Voilà|Nonobstant|Néanmoins|Toutefois|Quel|Quelle|Où|Pourquoi|Comment|Depuis|Après|Avant|Tout|Tous|Toutes|Ici|Là|Ah|Oh|Eh)$/;
+  var DEBUTS = /^(Je|Tu|Il|Elle|On|Nous|Vous|Ils|Elles|Le|La|Les|Un|Une|Ce|Cette|Ces|Mon|Ma|Mes|Ton|Ta|Tes|Son|Sa|Ses|Notre|Votre|Leur|Bon|Bonne|Bonjour|Bonsoir|Salut|Merci|Madame|Monsieur|Bravo|Génial|Super|Dites|Rendez|Et|Mais|Ou|Donc|Or|Car|Si|Quand|Comme|Pour|Avec|Dans|Sur|Hier|Demain|Aujourd|Oui|Non|Allez|Voici|Voilà|Nonobstant|Néanmoins|Toutefois|Quel|Quelle|Où|Pourquoi|Comment|Depuis|Après|Avant|Tout|Tous|Toutes|Ici|Là|Ah|Oh|Eh|Arrête|Arrêtez|Laisse|Laissez|Veuillez|Personne|Rien|Enchanté|Enchantée|Grave|Ok|Attends|Attendez|Regarde|Regardez|Viens|Venez|Excuse|Excusez|Pardon|Désolé|Désolée|Écoute|Écoutez|Dis|Prends|Prenez|Va|Allons|Ne|Moi|Toi|Ça|Cela|Ceci|Chaque|Aucun|Aucune|Encore|Déjà|Puis|Ensuite|Enfin|Alors)$/;
   function nomsPropres(t) {
     var out = [], mots = String(t || "").split(/\s+/);
     for (var i = 0; i < mots.length; i++) {
@@ -283,6 +283,8 @@
       if (!ok && h > 12 && h <= 23 && cibleNb.indexOf(String(h - 12)) >= 0 && (/\b(p\.?m\.?|afternoon|evening|tarde|jioni|mchana)\b/i.test(cl) || /下午|晚上|مساء/.test(cl))) ok = true;
       if (!ok && NB_MOTS[versLangue] && NB_MOTS[versLangue][h] && low.indexOf(NB_MOTS[versLangue][h]) >= 0) ok = true;
       if (!ok && n.indexOf(".") > 0 && cibleNb.indexOf(n.replace(".", "")) >= 0) ok = true;
+      // « 1 499,99 » rendu « 1,499.99 » : partie entière et décimales présentes séparément.
+      if (!ok && n.indexOf(".") > 0) { var pp = n.split("."); if (cibleNb.indexOf(pp[0]) >= 0 && cibleNb.indexOf(pp[1]) >= 0) ok = true; }
       rep.push({ controle: "nombre " + n, ok: ok, detail: ok ? "présent" : "ABSENT ou modifié dans la traduction" });
     });
     // Heures en swahili : « saa 9 » = 15 h (les heures se comptent depuis 6 h du matin).
@@ -342,7 +344,7 @@
     }
     if (moteurs && moteurs.ia) {
       var indices = B.expressions.map(function (x) { return { expression: x.extrait, sens: x.sens, equivalent_connu: x.eq && x.eq[vers] ? x.eq[vers].t : null }; });
-      jobs.push(moteurs.ia({ texte: texte, de: de, vers: vers, style: cons.style, consigne: cons.texte, registre_source: cons.registre_source, expressions: indices, ironie_possible: B.ironie_possible })
+      jobs.push(moteurs.ia({ texte: texte, de: de, vers: vers, style: cons.style, consigne: cons.texte, registre_source: cons.registre_source, expressions: indices, ironie_possible: B.ironie_possible, contexte: options.contexte || undefined })
         .then(function (o) { r.D.ia = o; r.E.ia = controler(texte, o && o.traduction, B, vers, base); }, function (e) { r.D.ia_erreur = String(e && e.message || e); }));
     }
     return Promise.all(jobs).then(function () {
@@ -359,6 +361,74 @@
     });
   }
 
-  var api = { identifier: identifier, comprendre: comprendre, preediter: preediter, consigne: consigne, controler: controler, traduire: traduire, extraireNombres: extraireNombres, nomsPropres: nomsPropres, STYLES: STYLES, PIEGES: PIEGES };
+  // ---------------------------------------------------------------- E bis. FIDÉLITÉ DU SENS (phase 4)
+  // Contrôles guidés par les ATTENTES écrites dans la batterie (pas de devinette) : négation gardée, question gardée,
+  // mois et jours gardés, noms propres (y compris en arabe et en chinois quand l'écriture est connue), mots attendus
+  // (ex. « usted » quand on vouvoie), mots-pièges propres à la phrase. Sert pour les 3 colonnes, à égalité.
+  var NEG = {
+    en: /\b(not|no|never|nothing|nobody|no one|none|neither|nor|without)\b|n't/i,
+    es: /(^|[^\p{L}])(no|nunca|jamás|nada|nadie|ningún|ninguna|ninguno|sin|tampoco|ni)(?![\p{L}])/iu,
+    ar: /(^|[^\p{L}])(لا|لم|لن|ليس|ليست|لست|ما|بدون|دون|غير|أبدا|أبداً|أحد)(?![\p{L}])/u,
+    zh: /[不没沒别別未无無非勿]/,
+    sw: /(^|[^\p{L}])(si|sio|siyo|hapana|bila|wala|hakuna|kamwe|hakuna mtu)(?![\p{L}])/iu,
+  };
+  var QUESTION = /[?？؟]/;
+  var MOIS = {
+    janvier: { en: "january", es: "enero", ar: "يناير|كانون الثاني", zh: "1月|一月", sw: "januari" },
+    "février": { en: "february", es: "febrero", ar: "فبراير|شباط", zh: "2月|二月", sw: "februari" },
+    mars: { en: "march", es: "marzo", ar: "مارس|آذار", zh: "3月|三月", sw: "machi" },
+    avril: { en: "april", es: "abril", ar: "أبريل|ابريل|إبريل|نيسان", zh: "4月|四月", sw: "aprili" },
+    mai: { en: "may", es: "mayo", ar: "مايو|أيار", zh: "5月|五月", sw: "mei" },
+    juin: { en: "june", es: "junio", ar: "يونيو|حزيران", zh: "6月|六月", sw: "juni" },
+    juillet: { en: "july", es: "julio", ar: "يوليو|تموز", zh: "7月|七月", sw: "julai" },
+    "août": { en: "august", es: "agosto", ar: "أغسطس|آب", zh: "8月|八月", sw: "agosti" },
+    septembre: { en: "september", es: "septiembre|setiembre", ar: "سبتمبر|أيلول", zh: "9月|九月", sw: "septemba" },
+    octobre: { en: "october", es: "octubre", ar: "أكتوبر|تشرين الأول", zh: "10月|十月", sw: "oktoba" },
+    novembre: { en: "november", es: "noviembre", ar: "نوفمبر|تشرين الثاني", zh: "11月|十一月", sw: "novemba" },
+    "décembre": { en: "december", es: "diciembre", ar: "ديسمبر|كانون الأول", zh: "12月|十二月", sw: "desemba" },
+  };
+  var JOURS = {
+    lundi: { en: "monday", es: "lunes", ar: "الاثنين|الإثنين", zh: "星期一|周一|週一|礼拜一", sw: "jumatatu" },
+    mardi: { en: "tuesday", es: "martes", ar: "الثلاثاء", zh: "星期二|周二|週二|礼拜二", sw: "jumanne" },
+    mercredi: { en: "wednesday", es: "miércoles", ar: "الأربعاء", zh: "星期三|周三|週三|礼拜三", sw: "jumatano" },
+    jeudi: { en: "thursday", es: "jueves", ar: "الخميس", zh: "星期四|周四|週四|礼拜四", sw: "alhamisi" },
+    vendredi: { en: "friday", es: "viernes", ar: "الجمعة", zh: "星期五|周五|週五|礼拜五", sw: "ijumaa" },
+    samedi: { en: "saturday", es: "sábado", ar: "السبت", zh: "星期六|周六|週六|礼拜六", sw: "jumamosi" },
+    dimanche: { en: "sunday", es: "domingo", ar: "الأحد", zh: "星期日|星期天|周日|週日|礼拜天", sw: "jumapili" },
+  };
+  // Noms propres hors alphabet latin : graphies usuelles connues (sinon « à relire », jamais « faux » par défaut).
+  var GRAPHIES = {
+    Marie: { ar: "ماري", zh: "玛丽|瑪麗" }, Karim: { ar: "كريم", zh: "卡里姆|卡利姆" }, "Saint-Denis": { ar: "سان دوني|سان دينيس", zh: "圣但尼|圣丹尼|聖但尼" },
+    "Saint-Lazare": { ar: "سان لازار", zh: "圣拉扎尔|聖拉扎爾" }, Lyon: { ar: "ليون", zh: "里昂" }, Durand: { ar: "دوران|دوراند", zh: "杜兰|杜朗" }, Paris: { ar: "باريس", zh: "巴黎" },
+  };
+  function verifierSens(source, cible, vers, att) {
+    att = att || {};
+    var c = String(cible || ""), low = c.toLowerCase(), rep = [];
+    var cherche = function (motif) { return U("(^|[^\\p{L}])(" + motif + ")(?![\\p{L}])", "iu").test(low) || (/^(zh|ja|ar)$/.test(vers) && new RegExp(motif).test(c)); };
+    if (att.negation) {
+      var extra = att.negation_aussi && att.negation_aussi[vers];
+      var okN = (NEG[vers] ? NEG[vers].test(c) : false) || !!(extra && extra.some(function (x) { return low.indexOf(x.toLowerCase()) >= 0; }));
+      rep.push({ controle: "négation gardée", ok: NEG[vers] ? (okN ? true : vers === "sw" ? null : false) : null, detail: okN ? "négation présente" : NEG[vers] ? "NÉGATION PERDUE probable : le sens peut être inversé" : "langue non outillée : relecture" });
+    }
+    if (att.question) {
+      var okQ = QUESTION.test(c);
+      rep.push({ controle: "question gardée", ok: okQ, detail: okQ ? "point d'interrogation présent" : "LA QUESTION EST DEVENUE UNE AFFIRMATION probable" });
+    }
+    (att.mois || []).forEach(function (m) { var g = MOIS[m] && MOIS[m][vers]; if (!g) return; var okM = cherche(g); rep.push({ controle: "mois « " + m + " »", ok: okM, detail: okM ? "gardé" : "MOIS absent ou changé" }); });
+    (att.jours || []).forEach(function (j) { var g = JOURS[j] && JOURS[j][vers]; if (!g) return; var okJ = cherche(g); rep.push({ controle: "jour « " + j + " »", ok: okJ, detail: okJ ? "gardé" : "JOUR absent ou changé" }); });
+    (att.noms || []).forEach(function (n) {
+      var g = GRAPHIES[n] && GRAPHIES[n][vers];
+      var okL = low.indexOf(n.toLowerCase()) >= 0 || (g ? new RegExp(g).test(c) : false);
+      rep.push({ controle: "nom « " + n + " »", ok: okL ? true : (g || /^(en|es|sw|fr|pt|de|it)$/.test(vers)) ? false : null, detail: okL ? "gardé" : g || /^(en|es|sw)$/.test(vers) ? "NOM absent ou changé" : "écriture non vérifiable : relecture" });
+    });
+    var a = att.attendus && att.attendus[vers];
+    if (a) a.forEach(function (motif) { var okA = new RegExp(motif, "iu").test(c); rep.push({ controle: "attendu /" + motif + "/", ok: okA, detail: okA ? "présent" : "absent : " + (att.pourquoi || "voir la batterie") }); });
+    var p = att.pieges && att.pieges[vers];
+    if (p) { var hit = p.filter(function (w) { return low.indexOf(w.toLowerCase()) >= 0; }); rep.push({ controle: "mot-piège de la phrase", ok: !hit.length, detail: hit.length ? "TRADUCTION MOT À MOT probable (« " + hit.join(", ") + " »)" : "pas de mot-piège" }); }
+    var nOk = rep.filter(function (x) { return x.ok === true; }).length, nKo = rep.filter(function (x) { return x.ok === false; }).length;
+    return { resultats: rep, ok: nOk, echecs: nKo, a_relire: rep.filter(function (x) { return x.ok === null; }).length };
+  }
+
+  var api = { verifierSens: verifierSens, MOIS: MOIS, JOURS: JOURS, identifier: identifier, comprendre: comprendre, preediter: preediter, consigne: consigne, controler: controler, traduire: traduire, extraireNombres: extraireNombres, nomsPropres: nomsPropres, STYLES: STYLES, PIEGES: PIEGES };
   if (typeof module === "object" && module.exports) module.exports = api; else root.OW_SOCLE = api;
 })(this);

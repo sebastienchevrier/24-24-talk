@@ -10,11 +10,14 @@
 //   (https://console.groq.com/docs/your-data) ; activer « Zero Data Retention » dans la console Groq si proposé.
 // - Origines autorisées : le site officiel, la copie de test et localhost. 600 caractères au plus.
 // - Limite simple : 30 demandes par minute et par instance (protège le quota gratuit).
-// - À déployer avec verify_jwt = false : le labo envoie seulement la clé « publishable » du projet de TEST (en-tête apikey).
+// - Déployée avec verify_jwt = true : il faut la clé publique « anon » (JWT) du projet de TEST dans Authorization.
 // - Sans clé configurée : réponse 503 « IA non branchée », le labo continue sans IA.
 
 const ORIGINES = ["https://sebastienchevrier.github.io", "https://talk-24-24-lab.github.io", "http://localhost", "http://127.0.0.1"];
-const MODELE = Deno.env.get("LABO_MODELE") || "llama-3.3-70b-versatile";
+// Modèle par défaut : openai/gpt-oss-120b (modèle « production » de Groq, limites gratuites et prix publiés :
+// https://console.groq.com/docs/rate-limits et https://console.groq.com/docs/models). Autres modèles permis pour comparer.
+const MODELES = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b"];
+const MODELE_DEFAUT = Deno.env.get("LABO_MODELE") || MODELES[0];
 const MAX = 600;
 let fenetre = Date.now(), compte = 0;
 
@@ -56,9 +59,12 @@ Deno.serve(async (req) => {
   if (!texte || !de || !vers) return rep(400, { erreur: "texte, de et vers obligatoires" }, origin);
   if (texte.length > MAX) return rep(413, { erreur: "Phrase trop longue pour le labo (600 caractères)" }, origin);
   const style = STYLES[d?.style] ? d.style : "auto";
+  const MODELE = MODELES.includes(String(d?.modele)) ? String(d.modele) : MODELE_DEFAUT;
   const indices = Array.isArray(d?.expressions) ? d.expressions.slice(0, 8).map((x: any) => ({
     expression: String(x?.expression || "").slice(0, 120), sens: String(x?.sens || "").slice(0, 200), equivalent_connu: x?.equivalent_connu ? String(x.equivalent_connu).slice(0, 120) : null,
   })) : [];
+
+  const contexte = Array.isArray(d?.contexte) ? d.contexte.slice(-4).map((x: any) => String(x || "").slice(0, 300)) : [];
 
   const systeme = [
     "You are a professional human-quality translator. Translate what the person MEANS, not word by word.",
@@ -66,24 +72,30 @@ Deno.serve(async (req) => {
     "1. Idioms, metaphors and slang: never translate the image literally; use a natural equivalent in the target language if one truly exists, otherwise render the meaning naturally. Never invent an idiom that does not exist.",
     "2. Keep emotions, intensity, humour and irony. If the source is ironic, keep it ironic.",
     "3. Keep every number, time, amount, date, proper name, emoji and link exactly (times may follow target conventions, e.g. 14:00).",
-    "4. Do not add or remove information. Do not explain inside the translation.",
+    "4. Do not add or remove information. Do not explain inside the translation. Keep every negation (a 'not' stays a 'not') and the intention of the message (question stays question, request stays request, refusal stays refusal).",
+    "4b. 'contexte' holds the previous messages of the conversation (oldest first). Use them ONLY to resolve ambiguity (pronouns, gender, tu/vous, meaning of a word). Never translate them, never copy information from them into the translation.",
     "5. Style: " + STYLES[style],
     "6. Answer ONLY with JSON: {\"traduction\": string, \"registre_detecte\": string, \"expressions\": [{\"source\": string, \"sens\": string, \"rendu\": string, \"equivalent_direct\": boolean}], \"remarques\": string}. 'remarques' in French, short, empty if nothing to say (e.g. ambiguity, no direct equivalent, politeness level chosen).",
   ].join("\n");
-  const utilisateur = JSON.stringify({ langue_source: de, langue_cible: vers, texte, indices_expressions: indices, ironie_possible: !!d?.ironie_possible });
+  const utilisateur = JSON.stringify({ langue_source: de, langue_cible: vers, texte, contexte, indices_expressions: indices, ironie_possible: !!d?.ironie_possible });
 
   const t0 = Date.now();
+  const corps: Record<string, unknown> = { model: MODELE, temperature: 0.2, max_completion_tokens: 1200, response_format: { type: "json_object" }, messages: [{ role: "system", content: systeme }, { role: "user", content: utilisateur }] };
+  if (MODELE.startsWith("openai/gpt-oss")) corps.reasoning_effort = "low";
+  const appel = (b: Record<string, unknown>) => fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST", headers: { Authorization: "Bearer " + cle, "Content-Type": "application/json" }, body: JSON.stringify(b), signal: AbortSignal.timeout(25000),
+  });
   let r: Response;
   try {
-    r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: "Bearer " + cle, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: MODELE, temperature: 0.2, max_tokens: 700, response_format: { type: "json_object" }, messages: [{ role: "system", content: systeme }, { role: "user", content: utilisateur }] }),
-      signal: AbortSignal.timeout(20000),
-    });
+    r = await appel(corps);
+    if (r.status === 400 && corps.reasoning_effort) { delete corps.reasoning_effort; r = await appel(corps); }
   } catch { return rep(502, { erreur: "IA injoignable" }, origin); }
-  if (r.status === 429) return rep(429, { erreur: "Quota gratuit de l'IA atteint" }, origin);
-  if (!r.ok) return rep(502, { erreur: "IA en erreur (" + r.status + ")" }, origin);
+  if (r.status === 429) return rep(429, { erreur: "Quota gratuit de l'IA atteint", reessayer_dans: r.headers.get("retry-after") }, origin);
+  if (!r.ok) {
+    // Message d'erreur de Groq (jamais la clé, jamais le texte) pour comprendre un refus.
+    let m = ""; try { m = String((await r.json())?.error?.message || "").slice(0, 160); } catch { /* rien */ }
+    return rep(502, { erreur: "IA en erreur (" + r.status + ")" + (m ? " : " + m : "") }, origin);
+  }
   let j: any;
   try { j = await r.json(); } catch { return rep(502, { erreur: "Réponse de l'IA illisible" }, origin); }
   let o: any;
