@@ -224,7 +224,7 @@
   // Une langue est omise quand son équivalent naturel utilise la même image (es « hambre de lobo », en « break the ice »…).
   var PIEGES = {
     "fr.poser-un-lapin": { en: ["rabbit", "bunny"], es: ["conejo"], ar: ["أرنب"], zh: ["兔"], sw: ["sungura"] },
-    "fr.yeux-de-la-tete": { en: ["eyes", "head"], ar: ["عيون", "أعين", "رأس"], zh: ["眼睛", "头"], sw: ["macho", "kichwa"] },
+    "fr.yeux-de-la-tete": { en: ["eyes", "head"], es: ["ojos de la cabeza"], ar: ["عيون", "أعين", "رأس"], zh: ["眼睛", "头"], sw: ["macho", "kichwa"] },
     "fr.pleut-des-cordes": { en: ["ropes", "strings", "cords"], es: ["cuerdas"], ar: ["حبال"], zh: ["绳"], sw: ["kamba"] },
     "fr.tomber-dans-les-pommes": { en: ["apple"], es: ["manzana"], ar: ["تفاح"], zh: ["苹果"], sw: ["tufaha", "matofaa"] },
     "fr.poil-dans-la-main": { en: ["hair"], es: ["pelo"], ar: ["شعرة", "شعر"], zh: ["毛"], sw: ["unywele", "nywele"] },
@@ -248,7 +248,7 @@
     "fr.langue-au-chat": { en: ["tongue", "cat"], es: ["lengua", "gato"], ar: ["لسان", "قط"], zh: ["舌头", "猫"], sw: ["ulimi", "paka"] },
     "fr.mer-a-boire": { en: ["sea", "drink"], es: ["mar", "beber"], ar: ["البحر"], zh: ["海"], sw: ["bahari"] },
     "fr.doigts-dans-le-nez": { en: ["fingers", "nose"], es: ["dedos", "nariz"], ar: ["أصابع", "أنف"], zh: ["手指", "鼻"], sw: ["vidole", "pua"] },
-    "fr.je-t-embrasse-fort": { en: ["kiss you hard", "kiss you strongly", "kiss you tight"], zh: ["狠狠", "激烈", "用力"], ar: ["بشدة"], sw: ["kwa nguvu"] },
+    "fr.je-t-embrasse-fort": { en: ["kiss you hard", "kiss you strongly", "kiss you tight", "kiss you all very hard", "very hard"], zh: ["狠狠", "激烈", "用力"], ar: ["بشدة"], sw: ["kwa nguvu"] },
     "fr.tete-dans-les-nuages": { ar: ["غيوم", "سحاب"], zh: ["云"], sw: ["mawingu"] },
     "fr.briser-la-glace": { sw: ["barafu"] },
     "fr.trente-et-un": { en: ["thirty-one", "31"], es: ["treinta y uno", "31"], ar: ["31", "واحد وثلاثين"], zh: ["31", "三十一"], sw: ["31", "thelathini na moja"] },

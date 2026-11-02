@@ -143,7 +143,7 @@
     "fr.se-faire-avoir": [["je me suis fait avoir", "j'ai été trompé"], ["tu t'es fait avoir", "tu as été trompé"], ["s'est fait avoir", "a été trompé"]],
     "fr.trois-pattes-canard": [["ne casse pas trois pattes [àa] un canard", "n'est pas extraordinaire"], ["casse pas trois pattes [àa] un canard", "n'est pas extraordinaire"]],
     "fr.a-la-bourre": [["suis à la bourre", "suis en retard"], ["es à la bourre", "es en retard"], ["est à la bourre", "est en retard"]],
-    "fr.je-t-embrasse-fort": [["je t'embrasse (?:très )?fort", "gros bisous"], ["je t'embrasse", "bisous"], ["je vous embrasse", "bises affectueuses"]],
+    "fr.je-t-embrasse-fort": [["je t'embrasse (?:très )?fort", "gros bisous"], ["je t'embrasse", "bisous"], ["je vous embrasse tous (?:très )?fort", "affectueusement à tous"], ["je vous embrasse", "bises affectueuses"]],
     "fr.moral-chaussettes": [["a le moral dans les chaussettes", "est très découragé"], ["j'ai le moral dans les chaussettes", "je suis très découragé"]],
     "fr.grasse-matinee": [["fais la grasse mat(?:in[ée]e)?", "dors tard le matin"], ["faire la grasse mat(?:in[ée]e)?", "dormir tard le matin"]],
     "fr.tomber-a-pic": [["tombe [àa] pic", "arrive au bon moment"], ["tombes [àa] pic", "arrives au bon moment"]],
