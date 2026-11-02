@@ -80,7 +80,7 @@ async function ia(req) {
       j = await r.json().catch(() => ({}));
     } catch (e) { r = { ok: false, status: 0 }; j = { erreur: "réseau : " + e.message }; }
     if (r.status === 429) { ia_stats.quota_429++; if (Date.now() > FIN) break; await pause(Math.min(90000, Math.max(30000, (+j.reessayer_dans || 0) * 1000))); continue; }
-    if (!r.ok) { const m = j.erreur || "IA " + r.status; ia_stats.echecs++; ia_stats.erreurs[m] = (ia_stats.erreurs[m] || 0) + 1; if (r.status === 503 || r.status === 401) { iaCoupee = m; throw new Error(m); } if (essai < 3) continue; throw new Error(m); }
+    if (!r.ok) { const m = j.erreur || "IA " + r.status; ia_stats.echecs++; ia_stats.erreurs[m] = (ia_stats.erreurs[m] || 0) + 1; if (r.status === 503 || r.status === 401 || /\(4\d\d\)/.test(m)) { iaCoupee = m; throw new Error(m); } if (essai < 3) continue; throw new Error(m); }
     ia_stats.reussis++; ia_stats.ms.push(Date.now() - t0); if (j.ms) ia_stats.ms_serveur.push(j.ms);
     if (j.jetons) { ia_stats.entree += j.jetons.entree || 0; ia_stats.sortie += j.jetons.sortie || 0; }
     ia_stats.modele = j.modele || ia_stats.modele;

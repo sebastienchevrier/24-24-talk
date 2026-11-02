@@ -16,7 +16,7 @@
 const ORIGINES = ["https://sebastienchevrier.github.io", "https://talk-24-24-lab.github.io", "http://localhost", "http://127.0.0.1"];
 // Modèle par défaut : openai/gpt-oss-120b (modèle « production » de Groq, limites gratuites et prix publiés :
 // https://console.groq.com/docs/rate-limits et https://console.groq.com/docs/models). Autres modèles permis pour comparer.
-const MODELES = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b"];
+const MODELES = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
 const MODELE_DEFAUT = Deno.env.get("LABO_MODELE") || MODELES[0];
 const MAX = 600;
 let fenetre = Date.now(), compte = 0;
