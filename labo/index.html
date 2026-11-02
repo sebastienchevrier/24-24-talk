@@ -71,9 +71,10 @@
 "use strict";
 (function () {
   var S = window.OW_SOCLE, D = window.OW_EXPRESSIONS_FR, B = window.OW_BATTERIE;
-  // Fonction IA du projet Supabase de TEST (jamais la production). La clé « anon » ci-dessous est publique par nature.
+  // Fonction IA du projet Supabase de TEST (jamais la production). La clé « publishable » ci-dessous est publique par nature
+  // (faite pour être dans un site) ; la fonction est déployée sans vérification de jeton et se protège seule (origine, taille, débit).
   var IA_URL = "https://tbynnefrrxzxufcptijc.supabase.co/functions/v1/labo-traduire";
-  var IA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRieW5uZWZycnh6eHVmY3B0aWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNDQwMDksImV4cCI6MjEwNjYyMDAwOX0.ykVFdlV6Rly4iln4JiufKMKOnSyE4fkGYK59GAZ186Y";
+  var IA_ANON = "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR";
   var VERS = [["en", "Anglais"], ["es", "Espagnol"], ["ar", "Arabe"], ["zh", "Chinois"], ["sw", "Swahili"], ["pt", "Portugais"], ["de", "Allemand"], ["it", "Italien"], ["ja", "Japonais"], ["ko", "Coréen"], ["ru", "Russe"], ["hi", "Hindi"], ["mg", "Malgache"], ["fr", "Français"]];
   var NOMS_STYLE = { auto: "Automatique (garde le registre)", naturel: "Naturel", familier: "Familier", argot: "Argot", soutenu: "Soutenu", professionnel: "Professionnel", litteraire: "Littéraire" };
   var $ = function (id) { return document.getElementById(id); };
@@ -118,7 +119,7 @@
   var iaEtat = "inconnu";
   function ia(req) {
     var ctrl = new AbortController(), tm = setTimeout(function () { ctrl.abort(); }, 25000);
-    return fetch(IA_URL, { method: "POST", signal: ctrl.signal, headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON }, body: JSON.stringify(req) })
+    return fetch(IA_URL, { method: "POST", signal: ctrl.signal, headers: { "Content-Type": "application/json", apikey: IA_ANON }, body: JSON.stringify(req) })
       .then(function (r) { clearTimeout(tm); return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { iaEtat = r.status === 503 || r.status === 404 ? "non branchée" : "erreur"; throw new Error(j.erreur || ("IA " + r.status)); } iaEtat = "branchée"; return j; }); });
   }
 

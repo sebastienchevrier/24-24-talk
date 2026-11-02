@@ -10,7 +10,7 @@ const fs = require("fs"), path = require("path");
 const S = require("../moteur/socle.js"), D = require("../donnees/expressions-fr.js"), B = require("./batterie.js");
 const vers = process.argv[2] || "en", avecIA = process.argv.includes("--ia");
 const IA_URL = "https://tbynnefrrxzxufcptijc.supabase.co/functions/v1/labo-traduire";
-const IA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRieW5uZWZycnh6eHVmY3B0aWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNDQwMDksImV4cCI6MjEwNjYyMDAwOX0.ykVFdlV6Rly4iln4JiufKMKOnSyE4fkGYK59GAZ186Y";
+const IA_ANON = "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR";
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 let appels = 0, caracteres = 0;
 
@@ -45,7 +45,7 @@ async function mymemory(texte, de, cible) {
   return out.join(/^(zh|ja|th)/.test(cible) ? "" : " ");
 }
 async function ia(req) {
-  const r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, Origin: "http://localhost" }, body: JSON.stringify(req), signal: AbortSignal.timeout(30000) });
+  const r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", apikey: IA_ANON, Origin: "http://localhost" }, body: JSON.stringify(req), signal: AbortSignal.timeout(30000) });
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(j.erreur || "IA " + r.status);
   return j;

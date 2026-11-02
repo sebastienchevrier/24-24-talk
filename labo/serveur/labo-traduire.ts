@@ -10,6 +10,7 @@
 //   (https://console.groq.com/docs/your-data) ; activer « Zero Data Retention » dans la console Groq si proposé.
 // - Origines autorisées : le site officiel, la copie de test et localhost. 600 caractères au plus.
 // - Limite simple : 30 demandes par minute et par instance (protège le quota gratuit).
+// - À déployer avec verify_jwt = false : le labo envoie seulement la clé « publishable » du projet de TEST (en-tête apikey).
 // - Sans clé configurée : réponse 503 « IA non branchée », le labo continue sans IA.
 
 const ORIGINES = ["https://sebastienchevrier.github.io", "https://talk-24-24-lab.github.io", "http://localhost", "http://127.0.0.1"];
