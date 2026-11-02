@@ -92,6 +92,15 @@ async function ia(texte) {
   iaStats.echecs++; throw new Error("quota de l'IA (5 essais)");
 }
 // Même protocole pour chaque moteur : contrôles + retraduction MyMemory vers le français + chrF.
+// Retraduction très éloignée de la phrase de départ (chrF < 15) : sens probablement inventé ou perdu.
+// Mesuré le 2 nov. : en wolof, l'IA a rendu « Je t'appelle ce soir après le travail » par « Naka nga def ci jamono bi, ci jàmm »
+// (« comment vas-tu, en paix »), sans qu'aucun autre contrôle ne réagisse. Même seuil pour MyMemory et l'IA.
+const SEUIL_RETOUR = 15;
+function retourEloigne(controles, v) {
+  if (v == null) return;
+  controles.push({ controle: "retraduction", ok: v >= SEUIL_RETOUR, detail: v >= SEUIL_RETOUR ? "chrF " + v : "chrF " + v + " : RETOUR TRÈS ÉLOIGNÉ, sens probablement inventé ou perdu" });
+}
+
 async function evaluer(c, traduction) {
   const an = S.comprendre(c.t, "fr", D);
   const E = S.controler(c.t, traduction, an, code, D), V = S.verifierSens(c.t, traduction, code, c);
@@ -101,6 +110,7 @@ async function evaluer(c, traduction) {
   try {
     o.retour = await mymemory(traduction.slice(0, 450), code, "fr");
     o.chrf_retour = chrf(o.retour, c.t);
+    retourEloigne(controles, o.chrf_retour);
     const hit = (c.pieges_retour || []).filter((w) => o.retour.toLowerCase().includes(w));
     if (c.pieges_retour) controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
   } catch (e) { o.retour_erreur = e.message; }
@@ -122,6 +132,7 @@ async function evaluer(c, traduction) {
       try {
         l.retour = await mymemory(l.traduction.slice(0, 450), code, "fr");
         l.chrf_retour = chrf(l.retour, c.t);
+        retourEloigne(l.controles, l.chrf_retour);
         const hit = (c.pieges_retour || []).filter((w) => l.retour.toLowerCase().includes(w));
         if (c.pieges_retour) l.controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
       } catch (e) { l.retour_erreur = e.message; }
