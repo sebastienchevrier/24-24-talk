@@ -1,0 +1,72 @@
+# 24/24 ONE WORLD — compatibilité de la vitrine /monde/ et /monde/pro/ (refonte du 1er nov. 2026). © 2026 Sébastien Chevrier.
+# Lance everywhere/tests/vitrine.js dans plusieurs navigateurs et systèmes : Chromium, Firefox et WebKit (moteur de Safari)
+# sous Linux, le vrai Edge et Firefox sous Windows, WebKit et le vrai Chrome sous macOS.
+# Site servi en local, démo de traduction simulée : aucun accès à une base (ni PROD ni TEST), aucun secret, rien publié.
+# Les captures d'écran de chaque navigateur sont jointes au passage (onglet « Summary », rubrique Artifacts).
+name: Compatibilité vitrine
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ["monde/**", "everywhere/tests/vitrine.js", ".github/workflows/compatibilite.yml"]
+  push:
+    branches: [claude/project-thread-c53th1]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compat-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vitrine:
+    name: ${{ matrix.os }} · ${{ matrix.canal || matrix.moteur }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04, moteur: chromium }
+          - { os: ubuntu-24.04, moteur: firefox }
+          - { os: ubuntu-24.04, moteur: webkit }
+          - { os: windows-latest, moteur: chromium, canal: msedge }
+          - { os: windows-latest, moteur: firefox }
+          - { os: macos-latest, moteur: webkit }
+          - { os: macos-latest, moteur: chromium, canal: chrome }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+      - name: Outils de test (versions figées, aucun script d'installation)
+        working-directory: .github/ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Navigateur Playwright (Edge et Chrome sont déjà installés sur les machines GitHub)
+        if: ${{ !matrix.canal }}
+        working-directory: .github/ci
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then npx --no-install playwright install --with-deps ${{ matrix.moteur }}; else npx --no-install playwright install ${{ matrix.moteur }}; fi
+      - name: Essais de la vitrine
+        shell: bash
+        env:
+          MOTEUR: ${{ matrix.moteur }}
+          CANAL: ${{ matrix.canal }}
+          ETIQ: ${{ runner.os }}-
+          NODE_PATH: ${{ github.workspace }}/.github/ci/node_modules
+          AXE: ${{ github.workspace }}/.github/ci/node_modules/axe-core/axe.min.js
+        run: node everywhere/tests/vitrine.js | tee vitrine-resultat.txt; exit ${PIPESTATUS[0]}
+      - name: Captures d'écran et résultat
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitrine-${{ runner.os }}-${{ matrix.canal || matrix.moteur }}
+          path: |
+            everywhere/tests/resultats/*.png
+            vitrine-resultat.txt
+          retention-days: 14
