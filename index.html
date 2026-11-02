@@ -5245,15 +5245,53 @@ const TranslationProvider = {
       if (hit) return { text: hit.text, pron: hit.pron, source: "phrasebook" };
     }
 
-    // 2. Moteur générique en ligne, pour tout le reste
-    if (!navigator.onLine) throw new Error("OFFLINE");
-    // MyMemory refuse plus de 500 octets : un long texte est découpé et traduit morceau par morceau.
-    const parts = mmPieces(text.trim());
-    const out = [];
-    for (const part of parts) out.push(await mmFetchOne(part, sourceCode, targetCode));
-    return { text: out.join(/^(zh|ja|th|lo|km|my)\b/.test(targetCode) ? "" : " "), source: "engine" };
+    // 2. Moteur générique en ligne, pour tout le reste.
+    // 3. Secours (lot 4, 2 nov. 2026) : si MyMemory est hors d'atteinte (pas de réseau, quota épuisé, panne),
+    //    le traducteur intégré au navigateur (Chrome ordinateur, sur l'appareil, gratuit, rien n'est envoyé) prend
+    //    le relais quand il a DÉJÀ la paire de langues. Sinon l'erreur d'origine est rendue, comme avant.
+    let firstErr;
+    if (navigator.onLine) {
+      try {
+        // MyMemory refuse plus de 500 octets : un long texte est découpé et traduit morceau par morceau.
+        const parts = mmPieces(text.trim());
+        const out = [];
+        for (const part of parts) out.push(await mmFetchOne(part, sourceCode, targetCode));
+        return { text: out.join(/^(zh|ja|th|lo|km|my)\b/.test(targetCode) ? "" : " "), source: "engine" };
+      } catch (e) { firstErr = e; }
+    } else firstErr = new Error("OFFLINE");
+    if (!/^(OFFLINE|NETWORK|SERVER|QUOTA_PROVIDER|EMPTY_RESULT)$/.test(firstErr && firstErr.message)) throw firstErr;
+    const local = await onDeviceTranslate(text.trim(), sourceCode, targetCode).catch(() => null);
+    if (local) return { text: local, source: "engine", provider: "device" };
+    throw firstErr;
   },
 };
+
+// Traducteur intégré au navigateur (API Translator, Chrome 138+ sur ordinateur ; absent sur Android et iPhone
+// aujourd'hui). Utilisé seulement si la paire est « available » (déjà téléchargée) : aucun téléchargement lancé
+// sans geste, aucune donnée envoyée. Rend null si indisponible ; jamais d'erreur.
+const onDeviceTranslators = new Map();
+function onDeviceCode(c) {
+  c = String(c || "").toLowerCase();
+  if (/^zh-(tw|hk|mo|hant)/.test(c)) return "zh-Hant";
+  return c.split("-")[0];
+}
+async function onDeviceTranslate(text, sourceCode, targetCode) {
+  try {
+    if (typeof self === "undefined" || !("Translator" in self) || !text) return null;
+    const src = onDeviceCode(sourceCode), tgt = onDeviceCode(targetCode);
+    if (!src || !tgt || src === tgt) return null;
+    const key = src + "|" + tgt;
+    let tr = onDeviceTranslators.get(key);
+    if (!tr) {
+      const av = await self.Translator.availability({ sourceLanguage: src, targetLanguage: tgt });
+      if (av !== "available") return null;
+      tr = await self.Translator.create({ sourceLanguage: src, targetLanguage: tgt });
+      onDeviceTranslators.set(key, tr);
+    }
+    const out = await tr.translate(text);
+    return out && String(out).trim() ? String(out) : null;
+  } catch (e) { return null; }
+}
 
 // ---------- Stockage local : historique / favoris ----------
 const HIST_KEY = "lc_history";
