@@ -1,0 +1,38 @@
+# 24/24 ONE WORLD — Labo linguistique : banc d'essai RÉEL (MyMemory, et IA de test si branchée).
+# © 2026 Sébastien Chevrier. Tous droits réservés.
+# Lancé seulement quand le dossier labo/ change dans une PR, ou à la main (onglet Actions).
+# Une langue par machine : chaque machine a sa propre adresse, donc son propre quota gratuit MyMemory.
+# N'utilise aucun secret, ne touche ni à l'application ni à Supabase.
+name: Labo linguistique — banc réel
+on:
+  pull_request:
+    paths: ["labo/**", ".github/workflows/labo-banc.yml"]
+  workflow_dispatch:
+    inputs:
+      ia:
+        description: "Inclure l'IA de test (fonction labo-traduire du projet de TEST)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  banc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        langue: [en, es, ar, zh, sw]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Banc réel vers ${{ matrix.langue }}
+        run: node labo/tests/banc-reel.js ${{ matrix.langue }} ${{ (github.event_name == 'pull_request' || inputs.ia) && '--ia' || '' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: banc-${{ matrix.langue }}
+          path: labo/tests/resultats/
+          retention-days: 30
