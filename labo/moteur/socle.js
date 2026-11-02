@@ -229,7 +229,7 @@
     "fr.tomber-dans-les-pommes": { en: ["apple"], es: ["manzana"], ar: ["تفاح"], zh: ["苹果"], sw: ["tufaha", "matofaa"] },
     "fr.poil-dans-la-main": { en: ["hair"], es: ["pelo"], ar: ["شعرة", "شعر"], zh: ["毛"], sw: ["unywele", "nywele"] },
     "fr.casser-les-pieds": { en: ["feet", "foot"], es: ["pies"], ar: ["أقدام", "قدم"], zh: ["脚"], sw: ["miguu", "mguu"] },
-    "fr.dans-son-assiette": { en: ["plate"], es: ["plato"], ar: ["صحن"], zh: ["盘"], sw: ["sahani"] },
+    "fr.dans-son-assiette": { en: ["plate", "not feeling under the weather", "not under the weather"], es: ["plato"], ar: ["صحن"], zh: ["盘"], sw: ["sahani"] },
     "fr.avoir-le-cafard": { en: ["cockroach"], es: ["cucaracha"], ar: ["صرصور"], zh: ["蟑螂"], sw: ["mende"] },
     "fr.autres-chats": { en: ["cats", "whip"], es: ["gatos", "azotar"], ar: ["قطط"], zh: ["猫"], sw: ["paka"] },
     "fr.faim-de-loup": { en: ["wolf"], ar: ["ذئب"], zh: ["狼"], sw: ["mbwa mwitu"] },
@@ -258,11 +258,14 @@
     "fr.c-est-le-pied": { en: ["foot"], es: ["pie"], ar: ["قدم"], zh: ["脚"], sw: ["mguu"] },
   };
   var NUM_AR = { "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4", "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9", "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9" };
+  function tiretsSimples(t) { return String(t || "").replace(/[\u2010-\u2012]/g, "-"); }
   function chiffresLatins(t) { return String(t || "").replace(/[٠-٩۰-۹]/g, function (c) { return NUM_AR[c]; }); }
-  var NB_MOTS = { en: { 7: "seven", 9: "nine", 10: "ten", 12: "twelve", 70: "seventy", 90: "ninety" }, es: { 7: "siete", 9: "nueve", 10: "diez", 12: "doce", 70: "setenta", 90: "noventa" } };
+  var NB_MOTS = { en: { 7: "seven", 9: "nine", 10: "ten", 12: "twelve", 70: "seventy", 90: "ninety" }, es: { 7: "siete", 9: "nueve", 10: "diez", 12: "doce", 70: "setenta", 90: "noventa" },
+    zh: { 7: "七", 9: "九", 10: "十", 12: "十二", 70: "七十", 90: "九十" } }; // « 十分钟 » = 10 minutes (mesuré le 2 nov.)
 
   function controler(source, cible, analyse, versLangue, base, reference) {
-    var c = String(cible || ""), cl = chiffresLatins(c), low = cl.toLowerCase(), rep = [];
+    // Traits d'union typographiques (U+2010 à U+2012, mesurés le 2 nov. : l'IA écrit « Saint‑Lazare » avec U+2011) = trait d'union simple.
+    var c = tiretsSimples(cible), cl = chiffresLatins(c), low = cl.toLowerCase(), rep = [];
     var srcNb = analyse && analyse.nombres ? analyse.nombres : extraireNombres(source);
     var cibleNb = extraireNombres(cl);
     // Swahili : l'heure se compte depuis 6 h du matin (9 h = « saa 3 asubuhi », 14 h = « saa 8 mchana »).
@@ -313,7 +316,8 @@
     // La longueur se compare à la phrase réellement envoyée (la phrase pré-éditée est souvent plus courte).
     var ls = String(reference || source).length, lc = c.length;
     if (ls > 25 && lc) {
-      var ideo = /^(zh|ja|ko)$/.test(versLangue), r = lc / ls, min = ideo ? 0.15 : 0.45, max = ideo ? 1.2 : 2.2;
+      // Phrase courte : une expression se traduit souvent en 2 ou 3 mots (« Elle est tombée dans les pommes » → « She fainted », mesuré le 2 nov.).
+      var ideo = /^(zh|ja|ko)$/.test(versLangue), r = lc / ls, min = ideo ? 0.15 : ls <= 45 ? 0.3 : 0.45, max = ideo ? 1.2 : 2.2;
       rep.push({ controle: "longueur", ok: r >= min && r <= max, detail: "rapport " + r.toFixed(2) + (r < min ? " : OMISSION probable" : r > max ? " : AJOUT probable" : "") });
     }
     if (!lc) rep.push({ controle: "traduction vide", ok: false, detail: "rien reçu" });
@@ -398,12 +402,12 @@
   };
   // Noms propres hors alphabet latin : graphies usuelles connues (sinon « à relire », jamais « faux » par défaut).
   var GRAPHIES = {
-    Marie: { ar: "ماري", zh: "玛丽|瑪麗" }, Karim: { ar: "كريم", zh: "卡里姆|卡利姆" }, "Saint-Denis": { ar: "سان دوني|سان دينيس", zh: "圣但尼|圣丹尼|聖但尼" },
+    Marie: { ar: "ماري(?![\u0621-\u064A])", zh: "玛丽|瑪麗" }, Karim: { ar: "كريم", zh: "卡里姆|卡利姆" }, "Saint-Denis": { ar: "سان دوني|سان دينيس", zh: "圣但尼|圣丹尼|聖但尼" },
     "Saint-Lazare": { ar: "سان لازار", zh: "圣拉扎尔|聖拉扎爾" }, Lyon: { ar: "ليون", zh: "里昂" }, Durand: { ar: "دوران|دوراند", zh: "杜兰|杜朗" }, Paris: { ar: "باريس", zh: "巴黎" },
   };
   function verifierSens(source, cible, vers, att) {
     att = att || {};
-    var c = String(cible || ""), low = c.toLowerCase(), rep = [];
+    var c = tiretsSimples(cible), low = c.toLowerCase(), rep = [];
     var cherche = function (motif) { return U("(^|[^\\p{L}])(" + motif + ")(?![\\p{L}])", "iu").test(low) || (/^(zh|ja|ar)$/.test(vers) && new RegExp(motif).test(c)); };
     if (att.negation) {
       var extra = att.negation_aussi && att.negation_aussi[vers];
