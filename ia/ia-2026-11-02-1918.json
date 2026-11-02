@@ -1,0 +1,2422 @@
+{
+ "date": "2026-11-02T19:18:56.163Z",
+ "moteur": "MyMemory",
+ "langues_officielles": 112,
+ "langues_cibles": 111,
+ "langues_testees": 15,
+ "langues_non_disponibles": [],
+ "langues_sans_resultat": [
+  "en",
+  "es",
+  "de",
+  "it",
+  "pt",
+  "pt-BR",
+  "nl",
+  "pl",
+  "ro",
+  "el",
+  "cs",
+  "sv",
+  "da",
+  "nb",
+  "fi",
+  "hu",
+  "bg",
+  "hr",
+  "sk",
+  "sl",
+  "lt",
+  "lv",
+  "et",
+  "is",
+  "ga",
+  "mt",
+  "sq",
+  "mk",
+  "bs",
+  "uk",
+  "be",
+  "ru",
+  "ca",
+  "gl",
+  "cy",
+  "lb",
+  "ar",
+  "he",
+  "tr",
+  "ps",
+  "az",
+  "hy",
+  "ka",
+  "sw",
+  "am",
+  "ha",
+  "yo",
+  "ig",
+  "zu",
+  "xh",
+  "af",
+  "st",
+  "so",
+  "rn",
+  "sn",
+  "ny",
+  "ti",
+  "om",
+  "zh",
+  "ja",
+  "ko",
+  "vi",
+  "th",
+  "id",
+  "ms",
+  "tl",
+  "hi",
+  "bn",
+  "ta",
+  "te",
+  "ml",
+  "kn",
+  "mr",
+  "gu",
+  "pa",
+  "or",
+  "as",
+  "ur",
+  "ne",
+  "si",
+  "lo",
+  "mn",
+  "ceb",
+  "jv",
+  "kk",
+  "ky",
+  "tg",
+  "tk",
+  "es-MX",
+  "ht",
+  "qu",
+  "mi",
+  "sm",
+  "to",
+  "fj",
+  "haw"
+ ],
+ "langues_validees": 0,
+ "tests_executes": 163,
+ "tests_reussis": 122,
+ "problemes": 72,
+ "mauvaise_ecriture": 6,
+ "indices_mot_a_mot": 9,
+ "a_relire_humain": 89,
+ "chrf_retour_moyen": 42.4,
+ "latence_ms_mediane": 821.6,
+ "cout_eur": 0,
+ "par_registre": {
+  "normal": {
+   "langues": 12,
+   "reussis": 9,
+   "taux": 75,
+   "chrf_retour_moyen": 64
+  },
+  "familier": {
+   "langues": 12,
+   "reussis": 10,
+   "taux": 83,
+   "chrf_retour_moyen": 38.5
+  },
+  "argot": {
+   "langues": 12,
+   "reussis": 11,
+   "taux": 92,
+   "chrf_retour_moyen": 24.3
+  },
+  "soutenu": {
+   "langues": 12,
+   "reussis": 10,
+   "taux": 83,
+   "chrf_retour_moyen": 45.3
+  },
+  "formel": {
+   "langues": 11,
+   "reussis": 4,
+   "taux": 36,
+   "chrf_retour_moyen": 45.9
+  },
+  "littéraire": {
+   "langues": 13,
+   "reussis": 12,
+   "taux": 92,
+   "chrf_retour_moyen": 40.3
+  },
+  "idiomatique": {
+   "langues": 15,
+   "reussis": 12,
+   "taux": 80,
+   "chrf_retour_moyen": 28
+  },
+  "métaphorique": {
+   "langues": 14,
+   "reussis": 10,
+   "taux": 71,
+   "chrf_retour_moyen": 42.6
+  },
+  "humoristique": {
+   "langues": 11,
+   "reussis": 9,
+   "taux": 82,
+   "chrf_retour_moyen": 51.6
+  },
+  "régional": {
+   "langues": 15,
+   "reussis": 11,
+   "taux": 73,
+   "chrf_retour_moyen": 47
+  },
+  "émotionnel": {
+   "langues": 12,
+   "reussis": 10,
+   "taux": 83,
+   "chrf_retour_moyen": 51.4
+  },
+  "négation": {
+   "langues": 12,
+   "reussis": 10,
+   "taux": 83,
+   "chrf_retour_moyen": 51.5
+  },
+  "nombres et noms": {
+   "langues": 12,
+   "reussis": 4,
+   "taux": 33,
+   "chrf_retour_moyen": 60.4
+  }
+ },
+ "par_langue": {
+  "eu": {
+   "code": "eu",
+   "nom": "Basque",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:05:27.724Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 4,
+   "erreurs": [
+    "VIDE"
+   ],
+   "tests_reussis": 3,
+   "problemes": 1,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 29.9,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 3,
+   "latence_ms_mediane": 602,
+   "appels": 21,
+   "caracteres": 894,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 35.7,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 17.3,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 32.4,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": false,
+     "chrf_retour": 34,
+     "echecs": 1
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 4,
+    "tests_reussis": 4,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 20.9,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 4,
+     "mymemory_sans_probleme": 3,
+     "ia_sans_probleme": 4,
+     "chrf_mymemory": 29.9,
+     "chrf_ia": 20.9
+    },
+    "appels": 4,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 659,
+    "jetons_par_traduction": 627,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000081,
+    "par_registre": {
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 20.9,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "fa": {
+   "code": "fa",
+   "nom": "Persan (Farsi)",
+   "ecriture": "arabe",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:09:40.426Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 11,
+   "erreurs": [
+    "VIDE"
+   ],
+   "tests_reussis": 8,
+   "problemes": 7,
+   "mauvaise_ecriture": 1,
+   "chrf_retour_moyen": 37.3,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 8,
+   "latence_ms_mediane": 820,
+   "appels": 35,
+   "caracteres": 1244,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": false,
+     "chrf_retour": 62.3,
+     "echecs": 1
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 63.2,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 44.6,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 43.8,
+     "echecs": 0
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 33.8,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 5.4,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": false,
+     "chrf_retour": 0,
+     "echecs": 2
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 53,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 26.8,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 52.2,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 25.6,
+     "echecs": 4
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 11,
+    "tests_reussis": 11,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 27.2,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 11,
+     "mymemory_sans_probleme": 8,
+     "ia_sans_probleme": 11,
+     "chrf_mymemory": 37.3,
+     "chrf_ia": 27.2
+    },
+    "appels": 11,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 586,
+    "jetons_par_traduction": 577,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000065,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 62.3,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 17.7,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 18.7,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 15.9,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 17.9,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 30.6,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "gn": {
+   "code": "gn",
+   "nom": "Guarani",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:05:39.486Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 11,
+   "problemes": 6,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 28,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 6,
+   "latence_ms_mediane": 835,
+   "appels": 31,
+   "caracteres": 1425,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 27.2,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 18.7,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 12.6,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 12.6,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 8.3,
+     "echecs": 1
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 37.7,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 34.1,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 42.2,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 29.4,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 49,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 30.5,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 35,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 26.9,
+     "echecs": 5
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 5,
+    "tests_reussis": 5,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 19.1,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 5,
+     "mymemory_sans_probleme": 4,
+     "ia_sans_probleme": 5,
+     "chrf_mymemory": 15.9,
+     "chrf_ia": 19.1
+    },
+    "appels": 6,
+    "echecs": 1,
+    "refus_429": 0,
+    "erreurs": {
+     "IA en erreur (400) : Failed to validate JSON. Please adjust your prompt. See 'failed_generation' for more details.": 1
+    },
+    "latence_ms_mediane": 685,
+    "jetons_par_traduction": 748,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000116,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 17.6,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 17,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 18.2,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 17.8,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 24.9,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "km": {
+   "code": "km",
+   "nom": "Khmer",
+   "ecriture": "khmer",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:18:14.684Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 10,
+   "problemes": 7,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 62.3,
+   "indices_mot_a_mot": 1,
+   "a_relire_humain": 8,
+   "latence_ms_mediane": 870,
+   "appels": 39,
+   "caracteres": 1726,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 91.2,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 56.4,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": false,
+     "chrf_retour": 37.6,
+     "echecs": 1
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 81.7,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 79.7,
+     "echecs": 3
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 68,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 15.6,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 58.7,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 100,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 62.4,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 54.9,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 28.7,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 75.1,
+     "echecs": 3
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 12,
+    "problemes": 1,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 46.7,
+    "indices_mot_a_mot": 1,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 10,
+     "ia_sans_probleme": 12,
+     "chrf_mymemory": 62.3,
+     "chrf_ia": 46.7
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 666,
+    "jetons_par_traduction": 603,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000073,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 88.9,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 16.6,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 15.8,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 49.5,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 59.9,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 53.5,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 29.2,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": 42,
+      "echecs": 0
+     },
+     "humoristique": {
+      "reussi": false,
+      "chrf_retour": 27.5,
+      "echecs": 1
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 18.2,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 66.4,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 49.3,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 89.8,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "ku": {
+   "code": "ku",
+   "nom": "Kurde",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:04:24.422Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 3,
+   "erreurs": [
+    "VIDE"
+   ],
+   "tests_reussis": 0,
+   "problemes": 4,
+   "mauvaise_ecriture": 3,
+   "chrf_retour_moyen": 27.6,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 3,
+   "latence_ms_mediane": 604,
+   "appels": 19,
+   "caracteres": 745,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "idiomatique": {
+     "reussi": false,
+     "chrf_retour": 15,
+     "echecs": 1
+    },
+    "métaphorique": {
+     "reussi": false,
+     "chrf_retour": 35.9,
+     "echecs": 1
+    },
+    "régional": {
+     "reussi": false,
+     "chrf_retour": 31.8,
+     "echecs": 2
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 3,
+    "tests_reussis": 3,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 6,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 3,
+     "mymemory_sans_probleme": 0,
+     "ia_sans_probleme": 3,
+     "chrf_mymemory": 27.6,
+     "chrf_ia": 6
+    },
+    "appels": 3,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 665,
+    "jetons_par_traduction": 677,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000095,
+    "par_registre": {
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 6,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "ln": {
+   "code": "ln",
+   "nom": "Lingala",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:14:16.143Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 12,
+   "problemes": 2,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 44,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 5,
+   "latence_ms_mediane": 856,
+   "appels": 39,
+   "caracteres": 1673,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 91.2,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 49.5,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 24.2,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 19.6,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": true,
+     "chrf_retour": 38,
+     "echecs": 0
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 22.6,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 36.2,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 57.7,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 55.4,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 50.5,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 25.2,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 27.5,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 74.6,
+     "echecs": 2
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 13,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 25.4,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 12,
+     "ia_sans_probleme": 13,
+     "chrf_mymemory": 44,
+     "chrf_ia": 25.4
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 739,
+    "jetons_par_traduction": 777,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000125,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 31.1,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 22.2,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 18.9,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 17.5,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 25.1,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 18.2,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 22.1,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": 46.7,
+      "echecs": 0
+     },
+     "humoristique": {
+      "reussi": true,
+      "chrf_retour": 20.7,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 7.9,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 19.1,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 25.9,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 54.8,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "mg": {
+   "code": "mg",
+   "nom": "Malgache",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:09:53.917Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 11,
+   "problemes": 5,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 36.1,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 5,
+   "latence_ms_mediane": 931,
+   "appels": 39,
+   "caracteres": 1830,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 48.8,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 15.6,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 16.7,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 28.1,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 8.9,
+     "echecs": 3
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 28,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 22.7,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 58.8,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 35,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 35.6,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 53.5,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 37.5,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 80.7,
+     "echecs": 2
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 13,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 52.1,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 11,
+     "ia_sans_probleme": 13,
+     "chrf_mymemory": 36.1,
+     "chrf_ia": 52.1
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 748,
+    "jetons_par_traduction": 660,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.00009,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 91.2,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 50.1,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 36.3,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 40.4,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 61.1,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 39.2,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 28.8,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": 50.7,
+      "echecs": 0
+     },
+     "humoristique": {
+      "reussi": true,
+      "chrf_retour": 31.7,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 74.1,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 46.1,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 51.6,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 75.4,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "mos": {
+   "code": "mos",
+   "nom": "Mooré",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:06:04.649Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 12,
+   "problemes": 3,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 31.6,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 4,
+   "latence_ms_mediane": 799,
+   "appels": 28,
+   "caracteres": 1280,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 58.1,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 18.1,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 14.6,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 32.8,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 9.9,
+     "echecs": 3
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 18.2,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 18.3,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 16.3,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 21.7,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 51.3,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 44.1,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 28.4,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": true,
+     "chrf_retour": 79,
+     "echecs": 0
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 2,
+    "tests_reussis": 1,
+    "problemes": 1,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 7.6,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 2,
+     "mymemory_sans_probleme": 2,
+     "ia_sans_probleme": 1,
+     "chrf_mymemory": 16.4,
+     "chrf_ia": 7.6
+    },
+    "appels": 4,
+    "echecs": 2,
+    "refus_429": 0,
+    "erreurs": {
+     "Traduction vide": 1,
+     "IA en erreur (400) : Failed to validate JSON. Please adjust your prompt. See 'failed_generation' for more details.": 1
+    },
+    "latence_ms_mediane": 726,
+    "jetons_par_traduction": 782,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000127,
+    "par_registre": {
+     "familier": {
+      "reussi": false,
+      "chrf_retour": 7.1,
+      "echecs": 1
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 8.1,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "my": {
+   "code": "my",
+   "nom": "Birman",
+   "ecriture": "birman",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:13:58.937Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 11,
+   "problemes": 7,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 49.5,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 9,
+   "latence_ms_mediane": 803,
+   "appels": 31,
+   "caracteres": 1521,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 91.2,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 33.1,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 16.8,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 81.7,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 54.3,
+     "echecs": 3
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 22.3,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 19.5,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 31,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 64.6,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 28.1,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 68.2,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 100,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 32.4,
+     "echecs": 4
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 5,
+    "tests_reussis": 5,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 42.3,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 5,
+     "mymemory_sans_probleme": 4,
+     "ia_sans_probleme": 5,
+     "chrf_mymemory": 55.4,
+     "chrf_ia": 42.3
+    },
+    "appels": 6,
+    "echecs": 1,
+    "refus_429": 0,
+    "erreurs": {
+     "IA en erreur (400) : Failed to validate JSON. Please adjust your prompt. See 'failed_generation' for more details.": 1
+    },
+    "latence_ms_mediane": 690,
+    "jetons_par_traduction": 629,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.00008,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 74,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 47.1,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 22,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 36.9,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 31.3,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "rw": {
+   "code": "rw",
+   "nom": "Kinyarwanda",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:09:43.014Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 12,
+   "problemes": 7,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 35.3,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 6,
+   "latence_ms_mediane": 946,
+   "appels": 39,
+   "caracteres": 1761,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 38.1,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 30.1,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 24.7,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 34.4,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": true,
+     "chrf_retour": 25.2,
+     "echecs": 0
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 32.5,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 31.5,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 58.8,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 46.7,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 34.4,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 44.8,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 39.9,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 17.3,
+     "echecs": 7
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 12,
+    "problemes": 1,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 39.1,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 12,
+     "ia_sans_probleme": 12,
+     "chrf_mymemory": 35.3,
+     "chrf_ia": 39.1
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 520,
+    "jetons_par_traduction": 681,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000096,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 86.5,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 38.8,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 14.1,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 19.6,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 31.8,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 34.6,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 15.8,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": 57.7,
+      "echecs": 0
+     },
+     "humoristique": {
+      "reussi": false,
+      "chrf_retour": 9.8,
+      "echecs": 1
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 51.4,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 21.9,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 36.1,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 90.5,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "sr": {
+   "code": "sr",
+   "nom": "Serbe",
+   "ecriture": "cyrillique|latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:18:31.448Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 3,
+   "problemes": 10,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 74,
+   "indices_mot_a_mot": 3,
+   "a_relire_humain": 11,
+   "latence_ms_mediane": 910,
+   "appels": 39,
+   "caracteres": 1591,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": false,
+     "chrf_retour": 91.2,
+     "echecs": 1
+    },
+    "familier": {
+     "reussi": false,
+     "chrf_retour": 56.9,
+     "echecs": 1
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 37.6,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": false,
+     "chrf_retour": 81.7,
+     "echecs": 1
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 95.2,
+     "echecs": 1
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 79.3,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": false,
+     "chrf_retour": 42.6,
+     "echecs": 1
+    },
+    "métaphorique": {
+     "reussi": false,
+     "chrf_retour": 61,
+     "echecs": 1
+    },
+    "humoristique": {
+     "reussi": false,
+     "chrf_retour": 82.4,
+     "echecs": 1
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 77,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": false,
+     "chrf_retour": 82.4,
+     "echecs": 1
+    },
+    "négation": {
+     "reussi": false,
+     "chrf_retour": 100,
+     "echecs": 1
+    },
+    "nombres et noms": {
+     "reussi": false,
+     "chrf_retour": 74.8,
+     "echecs": 1
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 5,
+    "problemes": 8,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 65.8,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 3,
+     "ia_sans_probleme": 5,
+     "chrf_mymemory": 74,
+     "chrf_ia": 65.8
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 731,
+    "jetons_par_traduction": 622,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000078,
+    "par_registre": {
+     "normal": {
+      "reussi": false,
+      "chrf_retour": 91.2,
+      "echecs": 1
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 50.1,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": false,
+      "chrf_retour": 49.9,
+      "echecs": 1
+     },
+     "soutenu": {
+      "reussi": false,
+      "chrf_retour": 41.1,
+      "echecs": 1
+     },
+     "formel": {
+      "reussi": false,
+      "chrf_retour": 91.6,
+      "echecs": 1
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 71.9,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 34.9,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": false,
+      "chrf_retour": 62.3,
+      "echecs": 1
+     },
+     "humoristique": {
+      "reussi": false,
+      "chrf_retour": 22.8,
+      "echecs": 1
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 77,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": false,
+      "chrf_retour": 81.8,
+      "echecs": 1
+     },
+     "négation": {
+      "reussi": false,
+      "chrf_retour": 100,
+      "echecs": 1
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 80.7,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "su": {
+   "code": "su",
+   "nom": "Soundanais",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:14:05.694Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 13,
+   "problemes": 0,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 40.4,
+   "indices_mot_a_mot": 2,
+   "a_relire_humain": 7,
+   "latence_ms_mediane": 859,
+   "appels": 39,
+   "caracteres": 1753,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 14.4,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 39.5,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 7.3,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 27.7,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": true,
+     "chrf_retour": 79.7,
+     "echecs": 0
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 24.7,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 45.1,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 42.8,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 30.9,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 18.6,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 71.6,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 33,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": true,
+     "chrf_retour": 90.5,
+     "echecs": 0
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 13,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 40.3,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 13,
+     "ia_sans_probleme": 13,
+     "chrf_mymemory": 40.4,
+     "chrf_ia": 40.3
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 500,
+    "jetons_par_traduction": 610,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000075,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 21.6,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 15.1,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 36.9,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 59.6,
+      "echecs": 0
+     },
+     "formel": {
+      "reussi": true,
+      "chrf_retour": 70,
+      "echecs": 0
+     },
+     "littéraire": {
+      "reussi": true,
+      "chrf_retour": 32.6,
+      "echecs": 0
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 12.2,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": true,
+      "chrf_retour": 29.5,
+      "echecs": 0
+     },
+     "humoristique": {
+      "reussi": true,
+      "chrf_retour": 18.1,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": 74.1,
+      "echecs": 0
+     },
+     "émotionnel": {
+      "reussi": true,
+      "chrf_retour": 41.1,
+      "echecs": 0
+     },
+     "négation": {
+      "reussi": true,
+      "chrf_retour": 23.2,
+      "echecs": 0
+     },
+     "nombres et noms": {
+      "reussi": true,
+      "chrf_retour": 90.5,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "uz": {
+   "code": "uz",
+   "nom": "Ouzbek",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:04:06.062Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 2,
+   "erreurs": [
+    "VIDE"
+   ],
+   "tests_reussis": 0,
+   "problemes": 3,
+   "mauvaise_ecriture": 2,
+   "chrf_retour_moyen": 28.7,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 2,
+   "latence_ms_mediane": 590,
+   "appels": 17,
+   "caracteres": 759,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "idiomatique": {
+     "reussi": false,
+     "chrf_retour": 29.1,
+     "echecs": 1
+    },
+    "régional": {
+     "reussi": false,
+     "chrf_retour": 28.3,
+     "echecs": 2
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 2,
+    "tests_reussis": 2,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": null,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 2,
+     "mymemory_sans_probleme": 0,
+     "ia_sans_probleme": 2,
+     "chrf_mymemory": 28.7,
+     "chrf_ia": null
+    },
+    "appels": 2,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 1482,
+    "jetons_par_traduction": 606,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000074,
+    "par_registre": {
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     },
+     "régional": {
+      "reussi": true,
+      "chrf_retour": null,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "wo": {
+   "code": "wo",
+   "nom": "Wolof",
+   "ecriture": "latin",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:11:44.841Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 13,
+   "problemes": 0,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 43.7,
+   "indices_mot_a_mot": 0,
+   "a_relire_humain": 4,
+   "latence_ms_mediane": 814,
+   "appels": 30,
+   "caracteres": 1166,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": true,
+     "chrf_retour": 72.2,
+     "echecs": 0
+    },
+    "familier": {
+     "reussi": true,
+     "chrf_retour": 33.9,
+     "echecs": 0
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 22.4,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": true,
+     "chrf_retour": 38.9,
+     "echecs": 0
+    },
+    "formel": {
+     "reussi": true,
+     "chrf_retour": 32.2,
+     "echecs": 0
+    },
+    "littéraire": {
+     "reussi": true,
+     "chrf_retour": 32.4,
+     "echecs": 0
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 31.1,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": true,
+     "chrf_retour": 36.1,
+     "echecs": 0
+    },
+    "humoristique": {
+     "reussi": true,
+     "chrf_retour": 30.2,
+     "echecs": 0
+    },
+    "régional": {
+     "reussi": true,
+     "chrf_retour": 74.1,
+     "echecs": 0
+    },
+    "émotionnel": {
+     "reussi": true,
+     "chrf_retour": 53.9,
+     "echecs": 0
+    },
+    "négation": {
+     "reussi": true,
+     "chrf_retour": 36.1,
+     "echecs": 0
+    },
+    "nombres et noms": {
+     "reussi": true,
+     "chrf_retour": 74.6,
+     "echecs": 0
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 4,
+    "tests_reussis": 4,
+    "problemes": 0,
+    "mauvaise_ecriture": 0,
+    "chrf_retour_moyen": 11.1,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 4,
+     "mymemory_sans_probleme": 4,
+     "ia_sans_probleme": 4,
+     "chrf_mymemory": 41.9,
+     "chrf_ia": 11.1
+    },
+    "appels": 5,
+    "echecs": 1,
+    "refus_429": 0,
+    "erreurs": {
+     "IA en erreur (400) : Failed to validate JSON. Please adjust your prompt. See 'failed_generation' for more details.": 1
+    },
+    "latence_ms_mediane": 1120,
+    "jetons_par_traduction": 859,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.00015,
+    "par_registre": {
+     "normal": {
+      "reussi": true,
+      "chrf_retour": 12.3,
+      "echecs": 0
+     },
+     "familier": {
+      "reussi": true,
+      "chrf_retour": 11.3,
+      "echecs": 0
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 9.2,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": true,
+      "chrf_retour": 11.8,
+      "echecs": 0
+     }
+    }
+   }
+  },
+  "zh-TW": {
+   "code": "zh-TW",
+   "nom": "Chinois (traditionnel)",
+   "ecriture": "han",
+   "moteur": "MyMemory",
+   "date": "2026-11-02T19:18:22.663Z",
+   "disponible": true,
+   "phrases": 13,
+   "traduites": 13,
+   "erreurs": [],
+   "tests_reussis": 3,
+   "problemes": 10,
+   "mauvaise_ecriture": 0,
+   "chrf_retour_moyen": 68.2,
+   "indices_mot_a_mot": 3,
+   "a_relire_humain": 8,
+   "latence_ms_mediane": 1085,
+   "appels": 39,
+   "caracteres": 983,
+   "cout_eur": 0,
+   "statut": "testé (contrôles automatiques) — PAS validé",
+   "par_registre": {
+    "normal": {
+     "reussi": false,
+     "chrf_retour": 81.7,
+     "echecs": 1
+    },
+    "familier": {
+     "reussi": false,
+     "chrf_retour": 46.7,
+     "echecs": 1
+    },
+    "argot": {
+     "reussi": true,
+     "chrf_retour": 33,
+     "echecs": 0
+    },
+    "soutenu": {
+     "reussi": false,
+     "chrf_retour": 60.8,
+     "echecs": 1
+    },
+    "formel": {
+     "reussi": false,
+     "chrf_retour": 73.5,
+     "echecs": 1
+    },
+    "littéraire": {
+     "reussi": false,
+     "chrf_retour": 88.5,
+     "echecs": 1
+    },
+    "idiomatique": {
+     "reussi": true,
+     "chrf_retour": 56.2,
+     "echecs": 0
+    },
+    "métaphorique": {
+     "reussi": false,
+     "chrf_retour": 64.4,
+     "echecs": 1
+    },
+    "humoristique": {
+     "reussi": false,
+     "chrf_retour": 70.9,
+     "echecs": 1
+    },
+    "régional": {
+     "reussi": false,
+     "chrf_retour": 77,
+     "echecs": 1
+    },
+    "émotionnel": {
+     "reussi": false,
+     "chrf_retour": 60.6,
+     "echecs": 1
+    },
+    "négation": {
+     "reussi": false,
+     "chrf_retour": 100,
+     "echecs": 1
+    },
+    "nombres et noms": {
+     "reussi": true,
+     "chrf_retour": 72.9,
+     "echecs": 0
+    }
+   },
+   "ia": {
+    "modele": "openai/gpt-oss-20b",
+    "traduites": 13,
+    "tests_reussis": 2,
+    "problemes": 11,
+    "mauvaise_ecriture": 1,
+    "chrf_retour_moyen": 59.1,
+    "indices_mot_a_mot": 0,
+    "comparaison_memes_phrases": {
+     "phrases": 13,
+     "mymemory_sans_probleme": 3,
+     "ia_sans_probleme": 2,
+     "chrf_mymemory": 68.2,
+     "chrf_ia": 59.1
+    },
+    "appels": 13,
+    "echecs": 0,
+    "refus_429": 0,
+    "erreurs": {},
+    "latence_ms_mediane": 662,
+    "jetons_par_traduction": 604,
+    "cout_reel_eur": 0,
+    "cout_estime_si_payant_usd_par_traduction": 0.000073,
+    "par_registre": {
+     "normal": {
+      "reussi": false,
+      "chrf_retour": 81.7,
+      "echecs": 1
+     },
+     "familier": {
+      "reussi": false,
+      "chrf_retour": 26.8,
+      "echecs": 1
+     },
+     "argot": {
+      "reussi": true,
+      "chrf_retour": 37.3,
+      "echecs": 0
+     },
+     "soutenu": {
+      "reussi": false,
+      "chrf_retour": 71.9,
+      "echecs": 1
+     },
+     "formel": {
+      "reussi": false,
+      "chrf_retour": 93.2,
+      "echecs": 1
+     },
+     "littéraire": {
+      "reussi": false,
+      "chrf_retour": 79.3,
+      "echecs": 1
+     },
+     "idiomatique": {
+      "reussi": true,
+      "chrf_retour": 17.2,
+      "echecs": 0
+     },
+     "métaphorique": {
+      "reussi": false,
+      "chrf_retour": 61.3,
+      "echecs": 1
+     },
+     "humoristique": {
+      "reussi": false,
+      "chrf_retour": 29.2,
+      "echecs": 1
+     },
+     "régional": {
+      "reussi": false,
+      "chrf_retour": 63.4,
+      "echecs": 1
+     },
+     "émotionnel": {
+      "reussi": false,
+      "chrf_retour": 68.2,
+      "echecs": 1
+     },
+     "négation": {
+      "reussi": false,
+      "chrf_retour": 66.7,
+      "echecs": 1
+     },
+     "nombres et noms": {
+      "reussi": false,
+      "chrf_retour": 72.3,
+      "echecs": 1
+     }
+    }
+   }
+  }
+ },
+ "comparaison_ia": {
+  "langues": 15,
+  "modele": "openai/gpt-oss-20b",
+  "phrases": 127,
+  "mymemory_sans_probleme": 89,
+  "ia_sans_probleme": 105
+ }
+}
