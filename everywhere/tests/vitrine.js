@@ -81,19 +81,20 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
   const LOT5 = ["is", "ga", "mt", "sq", "mk", "sr", "bs", "be", "ca", "eu"];
   const LOT6 = ["af", "cy", "lb", "ku", "ps", "az", "hy", "ka", "zu", "xh"];
   const LOT7 = ["st", "so", "rw", "rn", "ln", "sn", "ny", "wo", "ti", "om"];
-  const MAIN = LOT1.concat(LOT2, LOT3, LOT4, LOT5, LOT6, LOT7);
+  const LOT8 = ["ml", "kn", "gu", "pa", "or", "as", "ne", "si", "lo", "mn"];
+  const MAIN = LOT1.concat(LOT2, LOT3, LOT4, LOT5, LOT6, LOT7, LOT8);
   // Chiffres persans / arabes-indiens ramenés aux chiffres latins pour la comparaison (۱۱۲ = 112).
   const chiffres = (t) => String(t).replace(/[\u06F0-\u06F9]/g, (d) => d.charCodeAt(0) - 0x06F0).replace(/[\u0660-\u0669]/g, (d) => d.charCodeAt(0) - 0x0660);
-  await step("K2 écrit à la main en 80 langues (fr + 9 du 1er nov. + lots 1 à 7), même nombre d'entrées, aucune vide", async () => {
+  await step("K2 écrit à la main en 90 langues (fr + 9 du 1er nov. + lots 1 à 8), même nombre d'entrées, aucune vide", async () => {
     const l = Object.keys(T2), bad = l.filter((c) => T2[c].length !== K2.length || T2[c].some((x) => !x || !String(x).trim()));
-    return { ok: l.length === 79 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].concat(MAIN).every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
+    return { ok: l.length === 89 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].concat(MAIN).every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
   });
-  await step("Lots 1 à 7 (" + MAIN.join(" ") + ") : vraiment traduit, ≥ 95 % des 163 textes différents de l'anglais", async () => {
+  await step("Lots 1 à 8 (" + MAIN.join(" ") + ") : vraiment traduit, ≥ 95 % des 163 textes différents de l'anglais", async () => {
     // Peuvent rester identiques à l'anglais : noms propres et mots internationaux (Pro, Demo…).
     const faibles = MAIN.map((c) => [c, T2[c].filter((x, i) => x === T2.en[i]).length]).filter(([, n]) => n > Math.floor(K2.length * 0.05));
     return { ok: !faibles.length, detail: MAIN.map((c) => c + ":" + T2[c].filter((x, i) => x === T2.en[i]).length).join(" ") + " identiques à l'anglais" };
   });
-  await step("Lots 1 à 7 : noms et chiffres intouchables gardés (ONE WORLD, MyMemory, COMMUNITY, Pro, 112, 90, 12), aucun montant ajouté", async () => {
+  await step("Lots 1 à 8 : noms et chiffres intouchables gardés (ONE WORLD, MyMemory, COMMUNITY, Pro, 112, 90, 12), aucun montant ajouté", async () => {
     const err = [];
     for (const c of MAIN) T2.en.forEach((en, i) => {
       for (const w of ["ONE WORLD", "MyMemory", "COMMUNITY", "Pro"]) if (new RegExp("\\b" + w + "\\b").test(en) && !T2[c][i].includes(w)) err.push(c + "#" + i + " " + w);
@@ -102,7 +103,7 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     });
     return { ok: !err.length, detail: err.slice(0, 8).join(" | ") || "tout gardé dans les " + MAIN.length + " langues" };
   });
-  await step("Lots 1 à 7 : la mention « pas encore en vente / aucun paiement » existe et diffère de l'anglais dans chaque langue", async () => {
+  await step("Lots 1 à 8 : la mention « pas encore en vente / aucun paiement » existe et diffère de l'anglais dans chaque langue", async () => {
     const i = K2.indexOf("Une grille de prix est proposée, pas encore en vente : aucun paiement n'est possible aujourd'hui.");
     const bad = MAIN.filter((c) => !T2[c][i] || T2[c][i] === T2.en[i] || T2[c][i].length < 20);
     return { ok: i >= 0 && !bad.length, detail: MAIN.map((c) => c + ": " + T2[c][i].slice(0, 30)).slice(0, 3).join(" · ") };
@@ -128,7 +129,8 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     ["da", "Oversættelse i praksis"], ["nb", "Oversettelse i praksis"], ["fi", "Käännös toiminnassa"], ["bg", "Преводът в действие"], ["hr", "Prijevod na djelu"], ["sk", "Preklad v akcii"], ["sl", "Prevod v akciji"], ["lt", "Vertimas veikia"], ["lv", "Tulkojums darbībā"], ["et", "Tõlge tegevuses"],
     ["is", "Þýðing í verki"], ["ga", "Aistriúchán i mbun oibre"], ["mt", "It-traduzzjoni fl-azzjoni"], ["sq", "Përkthimi në veprim"], ["mk", "Преводот во акција"], ["sr", "Превод на делу"], ["bs", "Prijevod na djelu"], ["be", "Пераклад у дзеянні"], ["ca", "La traducció en acció"], ["eu", "Itzulpena martxan"],
     ["af", "Vertaling in aksie"], ["cy", "Cyfieithu ar waith"], ["lb", "Iwwersetzung an Aktioun"], ["ku", "Werger di çalakiyê de"], ["ps", "ژباړه په عمل کې"], ["az", "Tərcümə işdə"], ["hy", "Թարգմանությունը գործողության մեջ"], ["ka", "თარგმანი მოქმედებაში"], ["zu", "Ukuhumusha kusebenza"], ["xh", "Ukuguqulela kusebenza"],
-    ["st", "Phetolelo e sebetsa"], ["so", "Turjumaadda oo shaqaynaysa"], ["rw", "Ubusemuzi bukora"], ["rn", "Ubuhinduzi bukora"], ["ln", "Libongoli na mosala"], ["sn", "Kushandura kuri kushanda"], ["ny", "Kumasulira kukugwira ntchito"], ["wo", "Tekki bi ci jëf"], ["ti", "ትርጉም ኣብ ተግባር"], ["om", "Hiikkaa hojii irra"]]) {
+    ["st", "Phetolelo e sebetsa"], ["so", "Turjumaadda oo shaqaynaysa"], ["rw", "Ubusemuzi bukora"], ["rn", "Ubuhinduzi bukora"], ["ln", "Libongoli na mosala"], ["sn", "Kushandura kuri kushanda"], ["ny", "Kumasulira kukugwira ntchito"], ["wo", "Tekki bi ci jëf"], ["ti", "ትርጉም ኣብ ተግባር"], ["om", "Hiikkaa hojii irra"],
+    ["ml", "വിവർത്തനം പ്രവർത്തനത്തിൽ"], ["kn", "ಕಾರ್ಯದಲ್ಲಿ ಅನುವಾದ"], ["gu", "અનુવાદ કાર્યમાં"], ["pa", "ਅਨੁਵਾਦ ਕੰਮ ਕਰਦਾ ਹੋਇਆ"], ["or", "କାର୍ଯ୍ୟରେ ଅନୁବାଦ"], ["as", "কামত অনুবাদ"], ["ne", "काममा अनुवाद"], ["si", "ක්‍රියාත්මක පරිවර්තනය"], ["lo", "ການແປໃນການໃຊ້ງານຈິງ"], ["mn", "Орчуулга ажиллаж байна"]]) {
     await step("Langue « " + c + " » écrite à la main : titre de la démo traduit, pas d'avertissement" + (RTL.includes(c) ? ", page de droite à gauche" : ""), async () => {
       const q = await open(ctxTel, M + "?lang=" + c);
       const r = await q.evaluate(() => ({ t: document.querySelector("#demo h2").textContent, avis: !document.getElementById("newLang").hidden, dir: document.documentElement.dir, large: document.documentElement.scrollWidth > innerWidth + 1 }));
