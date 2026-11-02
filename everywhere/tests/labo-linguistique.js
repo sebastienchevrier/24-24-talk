@@ -10,6 +10,8 @@ const S = require(path.join(SITE, "labo", "moteur", "socle.js"));
 const D = require(path.join(SITE, "labo", "donnees", "expressions-fr.js"));
 const BT = require(path.join(SITE, "labo", "tests", "batterie.js"));
 const B4 = require(path.join(SITE, "labo", "tests", "batterie-phase4.js"));
+const L112 = require(path.join(SITE, "labo", "donnees", "langues-112.js"));
+const BR = require(path.join(SITE, "labo", "tests", "batterie-registres.js"));
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json" };
 const server = http.createServer((req, res) => {
   const u = new URL(req.url, "http://x");
@@ -126,6 +128,14 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
     const fn = fs.readFileSync(path.join(SITE, "labo", "serveur", "labo-traduire.ts"), "utf8");
     const okFn = /Deno\.env\.get\("GROQ_API_KEY"\)/.test(fn) && !/console\.(log|info|warn|error)/.test(fn);
     return { ok: !fuite.length && okFn, detail: "fichiers lus " + fichiers.length + " · clé Groq trouvée " + fuite.length + " · fonction sans journal " + okFn };
+  });
+
+  await step("112 langues : registre complet, écriture connue pour chacune, AUCUNE langue marquée validée ; batterie couvrant les 11 registres", async () => {
+    const codes = L112.langues.map((l) => l.code), uniques = new Set(codes).size;
+    const sansEcriture = L112.langues.filter((l) => !l.ecriture).length;
+    const couverts = BR.registres.filter((r) => BR.cas.some((c) => c.registre === r)).length;
+    return { ok: codes.length === 112 && uniques === 112 && !sansEcriture && L112.valides.length === 0 && couverts === 11 && BR.registres.length === 11,
+      detail: codes.length + " langues · " + uniques + " codes uniques · validées " + L112.valides.length + " · registres couverts " + couverts + "/11 · phrases " + BR.cas.length };
   });
 
   // ---------- Page (Chromium, MyMemory et IA simulées)

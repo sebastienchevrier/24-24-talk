@@ -22,7 +22,10 @@ const IA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 // Dans l'offre gratuite, le coût réel est 0 € ; ces prix servent à estimer le coût si l'offre payante devenait nécessaire.
 const PRIX = { "openai/gpt-oss-120b": [0.15, 0.60], "openai/gpt-oss-20b": [0.075, 0.30] };
 // Écart entre deux appels IA : 5 machines tournent en même temps et l'offre gratuite autorise 8 000 jetons par minute.
-const ECART_IA = +arg("--ecart", "35000");
+const ECART_IA = +arg("--ecart", "45000");
+// Garde-fou : passé ce délai, l'IA est arrêtée et le banc finit avec MyMemory, pour que le BILAN s'écrive toujours
+// (le 2 nov., un passage coupé par la limite de 60 min de GitHub a perdu tous ses chiffres).
+const FIN = Date.now() + (+arg("--minutes", "48")) * 60000;
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 let appels = 0, caracteres = 0;
 
@@ -63,6 +66,7 @@ const ia_stats = { appels: 0, reussis: 0, echecs: 0, quota_429: 0, ms: [], ms_se
 let iaCoupee = null; // IA non branchée ou accès refusé : inutile d'attendre entre chaque phrase.
 async function ia(req) {
   if (iaCoupee) throw new Error(iaCoupee);
+  if (Date.now() > FIN) { iaCoupee = "temps du banc écoulé : IA arrêtée (voir --minutes)"; throw new Error(iaCoupee); }
   if (modele) req.modele = modele;
   for (let essai = 1; essai <= 6; essai++) {
     const attente = dernierIA + ECART_IA - Date.now();
@@ -75,7 +79,7 @@ async function ia(req) {
       r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, Origin: "http://localhost" }, body: JSON.stringify(req), signal: AbortSignal.timeout(40000) });
       j = await r.json().catch(() => ({}));
     } catch (e) { r = { ok: false, status: 0 }; j = { erreur: "réseau : " + e.message }; }
-    if (r.status === 429) { ia_stats.quota_429++; await pause(Math.min(120000, Math.max(30000, (+j.reessayer_dans || 0) * 1000))); continue; }
+    if (r.status === 429) { ia_stats.quota_429++; if (Date.now() > FIN) break; await pause(Math.min(90000, Math.max(30000, (+j.reessayer_dans || 0) * 1000))); continue; }
     if (!r.ok) { const m = j.erreur || "IA " + r.status; ia_stats.echecs++; ia_stats.erreurs[m] = (ia_stats.erreurs[m] || 0) + 1; if (r.status === 503 || r.status === 401) { iaCoupee = m; throw new Error(m); } if (essai < 3) continue; throw new Error(m); }
     ia_stats.reussis++; ia_stats.ms.push(Date.now() - t0); if (j.ms) ia_stats.ms_serveur.push(j.ms);
     if (j.jetons) { ia_stats.entree += j.jetons.entree || 0; ia_stats.sortie += j.jetons.sortie || 0; }

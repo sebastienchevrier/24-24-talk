@@ -42,8 +42,12 @@ jobs:
         env:
           BATTERIE: ${{ inputs.batterie || 'base' }}
           MODELE: ${{ inputs.modele }}
-          IA: ${{ (github.event_name == 'pull_request' || inputs.ia) && '--ia' || '' }}
+          IA: ${{ inputs.ia && '--ia' || '' }}
         run: node labo/tests/banc-reel.js "${{ matrix.langue }}" $IA --batterie "$BATTERIE" ${MODELE:+--modele "$MODELE"}
+      - name: Résumé lisible dans GitHub
+        if: always()
+        run: |
+          for f in labo/tests/resultats/banc-*.json; do [ -f "$f" ] && node -e 'const b=require(process.argv[1]).bilan;const p=b.problemes_detectes,m=b.mot_a_mot_detecte,i=b.ia||{};console.log(`### ${b.batterie} → ${b.langue}\n\n| | MyMemory seul | Meilleur gratuit | IA (${i.modele||"—"}) |\n|---|---|---|---|\n| Problèmes détectés | ${p.mymemory} | ${p.meilleur_gratuit} | ${p.ia??"—"} |\n| Mot à mot détecté | ${m.mymemory} | ${m.meilleur_gratuit} | ${m.ia??"—"} |\n| Sens perdu (négation, question, date…) | ${b.sens_perdu_detecte.mymemory} | ${b.sens_perdu_detecte.meilleur_gratuit} | ${b.sens_perdu_detecte.ia??"—"} |\n| Latence médiane | ${b.latence_ms.mymemory_mediane} ms | — | ${b.latence_ms.ia_mediane??"—"} ms |\n\nIA : ${i.reussis??0}/${i.appels??0} réussis, ${i.jetons_par_traduction??"—"} jetons par traduction, coût réel 0 €, estimé si payant ${i.cout_estime_si_payant_usd_par_traduction??"—"} $ par traduction.\n`)' "$PWD/$f" >> "$GITHUB_STEP_SUMMARY"; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
