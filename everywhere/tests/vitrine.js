@@ -74,9 +74,29 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
       while ((n = w.nextNode())) { const el = n.parentElement; if (!el || el.closest("script,style,select,.notranslate,[translate=no],#helloWord,#helloLang,#helloCity,#langCode,#cloud,#carnetList,#dChat,svg,[data-k]")) continue; const t = n.nodeValue.trim(); if (t && !s.has(t) && !/^[·⇄]$/.test(t)) out.push(t); } return out; }, [...all]);
     return { ok: orphelins.length === 0, detail: orphelins.length ? orphelins.join(" | ") : K2.length + " nouveaux textes, tous reconnus" };
   });
-  await step("K2 écrit à la main en 10 langues (fr + 9), même nombre d'entrées, aucune vide", async () => {
+  const LOT1 = ["hi", "bn", "id", "tr", "vi", "ko", "pl", "nl", "th", "sw"];
+  await step("K2 écrit à la main en 20 langues (fr + 9 du 1er nov. + lot 1 de 10), même nombre d'entrées, aucune vide", async () => {
     const l = Object.keys(T2), bad = l.filter((c) => T2[c].length !== K2.length || T2[c].some((x) => !x || !String(x).trim()));
-    return { ok: l.length === 9 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
+    return { ok: l.length === 19 && !bad.length && ["en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru"].concat(LOT1).every((c) => l.includes(c)), detail: "langues : fr," + l.join(",") + (bad.length ? " · incomplètes : " + bad : "") };
+  });
+  await step("Lot 1 (hi bn id tr vi ko pl nl th sw) : vraiment traduit, ≥ 95 % des 163 textes différents de l'anglais", async () => {
+    // Peuvent rester identiques à l'anglais : noms propres et mots internationaux (Pro, Demo…).
+    const faibles = LOT1.map((c) => [c, T2[c].filter((x, i) => x === T2.en[i]).length]).filter(([, n]) => n > Math.floor(K2.length * 0.05));
+    return { ok: !faibles.length, detail: LOT1.map((c) => c + ":" + T2[c].filter((x, i) => x === T2.en[i]).length).join(" ") + " identiques à l'anglais" };
+  });
+  await step("Lot 1 : noms et chiffres intouchables gardés (ONE WORLD, MyMemory, COMMUNITY, Pro, 112, 90, 12), aucun montant ajouté", async () => {
+    const err = [];
+    for (const c of LOT1) T2.en.forEach((en, i) => {
+      for (const w of ["ONE WORLD", "MyMemory", "COMMUNITY", "Pro"]) if (new RegExp("\\b" + w + "\\b").test(en) && !T2[c][i].includes(w)) err.push(c + "#" + i + " " + w);
+      for (const n of (en.match(/\d+/g) || [])) if (!T2[c][i].includes(n)) err.push(c + "#" + i + " " + n);
+      if (/[€$]|14[,.]90|\b149\b/.test(T2[c][i]) && !/[€$]/.test(en)) err.push(c + "#" + i + " montant");
+    });
+    return { ok: !err.length, detail: err.slice(0, 8).join(" | ") || "tout gardé dans les 10 langues" };
+  });
+  await step("Lot 1 : la mention « pas encore en vente / aucun paiement » existe et diffère de l'anglais dans chaque langue", async () => {
+    const i = K2.indexOf("Une grille de prix est proposée, pas encore en vente : aucun paiement n'est possible aujourd'hui.");
+    const bad = LOT1.filter((c) => !T2[c][i] || T2[c][i] === T2.en[i] || T2[c][i].length < 20);
+    return { ok: i >= 0 && !bad.length, detail: LOT1.map((c) => c + ": " + T2[c][i].slice(0, 30)).slice(0, 3).join(" · ") };
   });
   await step("Les 110 traductions historiques intactes : chaque monde/lang/*.json a toujours " + K.length + " entrées", async () => {
     const dir = path.join(SITE, "monde", "lang"), f = fs.readdirSync(dir).filter((x) => x.endsWith(".json"));
@@ -90,7 +110,9 @@ const T2 = eval("(" + SRC.match(/var T2 = (\{[\s\S]*?\n    \});/)[1] + ")");
     await q.close();
     return { ok: r.eyebrow === "Onafhanklike, vrye netwerk" && r.kicker === "The ecosystem" && r.avis && !r.auto, detail: JSON.stringify(r) };
   });
-  for (const [c, attendu] of [["en", "Translation in action"], ["ja", "翻訳を体験"], ["ar", "الترجمة أثناء العمل"], ["de", "Übersetzung in Aktion"]]) {
+  for (const [c, attendu] of [["en", "Translation in action"], ["ja", "翻訳を体験"], ["ar", "الترجمة أثناء العمل"], ["de", "Übersetzung in Aktion"],
+    ["hi", "अनुवाद काम करते हुए"], ["bn", "অনুবাদ কাজ করছে"], ["id", "Terjemahan beraksi"], ["tr", "Çeviri iş başında"], ["vi", "Bản dịch hoạt động"],
+    ["ko", "번역이 작동하는 모습"], ["pl", "Tłumaczenie w działaniu"], ["nl", "Vertaling in actie"], ["th", "การแปลขณะใช้งานจริง"], ["sw", "Tafsiri ikifanya kazi"]]) {
     await step("Langue « " + c + " » écrite à la main : titre de la démo traduit, pas d'avertissement" + (c === "ar" ? ", page de droite à gauche" : ""), async () => {
       const q = await open(ctxTel, M + "?lang=" + c);
       const r = await q.evaluate(() => ({ t: document.querySelector("#demo h2").textContent, avis: !document.getElementById("newLang").hidden, dir: document.documentElement.dir, large: document.documentElement.scrollWidth > innerWidth + 1 }));
