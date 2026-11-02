@@ -5275,6 +5275,10 @@ function onDeviceCode(c) {
   if (/^zh-(tw|hk|mo|hant)/.test(c)) return "zh-Hant";
   return c.split("-")[0];
 }
+// Chaque étape est bornée dans le temps : si le navigateur ne répond pas, on rend null et l'erreur d'origine s'affiche.
+function onDeviceLimit(p, ms) {
+  return Promise.race([p, new Promise((_, ko) => setTimeout(() => ko(new Error("DEVICE_TIMEOUT")), ms))]);
+}
 async function onDeviceTranslate(text, sourceCode, targetCode) {
   try {
     if (typeof self === "undefined" || !("Translator" in self) || !text) return null;
@@ -5283,12 +5287,12 @@ async function onDeviceTranslate(text, sourceCode, targetCode) {
     const key = src + "|" + tgt;
     let tr = onDeviceTranslators.get(key);
     if (!tr) {
-      const av = await self.Translator.availability({ sourceLanguage: src, targetLanguage: tgt });
+      const av = await onDeviceLimit(self.Translator.availability({ sourceLanguage: src, targetLanguage: tgt }), 1500);
       if (av !== "available") return null;
-      tr = await self.Translator.create({ sourceLanguage: src, targetLanguage: tgt });
+      tr = await onDeviceLimit(self.Translator.create({ sourceLanguage: src, targetLanguage: tgt }), 3000);
       onDeviceTranslators.set(key, tr);
     }
-    const out = await tr.translate(text);
+    const out = await onDeviceLimit(tr.translate(text), 5000);
     return out && String(out).trim() ? String(out) : null;
   } catch (e) { return null; }
 }
