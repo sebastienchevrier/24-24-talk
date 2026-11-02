@@ -41,6 +41,14 @@ testees.map((l) => bilans[l.code]).sort((a, b) => (a.chrf_retour_moyen ?? 0) - (
   const evo = a && a.chrf_retour_moyen != null && b.chrf_retour_moyen != null ? (b.chrf_retour_moyen - a.chrf_retour_moyen >= 0 ? "+" : "") + (Math.round((b.chrf_retour_moyen - a.chrf_retour_moyen) * 10) / 10) : "—";
   md += `| ${b.code} | ${b.nom} | ${b.tests_reussis}/${b.traduites} | ${b.problemes} | ${b.mauvaise_ecriture} | ${b.chrf_retour_moyen ?? "—"} | ${evo} |\n`;
 });
+const avecIA = testees.filter((l) => bilans[l.code].ia && bilans[l.code].ia.traduites);
+if (avecIA.length) {
+  const somme = (f) => avecIA.reduce((s, l) => s + (f(bilans[l.code].ia.comparaison_memes_phrases) || 0), 0);
+  total.comparaison_ia = { langues: avecIA.length, modele: bilans[avecIA[0].code].ia.modele, phrases: somme((c) => c.phrases), mymemory_sans_probleme: somme((c) => c.mymemory_sans_probleme), ia_sans_probleme: somme((c) => c.ia_sans_probleme) };
+  md += "\n## MyMemory contre IA (" + total.comparaison_ia.modele + "), mêmes phrases, même protocole\n\n| Langue | Phrases | MyMemory sans problème | IA sans problème | chrF retour MyMemory | chrF retour IA | Latence IA | Coût si payant / trad. |\n|---|---|---|---|---|---|---|---|\n";
+  avecIA.forEach((l) => { const i = bilans[l.code].ia, c = i.comparaison_memes_phrases; md += `| ${l.code} | ${c.phrases} | ${c.mymemory_sans_probleme} | ${c.ia_sans_probleme} | ${c.chrf_mymemory ?? "—"} | ${c.chrf_ia ?? "—"} | ${i.latence_ms_mediane ?? "—"} ms | ${i.cout_estime_si_payant_usd_par_traduction ?? "—"} $ |\n`; });
+  md += `| **Total** | ${total.comparaison_ia.phrases} | ${total.comparaison_ia.mymemory_sans_probleme} | ${total.comparaison_ia.ia_sans_probleme} | | | | |\n\nAttention : une bonne retraduction ne prouve pas une bonne traduction (deux erreurs peuvent se compenser). Coût réel : 0 € (offre gratuite).\n`;
+}
 md += "\nLecture : « sans problème détecté » veut dire que les contrôles automatiques (écriture, nombres, noms, longueur, recopie, retour) n'ont rien trouvé. Ce n'est PAS une preuve de bonne traduction. Les idiomes, l'humour et les métaphores demandent toujours une relecture humaine.\n";
 fs.writeFileSync(path.join(dir, "dernier-112.json"), JSON.stringify(total, null, 1));
 fs.writeFileSync(path.join(dir, "rapport-112.md"), md);

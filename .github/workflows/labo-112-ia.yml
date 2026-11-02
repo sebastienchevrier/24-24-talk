@@ -1,0 +1,81 @@
+# 24/24 ONE WORLD — Labo linguistique : MyMemory contre IA (Groq via la fonction de TEST) sur la batterie des registres.
+# © 2026 Sébastien Chevrier. Tous droits réservés.
+# Part quand labo/tests/tranche-ia.json change sur la branche du labo (≈15 langues par jour, quota gratuit de l'IA).
+# 3 machines à la fois au plus, 20 s entre deux appels IA par machine. Aucun secret ici : la clé Groq reste sur le serveur
+# de TEST. Résultats rangés sur la branche labo-resultats (dossier ia/), jamais sur main. Ne touche pas à la PROD.
+name: Labo — 112 langues, MyMemory contre IA
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/labo-linguistique]
+    paths: ["labo/tests/tranche-ia.json", ".github/workflows/labo-112-ia.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: labo-112-ia
+  cancel-in-progress: false
+jobs:
+  liste:
+    runs-on: ubuntu-latest
+    outputs:
+      langues: ${{ steps.l.outputs.langues }}
+      modele: ${{ steps.l.outputs.modele }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - id: l
+        run: |
+          echo "langues=$(node -e 'console.log(JSON.stringify(require("./labo/tests/tranche-ia.json").langues))')" >> "$GITHUB_OUTPUT"
+          echo "modele=$(node -e 'console.log(require("./labo/tests/tranche-ia.json").modele||"")')" >> "$GITHUB_OUTPUT"
+  banc:
+    needs: liste
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        langue: ${{ fromJSON(needs.liste.outputs.langues) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: MyMemory et IA vers ${{ matrix.langue }}
+        env:
+          MODELE: ${{ needs.liste.outputs.modele }}
+        run: node labo/tests/banc-112.js "${{ matrix.langue }}" --ia ${MODELE:+--modele "$MODELE"}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ia112-${{ matrix.langue }}
+          path: labo/tests/resultats/
+          retention-days: 30
+          if-no-files-found: ignore
+  rapport:
+    needs: banc
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ia112-*
+          path: resultats-ia
+      - name: Rapport MyMemory contre IA
+        run: |
+          echo '{}' > vide.json
+          node labo/tests/rapport-112.js resultats-ia vide.json > /dev/null
+          cat resultats-ia/rapport-112.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Ranger sur la branche labo-resultats (dossier ia/, jamais main)
+        run: |
+          D=$(date -u +%Y-%m-%d-%H%M)
+          mkdir -p /tmp/h && cp resultats-ia/dernier-112.json /tmp/h/ia.json && cp resultats-ia/rapport-112.md /tmp/h/ia.md
+          git config user.name "labo-one-world"; git config user.email "labo-one-world@users.noreply.github.com"
+          git fetch origin labo-resultats --depth=1 && git checkout -B labo-resultats origin/labo-resultats
+          mkdir -p ia && cp /tmp/h/ia.json "ia/ia-$D.json" && cp /tmp/h/ia.md "ia/rapport-ia-$D.md" && cp /tmp/h/ia.md ia/dernier-rapport-ia.md
+          git add ia && git commit -qm "Labo IA : tranche du $D" && git push -q origin labo-resultats

@@ -12,6 +12,12 @@ const fs = require("fs"), path = require("path");
 const S = require("../moteur/socle.js"), D = require("../donnees/expressions-fr.js");
 const L = require("../donnees/langues-112.js"), B = require("./batterie-registres.js");
 const code = process.argv[2];
+const avecIA = process.argv.includes("--ia");
+const argv = (k, d) => { const i = process.argv.indexOf(k); return i > 0 && process.argv[i + 1] ? process.argv[i + 1] : d; };
+const modele = argv("--modele", null), ECART_IA = +argv("--ecart", "20000");
+const IA_URL = "https://tbynnefrrxzxufcptijc.supabase.co/functions/v1/labo-traduire";
+// Clé PUBLIQUE « anon » du projet Supabase de TEST (pas la clé Groq, qui reste secrète sur le serveur). Jamais la PROD.
+const IA_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRieW5uZWZycnh6eHVmY3B0aWpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNDQwMDksImV4cCI6MjEwNjYyMDAwOX0.ykVFdlV6Rly4iln4JiufKMKOnSyE4fkGYK59GAZ186Y";
 const langue = L.langues.find((x) => x.code === code);
 if (!langue) { console.error("Langue inconnue : " + code); process.exit(2); }
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -64,6 +70,44 @@ async function mymemory(texte, de, vers) {
   return String(t).replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
 }
 
+let dernierIA = 0, iaCoupee = null;
+const iaStats = { appels: 0, reussis: 0, echecs: 0, refus_429: 0, ms: [], entree: 0, sortie: 0, modele: null, erreurs: {} };
+async function ia(texte) {
+  if (iaCoupee) throw new Error(iaCoupee);
+  for (let essai = 1; essai <= 5; essai++) {
+    const att = dernierIA + ECART_IA - Date.now(); if (att > 0) await pause(att);
+    dernierIA = Date.now(); iaStats.appels++;
+    const t0 = Date.now(); let r, j;
+    try {
+      r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, Origin: "http://localhost" },
+        body: JSON.stringify({ texte, de: "fr", vers: code, style: "auto", modele: modele || undefined }), signal: AbortSignal.timeout(40000) });
+      j = await r.json().catch(() => ({}));
+    } catch (e) { r = { ok: false, status: 0 }; j = { erreur: "réseau : " + e.message }; }
+    if (r.status === 429) { iaStats.refus_429++; await pause(30000); continue; }
+    if (!r.ok) { const m = j.erreur || "IA " + r.status; iaStats.echecs++; iaStats.erreurs[m] = (iaStats.erreurs[m] || 0) + 1; if (r.status === 503 || r.status === 401 || /\(4\d\d\)/.test(m)) iaCoupee = m; throw new Error(m); }
+    iaStats.reussis++; iaStats.ms.push(Date.now() - t0); iaStats.modele = j.modele;
+    if (j.jetons) { iaStats.entree += j.jetons.entree || 0; iaStats.sortie += j.jetons.sortie || 0; }
+    return j.traduction;
+  }
+  iaStats.echecs++; throw new Error("quota de l'IA (5 essais)");
+}
+// Même protocole pour chaque moteur : contrôles + retraduction MyMemory vers le français + chrF.
+async function evaluer(c, traduction) {
+  const an = S.comprendre(c.t, "fr", D);
+  const E = S.controler(c.t, traduction, an, code, D), V = S.verifierSens(c.t, traduction, code, c);
+  const controles = E.resultats.concat(V.resultats).filter((x) => !/^expression «/.test(x.controle));
+  controles.push({ controle: "écriture " + langue.ecriture, ok: bonneEcriture(traduction), detail: bonneEcriture(traduction) ? "bonne écriture" : "MAUVAISE ÉCRITURE : non traduit ou mauvaise langue" });
+  const o = { traduction, controles };
+  try {
+    o.retour = await mymemory(traduction.slice(0, 450), code, "fr");
+    o.chrf_retour = chrf(o.retour, c.t);
+    const hit = (c.pieges_retour || []).filter((w) => o.retour.toLowerCase().includes(w));
+    if (c.pieges_retour) controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
+  } catch (e) { o.retour_erreur = e.message; }
+  o.echecs = controles.filter((x) => x.ok === false).length;
+  return o;
+}
+
 (async () => {
   const lignes = [];
   for (const c of B.cas) {
@@ -82,9 +126,13 @@ async function mymemory(texte, de, vers) {
         if (c.pieges_retour) l.controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
       } catch (e) { l.retour_erreur = e.message; }
     } catch (e) { l.erreur = e.message; }
+    if (avecIA && !l.erreur) {
+      try { l.ia = await evaluer(c, await ia(c.t)); } catch (e) { l.ia = { erreur: e.message }; }
+    }
     l.echecs = (l.controles || []).filter((x) => x.ok === false).length;
     l.a_relire = (l.controles || []).filter((x) => x.ok === null).length + (c.complexe ? 1 : 0);
     lignes.push(l);
+    if (l.ia) console.log(`        IA ${l.ia.erreur ? "ERREUR " + l.ia.erreur : (l.ia.echecs ? "✗" + l.ia.echecs : "✓") + " chrF retour " + (l.ia.chrf_retour ?? "—") + "  " + l.ia.traduction}`);
     console.log(`[${code}] ${c.registre.padEnd(16)} ${l.erreur ? "ERREUR " + l.erreur : (l.echecs ? "✗" + l.echecs : "✓") + " chrF retour " + (l.chrf_retour ?? "—")}  ${l.traduction || ""}`);
     if (l.erreur === "QUOTA" || l.erreur === "LANGUE NON PRISE EN CHARGE") break;
   }
@@ -103,6 +151,25 @@ async function mymemory(texte, de, vers) {
     latence_ms_mediane: ms.length ? [...ms].sort((a, b) => a - b)[Math.floor(ms.length / 2)] : null, appels, caracteres, cout_eur: 0,
     statut: "testé (contrôles automatiques) — PAS validé", par_registre: parRegistre,
   };
+  if (avecIA) {
+    const okIA = lignes.filter((l) => l.ia && !l.ia.erreur);
+    const memes = okIA.filter((l) => !l.erreur);
+    const prix = { "openai/gpt-oss-120b": [0.15, 0.6], "openai/gpt-oss-20b": [0.075, 0.3] }[iaStats.modele];
+    bilan.ia = {
+      modele: iaStats.modele, traduites: okIA.length, tests_reussis: okIA.filter((l) => l.ia.echecs === 0).length, problemes: okIA.reduce((s, l) => s + l.ia.echecs, 0),
+      mauvaise_ecriture: okIA.filter((l) => l.ia.controles.some((x) => /^écriture/.test(x.controle) && x.ok === false)).length,
+      chrf_retour_moyen: moy(okIA.map((l) => l.ia.chrf_retour).filter((x) => x != null)),
+      indices_mot_a_mot: okIA.filter((l) => l.ia.controles.some((x) => /indice mot à mot/.test(x.controle) && x.ok === null)).length,
+      // Comparaison stricte : seulement les phrases traduites par LES DEUX moteurs.
+      comparaison_memes_phrases: { phrases: memes.length, mymemory_sans_probleme: memes.filter((l) => l.echecs === 0).length, ia_sans_probleme: memes.filter((l) => l.ia.echecs === 0).length,
+        chrf_mymemory: moy(memes.map((l) => l.chrf_retour).filter((x) => x != null)), chrf_ia: moy(memes.map((l) => l.ia.chrf_retour).filter((x) => x != null)) },
+      appels: iaStats.appels, echecs: iaStats.echecs, refus_429: iaStats.refus_429, erreurs: iaStats.erreurs,
+      latence_ms_mediane: iaStats.ms.length ? [...iaStats.ms].sort((a, b) => a - b)[Math.floor(iaStats.ms.length / 2)] : null,
+      jetons_par_traduction: iaStats.reussis ? Math.round((iaStats.entree + iaStats.sortie) / iaStats.reussis) : null,
+      cout_reel_eur: 0, cout_estime_si_payant_usd_par_traduction: prix && iaStats.reussis ? +(((iaStats.entree * prix[0] + iaStats.sortie * prix[1]) / 1e6) / iaStats.reussis).toFixed(6) : null,
+      par_registre: Object.fromEntries(okIA.map((l) => [l.registre, { reussi: l.ia.echecs === 0, chrf_retour: l.ia.chrf_retour ?? null, echecs: l.ia.echecs }])),
+    };
+  }
   console.log("\nBILAN112 " + JSON.stringify(bilan));
   const dir = path.join(__dirname, "resultats");
   fs.mkdirSync(dir, { recursive: true });

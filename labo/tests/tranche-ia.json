@@ -1,0 +1,5 @@
+{
+  "explication": "Tranche du jour pour comparer MyMemory et l'IA (Groq, via la fonction de TEST) sur la batterie des registres. Changer cette liste et pousser sur la branche du labo lance le passage. ~15 langues par jour (quota gratuit). On commence par les langues les plus faibles du 1er passage du 2 nov.",
+  "modele": "openai/gpt-oss-20b",
+  "langues": ["ku", "gn", "uz", "eu", "mos", "rw", "mg", "fa", "su", "wo", "ln", "my", "km", "zh-TW", "sr"]
+}
