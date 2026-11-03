@@ -1,22 +1,15 @@
 {
   "explication": "Tranche du jour pour comparer MyMemory et l'IA (Groq, via la fonction de TEST) sur la batterie des registres. Changer cette liste et pousser sur la branche du labo lance le passage. ~15 langues par jour (quota gratuit). On commence par les langues les plus faibles du 1er passage du 2 nov.",
-  "modele": "openai/gpt-oss-20b",
+  "modele": "openai/gpt-oss-120b",
   "langues": [
-    "ku",
-    "gn",
-    "uz",
-    "eu",
-    "mos",
-    "rw",
-    "mg",
-    "fa",
-    "su",
     "wo",
     "ln",
-    "my",
+    "rw",
+    "mos",
+    "gn",
+    "mg",
     "km",
-    "zh-TW",
-    "sr"
+    "fa"
   ],
-  "passage": "2 — même tranche, avec le contrôle « retraduction très éloignée » (chrF < 15) pour MyMemory et l'IA"
+  "passage": "3 — grand modèle (gpt-oss-120b) sur 8 des 15 langues faibles (quota du jour partagé avec la batterie phase 4)"
 }
