@@ -428,7 +428,8 @@
     var a = att.attendus && att.attendus[vers];
     if (a) a.forEach(function (motif) { var okA = new RegExp(motif, "iu").test(c); rep.push({ controle: "attendu /" + motif + "/", ok: okA, detail: okA ? "présent" : "absent : " + (att.pourquoi || "voir la batterie") }); });
     var p = att.pieges && att.pieges[vers];
-    if (p) { var hit = p.filter(function (w) { return low.indexOf(w.toLowerCase()) >= 0; }); rep.push({ controle: "mot-piège de la phrase", ok: !hit.length, detail: hit.length ? "TRADUCTION MOT À MOT probable (« " + hit.join(", ") + " »)" : "pas de mot-piège" }); }
+    // Mot entier pour les écritures à espaces (mesuré le 3 nov. : « serious » trouvé à tort dans « Seriously »). Arabe, persan, hébreu : préfixes collés (بال…), on garde la recherche simple.
+    if (p) { var hit = p.filter(function (w) { var lw = w.toLowerCase(); return /^(zh|ja|th|lo|km|my|ar|fa|ur|he)$/.test(vers) ? low.indexOf(lw) >= 0 : U("(^|[^\\p{L}])" + lw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![\\p{L}])", "iu").test(low); }); rep.push({ controle: "mot-piège de la phrase", ok: !hit.length, detail: hit.length ? "TRADUCTION MOT À MOT probable (« " + hit.join(", ") + " »)" : "pas de mot-piège" }); }
     var nOk = rep.filter(function (x) { return x.ok === true; }).length, nKo = rep.filter(function (x) { return x.ok === false; }).length;
     return { resultats: rep, ok: nOk, echecs: nKo, a_relire: rep.filter(function (x) { return x.ok === null; }).length };
   }
