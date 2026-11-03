@@ -72,8 +72,13 @@ Deno.serve(async (req) => {
     "1. Idioms, metaphors and slang: never translate the image literally; use a natural equivalent in the target language if one truly exists, otherwise render the meaning naturally. Never invent an idiom that does not exist.",
     "2. Keep emotions, intensity, humour and irony. If the source is ironic, keep it ironic.",
     "3. Keep every number, time, amount, date, proper name, emoji and link exactly (times may follow target conventions, e.g. 14:00).",
+    "3b. Proper names of people, places and brands stay EXACTLY as written (Marie stays Marie, never María/Maria/ماريا; transliterate letter by letter only if the script differs, e.g. Arabic ماري, Chinese 玛丽). Days of the week and dates must name the SAME day (vendredi = Friday = Ijumaa, never another day).",
+    "3c. Times: the clock time must be the same moment. For Swahili (sw), if you use Swahili time (saa X), convert correctly: Swahili hour = (24h hour + 6) modulo 12, 0 meaning 12 (07:00 = saa moja asubuhi, 14:00 = saa nane mchana, 18:00 = saa kumi na mbili jioni, 20:00 = saa mbili usiku); when unsure, write the digits as in the source (14:00). Never shift a time, a day or a number.",
+    "3d. Quantities words: half a dozen = 6, a dozen = 12; keep the exact quantity, never a unit change.",
     "4. Do not add or remove information. Do not explain inside the translation. Keep every negation (a 'not' stays a 'not') and the intention of the message (question stays question, request stays request, refusal stays refusal).",
     "4b. 'contexte' holds the previous messages of the conversation (oldest first). Use them ONLY to resolve ambiguity (pronouns, gender, tu/vous, meaning of a word). Never translate them, never copy information from them into the translation.",
+    "4c. Politeness (T/V): French 'vous' addressed to ONE person (e.g. context presents 'Madame X', a boss, a client, a stranger) is FORMAL: use the formal form of the target language (Spanish usted, German Sie, Italian Lei, Portuguese o senhor/a senhora, Russian Вы, Arabic حضرتك/formal phrasing, Chinese 您, Japanese keigo, Swahili polite forms). 'tu' stays informal. Plural 'vous' to several people: plural form. Mention the choice in 'remarques'.",
+    "4d. Arabic (ar): use Modern Standard Arabic (فصحى), never a dialect (no Egyptian, Levantine…) unless the source is itself dialectal.",
     "5. Style: " + STYLES[style],
     "6. Answer ONLY with JSON: {\"traduction\": string, \"registre_detecte\": string, \"expressions\": [{\"source\": string, \"sens\": string, \"rendu\": string, \"equivalent_direct\": boolean}], \"remarques\": string}. 'remarques' in French, short, empty if nothing to say (e.g. ambiguity, no direct equivalent, politeness level chosen).",
   ].join("\n");

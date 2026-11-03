@@ -97,7 +97,8 @@ async function ia(texte) {
 // (« comment vas-tu, en paix »), sans qu'aucun autre contrôle ne réagisse. Même seuil pour MyMemory et l'IA.
 const SEUIL_RETOUR = 15;
 function retourEloigne(controles, v) {
-  if (v == null) return;
+  // Retraduction impossible : la phrase n'est PAS vérifiée (jamais comptée « sans problème »).
+  if (v == null) { controles.push({ controle: "retraduction", ok: null, detail: "retraduction impossible : NON VÉRIFIÉ" }); return; }
   controles.push({ controle: "retraduction", ok: v >= SEUIL_RETOUR, detail: v >= SEUIL_RETOUR ? "chrF " + v : "chrF " + v + " : RETOUR TRÈS ÉLOIGNÉ, sens probablement inventé ou perdu" });
 }
 
@@ -172,7 +173,8 @@ async function evaluer(c, traduction) {
       chrf_retour_moyen: moy(okIA.map((l) => l.ia.chrf_retour).filter((x) => x != null)),
       indices_mot_a_mot: okIA.filter((l) => l.ia.controles.some((x) => /indice mot à mot/.test(x.controle) && x.ok === null)).length,
       // Comparaison stricte : seulement les phrases traduites par LES DEUX moteurs.
-      comparaison_memes_phrases: { phrases: memes.length, mymemory_sans_probleme: memes.filter((l) => l.echecs === 0).length, ia_sans_probleme: memes.filter((l) => l.ia.echecs === 0).length,
+      comparaison_memes_phrases: { phrases: memes.length, mymemory_sans_probleme: memes.filter((l) => l.echecs === 0 && l.chrf_retour != null).length, ia_sans_probleme: memes.filter((l) => l.ia.echecs === 0 && l.ia.chrf_retour != null).length,
+        mymemory_non_verifie: memes.filter((l) => l.chrf_retour == null).length, ia_non_verifie: memes.filter((l) => l.ia.chrf_retour == null).length,
         chrf_mymemory: moy(memes.map((l) => l.chrf_retour).filter((x) => x != null)), chrf_ia: moy(memes.map((l) => l.ia.chrf_retour).filter((x) => x != null)) },
       appels: iaStats.appels, echecs: iaStats.echecs, refus_429: iaStats.refus_429, erreurs: iaStats.erreurs,
       latence_ms_mediane: iaStats.ms.length ? [...iaStats.ms].sort((a, b) => a - b)[Math.floor(iaStats.ms.length / 2)] : null,
@@ -180,6 +182,15 @@ async function evaluer(c, traduction) {
       cout_reel_eur: 0, cout_estime_si_payant_usd_par_traduction: prix && iaStats.reussis ? +(((iaStats.entree * prix[0] + iaStats.sortie * prix[1]) / 1e6) / iaStats.reussis).toFixed(6) : null,
       par_registre: Object.fromEntries(okIA.map((l) => [l.registre, { reussi: l.ia.echecs === 0, chrf_retour: l.ia.chrf_retour ?? null, echecs: l.ia.echecs }])),
     };
+  }
+  // Phase 5 : types d'erreurs (grave / sens / contexte), « non vérifié », et décision par langue, sur LES MÊMES phrases.
+  const F = require("../moteur/fiabilite.js");
+  const memesF = avecIA ? lignes.filter((l) => !l.erreur && l.ia && !l.ia.erreur) : ok;
+  bilan.fiabilite = { mymemory: F.resumer(memesF) };
+  if (avecIA) {
+    bilan.fiabilite.ia = F.resumer(memesF.map((l) => l.ia));
+    bilan.fiabilite.ia.modele = iaStats.modele;
+    Object.assign(bilan.fiabilite, F.decider(bilan.fiabilite.ia, bilan.fiabilite.mymemory));
   }
   console.log("\nBILAN112 " + JSON.stringify(bilan));
   const dir = path.join(__dirname, "resultats");

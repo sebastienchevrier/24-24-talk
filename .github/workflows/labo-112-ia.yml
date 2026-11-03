@@ -74,8 +74,9 @@ jobs:
       - name: Ranger sur la branche labo-resultats (dossier ia/, jamais main)
         run: |
           D=$(date -u +%Y-%m-%d-%H%M)
-          mkdir -p /tmp/h && cp resultats-ia/dernier-112.json /tmp/h/ia.json && cp resultats-ia/rapport-112.md /tmp/h/ia.md
+          mkdir -p /tmp/h/labo && cp resultats-ia/dernier-112.json /tmp/h/ia.json && cp resultats-ia/rapport-112.md /tmp/h/ia.md && cp -r labo/moteur labo/tests /tmp/h/labo/
           git config user.name "labo-one-world"; git config user.email "labo-one-world@users.noreply.github.com"
           git fetch origin labo-resultats --depth=1 && git checkout -B labo-resultats origin/labo-resultats
           mkdir -p ia && cp /tmp/h/ia.json "ia/ia-$D.json" && cp /tmp/h/ia.md "ia/rapport-ia-$D.md" && cp /tmp/h/ia.md ia/dernier-rapport-ia.md
+          node /tmp/h/labo/tests/tableau-fiabilite.js ia > ia/TABLEAU-FIABILITE.md && cat ia/TABLEAU-FIABILITE.md >> "$GITHUB_STEP_SUMMARY"
           git add ia && git commit -qm "Labo IA : tranche du $D" && git push -q origin labo-resultats
