@@ -157,6 +157,12 @@ async function evaluer(c, traduction) {
     phrases_non_verifiees: ok.filter((l) => !F.estSansProbleme(l) && !l.controles.some((x) => x && x.ok === false)).length,
     latence_ms_mediane: F.mediane(ms), latences_ms: ms.slice(), appels, caracteres, cout_eur: 0,
     statut: "testé (contrôles automatiques) — PAS validé", par_registre: parRegistre,
+    // L-05 : le détail des erreurs détectées et des contrôles non vérifiés est gardé dans le bilan
+    // (dernier-112.json), pour diagnostiquer chaque langue sans fouiller les journaux de GitHub.
+    detail: ok.map((l) => ({ registre: l.registre, traduction: String(l.traduction).slice(0, 160),
+      erreurs: l.controles.filter((x) => x && x.ok === false).map((x) => x.controle + " : " + x.detail),
+      non_verifies: l.controles.filter((x) => !x || x.ok !== true && x.ok !== false).map((x) => (x && x.controle) || "contrôle absent") }))
+      .filter((d) => d.erreurs.length || d.non_verifies.length),
   };
   if (avecIA) {
     const okIA = lignes.filter((l) => l.ia && l.ia.traduction && !l.ia.erreur);

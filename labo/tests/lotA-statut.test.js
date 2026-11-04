@@ -86,6 +86,29 @@ test("22. L-02 la détection de pollution reste active dans une réponse non lat
   return { ok: a.length === 1 && sr.length === 1, detail: (a[0] || {}).detail + " · serbe cyrillique : " + sr.length };
 });
 
+// L-03 : heure sur 12 h ; L-04 : négation dans plus de langues (confirme seulement, n'accuse jamais).
+const BR = require(path.join(__dirname, "batterie-registres.js"));
+const casNb = BR.cas.find((x) => x.registre === "nombres et noms"), casNeg = BR.cas.find((x) => x.registre === "négation"), casFormel = BR.cas.find((x) => x.registre === "formel");
+const nb = (src, t, code) => S.controler(src, t, S.comprendre(src, "fr", D), code, D).resultats.filter((x) => /^nombre/.test(x.controle));
+test("23. L-03 pachto réel « 2.30 … après-midi » pour 14 h 30 : à relire (null), plus une erreur grave", () => {
+  const r = nb(casNb.t, "ماري د مارچ په 12 د ماسپښین په 2.30 بجې کریم ته 250 یورو ولیږل.", "ps"), h = r.find((x) => x.controle === "nombre 14");
+  return { ok: h && h.ok === null && r.every((x) => x.ok !== false), detail: r.map((x) => x.controle + ":" + x.ok).join(" ") };
+});
+test("24. L-03 une vraie erreur de nombre reste une erreur (pachto réel : facture 2026-118 rendue 1218-2026)", () => {
+  const r = nb(casFormel.t, "اغلې، مهرباني وکړئ ضمیمه رسید شمیره 1218-2026 د € 1,250 په مقدار کې ومومئ.", "ps");
+  return { ok: r.find((x) => x.controle === "nombre 118").ok === false, detail: r.map((x) => x.controle + ":" + x.ok).join(" ") };
+});
+test("25. L-04 négation confirmée dans de nouvelles langues (de, ru, sr latin, ja, tr)", () => {
+  const t = { de: "Ich werde nie zu dieser Party kommen.", ru: "Я никогда не приду на эту вечеринку.", sr: "Nikada neću doći na ovu žurku.", ja: "このパーティーには絶対に行きません。", tr: "Bu partiye asla gelmeyeceğim." };
+  const r = Object.entries(t).map(([k, v]) => [k, S.verifierSens(casNeg.t, v, k, casNeg).resultats.find((x) => x.controle === "négation gardée").ok]);
+  return { ok: r.every(([, o]) => o === true), detail: r.map((x) => x.join(":")).join(" ") };
+});
+test("26. L-04 liste étendue sans marque trouvée : « à relire » (null), jamais une erreur", () => {
+  const r = S.verifierSens(casNeg.t, "Verrò a questa festa.", "it", casNeg).resultats.find((x) => x.controle === "négation gardée");
+  const en = S.verifierSens(casNeg.t, "I will come to this party.", "en", casNeg).resultats.find((x) => x.controle === "négation gardée");
+  return { ok: r.ok === null && en.ok === false, detail: "it : " + r.ok + " · en (liste d'origine) : " + en.ok };
+});
+
 // rapport-112.js complet sur un dossier temporaire : mélange nouveau format / ancien format / langue absente.
 function rapport(bilans) {
   const d = fs.mkdtempSync(path.join(os.tmpdir(), "lotA-"));

@@ -288,6 +288,12 @@
       if (!ok && n.indexOf(".") > 0 && cibleNb.indexOf(n.replace(".", "")) >= 0) ok = true;
       // « 1 499,99 » rendu « 1,499.99 » : partie entière et décimales présentes séparément.
       if (!ok && n.indexOf(".") > 0) { var pp = n.split("."); if (cibleNb.indexOf(pp[0]) >= 0 && cibleNb.indexOf(pp[1]) >= 0) ok = true; }
+      // L-03 (mesure du 4 nov., pachto : « 14 h 30 » → « 2.30 … ماسپښین ») : heure écrite sur 12 h sans mot
+      // « après-midi » connu de l'outil. Ce n'est pas une erreur prouvée : à relire (matin ou après-midi ?).
+      if (!ok && h > 12 && h <= 23 && heuresSrc.indexOf(h) >= 0 && cibleNb.indexOf(String(h - 12)) >= 0) {
+        rep.push({ controle: "nombre " + n, ok: null, detail: "heure écrite sur 12 h (" + (h - 12) + ") : vérifier qu'il s'agit bien de l'après-midi" });
+        return;
+      }
       rep.push({ controle: "nombre " + n, ok: ok, detail: ok ? "présent" : "ABSENT ou modifié dans la traduction" });
     });
     // Heures en swahili : « saa 9 » = 15 h (les heures se comptent depuis 6 h du matin).
@@ -373,6 +379,34 @@
   // Contrôles guidés par les ATTENTES écrites dans la batterie (pas de devinette) : négation gardée, question gardée,
   // mois et jours gardés, noms propres (y compris en arabe et en chinois quand l'écriture est connue), mots attendus
   // (ex. « usted » quand on vouvoie), mots-pièges propres à la phrase. Sert pour les 3 colonnes, à égalité.
+  // L-04 (mesure du 4 nov. : « négation » vérifiée dans 4 % des langues seulement). Marques de négation courantes,
+  // tirées des grammaires de référence, NON relues par des natifs : elles servent seulement à CONFIRMER une négation
+  // (ok:true si trouvée, sinon « à relire »), jamais à déclarer une erreur.
+  var W = function (mots) { return new RegExp("(^|[^\\p{L}])(" + mots + ")(?![\\p{L}])", "iu"); };
+  var NEG_ETENDU = {
+    de: W("nicht|nie|niemals|kein|keine|keinen|nichts|niemand"), it: W("non|mai|niente|nessuno|nessuna"),
+    pt: W("não|nunca|jamais|nada|ninguém|nenhum|nenhuma"), "pt-BR": W("não|nunca|jamais|nada|ninguém|nenhum|nenhuma"),
+    "es-MX": W("no|nunca|jamás|nada|nadie"), nl: W("niet|nooit|geen|niets|niemand"), pl: W("nie|nigdy|nic|nikt"),
+    ro: W("nu|niciodată|nimic|nimeni"), cs: W("nikdy|nic|nikdo|ne\\p{L}+"), sk: W("nikdy|nič|nikto|ne\\p{L}+"),
+    sl: W("ne|nikoli|nič|nihče"), hr: W("ne|nikada|nikad|ništa|nitko|neću"), bs: W("ne|nikada|nikad|ništa|niko|neću"),
+    sr: W("ne|nikada|nikad|ništa|niko|neću|не|никада|ништа|нико|нећу"), mk: W("не|никогаш|ништо|никој"),
+    bg: W("не|никога|нищо|никой"), ru: W("не|ни|никогда|нет|ничего|никто"), uk: W("не|ні|ніколи|нічого|ніхто"),
+    be: W("не|ні|ніколі|нічога|ніхто"), el: W("δεν|δε|ποτέ|μην|όχι|τίποτα|κανένας"), hu: W("nem|soha|sosem|semmi|senki"),
+    fi: W("ei|en|et|emme|ette|eivät|koskaan|mitään|kukaan"), et: W("ei|mitte|kunagi|midagi|keegi"),
+    lv: W("nekad|nekas|neviens|ne\\p{L}+"), lt: W("niekada|niekas|niekur|ne\\p{L}+"),
+    sv: W("inte|aldrig|ingen|inget|inga|ingenting"), da: W("ikke|aldrig|ingen|intet|ingenting"),
+    nb: W("ikke|aldri|ingen|ingenting"), is: W("ekki|aldrei|enginn|ekkert"), ga: W("ní|níor|riamh|níl|nach"),
+    cy: W("ddim|byth|nid|na|nac|dim"), mt: W("ma|qatt|xejn|ħadd|mhux"), sq: W("nuk|s'|kurrë|asgjë|askush|mos"),
+    ca: W("no|mai|res|ningú|cap"), gl: W("non|nunca|xamais|nada|ninguén"), eu: W("ez|inoiz|ezer|inor"),
+    lb: W("net|ni|näischt|keen|keng"), af: W("nie|nooit|geen|niks|niemand"), tr: W("değil|asla|hiç|yok|hiçbir|hiçbir zaman"),
+    az: W("heç|deyil|yox|heç vaxt"), id: W("tidak|tak|bukan|jangan|tidak pernah|tak pernah"),
+    ms: W("tidak|tak|bukan|jangan|tidak pernah"), tl: W("hindi|huwag|wala|kailanman|kahit kailan"),
+    vi: W("không|chưa|chẳng|đừng|không bao giờ"), he: W("לא|אף|אין|לעולם|אל"),
+    fa: W("نه|هرگز|هیچ|نمی\\p{L}*|ن\\p{L}+"), ur: W("نہیں|کبھی|نہ|مت"), hi: W("नहीं|कभी|न|मत"),
+    bn: W("না|নি|কখনো|কখনও|নয়"), mr: W("नाही|कधीही|नको|न"), ne: W("छैन|होइन|कहिल्यै|न\\p{L}*"),
+    ka: W("არ|არასოდეს|ვერ|არაფერი|არავინ"), hy: W("ոչ|երբեք|չ\\p{L}*"),
+    ja: /ない|ません|ず|決して|二度と/, ko: /않|안 |못|절대|없/, th: /ไม่|อย่า|ไม่เคย/, "zh-TW": /[不沒没別别未無无非勿]/,
+  };
   var NEG = {
     en: /\b(not|no|never|nothing|nobody|no one|none|neither|nor|without)\b|n't/i,
     es: /(^|[^\p{L}])(no|nunca|jamás|nada|nadie|ningún|ninguna|ninguno|sin|tampoco|ni)(?![\p{L}])/iu,
@@ -415,8 +449,11 @@
     var cherche = function (motif) { return U("(^|[^\\p{L}])(" + motif + ")(?![\\p{L}])", "iu").test(low) || (/^(zh|ja|ar)$/.test(vers) && new RegExp(motif).test(c)); };
     if (att.negation) {
       var extra = att.negation_aussi && att.negation_aussi[vers];
-      var okN = (NEG[vers] ? NEG[vers].test(c) : false) || !!(extra && extra.some(function (x) { return low.indexOf(x.toLowerCase()) >= 0; }));
-      rep.push({ controle: "négation gardée", ok: NEG[vers] ? (okN ? true : vers === "sw" ? null : false) : null, detail: okN ? "négation présente" : NEG[vers] ? "NÉGATION PERDUE probable : le sens peut être inversé" : "langue non outillée : relecture" });
+      var etendu = !NEG[vers] && NEG_ETENDU[vers];
+      var okN = (NEG[vers] ? NEG[vers].test(c) : etendu ? etendu.test(c) : false) || !!(extra && extra.some(function (x) { return low.indexOf(x.toLowerCase()) >= 0; }));
+      // L-04 : liste étendue (non relue par des natifs) : elle peut CONFIRMER une négation, jamais en déclarer une perdue.
+      rep.push({ controle: "négation gardée", ok: NEG[vers] ? (okN ? true : vers === "sw" ? null : false) : etendu ? (okN ? true : null) : null,
+        detail: okN ? "négation présente" + (etendu ? " (liste étendue, non relue par un natif)" : "") : NEG[vers] ? "NÉGATION PERDUE probable : le sens peut être inversé" : etendu ? "marque de négation non trouvée dans la liste étendue : relecture" : "langue non outillée : relecture" });
     }
     if (att.question) {
       var okQ = QUESTION.test(c);

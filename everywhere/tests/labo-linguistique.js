@@ -54,10 +54,10 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
     const fin = (r.stdout || "").trim().split("\n").pop();
     return { ok: r.status === 0 && /^27 \/ 27 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
   });
-  await step("LOT A : 22 tests du statut chiffré des langues et du rapport 112 (labo/tests/lotA-statut.test.js, hors ligne)", async () => {
+  await step("LOT A : 26 tests du statut chiffré des langues et du rapport 112 (labo/tests/lotA-statut.test.js, hors ligne)", async () => {
     const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "lotA-statut.test.js")], { encoding: "utf8", timeout: 120000 });
     const fin = (r.stdout || "").trim().split("\n").pop();
-    return { ok: r.status === 0 && /^22 \/ 22 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
+    return { ok: r.status === 0 && /^26 \/ 26 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
   });
   await step("F-30 : 10 tests d'acceptation « retraduction impossible = non vérifié » (labo/tests/f30-retraduction.test.js, faux réseau)", async () => {
     const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "f30-retraduction.test.js")], { encoding: "utf8", timeout: 300000 });
