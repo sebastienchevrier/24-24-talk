@@ -220,7 +220,9 @@
     ecriture_max: 0.15,         // plus de 15 % de réponses dans la mauvaise écriture = détection / langue défaillante
     impossibles_max: 0.2,       // plus de 20 % de vérifications impossibles = non vérifiable
     graves_max: 2,              // 2 phrases ou plus avec erreur grave = défaillante
-    taux_min: 50,               // moins de 50 % sans problème détecté = défaillante
+    erreurs_max: 0.4,           // 40 % ou plus des phrases avec une erreur DÉTECTÉE = défaillante
+    non_verifiees_max: 0.4,     // plus de 40 % de phrases non vérifiées (contrôle impossible) = non vérifiable
+    taux_min: 50,               // ancien format seulement (pas de comptes séparés) : < 50 % = défaillante
     taux_prometteur: 90,        // 90 % ou plus, 0 grave et chrF retour ≥ 40 = prometteuse
     chrf_prometteur: 40,
   };
@@ -242,13 +244,19 @@
     const graves = f ? f.graves : null;
     const ecr = (b.mauvaise_ecriture || 0) / n;
     const imp = typeof b.verifications_impossibles === "number" ? b.verifications_impossibles / n : 0;
+    // L-01 : on ne juge « défaillante » que sur des erreurs DÉTECTÉES ; une phrase que nos contrôles ne savent pas
+    // vérifier dans cette langue (négation, nom propre hors alphabet latin, expression) rend la langue « non vérifiable ».
+    const avecErreur = typeof b.phrases_avec_erreur === "number" ? b.phrases_avec_erreur / n : null;
+    const nonVerif = typeof b.phrases_non_verifiees === "number" ? b.phrases_non_verifiees / n : null;
     const chrf = b.chrf_retour_moyen;
     const defauts = [];
     if (ecr > S.ecriture_max) defauts.push(b.mauvaise_ecriture + " réponse(s) dans la mauvaise écriture (détection ou langue non traduite)");
     if (graves != null && graves >= S.graves_max) defauts.push(graves + " phrase(s) avec erreur grave");
-    if (taux < S.taux_min) defauts.push(taux + " % sans problème détecté");
+    if (avecErreur != null) { if (avecErreur >= S.erreurs_max) defauts.push(b.phrases_avec_erreur + " / " + n + " phrases avec erreur détectée"); }
+    else if (taux < S.taux_min) defauts.push(taux + " % sans problème détecté");
     if (defauts.length) return { statut: "défaillante", raisons: raisons.concat(defauts), taux, graves, ancienne };
     if (imp > S.impossibles_max) return { statut: "non vérifiable", raisons: raisons.concat([b.verifications_impossibles + " retraduction(s) impossible(s) sur " + n]), taux, graves, ancienne };
+    if (nonVerif != null && nonVerif > S.non_verifiees_max) return { statut: "non vérifiable", raisons: raisons.concat([b.phrases_non_verifiees + " / " + n + " phrases que les contrôles automatiques ne savent pas vérifier dans cette langue : relecture native"]), taux, graves, ancienne };
     if (!ancienne && taux >= S.taux_prometteur && graves === 0 && chrf != null && chrf >= S.chrf_prometteur)
       return { statut: "prometteuse", raisons: [taux + " % sans problème détecté, 0 grave, chrF retour " + chrf + " : relecture native requise"], taux, graves, ancienne };
     return { statut: "à surveiller", raisons: raisons.concat([taux + " % sans problème détecté" + (graves != null ? ", " + graves + " grave(s)" : ", graves non classées") + ", chrF retour " + (chrf == null ? "—" : chrf)]), taux, graves, ancienne };

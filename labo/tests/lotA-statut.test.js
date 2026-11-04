@@ -37,8 +37,8 @@ test("5. Mauvaise écriture > 15 % : « défaillante » (détection / langue)", 
 test("6. 2 erreurs graves : « défaillante » même avec un bon taux", () => {
   const s = F.statutLangue(neuf("sw", { fiabilite: fiab(92, 2) })); return { ok: s.statut === "défaillante" && /grave/.test(s.raisons.join()), detail: s.raisons.join(" ; ") };
 });
-test("7. Moins de 50 % sans problème : « défaillante »", () => {
-  const s = F.statutLangue(neuf("sr", { fiabilite: fiab(23, 0) })); return { ok: s.statut === "défaillante", detail: s.raisons.join(" ; ") };
+test("7. Beaucoup d'erreurs détectées (9 / 13, 23 % sans problème) : « défaillante »", () => {
+  const s = F.statutLangue(neuf("sr", { fiabilite: fiab(23, 0), phrases_avec_erreur: 9, phrases_non_verifiees: 1 })); return { ok: s.statut === "défaillante", detail: s.raisons.join(" ; ") };
 });
 test("8. Plus de 20 % de retraductions impossibles : « non vérifiable », jamais « prometteuse »", () => {
   const s = F.statutLangue(neuf("om", { verifications_impossibles: 4 })); return { ok: s.statut === "non vérifiable", detail: s.raisons.join(" ; ") };
@@ -57,6 +57,33 @@ test("12. Aucun statut « validée » possible, quelles que soient les entrées"
   const essais = [undefined, neuf("a"), neuf("b", { fiabilite: fiab(100, 0), chrf_retour_moyen: 99 }), { disponible: false }, neuf("c", { traduites: 0 })];
   const st = essais.map((b) => F.statutLangue(b).statut);
   return { ok: st.every((x) => !/valid/i.test(x)), detail: st.join(", ") };
+});
+
+// L-01 (mesure réelle du 4 nov. : uk, ru classées « défaillantes » avec 1 seule erreur et 6 phrases non vérifiables).
+test("18. L-01 peu d'erreurs mais beaucoup de non vérifiées : « non vérifiable », pas « défaillante »", () => {
+  const s = F.statutLangue(neuf("uk", { tests_reussis: 6, phrases_avec_erreur: 1, phrases_non_verifiees: 6, fiabilite: fiab(46, 0) }));
+  return { ok: s.statut === "non vérifiable" && /relecture native/.test(s.raisons.join()), detail: s.raisons.join(" ; ") };
+});
+test("19. L-01 40 % ou plus de phrases avec erreur détectée : « défaillante »", () => {
+  const s = F.statutLangue(neuf("sr", { tests_reussis: 2, phrases_avec_erreur: 10, phrases_non_verifiees: 1, fiabilite: fiab(15, 0) }));
+  return { ok: s.statut === "défaillante" && /10 \/ 13 phrases avec erreur/.test(s.raisons.join()), detail: s.raisons.join(" ; ") };
+});
+test("20. L-01 ancien format sans comptes séparés : règle « < 50 % » conservée", () => {
+  const b = neuf("x", { tests_reussis: 3 }); delete b.fiabilite; delete b.verifications_impossibles; delete b.phrases_avec_erreur; delete b.phrases_non_verifiees;
+  const s = F.statutLangue(b); return { ok: s.statut === "défaillante" && /23 % sans problème/.test(s.raisons.join()), detail: s.raisons.join(" ; ") };
+});
+
+// L-02 : faux « ajout suspect » sur le serbe écrit en latin (traductions réelles de MyMemory, 4 nov. 2026).
+const S = require(path.join(__dirname, "..", "moteur", "socle.js")), D = require(path.join(__dirname, "..", "donnees", "expressions-fr.js"));
+const ajout = (src, trad, code) => S.controler(src, trad, S.comprendre(src, "fr", D), code, D).resultats.filter((x) => x.controle === "ajout suspect");
+test("21. L-02 serbe en latin (réponse réelle) : plus de faux « ajout suspect »", () => {
+  const cas = [["Je t'appelle ce soir après le travail.", "Zvaću te večeras posle posla."], ["Je vous saurais gré de bien vouloir me répondre avant vendredi.", "Bio bih Vam zahvalan ako biste mogli da mi odgovorite pre petka."], ["Je ne viendrai jamais à cette fête.", "Nikada neću doći na ovu žurku."]];
+  const faux = cas.filter(([s, t]) => ajout(s, t, "sr").length);
+  return { ok: faux.length === 0, detail: faux.length + " faux positif(s) sur " + cas.length };
+});
+test("22. L-02 la détection de pollution reste active dans une réponse non latine (arabe + « Underwood »)", () => {
+  const a = ajout("Je t'appelle ce soir.", "سأتصل بك الليلة Underwood", "ar"), sr = ajout("Je t'appelle ce soir.", "Позваћу те вечерас Underwood", "sr");
+  return { ok: a.length === 1 && sr.length === 1, detail: (a[0] || {}).detail + " · serbe cyrillique : " + sr.length };
 });
 
 // rapport-112.js complet sur un dossier temporaire : mélange nouveau format / ancien format / langue absente.

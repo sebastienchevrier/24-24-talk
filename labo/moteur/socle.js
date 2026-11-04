@@ -311,7 +311,11 @@
     var pol = [];
     if (/[()（）]/.test(c) && !/[()]/.test(src)) pol.push("parenthèses");
     if (/(^|\s)[-–—]\s/.test(c) && !/(^|\s)[-–—]\s/.test(src)) pol.push("tiret de dialogue");
-    if (!latin) (c.match(/\b[A-Z][a-z]{2,}\b/g) || []).forEach(function (w) { if (src.indexOf(w) < 0 && !/^(OK|Ok)$/.test(w)) pol.push("mot « " + w + " »"); });
+    // L-02 (mesure du 4 nov.) : le serbe s'écrit aussi en latin ; MyMemory répond en latin (« Zvaću te večeras… »).
+    // Les majuscules latines ne sont suspectes que si la réponse est surtout dans une AUTRE écriture.
+    var lettresC = c.replace(/[^\p{L}]/gu, ""), latC = (c.match(/[A-Za-zÀ-ɏ]/g) || []).length;
+    var reponseLatine = lettresC.length > 0 && latC / lettresC.length >= 0.5;
+    if (!latin && !reponseLatine) (c.match(/\b[A-Z][a-z]{2,}\b/g) || []).forEach(function (w) { if (src.indexOf(w) < 0 && !/^(OK|Ok)$/.test(w)) pol.push("mot « " + w + " »"); });
     if (pol.length) rep.push({ controle: "ajout suspect", ok: false, detail: "texte étranger à la phrase (" + pol.join(", ") + ") : réponse probablement tirée d'une autre phrase" });
     // La longueur se compare à la phrase réellement envoyée (la phrase pré-éditée est souvent plus courte).
     var ls = String(reference || source).length, lc = c.length;
