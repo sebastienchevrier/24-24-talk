@@ -10,7 +10,8 @@ on:
   # ou la liste des langues change sur la branche du labo.
   push:
     branches: [claude/labo-linguistique]
-    paths: ["labo/donnees/langues-112.js", "labo/tests/batterie-registres.js"]
+    # labo/tests/mesure-112.json : changer sa date relance une mesure complète (MyMemory seul, gratuit, sans secret).
+    paths: ["labo/donnees/langues-112.js", "labo/tests/batterie-registres.js", "labo/tests/mesure-112.json"]
   schedule:
     - cron: "0 5 * * 1"
 permissions:

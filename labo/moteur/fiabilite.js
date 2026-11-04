@@ -213,6 +213,47 @@
       : Math.round((a[m - 1] + a[m]) / 2);
   }
 
+  // LOT A (4 nov. 2026) : statut d'UNE langue d'après son bilan mesuré (banc-112). Critères chiffrés, prudents.
+  // Aucun statut ne veut dire « validée » : le meilleur est « prometteuse » et demande toujours une relecture native.
+  const SEUILS_LANGUE = {
+    couverture_min: 0.8,        // au moins 80 % des phrases réellement traduites, sinon mesure incomplète
+    ecriture_max: 0.15,         // plus de 15 % de réponses dans la mauvaise écriture = détection / langue défaillante
+    impossibles_max: 0.2,       // plus de 20 % de vérifications impossibles = non vérifiable
+    graves_max: 2,              // 2 phrases ou plus avec erreur grave = défaillante
+    taux_min: 50,               // moins de 50 % sans problème détecté = défaillante
+    taux_prometteur: 90,        // 90 % ou plus, 0 grave et chrF retour ≥ 40 = prometteuse
+    chrf_prometteur: 40,
+  };
+  function statutLangue(b) {
+    const S = SEUILS_LANGUE;
+    if (!b) return { statut: "non mesurée", raisons: ["aucun résultat (banc non lancé ou machine en échec)"] };
+    const err = (b.erreurs || []).join(" ");
+    if (!b.disponible) {
+      if (/NON PRISE EN CHARGE/.test(err)) return { statut: "non prise en charge", raisons: ["MyMemory refuse cette langue"] };
+      return { statut: "mesure en échec", raisons: [err || "aucune phrase traduite"] };
+    }
+    const n = b.traduites || 0, total = b.phrases || n;
+    const raisons = [];
+    const ancienne = !b.fiabilite || typeof b.verifications_impossibles !== "number";
+    if (ancienne) raisons.push("mesure faite avec l'ancienne règle de comptage : à remesurer");
+    if (n < total * S.couverture_min) return { statut: "mesure incomplète", raisons: raisons.concat([n + " / " + total + " phrases traduites" + (err ? " (" + err + ")" : "")]), ancienne };
+    const f = b.fiabilite && b.fiabilite.mymemory;
+    const taux = f && f.taux != null ? f.taux : Math.round((b.tests_reussis || 0) / n * 100);
+    const graves = f ? f.graves : null;
+    const ecr = (b.mauvaise_ecriture || 0) / n;
+    const imp = typeof b.verifications_impossibles === "number" ? b.verifications_impossibles / n : 0;
+    const chrf = b.chrf_retour_moyen;
+    const defauts = [];
+    if (ecr > S.ecriture_max) defauts.push(b.mauvaise_ecriture + " réponse(s) dans la mauvaise écriture (détection ou langue non traduite)");
+    if (graves != null && graves >= S.graves_max) defauts.push(graves + " phrase(s) avec erreur grave");
+    if (taux < S.taux_min) defauts.push(taux + " % sans problème détecté");
+    if (defauts.length) return { statut: "défaillante", raisons: raisons.concat(defauts), taux, graves, ancienne };
+    if (imp > S.impossibles_max) return { statut: "non vérifiable", raisons: raisons.concat([b.verifications_impossibles + " retraduction(s) impossible(s) sur " + n]), taux, graves, ancienne };
+    if (!ancienne && taux >= S.taux_prometteur && graves === 0 && chrf != null && chrf >= S.chrf_prometteur)
+      return { statut: "prometteuse", raisons: [taux + " % sans problème détecté, 0 grave, chrF retour " + chrf + " : relecture native requise"], taux, graves, ancienne };
+    return { statut: "à surveiller", raisons: raisons.concat([taux + " % sans problème détecté" + (graves != null ? ", " + graves + " grave(s)" : ", graves non classées") + ", chrF retour " + (chrf == null ? "—" : chrf)]), taux, graves, ancienne };
+  }
+
   const SEUILS = { phrases_min: 10, taux_autorise: 90, ecart_exclusion: 10, taux_min: 50, graves_max_exclusion: 2 };
 
   // Décision pour un moteur IA dans une langue, comparé à MyMemory sur LES MÊMES phrases.
@@ -310,7 +351,7 @@
     return { moteur: meilleur && meilleur.moteur, evaluation: meilleur && meilleur.evaluation, incertaine: true, essais };
   }
 
-  const API = { categorie, controlesTousValides, estSansProbleme, resumer, statsParRegistre, mediane, verifierRetour, classer, SEUIL_RETOUR, RETOUR_IMPOSSIBLE, decider, ordreMoteurs, verdictTraduction, choisir, SEUILS };
+  const API = { statutLangue, SEUILS_LANGUE, categorie, controlesTousValides, estSansProbleme, resumer, statsParRegistre, mediane, verifierRetour, classer, SEUIL_RETOUR, RETOUR_IMPOSSIBLE, decider, ordreMoteurs, verdictTraduction, choisir, SEUILS };
   if (typeof module !== "undefined" && module.exports) module.exports = API;
   else racine.OW_FIABILITE = API;
 })(typeof window !== "undefined" ? window : globalThis);

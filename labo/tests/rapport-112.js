@@ -47,16 +47,28 @@ const total = {
   par_registre: Object.fromEntries(Object.entries(reg).map(([r, v]) => [r, { langues: v.langues, reussis: v.reussis, taux: v.langues ? Math.round(v.reussis / v.langues * 100) : null, phrases: v.phrases, phrases_reussies: v.phrases_reussies, chrf_retour_moyen: moy(v.chrf) }])),
   par_langue: bilans,
 };
+// LOT A : statut chiffré de CHAQUE langue (fiabilite.js statutLangue). Jamais « validée ».
+total.statuts = {};
+langues.forEach((l) => { total.statuts[l.code] = F.statutLangue(bilans[l.code]); });
+total.statuts_compte = {};
+Object.values(total.statuts).forEach((x) => { total.statuts_compte[x.statut] = (total.statuts_compte[x.statut] || 0) + 1; });
 let md = "# Labo ONE WORLD — 112 langues, batterie des registres (" + total.date.slice(0, 16).replace("T", " ") + " UTC)\n\n";
 md += "Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôles automatiques, PAS validé** (aucune langue validée par un natif : " + total.langues_validees + ").\n\n";
-md += `| Indicateur | Valeur |\n|---|---|\n| Langues testées | ${total.langues_testees} / ${total.langues_cibles} |\n| Langues non disponibles chez MyMemory | ${total.langues_non_disponibles.length} ${total.langues_non_disponibles.join(" ")} |\n| Langues sans résultat (machine en échec) | ${total.langues_sans_resultat.length} ${total.langues_sans_resultat.join(" ")} |\n| Tests exécutés | ${total.tests_executes} |\n| Tests sans problème détecté | ${total.tests_reussis} |\n| Problèmes détectés | ${total.problemes} |\n| Phrases avec au moins une erreur | ${total.phrases_avec_erreur ?? "—"} |\n| Phrases non vérifiées (sans erreur mais vérification incomplète) | ${total.phrases_non_verifiees ?? "—"} |\n| Vérifications impossibles (retraduction…) | ${total.verifications_impossibles ?? "—"} |\n| Réponses dans la mauvaise écriture | ${total.mauvaise_ecriture} |\n| Indices de mot à mot (retour) | ${total.indices_mot_a_mot} |\n| Points à faire relire par un humain | ${total.a_relire_humain} |\n| Proximité moyenne au retour (chrF, 0-100) | ${total.chrf_retour_moyen} |\n| Latence médiane | ${total.latence_ms_mediane == null ? "indisponible" : total.latence_ms_mediane + " ms"} |\n| Coût | 0 € |\n\n`;
+md += `| Indicateur | Valeur |\n|---|---|\n| Langues testées | ${total.langues_testees} / ${total.langues_cibles} |\n| Langues non disponibles chez MyMemory | ${total.langues_non_disponibles.length} ${total.langues_non_disponibles.join(" ")} |\n| Langues sans aucun résultat (banc non lancé ou machine en échec) | ${total.langues_sans_resultat.length} ${total.langues_sans_resultat.join(" ")} |\n| Tests exécutés | ${total.tests_executes} |\n| Tests sans problème détecté | ${total.tests_reussis} |\n| Problèmes détectés | ${total.problemes} |\n| Phrases avec au moins une erreur | ${total.phrases_avec_erreur ?? "—"} |\n| Phrases non vérifiées (sans erreur mais vérification incomplète) | ${total.phrases_non_verifiees ?? "—"} |\n| Vérifications impossibles (retraduction…) | ${total.verifications_impossibles ?? "—"} |\n| Réponses dans la mauvaise écriture | ${total.mauvaise_ecriture} |\n| Indices de mot à mot (retour) | ${total.indices_mot_a_mot} |\n| Points à faire relire par un humain | ${total.a_relire_humain} |\n| Proximité moyenne au retour (chrF, 0-100) | ${total.chrf_retour_moyen} |\n| Latence médiane | ${total.latence_ms_mediane == null ? "indisponible" : total.latence_ms_mediane + " ms"} |\n| Coût | 0 € |\n\n`;
+md += "## Statut des langues (critères chiffrés, aucune langue validée)\n\n| Statut | Langues |\n|---|---|\n";
+["prometteuse", "à surveiller", "non vérifiable", "défaillante", "mesure incomplète", "mesure en échec", "non prise en charge", "non mesurée"].forEach((st) => {
+  const codes = Object.entries(total.statuts).filter(([, x]) => x.statut === st).map(([c]) => c);
+  if (codes.length) md += `| ${st} | ${codes.length} : ${codes.join(" ")} |\n`;
+});
+md += "\n« prometteuse » = ≥ " + F.SEUILS_LANGUE.taux_prometteur + " % sans problème détecté, 0 erreur grave, chrF retour ≥ " + F.SEUILS_LANGUE.chrf_prometteur + " : à faire relire par un natif. « défaillante » = mauvaise écriture > " + Math.round(F.SEUILS_LANGUE.ecriture_max * 100) + " %, ≥ " + F.SEUILS_LANGUE.graves_max + " erreurs graves ou < " + F.SEUILS_LANGUE.taux_min + " % sans problème.\n\n";
 md += "## Par registre\n\n| Registre | Langues | Sans problème détecté | chrF retour |\n|---|---|---|---|\n";
 Object.entries(total.par_registre).forEach(([r, v]) => { md += `| ${r} | ${v.langues} | ${v.reussis} (${v.taux ?? "—"} %) | ${v.chrf_retour_moyen ?? "—"} |\n`; });
-md += "\n## Par langue (du plus faible au plus fort)\n\n| Code | Langue | Sans problème | Problèmes | Mauvaise écriture | chrF retour | Évolution |\n|---|---|---|---|---|---|---|\n";
+md += "\n## Par langue (du plus faible au plus fort)\n\n| Code | Langue | Statut | Sans problème | Problèmes | Mauvaise écriture | Retraductions impossibles | chrF retour | Évolution | Pourquoi |\n|---|---|---|---|---|---|---|---|---|---|\n";
 testees.map((l) => bilans[l.code]).sort((a, b) => (a.chrf_retour_moyen ?? 0) - (b.chrf_retour_moyen ?? 0)).forEach((b) => {
   const a = ancien && ancien.par_langue && ancien.par_langue[b.code];
   const evo = a && a.chrf_retour_moyen != null && b.chrf_retour_moyen != null ? (b.chrf_retour_moyen - a.chrf_retour_moyen >= 0 ? "+" : "") + (Math.round((b.chrf_retour_moyen - a.chrf_retour_moyen) * 10) / 10) : "—";
-  md += `| ${b.code} | ${b.nom} | ${b.tests_reussis}/${b.traduites} | ${b.problemes} | ${b.mauvaise_ecriture} | ${b.chrf_retour_moyen ?? "—"} | ${evo} |\n`;
+  const st = total.statuts[b.code] || F.statutLangue(b);
+  md += `| ${b.code} | ${b.nom} | ${st.statut} | ${b.tests_reussis}/${b.traduites} | ${b.problemes} | ${b.mauvaise_ecriture} | ${b.verifications_impossibles ?? "—"} | ${b.chrf_retour_moyen ?? "—"} | ${evo} | ${st.raisons.join(" ; ")} |\n`;
 });
 const avecIA = testees.filter((l) => bilans[l.code].ia && bilans[l.code].ia.traduites);
 if (avecIA.length) {
