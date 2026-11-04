@@ -49,10 +49,10 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
     const ch = ok1.moteur === "mymemory" && !ok1.incertaine && ok2.incertaine;
     return { ok: cat && res && d1 && d2 && d3 && d4 && ordre && ch, detail: [cat, res, d1, d2, d3, d4, ordre, ch].map((x) => (x ? "✓" : "✗")).join(" ") + " (catégories, résumé, 4 décisions, ordre, choix/incertaine)" };
   });
-  await step("LOT 1 : 15 tests d'acceptation de la fiabilité (labo/tests/lot1-fiabilite.test.js, hors ligne)", async () => {
+  await step("LOT 1 : 22 tests d'acceptation de la fiabilité (labo/tests/lot1-fiabilite.test.js, hors ligne)", async () => {
     const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "lot1-fiabilite.test.js")], { encoding: "utf8" });
     const fin = (r.stdout || "").trim().split("\n").pop();
-    return { ok: r.status === 0 && /^15 \/ 15 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
+    return { ok: r.status === 0 && /^22 \/ 22 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
   });
   await step("F-30 : 10 tests d'acceptation « retraduction impossible = non vérifié » (labo/tests/f30-retraduction.test.js, faux réseau)", async () => {
     const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "f30-retraduction.test.js")], { encoding: "utf8", timeout: 300000 });

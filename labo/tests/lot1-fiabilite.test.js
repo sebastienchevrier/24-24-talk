@@ -119,13 +119,62 @@ test("15. Réussites identiques avant (18db14e) et après la correction ; seul �
     { registre: "r3", traduction: "x", controles: [C(true, "retraduction")], chrf_retour: 55 },
     { registre: "r4", traduction: "x", controles: [], chrf_retour: 70 },
     cas.faux_retour_impossible, cas.vrai_retour_impossible,
+    { registre: "r1", erreur: "fetch failed (erreur d'appel)" },          // erreur d'appel dans un registre déjà mesuré
+    { registre: "r5", erreur: "IA 500 (erreur du moteur)" },               // registre où tout a échoué à l'appel
   ];
   const a = ANCIEN.resumer(jeu), n = F.resumer(jeu);
   const pa = ANCIEN.statsParRegistre(jeu), pn = F.statsParRegistre(jeu);
-  const regsIdentiques = Object.keys(pa).every((k) => pa[k].reussis === pn[k].reussis && pa[k].reussi === pn[k].reussi && pa[k].problemes === pn[k].problemes && pa[k].chrf_retour_moyen === pn[k].chrf_retour_moyen);
+  // F-34 : l'ancienne version (18db14e) comptait les erreurs d'appel dans statsParRegistre ; on compare donc
+  // les réussites registre par registre sur les registres mesurés, et on vérifie que r5 (que des erreurs) n'existe plus.
+  const regsIdentiques = !pn.r5 && Object.keys(pn).every((k) => pa[k].reussis === pn[k].reussis && pa[k].problemes === pn[k].problemes && pa[k].chrf_retour_moyen === pn[k].chrf_retour_moyen);
   const ok = a.sans_probleme === n.sans_probleme && a.taux === n.taux && a.graves === n.graves && a.sens === n.sens && a.contexte === n.contexte &&
     n.non_verifie === a.non_verifie - probleme(n) && regsIdentiques && n.sans_probleme === jeu.filter(F.estSansProbleme).length;
   return { ok, detail: "avant " + JSON.stringify(a) + " · après " + JSON.stringify(n) };
+});
+
+// ---- F-34 : statsParRegistre ignore exactement ce que resumer ignore.
+const ligne = (registre, e) => Object.assign({ registre, traduction: "x" }, e);
+const f34 = {
+  reseau: { registre: "reseau", erreur: "fetch failed" },
+  moteur: { registre: "moteur", erreur: "IA 500" },
+  absente: null,
+  sansControles: { registre: "sansControles", traduction: "x", chrf_retour: 70 },
+  avecErreur: ligne("avecErreur", { controles: [C(true), C(false, "nombre 3")], chrf_retour: 70 }),
+  incomplete: ligne("incomplete", { controles: [C(true), C(null)], chrf_retour: 70 }),
+  reussie: ligne("reussie", { controles: [C(true)], chrf_retour: 70 }),
+};
+test("16. F-34 erreur réseau : ni resumer ni statsParRegistre ne la comptent", () => {
+  const r = F.resumer([f34.reseau]), p = F.statsParRegistre([f34.reseau]);
+  return { ok: r.phrases === 0 && Object.keys(p).length === 0, detail: "resumer " + r.phrases + " · registres " + Object.keys(p).length };
+});
+test("17. F-34 erreur du moteur (IA) : non comptée, côté IA aussi", () => {
+  const l = ligne("m", { controles: [C(true)], chrf_retour: 70, ia: { erreur: "IA 500" } });
+  const r = F.resumer([l.ia]), p = F.statsParRegistre([l], (x) => x.ia), pm = F.statsParRegistre([l]);
+  return { ok: r.phrases === 0 && Object.keys(p).length === 0 && pm.m.phrases === 1 && pm.m.reussis === 1, detail: "IA : " + Object.keys(p).length + " registre · MyMemory : " + JSON.stringify(pm.m) };
+});
+test("18. F-34 évaluation absente (null, ou l.ia manquant) : non comptée", () => {
+  const sansIA = ligne("s", { controles: [C(true)], chrf_retour: 70 });
+  const r = F.resumer([null, undefined]), p = F.statsParRegistre([null, sansIA], (x) => x && x.ia);
+  return { ok: r.phrases === 0 && Object.keys(p).length === 0, detail: "resumer " + r.phrases + " · registres " + Object.keys(p).length };
+});
+test("19. F-34 tableau de contrôles absent : non compté", () => {
+  const r = F.resumer([f34.sansControles]), p = F.statsParRegistre([f34.sansControles]);
+  return { ok: r.phrases === 0 && Object.keys(p).length === 0, detail: "resumer " + r.phrases + " · registres " + Object.keys(p).length };
+});
+test("20. F-34 phrase avec erreur détectée : 1 problème, 0 non vérifié, des deux côtés", () => {
+  const r = F.resumer([f34.avecErreur]), p = F.statsParRegistre([f34.avecErreur]).avecErreur;
+  return { ok: r.phrases === 1 && r.graves === 1 && r.non_verifie === 0 && p.phrases === 1 && p.phrases_avec_erreur === 1 && p.non_verifies === 0 && p.reussis === 0, detail: JSON.stringify(p) };
+});
+test("21. F-34 phrase sans erreur mais incomplètement vérifiée : 0 problème, 1 non vérifié, des deux côtés", () => {
+  const r = F.resumer([f34.incomplete]), p = F.statsParRegistre([f34.incomplete]).incomplete;
+  return { ok: r.phrases === 1 && r.graves + r.sens + r.contexte === 0 && r.non_verifie === 1 && p.phrases === 1 && p.phrases_avec_erreur === 0 && p.non_verifies === 1 && p.reussis === 0, detail: JSON.stringify(p) };
+});
+test("22. F-34 totaux identiques entre resumer() et statsParRegistre() sur un jeu mêlé (erreurs, absentes, sans contrôles…)", () => {
+  const jeu = Object.values(f34).concat([ligne("avecErreur", { controles: [C(false, "attendu /usted/")], chrf_retour: null }), ligne("reussie", { controles: [C(true)], chrf_retour: null })]);
+  const r = F.resumer(jeu), t = Object.values(F.statsParRegistre(jeu));
+  const S = (k) => t.reduce((s, v) => s + v[k], 0);
+  const ok = S("phrases") === r.phrases && S("reussis") === r.sans_probleme && S("non_verifies") === r.non_verifie && S("phrases_avec_erreur") === r.graves + r.sens + r.contexte && r.phrases === 5;
+  return { ok, detail: `resumer ${r.phrases} phrases / ${r.sans_probleme} sans problème / ${r.non_verifie} non vérifiées / ${r.graves + r.sens + r.contexte} avec erreur · registres ${S("phrases")} / ${S("reussis")} / ${S("non_verifies")} / ${S("phrases_avec_erreur")}` };
 });
 
 const n = resultats.filter(Boolean).length;
