@@ -79,7 +79,7 @@ async function ia(texte) {
     dernierIA = Date.now(); iaStats.appels++;
     const t0 = Date.now(); let r, j;
     try {
-      r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, Origin: "http://localhost" },
+      r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, "x-labo-cle": process.env.LABO_CLE || "", Origin: "http://localhost" },
         body: JSON.stringify({ texte, de: "fr", vers: code, style: "auto", modele: modele || undefined }), signal: AbortSignal.timeout(40000) });
       j = await r.json().catch(() => ({}));
     } catch (e) { r = { ok: false, status: 0 }; j = { erreur: "réseau : " + e.message }; }

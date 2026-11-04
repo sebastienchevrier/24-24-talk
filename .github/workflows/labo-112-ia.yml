@@ -43,6 +43,7 @@ jobs:
       - name: MyMemory et IA vers ${{ matrix.langue }}
         env:
           MODELE: ${{ needs.liste.outputs.modele }}
+          LABO_CLE: ${{ secrets.LABO_CLE }}  # F-29 : secret du labo, jamais affiché
         run: node labo/tests/banc-112.js "${{ matrix.langue }}" --ia ${MODELE:+--modele "$MODELE"}
       - uses: actions/upload-artifact@v4
         if: always()

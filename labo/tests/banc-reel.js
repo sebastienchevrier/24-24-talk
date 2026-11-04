@@ -76,7 +76,7 @@ async function ia(req) {
     const t0 = Date.now();
     let r, j;
     try {
-      r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, Origin: "http://localhost" }, body: JSON.stringify(req), signal: AbortSignal.timeout(40000) });
+      r = await fetch(IA_URL, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + IA_ANON, apikey: IA_ANON, "x-labo-cle": process.env.LABO_CLE || "", Origin: "http://localhost" }, body: JSON.stringify(req), signal: AbortSignal.timeout(40000) });
       j = await r.json().catch(() => ({}));
     } catch (e) { r = { ok: false, status: 0 }; j = { erreur: "réseau : " + e.message }; }
     if (r.status === 429) { ia_stats.quota_429++; if (Date.now() > FIN) break; await pause(Math.min(90000, Math.max(30000, (+j.reessayer_dans || 0) * 1000))); continue; }

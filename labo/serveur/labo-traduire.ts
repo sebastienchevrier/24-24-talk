@@ -11,6 +11,9 @@
 // - Origines autorisées : le site officiel, la copie de test et localhost. 600 caractères au plus.
 // - Limite simple : 30 demandes par minute et par instance (protège le quota gratuit).
 // - Déployée avec verify_jwt = true : il faut la clé publique « anon » (JWT) du projet de TEST dans Authorization.
+// - Audit F-29 (3 nov. 2026) : la clé anon est PUBLIQUE, elle ne suffit plus. Il faut AUSSI l'en-tête « x-labo-cle »
+//   égal au secret serveur LABO_CLE (secret Supabase du TEST + secret GitHub Actions, choisis par Sébastien,
+//   jamais dans le dépôt). Sans LABO_CLE configuré : labo FERMÉ (503). Mauvaise clé : 401.
 // - Sans clé configurée : réponse 503 « IA non branchée », le labo continue sans IA.
 
 const ORIGINES = ["https://sebastienchevrier.github.io", "https://talk-24-24-lab.github.io", "http://localhost", "http://127.0.0.1"];
@@ -25,7 +28,7 @@ function cors(origin: string | null) {
   const ok = origin && ORIGINES.some((o) => origin === o || origin.startsWith(o + ":"));
   return {
     "Access-Control-Allow-Origin": ok ? origin! : ORIGINES[0],
-    "Access-Control-Allow-Headers": "authorization, apikey, content-type",
+    "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-labo-cle",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Vary": "Origin",
   };
@@ -47,6 +50,13 @@ Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors(origin) });
   if (req.method !== "POST") return rep(405, { erreur: "POST seulement" }, origin);
+  // F-29 : contrôle du secret du labo AVANT tout appel à l'IA (comparaison en temps constant).
+  const cleLabo = Deno.env.get("LABO_CLE") || "";
+  if (cleLabo.length < 24) return rep(503, { erreur: "Labo fermé : secret LABO_CLE absent sur le serveur de test" }, origin);
+  const donnee = req.headers.get("x-labo-cle") || "";
+  let diff = donnee.length ^ cleLabo.length;
+  for (let i = 0; i < cleLabo.length; i++) diff |= cleLabo.charCodeAt(i) ^ donnee.charCodeAt(i % Math.max(donnee.length, 1));
+  if (diff !== 0) return rep(401, { erreur: "Accès au labo refusé" }, origin);
   const cle = Deno.env.get("GROQ_API_KEY");
   if (!cle) return rep(503, { erreur: "IA non branchée (clé absente sur le serveur de test)" }, origin);
   if (Date.now() - fenetre > 60000) { fenetre = Date.now(); compte = 0; }

@@ -42,6 +42,7 @@ jobs:
         env:
           BATTERIE: ${{ inputs.batterie || 'base' }}
           MODELE: ${{ inputs.modele }}
+          LABO_CLE: ${{ secrets.LABO_CLE }}  # F-29 : secret du labo, jamais affiché
           IA: ${{ inputs.ia && '--ia' || '' }}
         run: node labo/tests/banc-reel.js "${{ matrix.langue }}" $IA --batterie "$BATTERIE" ${MODELE:+--modele "$MODELE"}
       - name: Résumé lisible dans GitHub
