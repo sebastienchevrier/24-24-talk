@@ -23,3 +23,4 @@ Lancer : `bash supabase/base/reconstruire.sh`. Le workflow « Socle base reconst
 | Correctif | Constat | Essais |
 |---|---|---|
 | `24-stats-anti-triche.sql` | F-31 : statistiques gonflables | 11 essais : plafond par appareil, 10 appareils par adresse au plus, 12 h d'appel par jour au plus, aucune adresse en clair |
+| `25-email-confirme-verifie.sql` | F-32 : e-mail présent mais pas confirmé accepté | 6 essais (échoue sans le correctif, passe avec) |
