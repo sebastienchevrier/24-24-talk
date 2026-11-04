@@ -1,149 +1,167 @@
-# Labo ONE WORLD — 112 langues, batterie des registres (2026-11-02 18:36 UTC)
+# Labo ONE WORLD — 112 langues, batterie des registres (2026-11-04 11:01 UTC)
 
 Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôles automatiques, PAS validé** (aucune langue validée par un natif : 0).
 
 | Indicateur | Valeur |
 |---|---|
-| Langues testées | 106 / 111 |
-| Langues non disponibles chez MyMemory | 5 om jv qu to haw |
-| Langues sans résultat (machine en échec) | 0  |
-| Tests exécutés | 1346 |
-| Tests sans problème détecté | 1247 |
-| Problèmes détectés | 147 |
-| Réponses dans la mauvaise écriture | 6 |
-| Indices de mot à mot (retour) | 210 |
-| Points à faire relire par un humain | 867 |
-| Proximité moyenne au retour (chrF, 0-100) | 65.2 |
-| Latence médiane | 910.3 ms |
+| Langues testées | 109 / 111 |
+| Langues non disponibles chez MyMemory | 2 jv to |
+| Langues sans aucun résultat (banc non lancé ou machine en échec) | 0  |
+| Tests exécutés | 1417 |
+| Tests sans problème détecté | 901 |
+| Problèmes détectés | 146 |
+| Phrases avec au moins une erreur | 101 |
+| Phrases non vérifiées (sans erreur mais vérification incomplète) | 415 |
+| Vérifications impossibles (retraduction…) | 0 |
+| Réponses dans la mauvaise écriture | 0 |
+| Indices de mot à mot (retour) | 216 |
+| Points à faire relire par un humain | 899 |
+| Proximité moyenne au retour (chrF, 0-100) | 66.6 |
+| Latence médiane | 836 ms |
 | Coût | 0 € |
+
+## Statut des langues (critères chiffrés, aucune langue validée)
+
+| Statut | Langues |
+|---|---|
+| prometteuse | 1 : wo |
+| à surveiller | 94 : en es de it pt pt-BR nl pl ro el cs sv da nb fi hu bg hr sk sl lt lv et is ga mt sq mk bs be ca eu gl cy lb ar he fa tr ku az hy ka sw am ha yo ig zu xh af st so rw rn ln sn ny ti om mos zh ja ko vi th id ms tl bn te ml kn mr gu pa or as ur si lo mn ceb su ky uz tg es-MX ht qu mi sm fj haw |
+| défaillante | 14 : sr uk ru ps mg zh-TW hi ta ne my km kk tk gn |
+| mesure en échec | 1 : to |
+| non prise en charge | 1 : jv |
+
+« prometteuse » = ≥ 90 % sans problème détecté, 0 erreur grave, chrF retour ≥ 40 : à faire relire par un natif. « défaillante » = mauvaise écriture > 15 %, ≥ 2 erreurs graves ou < 50 % sans problème.
 
 ## Par registre
 
 | Registre | Langues | Sans problème détecté | chrF retour |
 |---|---|---|---|
-| normal | 103 | 100 (97 %) | 82.2 |
-| familier | 103 | 100 (97 %) | 51 |
-| argot | 103 | 99 (96 %) | 34.5 |
-| soutenu | 103 | 101 (98 %) | 68 |
-| formel | 102 | 90 (88 %) | 72.2 |
-| littéraire | 104 | 101 (97 %) | 68.8 |
-| idiomatique | 106 | 101 (95 %) | 48.4 |
-| métaphorique | 105 | 98 (93 %) | 65.5 |
-| humoristique | 102 | 100 (98 %) | 74.6 |
-| régional | 106 | 102 (96 %) | 63.8 |
-| émotionnel | 103 | 100 (97 %) | 67.2 |
-| négation | 103 | 101 (98 %) | 83.2 |
-| nombres et noms | 103 | 54 (52 %) | 79.8 |
+| normal | 109 | 107 (98 %) | 82.7 |
+| familier | 109 | 106 (97 %) | 52 |
+| argot | 109 | 99 (91 %) | 34.3 |
+| soutenu | 109 | 106 (97 %) | 68.8 |
+| formel | 109 | 97 (89 %) | 72.9 |
+| littéraire | 109 | 106 (97 %) | 70.4 |
+| idiomatique | 109 | 30 (28 %) | 49.6 |
+| métaphorique | 109 | 48 (44 %) | 65.9 |
+| humoristique | 109 | 30 (28 %) | 71.2 |
+| régional | 109 | 17 (16 %) | 65.2 |
+| émotionnel | 109 | 106 (97 %) | 68.7 |
+| négation | 109 | 4 (4 %) | 83 |
+| nombres et noms | 109 | 45 (41 %) | 80.8 |
 
 ## Par langue (du plus faible au plus fort)
 
-| Code | Langue | Sans problème | Problèmes | Mauvaise écriture | chrF retour | Évolution |
-|---|---|---|---|---|---|---|
-| ku | Kurde | 0/3 | 4 | 3 | 27.6 | — |
-| gn | Guarani | 11/13 | 6 | 0 | 28 | — |
-| uz | Ouzbek | 0/2 | 3 | 2 | 28.7 | — |
-| eu | Basque | 3/4 | 1 | 0 | 29.9 | — |
-| mos | Mooré | 12/13 | 3 | 0 | 31.6 | — |
-| rw | Kinyarwanda | 12/13 | 7 | 0 | 35.3 | — |
-| mg | Malgache | 11/13 | 5 | 0 | 36.1 | — |
-| fa | Persan (Farsi) | 8/11 | 7 | 1 | 37.3 | — |
-| su | Soundanais | 13/13 | 0 | 0 | 40.4 | — |
-| wo | Wolof | 13/13 | 0 | 0 | 43.7 | — |
-| ln | Lingala | 12/13 | 2 | 0 | 44 | — |
-| fj | Fidjien | 12/13 | 1 | 0 | 44.7 | — |
-| my | Birman | 11/13 | 7 | 0 | 49.5 | — |
-| rn | Kirundi | 12/13 | 2 | 0 | 49.8 | — |
-| mr | Marathi | 12/13 | 1 | 0 | 50.1 | — |
-| lb | Luxembourgeois | 12/13 | 1 | 0 | 52 | — |
-| lo | Lao | 11/13 | 2 | 0 | 53.2 | — |
-| mn | Mongol | 12/13 | 3 | 0 | 53.7 | — |
-| ig | Igbo | 13/13 | 0 | 0 | 55.5 | — |
-| or | Odia | 12/13 | 1 | 0 | 56.9 | — |
-| sm | Samoan | 13/13 | 0 | 0 | 57.6 | — |
-| tk | Turkmène | 11/13 | 2 | 0 | 58.3 | — |
-| si | Cingalais | 12/13 | 1 | 0 | 58.7 | — |
-| st | Sotho | 12/13 | 1 | 0 | 59.9 | — |
-| mi | Maori | 13/13 | 0 | 0 | 60.7 | — |
-| tg | Tadjik | 13/13 | 0 | 0 | 61.2 | — |
-| ceb | Cebuano | 13/13 | 0 | 0 | 62.1 | — |
-| ja | Japonais | 12/13 | 1 | 0 | 62.2 | — |
-| km | Khmer | 10/13 | 7 | 0 | 62.3 | — |
-| zu | Zoulou | 12/13 | 1 | 0 | 62.8 | — |
-| ps | Pachto | 11/13 | 2 | 0 | 63.1 | — |
-| so | Somali | 12/13 | 1 | 0 | 63.1 | — |
-| am | Amharique | 12/13 | 2 | 0 | 63.3 | — |
-| yo | Yoruba | 13/13 | 0 | 0 | 63.5 | — |
-| lt | Lituanien | 12/13 | 1 | 0 | 64 | — |
-| cy | Gallois | 11/13 | 2 | 0 | 64 | — |
-| as | Assamais | 12/13 | 4 | 0 | 64 | — |
-| ny | Chichewa | 13/13 | 0 | 0 | 64.2 | — |
-| ti | Tigrigna | 12/13 | 1 | 0 | 64.2 | — |
-| ms | Malais | 12/13 | 1 | 0 | 65.3 | — |
-| ne | Népalais | 11/13 | 8 | 0 | 65.6 | — |
-| ha | Haoussa | 13/13 | 0 | 0 | 66.2 | — |
-| sn | Shona | 13/13 | 0 | 0 | 66.2 | — |
-| ky | Kirghiz | 12/13 | 1 | 0 | 66.7 | — |
-| ta | Tamoul | 12/13 | 1 | 0 | 67 | — |
-| be | Biélorusse | 13/13 | 0 | 0 | 67.1 | — |
-| xh | Xhosa | 12/13 | 1 | 0 | 67.1 | — |
-| ka | Géorgien | 13/13 | 0 | 0 | 67.4 | — |
-| sw | Swahili | 12/13 | 1 | 0 | 67.6 | — |
-| te | Télougou | 12/13 | 1 | 0 | 67.9 | — |
-| kk | Kazakh | 11/13 | 2 | 0 | 67.9 | — |
-| ht | Créole haïtien | 13/13 | 0 | 0 | 67.9 | — |
-| tl | Filipino (Tagalog) | 12/13 | 1 | 0 | 68 | — |
-| zh-TW | Chinois (traditionnel) | 3/13 | 10 | 0 | 68.2 | — |
-| pa | Pendjabi | 12/13 | 1 | 0 | 68.6 | — |
-| ko | Coréen | 12/13 | 1 | 0 | 69 | — |
-| ml | Malayalam | 12/13 | 1 | 0 | 69.3 | — |
-| th | Thaï | 12/13 | 1 | 0 | 69.5 | — |
-| zh | Chinois (simplifié) | 13/13 | 0 | 0 | 69.6 | — |
-| mt | Maltais | 13/13 | 0 | 0 | 69.9 | — |
-| bg | Bulgare | 12/13 | 2 | 0 | 70.3 | — |
-| hy | Arménien | 11/13 | 2 | 0 | 70.3 | — |
-| id | Indonésien | 13/13 | 0 | 0 | 70.6 | — |
-| lv | Letton | 12/13 | 1 | 0 | 71.3 | — |
-| is | Islandais | 13/13 | 0 | 0 | 71.4 | — |
-| az | Azéri | 12/13 | 2 | 0 | 72 | — |
-| cs | Tchèque | 13/13 | 0 | 0 | 72.1 | — |
-| af | Afrikaans | 13/13 | 0 | 0 | 72.3 | — |
-| hu | Hongrois | 13/13 | 0 | 0 | 72.6 | — |
-| pt-BR | Portugais (Brésil) | 13/13 | 0 | 0 | 72.9 | — |
-| uk | Ukrainien | 12/13 | 1 | 0 | 72.9 | — |
-| gu | Goujarati | 12/13 | 1 | 0 | 72.9 | — |
-| pl | Polonais | 12/13 | 2 | 0 | 73 | — |
-| vi | Vietnamien | 12/13 | 1 | 0 | 73 | — |
-| bn | Bengali | 12/13 | 1 | 0 | 73.1 | — |
-| kn | Kannada | 12/13 | 1 | 0 | 73.8 | — |
-| sr | Serbe | 3/13 | 10 | 0 | 74 | — |
-| mk | Macédonien | 13/13 | 0 | 0 | 74.4 | — |
-| he | Hébreu | 13/13 | 0 | 0 | 74.4 | — |
-| sq | Albanais | 13/13 | 0 | 0 | 74.5 | — |
-| sl | Slovène | 12/13 | 1 | 0 | 74.6 | — |
-| ru | Russe | 12/13 | 1 | 0 | 74.8 | — |
-| ca | Catalan | 13/13 | 0 | 0 | 74.8 | — |
-| da | Danois | 12/13 | 1 | 0 | 75 | — |
-| bs | Bosniaque | 13/13 | 0 | 0 | 75.5 | — |
-| sk | Slovaque | 13/13 | 0 | 0 | 75.6 | — |
-| et | Estonien | 12/13 | 2 | 0 | 75.8 | — |
-| pt | Portugais | 13/13 | 0 | 0 | 76.1 | — |
-| ga | Irlandais | 13/13 | 0 | 0 | 76.1 | — |
-| ur | Ourdou | 12/13 | 1 | 0 | 76.1 | — |
-| tr | Turc | 13/13 | 0 | 0 | 76.2 | — |
-| hi | Hindi | 11/13 | 2 | 0 | 76.3 | — |
-| ro | Roumain | 13/13 | 0 | 0 | 76.7 | — |
-| hr | Croate | 13/13 | 0 | 0 | 76.7 | — |
-| it | Italien | 13/13 | 0 | 0 | 76.8 | — |
-| el | Grec | 12/13 | 1 | 0 | 77.1 | — |
-| gl | Galicien | 13/13 | 0 | 0 | 77.5 | — |
-| nl | Néerlandais | 13/13 | 0 | 0 | 77.7 | — |
-| ar | Arabe | 13/13 | 0 | 0 | 78.4 | — |
-| fi | Finnois | 12/13 | 1 | 0 | 78.5 | — |
-| sv | Suédois | 13/13 | 0 | 0 | 78.6 | — |
-| en | Anglais | 13/13 | 0 | 0 | 78.9 | — |
-| nb | Norvégien | 13/13 | 0 | 0 | 79.3 | — |
-| es | Espagnol | 13/13 | 0 | 0 | 79.5 | — |
-| es-MX | Espagnol (Mexique) | 13/13 | 0 | 0 | 81 | — |
-| de | Allemand | 13/13 | 0 | 0 | 82.9 | — |
+| Code | Langue | Statut | Sans problème | Problèmes | Mauvaise écriture | Retraductions impossibles | chrF retour | Évolution | Pourquoi |
+|---|---|---|---|---|---|---|---|---|---|
+| gn | Guarani | défaillante | 8/13 | 9 | 0 | 0 | 28 | +0 | 2 phrase(s) avec erreur grave |
+| mos | Mooré | à surveiller | 10/13 | 5 | 0 | 0 | 31.6 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 31.6 |
+| rw | Kinyarwanda | à surveiller | 11/13 | 7 | 0 | 0 | 35.3 | +0 | 85 % sans problème détecté, 1 grave(s), chrF retour 35.3 |
+| mg | Malgache | défaillante | 9/13 | 6 | 0 | 0 | 36.1 | +0 | 2 phrase(s) avec erreur grave |
+| su | Soundanais | à surveiller | 7/13 | 2 | 0 | 0 | 40.4 | +0 | 54 % sans problème détecté, 0 grave(s), chrF retour 40.4 |
+| wo | Wolof | prometteuse | 12/13 | 0 | 0 | 0 | 43.7 | +0 | 92 % sans problème détecté, 0 grave, chrF retour 43.7 : relecture native requise |
+| ln | Lingala | à surveiller | 11/13 | 2 | 0 | 0 | 44 | +0 | 85 % sans problème détecté, 1 grave(s), chrF retour 44 |
+| fj | Fidjien | à surveiller | 9/13 | 1 | 0 | 0 | 44.7 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 44.7 |
+| my | Birman | défaillante | 9/13 | 7 | 0 | 0 | 49.5 | +0 | 2 phrase(s) avec erreur grave |
+| rn | Kirundi | à surveiller | 10/13 | 2 | 0 | 0 | 49.8 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 49.8 |
+| mr | Marathi | à surveiller | 9/13 | 2 | 0 | 0 | 50.1 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 50.1 |
+| lb | Luxembourgeois | à surveiller | 10/13 | 1 | 0 | 0 | 52 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 52 |
+| lo | Lao | à surveiller | 9/13 | 1 | 0 | 0 | 53.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 53.2 |
+| mn | Mongol | à surveiller | 8/13 | 3 | 0 | 0 | 53.7 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 53.7 |
+| ig | Igbo | à surveiller | 9/13 | 1 | 0 | 0 | 55.5 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 55.5 |
+| or | Odia | à surveiller | 10/13 | 1 | 0 | 0 | 56.9 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 56.9 |
+| sm | Samoan | à surveiller | 11/13 | 0 | 0 | 0 | 57.6 | +0 | 85 % sans problème détecté, 0 grave(s), chrF retour 57.6 |
+| tk | Turkmène | défaillante | 9/13 | 2 | 0 | 0 | 58.3 | +0 | 2 phrase(s) avec erreur grave |
+| si | Cingalais | à surveiller | 10/13 | 1 | 0 | 0 | 58.7 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 58.7 |
+| st | Sotho | à surveiller | 10/13 | 1 | 0 | 0 | 59.9 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 59.9 |
+| mi | Maori | à surveiller | 10/13 | 0 | 0 | 0 | 60.7 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 60.7 |
+| tg | Tadjik | à surveiller | 10/13 | 1 | 0 | 0 | 61.2 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 61.2 |
+| ceb | Cebuano | à surveiller | 9/13 | 0 | 0 | 0 | 62.1 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 62.1 |
+| ja | Japonais | à surveiller | 8/13 | 1 | 0 | 0 | 62.2 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 62.2 |
+| km | Khmer | défaillante | 7/13 | 7 | 0 | 0 | 62.3 | +0 | 2 phrase(s) avec erreur grave |
+| zu | Zoulou | à surveiller | 8/13 | 1 | 0 | 0 | 62.8 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 62.8 |
+| ps | Pachto | défaillante | 7/13 | 2 | 0 | 0 | 63.1 | +0 | 2 phrase(s) avec erreur grave |
+| so | Somali | à surveiller | 9/13 | 1 | 0 | 0 | 63.1 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 63.1 |
+| am | Amharique | à surveiller | 9/13 | 3 | 0 | 0 | 63.3 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 63.3 |
+| yo | Yoruba | à surveiller | 10/13 | 0 | 0 | 0 | 63.5 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 63.5 |
+| lt | Lituanien | à surveiller | 7/13 | 1 | 0 | 0 | 64 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 64 |
+| cy | Gallois | à surveiller | 8/13 | 2 | 0 | 0 | 64 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 64 |
+| as | Assamais | à surveiller | 10/13 | 4 | 0 | 0 | 64 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 64 |
+| ny | Chichewa | à surveiller | 9/13 | 0 | 0 | 0 | 64.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 64.2 |
+| ti | Tigrigna | à surveiller | 10/13 | 1 | 0 | 0 | 64.2 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 64.2 |
+| om | Oromo | à surveiller | 9/13 | 1 | 0 | 0 | 64.8 | — | 69 % sans problème détecté, 1 grave(s), chrF retour 64.8 |
+| fa | Persan (Farsi) | à surveiller | 9/13 | 2 | 0 | 0 | 65.1 | +27.8 | 69 % sans problème détecté, 1 grave(s), chrF retour 65.1 |
+| ms | Malais | à surveiller | 8/13 | 1 | 0 | 0 | 65.3 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 65.3 |
+| ne | Népalais | défaillante | 8/13 | 8 | 0 | 0 | 65.6 | +0 | 2 phrase(s) avec erreur grave |
+| ha | Haoussa | à surveiller | 8/13 | 0 | 0 | 0 | 66.2 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 66.2 |
+| sn | Shona | à surveiller | 10/13 | 0 | 0 | 0 | 66.2 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 66.2 |
+| uz | Ouzbek | à surveiller | 9/13 | 1 | 0 | 0 | 66.3 | +37.6 | 69 % sans problème détecté, 1 grave(s), chrF retour 66.3 |
+| ky | Kirghiz | à surveiller | 8/13 | 1 | 0 | 0 | 66.7 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 66.7 |
+| ta | Tamoul | défaillante | 6/13 | 2 | 0 | 0 | 67 | +0 | 46 % sans problème détecté |
+| haw | Hawaïen | à surveiller | 10/13 | 0 | 0 | 0 | 67 | — | 77 % sans problème détecté, 0 grave(s), chrF retour 67 |
+| be | Biélorusse | à surveiller | 8/13 | 0 | 0 | 0 | 67.1 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 67.1 |
+| xh | Xhosa | à surveiller | 8/13 | 1 | 0 | 0 | 67.1 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 67.1 |
+| eu | Basque | à surveiller | 11/13 | 0 | 0 | 0 | 67.2 | +37.3 | 85 % sans problème détecté, 0 grave(s), chrF retour 67.2 |
+| ka | Géorgien | à surveiller | 8/13 | 0 | 0 | 0 | 67.4 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 67.4 |
+| sw | Swahili | à surveiller | 7/13 | 1 | 0 | 0 | 67.6 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 67.6 |
+| ku | Kurde | à surveiller | 9/13 | 1 | 0 | 0 | 67.7 | +40.1 | 69 % sans problème détecté, 1 grave(s), chrF retour 67.7 |
+| te | Télougou | à surveiller | 7/13 | 1 | 0 | 0 | 67.9 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 67.9 |
+| kk | Kazakh | défaillante | 6/13 | 2 | 0 | 0 | 67.9 | +0 | 46 % sans problème détecté |
+| ht | Créole haïtien | à surveiller | 9/13 | 0 | 0 | 0 | 67.9 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 67.9 |
+| tl | Filipino (Tagalog) | à surveiller | 7/13 | 1 | 0 | 0 | 68 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 68 |
+| zh-TW | Chinois (traditionnel) | défaillante | 3/13 | 8 | 0 | 0 | 68.2 | +0 | 23 % sans problème détecté |
+| pa | Pendjabi | à surveiller | 8/13 | 1 | 0 | 0 | 68.6 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 68.6 |
+| ko | Coréen | à surveiller | 8/13 | 1 | 0 | 0 | 69 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 69 |
+| ml | Malayalam | à surveiller | 7/13 | 1 | 0 | 0 | 69.3 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 69.3 |
+| th | Thaï | à surveiller | 7/13 | 0 | 0 | 0 | 69.5 | +0 | 54 % sans problème détecté, 0 grave(s), chrF retour 69.5 |
+| zh | Chinois (simplifié) | à surveiller | 8/13 | 0 | 0 | 0 | 69.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 69.6 |
+| mt | Maltais | à surveiller | 8/13 | 0 | 0 | 0 | 69.9 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 69.9 |
+| bg | Bulgare | à surveiller | 7/13 | 2 | 0 | 0 | 70.3 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 70.3 |
+| hy | Arménien | à surveiller | 7/13 | 2 | 0 | 0 | 70.3 | +0 | 54 % sans problème détecté, 0 grave(s), chrF retour 70.3 |
+| id | Indonésien | à surveiller | 8/13 | 0 | 0 | 0 | 70.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 70.6 |
+| lv | Letton | à surveiller | 7/13 | 1 | 0 | 0 | 71.3 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 71.3 |
+| is | Islandais | à surveiller | 9/13 | 0 | 0 | 0 | 71.4 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 71.4 |
+| az | Azéri | à surveiller | 8/13 | 2 | 0 | 0 | 72 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 72 |
+| cs | Tchèque | à surveiller | 9/13 | 0 | 0 | 0 | 72.1 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 72.1 |
+| af | Afrikaans | à surveiller | 10/13 | 0 | 0 | 0 | 72.3 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 72.3 |
+| hu | Hongrois | à surveiller | 8/13 | 0 | 0 | 0 | 72.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 72.6 |
+| pt-BR | Portugais (Brésil) | à surveiller | 8/13 | 0 | 0 | 0 | 72.9 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 72.9 |
+| uk | Ukrainien | défaillante | 6/13 | 1 | 0 | 0 | 72.9 | +0 | 46 % sans problème détecté |
+| gu | Goujarati | à surveiller | 7/13 | 1 | 0 | 0 | 72.9 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 72.9 |
+| pl | Polonais | à surveiller | 7/13 | 2 | 0 | 0 | 73 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 73 |
+| vi | Vietnamien | à surveiller | 8/13 | 1 | 0 | 0 | 73 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 73 |
+| bn | Bengali | à surveiller | 7/13 | 1 | 0 | 0 | 73.1 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 73.1 |
+| kn | Kannada | à surveiller | 7/13 | 1 | 0 | 0 | 73.8 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 73.8 |
+| sr | Serbe | défaillante | 2/13 | 10 | 0 | 0 | 74 | +0 | 15 % sans problème détecté |
+| mk | Macédonien | à surveiller | 7/13 | 0 | 0 | 0 | 74.4 | +0 | 54 % sans problème détecté, 0 grave(s), chrF retour 74.4 |
+| he | Hébreu | à surveiller | 7/13 | 0 | 0 | 0 | 74.4 | +0 | 54 % sans problème détecté, 0 grave(s), chrF retour 74.4 |
+| sq | Albanais | à surveiller | 9/13 | 0 | 0 | 0 | 74.5 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 74.5 |
+| sl | Slovène | à surveiller | 7/13 | 1 | 0 | 0 | 74.6 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 74.6 |
+| ru | Russe | défaillante | 6/13 | 1 | 0 | 0 | 74.8 | +0 | 46 % sans problème détecté |
+| ca | Catalan | à surveiller | 8/13 | 0 | 0 | 0 | 74.8 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 74.8 |
+| da | Danois | à surveiller | 9/13 | 1 | 0 | 0 | 75 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 75 |
+| qu | Quechua | à surveiller | 9/13 | 0 | 0 | 0 | 75.4 | — | 69 % sans problème détecté, 0 grave(s), chrF retour 75.4 |
+| bs | Bosniaque | à surveiller | 8/13 | 0 | 0 | 0 | 75.5 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 75.5 |
+| sk | Slovaque | à surveiller | 8/13 | 0 | 0 | 0 | 75.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 75.6 |
+| et | Estonien | à surveiller | 8/13 | 2 | 0 | 0 | 75.8 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 75.8 |
+| pt | Portugais | à surveiller | 8/13 | 0 | 0 | 0 | 76.1 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 76.1 |
+| ga | Irlandais | à surveiller | 9/13 | 0 | 0 | 0 | 76.1 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 76.1 |
+| ur | Ourdou | à surveiller | 7/13 | 1 | 0 | 0 | 76.1 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 76.1 |
+| tr | Turc | à surveiller | 8/13 | 0 | 0 | 0 | 76.2 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 76.2 |
+| hi | Hindi | défaillante | 6/13 | 2 | 0 | 0 | 76.3 | +0 | 46 % sans problème détecté |
+| ro | Roumain | à surveiller | 8/13 | 0 | 0 | 0 | 76.7 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 76.7 |
+| hr | Croate | à surveiller | 8/13 | 0 | 0 | 0 | 76.7 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 76.7 |
+| it | Italien | à surveiller | 10/13 | 0 | 0 | 0 | 76.8 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 76.8 |
+| el | Grec | à surveiller | 7/13 | 1 | 0 | 0 | 77.1 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 77.1 |
+| gl | Galicien | à surveiller | 8/13 | 0 | 0 | 0 | 77.5 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 77.5 |
+| nl | Néerlandais | à surveiller | 8/13 | 0 | 0 | 0 | 77.7 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 77.7 |
+| ar | Arabe | à surveiller | 8/13 | 0 | 0 | 0 | 78.4 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 78.4 |
+| fi | Finnois | à surveiller | 9/13 | 1 | 0 | 0 | 78.5 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 78.5 |
+| sv | Suédois | à surveiller | 8/13 | 0 | 0 | 0 | 78.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 78.6 |
+| en | Anglais | à surveiller | 9/13 | 0 | 0 | 0 | 78.9 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 78.9 |
+| nb | Norvégien | à surveiller | 8/13 | 0 | 0 | 0 | 79.3 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 79.3 |
+| es | Espagnol | à surveiller | 9/13 | 0 | 0 | 0 | 79.5 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 79.5 |
+| es-MX | Espagnol (Mexique) | à surveiller | 8/13 | 0 | 0 | 0 | 81 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 81 |
+| de | Allemand | à surveiller | 8/13 | 0 | 0 | 0 | 82.9 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 82.9 |
 
 Lecture : « sans problème détecté » veut dire que les contrôles automatiques (écriture, nombres, noms, longueur, recopie, retour) n'ont rien trouvé. Ce n'est PAS une preuve de bonne traduction. Les idiomes, l'humour et les métaphores demandent toujours une relecture humaine.
