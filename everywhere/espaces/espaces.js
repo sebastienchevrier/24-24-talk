@@ -25,7 +25,7 @@
       live_start: "▶ Démarrer le direct", live_stop: "⏹ Arrêter le direct", cam: "📹 Caméra", cam_off: "📹 Couper la caméra",
       live_voice: "🔊 Écouter la voix traduite", live_voice_off: "🔇 Couper la voix", live_wait: "Le direct n'a pas encore commencé.",
       live_host_hint: "Parlez : vos phrases s'affichent en sous-titres, traduites pour chaque spectateur.",
-      live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).",
+      live_watch: "Rejoignez pour voir la caméra et écrire.", live_mic_denied: "Micro refusé : autorisez-le dans Chrome (cadenas ▸ Autorisations).", live_pouls_ko: "⚠ Votre direct n'est plus renouvelé ({m}). Les spectateurs ne le verront plus « en direct » d'ici 5 minutes. Nouvel essai automatique chaque minute.", on_air_ko: "⚠ Direct non renouvelé",
       live_no_mic: "Ce navigateur ne sait pas écouter : écrivez vos sous-titres ci-dessous.", caption_ph: "Sous-titre à envoyer…",
       live_viewers: "{n} spectateur(s) en vidéo", cam_fail: "Caméra indisponible : autorisez-la dans Chrome.",
       b_all: "Tout", b_sell: "Vente", b_buy: "Achat", b_wholesale: "Gros / fournisseur", b_sourcing: "Sourcing", b_service: "Service", b_job: "Emploi", b_mission: "Mission à distance", b_logistics: "Transport", b_customs: "Douane", b_partner: "Partenariat",
@@ -98,7 +98,7 @@
       live_start: "▶ Start the live", live_stop: "⏹ Stop the live", cam: "📹 Camera", cam_off: "📹 Turn camera off",
       live_voice: "🔊 Hear the translated voice", live_voice_off: "🔇 Mute the voice", live_wait: "The live hasn't started yet.",
       live_host_hint: "Speak: your sentences appear as subtitles, translated for each viewer.",
-      live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.",
+      live_watch: "Join to see the camera and write.", live_mic_denied: "Microphone blocked: allow it in your browser settings.", live_pouls_ko: "⚠ Your live can no longer be renewed ({m}). Viewers will stop seeing it as live within 5 minutes. Retrying automatically every minute.", on_air_ko: "⚠ Live not renewed",
       live_no_mic: "This browser can't listen: type your subtitles below.", caption_ph: "Subtitle to send…",
       live_viewers: "{n} viewer(s) on video", cam_fail: "Camera unavailable: allow it in your browser settings.",
       b_all: "All", b_sell: "For sale", b_buy: "Wanted", b_wholesale: "Wholesale / supplier", b_sourcing: "Sourcing", b_service: "Service", b_job: "Job", b_mission: "Remote work", b_logistics: "Shipping", b_customs: "Customs", b_partner: "Partnership",
@@ -178,7 +178,21 @@
   };
   var ICE = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }];
 
-  var ui = "fr", cur = null, uidP = null, myLang = null;
+  var ui = "fr", cur = null, uidP = null, myLang = null, compteGen = 0, afficheId;
+  // Un direct n'est annoncé « en direct » que si l'animateur a donné signe de vie récemment (last_at, renouvelé
+  // chaque minute par son téléphone et à chaque sous-titre par le serveur). Animateur parti sans arrêter (changement
+  // de compte, téléphone éteint, réseau perdu) : l'annonce disparaît d'elle-même, sans fonction serveur nouvelle.
+  var LIVE_FRAIS = 5 * 60 * 1000, LIVE_POULS = 60 * 1000;
+  // Validation stricte : last_at absent, null, illisible ou trop dans le futur = PAS en direct.
+  // Petite marge de 2 min dans le futur pour l'horloge des téléphones (last_at est écrit par celui de l'animateur).
+  var LIVE_FUTUR = 2 * 60 * 1000;
+  function enDirect(r, maintenant) {
+    if (!r || r.live_on !== true || typeof r.last_at !== "string" || !r.last_at) return false;
+    var t = Date.parse(r.last_at);
+    if (!isFinite(t)) return false;
+    var d = (maintenant == null ? Date.now() : maintenant) - t;
+    return d > -LIVE_FUTUR && d < LIVE_FRAIS;
+  }
   function t(k, v) {
     var s = (STR[ui] && STR[ui][k]) || (window.EW_SCREEN_STR && window.EW_SCREEN_STR.espaces && window.EW_SCREEN_STR.espaces[ui] && window.EW_SCREEN_STR.espaces[ui][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
@@ -195,8 +209,20 @@
   }
   function sb() { return window.EWConnect && window.EWConnect.client ? window.EWConnect.client() : Promise.reject(new Error("OFF")); }
   // Mon compte (identifiant, langue de lecture) : celui de la Messagerie, sur ce téléphone.
+  // OW-012 lot 4 étape B : lu par le gardien d'identité unique (everywhere/ow-identite.js) : une seule lecture de
+  // profiles partagée, et l'écran est prévenu d'un changement de compte, d'une déconnexion ou d'une session expirée.
+  // Sans le gardien (fichier absent), l'ancienne lecture directe reste en secours.
   function account() {
-    if (!uidP) uidP = sb().then(function (c) {
+    if (uidP) return uidP;
+    var G = window.OWIdentite, g = compteGen;
+    var p = G ? sb().then(function (c) { G.adopter(c); return G.moi(); }).then(function (m) {
+      // Le compte a changé pendant la lecture (surCompte) : la réponse de l'ancien compte est ignorée.
+      if (g !== compteGen) throw new Error("OW_COMPTE_CHANGE");
+      afficheId = m ? m.id : null;
+      if (!m) return null;
+      myLang = base(m.langue) || ui;
+      return { id: m.id, pseudo: m.pseudo, lang: myLang };
+    }) : sb().then(function (c) {
       return c.auth.getSession().then(function (r) {
         var u = r && r.data && r.data.session && r.data.session.user;
         if (!u) return null;
@@ -207,7 +233,8 @@
           return { id: u.id, pseudo: prof.pseudo, lang: myLang };
         });
       });
-    }).catch(function (e) { uidP = null; throw e; });
+    });
+    uidP = p.catch(function (e) { if (g === compteGen) uidP = null; throw e; });
     return uidP;
   }
   // Traduction pour moi : rien à faire si le texte est déjà dans ma langue.
@@ -290,6 +317,7 @@
     });
     var tok = cur.token;
     Promise.all([sb(), account()]).then(function (r) {
+      if (!cur || cur.token !== tok) return;
       if (!r[1]) { noAccount(root.querySelector("#esList")); root.querySelector("#esNewBtn").hidden = true; return; }
       var q = r[0].from("ow_rooms").select("*").eq("kind", kind);
       if (topic && topic !== "all") q = q.eq("topic", topic);
@@ -301,7 +329,7 @@
         if (!res.data.length) { list.innerHTML = '<div class="card es-empty"><p>' + esc(t("none_" + k1)) + "</p></div>"; return; }
         list.innerHTML = res.data.map(function (r) {
           return '<a class="card es-room" href="#/' + kind + "/" + esc(r.id) + '">' +
-            (r.live_on ? '<span class="es-live">' + esc(t("on_air")) + "</span>" : "") +
+            (enDirect(r) ? '<span class="es-live">' + esc(t("on_air")) + "</span>" : "") +
             '<b dir="auto" data-tr="' + esc(r.title) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></b>' +
             (r.about ? '<span class="es-about" dir="auto" data-tr="' + esc(r.about) + '" data-from="' + esc(r.lang) + '" data-show-orig="no"></span>' : "") +
             '<small class="muted">' + esc(flag(r.lang)) + " " + (r.topic && r.topic !== "other" ? esc(t("tp_" + r.topic)) + " · " : "") + esc(t("members", { n: r.members })) + " · " + esc(t("by", { n: r.owner_name || "?" })) + "</small></a>";
@@ -317,6 +345,7 @@
     busy(root);
     Promise.all([sb(), account()]).then(function (r) {
       var c = r[0], me = r[1];
+      if (!cur || cur.token !== tok) return;
       if (!me) { noAccount(root); return; }
       return Promise.all([
         c.from("ow_rooms").select("*").eq("id", id).maybeSingle(),
@@ -327,6 +356,9 @@
         if (res[0].error) throw res[0].error;
         if (!res[0].data) { location.replace("#/" + kind); return; }
         cur.c = c; cur.me = me; cur.room = res[0].data; cur.member = !!res[1].data; cur.lastId = 0;
+        // Direct périmé (live_on resté vrai, mais aucun signe de vie depuis 5 min) : traité comme ARRÊTÉ dans tout l'écran.
+        // L'animateur qui revient voit « Démarrer le direct » ; rien ne repart (sous-titres, pouls) sans son clic.
+        if (cur.room.live_on && !enDirect(cur.room)) cur.room.live_on = false;
         paintRoom(root, kind, (res[2].data || []).slice().reverse());
       });
     }).catch(function (e) { if (cur && cur.token === tok) fail(root, e, function () { room(root, kind, id); }); });
@@ -336,7 +368,7 @@
     root.innerHTML = '<a class="tr-back" href="#/' + kind + '">' + esc(t(live ? "back_l" : "back_c")) + "</a>" +
       '<div class="card es-roomhead"><h1 id="h-es" dir="auto" data-tr="' + esc(rm.title) + '" data-from="' + esc(rm.lang) + '"></h1>' +
       (rm.about ? '<p class="muted" dir="auto" data-tr="' + esc(rm.about) + '" data-from="' + esc(rm.lang) + '"></p>' : "") +
-      '<p class="muted"><span id="esLiveBadge">' + (rm.live_on ? esc(t("on_air")) + " · " : "") + "</span>" + esc(t("members", { n: rm.members })) + " · " + esc(t("by", { n: rm.owner_name || "?" })) + "</p>" +
+      '<p class="muted"><span id="esLiveBadge">' + (enDirect(rm) ? esc(t("on_air")) + " · " : "") + "</span>" + esc(t("members", { n: rm.members })) + " · " + esc(t("by", { n: rm.owner_name || "?" })) + "</p>" +
       '<div class="es-row">' + (owner ? "" : '<button type="button" class="btn' + (cur.member ? "" : " primary") + '" id="esJoin">' + esc(t(cur.member ? "leave" : "join")) + "</button>") +
       (owner ? '<button type="button" class="btn es-danger" id="esDel">' + esc(t("delete_room")) + "</button>" : "") + "</div></div>" +
       (live ? liveHtml(owner) : "") +
@@ -465,7 +497,7 @@
   // ---------- LIVE : sous-titres traduits, voix traduite, caméra de l'animateur ----------
   function liveHtml(owner) {
     return '<div class="card es-livebox"><div class="es-stage" id="esStage"><video id="esVideo" autoplay playsinline muted hidden></video>' +
-      '<div class="es-caption" id="esCaption" dir="auto">' + esc(owner ? t("live_host_hint") : (cur.room.live_on ? "" : t("live_wait"))) + "</div></div>" +
+      '<div class="es-caption" id="esCaption" dir="auto">' + esc(owner ? t("live_host_hint") : (enDirect(cur.room) ? "" : t("live_wait"))) + "</div></div>" +
       '<p class="muted es-small" id="esInterim" dir="auto"></p>' +
       '<div class="es-row">' + (owner
         ? '<button type="button" class="btn primary" id="esLiveGo">' + esc(t(cur.room.live_on ? "live_stop" : "live_start")) + '</button><button type="button" class="btn" id="esCam">' + esc(t("cam")) + "</button>"
@@ -484,24 +516,67 @@
       el.textContent = out;
       if (cur.voice && window.EWMoteur) window.EWMoteur.speak(out, myLang || ui, 1);
     });
-    if (cur.room && !cur.room.live_on) { cur.room.live_on = true; var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
+    if (cur.room && !cur.room.live_on) { cur.room.live_on = true; cur.room.last_at = new Date().toISOString(); var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air") + " · "; }
   }
+  // Signe de vie de l'animateur : last_at de SON salon (règle existante « modifier mon salon »), chaque minute.
+  // Chaque battement est vérifié : erreur Supabase (res.error), rejet réseau, ou 0 ligne renouvelée (session finie,
+  // salon supprimé, règle refusée) → l'animateur est prévenu ; au battement réussi suivant, l'écran redevient normal.
+  // Une réponse tardive (autre compte, autre écran, pouls arrêté) ne touche jamais l'écran actuel.
+  function pouls() {
+    stopPouls();
+    var c = cur.c, id = cur.room.id, tok = cur.token, gen = (cur.poulsGen = (cur.poulsGen || 0) + 1);
+    function actuel() { return cur && cur.token === tok && cur.poulsGen === gen && !!cur.pouls; }
+    function battre() {
+      if (!actuel()) return;
+      var p;
+      try { p = Promise.resolve(c.from("ow_rooms").update({ last_at: new Date().toISOString() }).eq("id", id).select("id")); }
+      catch (e) { p = Promise.reject(e); }
+      p.then(function (res) {
+        if (!actuel()) return;
+        if (res && res.error) return poulsKo(res.error);
+        if (!res || !Array.isArray(res.data) || res.data.length !== 1) return poulsKo(new Error("0"));
+        poulsOk();
+      }, function (e) { if (actuel()) poulsKo(e); });
+    }
+    cur.pouls = setInterval(battre, LIVE_POULS);
+    battre();
+  }
+  function poulsKo(e) {
+    cur.poulsKo = true;
+    var m = String((e && (e.message || e.code)) || e || "");
+    var why = m === "0" ? "session ?" : /fetch|network|NETWORK|OFF|Failed/i.test(m) ? t("e_net") : m.slice(0, 60);
+    var el = document.getElementById("esLiveMsg"); if (el) { el.textContent = t("live_pouls_ko", { m: why }); el.setAttribute("data-pouls", "ko"); }
+    var b = document.getElementById("esLiveBadge"); if (b) b.textContent = t("on_air_ko") + " · ";
+  }
+  function poulsOk() {
+    var el = document.getElementById("esLiveMsg");
+    if (el && el.getAttribute("data-pouls") === "ko") el.textContent = "";
+    if (el) el.setAttribute("data-pouls", "ok");
+    if (!cur.poulsKo) return;
+    cur.poulsKo = false;
+    var b = document.getElementById("esLiveBadge"); if (b && cur.room && cur.room.live_on) b.textContent = t("on_air") + " · ";
+  }
+  function stopPouls() { if (cur && cur.pouls) { clearInterval(cur.pouls); cur.pouls = null; } if (cur) { cur.poulsGen = (cur.poulsGen || 0) + 1; cur.poulsKo = false; }
+    var el = document.getElementById("esLiveMsg"); if (el && el.getAttribute("data-pouls") === "ko") { el.textContent = ""; el.removeAttribute("data-pouls"); } }
   function bindLive(root, owner) {
     var msg = root.querySelector("#esLiveMsg");
     if (owner) {
       var go = root.querySelector("#esLiveGo"), cam = root.querySelector("#esCam");
       go.addEventListener("click", function () {
-        var on = !cur.room.live_on;
+        var on = !cur.room.live_on, tokGo = cur.token;
         go.disabled = true;
-        cur.c.from("ow_rooms").update({ live_on: on }).eq("id", cur.room.id).then(function (res) {
+        cur.c.from("ow_rooms").update(on ? { live_on: true, last_at: new Date().toISOString() } : { live_on: false }).eq("id", cur.room.id).then(function (res) {
+          // Réponse arrivée après un changement de compte ou un changement d'écran : on ne relance rien (ni pouls, ni sous-titres).
+          if (!cur || cur.token !== tokGo) return;
           go.disabled = false;
           if (res.error) throw res.error;
           cur.room.live_on = on;
+          if (on) cur.room.last_at = new Date().toISOString();
           go.textContent = t(on ? "live_stop" : "live_start");
           root.querySelector("#esLiveBadge").textContent = on ? t("on_air") + " · " : "";
-          if (on) startCaptions(root); else stopCaptions();
+          if (on) { startCaptions(root); pouls(); } else { stopCaptions(); stopPouls(); }
           signal({ t: on ? "live" : "end" });
-        }).catch(function (e) { go.disabled = false; msg.textContent = errText(e); });
+        }).catch(function (e) { if (!cur || cur.token !== tokGo) return; go.disabled = false; msg.textContent = errText(e); });
       });
       cam.addEventListener("click", function () { toggleHostCam(root); });
       root.querySelector("#esCapForm").addEventListener("submit", function (e) {
@@ -511,7 +586,7 @@
         inp.value = "";
         post(v, "caption").catch(function (err) { msg.textContent = errText(err); });
       });
-      if (cur.room.live_on) startCaptions(root);
+      if (cur.room.live_on) { startCaptions(root); pouls(); }
     } else {
       var vb = root.querySelector("#esVoice");
       vb.addEventListener("click", function () {
@@ -699,6 +774,7 @@
       '<p class="muted es-small">' + esc(t(help ? "h_safety" : "b_safety")) + "</p>";
     root.querySelectorAll(".es-chip").forEach(function (b) { b.addEventListener("click", function () { business(root, b.getAttribute("data-f"), help); }); });
     Promise.all([sb(), account()]).then(function (r) {
+      if (!cur || cur.token !== tok) return;
       if (!r[1]) { noAccount(root.querySelector("#esList")); return; }
       var q = r[0].from("ow_listings").select("*").eq("status", "open");
       if (filter !== "all") q = q.eq("kind", filter);
@@ -964,6 +1040,8 @@
   // ---------- Entrée ----------
   function leave() {
     if (!cur) return;
+    // Le pouls s'arrête : sans nouvelle de l'animateur, l'annonce « en direct » disparaît d'elle-même (voir enDirect).
+    stopPouls();
     stopLive();
     if (cur.poll) clearInterval(cur.poll);
     try { if (cur.rt && cur.c) cur.c.removeChannel(cur.rt); } catch (e) { /* ignoré */ }
@@ -971,8 +1049,42 @@
     cur.token = -1;
     cur = null;
   }
+  // Écran affiché (pour le redessiner au nouveau compte).
+  var vue = null;
+  // OW-012 lot 4 étape B : changement de compte, déconnexion ou session expirée sur ce téléphone (cet onglet ou un autre).
+  // Le salon ou le direct en cours s'arrête (caméra, micro, abonnements temps réel), tout ce qui est affiché est effacé,
+  // puis l'écran est redessiné pour le compte actuel (ou « Créez d'abord votre compte »). Rien de l'ancien compte ne reste.
+  function redessiner() {
+    if (!vue) return;
+    vue.root.innerHTML = "";
+    show(vue.root, vue.parts, vue.ui);
+  }
+  function surCompte(ev) {
+    if (ev === "profil-modifie") { compteGen++; uidP = null; myLang = null; return; }
+    if (ev === "connexion") {
+      // Connexion faite ailleurs (Mon compte, Messagerie, autre onglet) alors que les Espaces sont ouverts.
+      // On attend la lecture en cours, puis on ne redessine QUE si l'écran montre un autre compte (ou aucun) :
+      // pas de double démarrage quand la connexion annoncée est celle que l'écran affiche déjà (INITIAL_SESSION).
+      if (!cur || !vue) return;
+      var tok = cur.token;
+      Promise.resolve(uidP).catch(function () {}).then(function () { return window.OWIdentite.moi(); }).then(function (m) {
+        if (!cur || cur.token !== tok || !m || m.id === afficheId) return;
+        compteGen++; uidP = null; myLang = null;
+        leave();
+        redessiner();
+      }, function () {});
+      return;
+    }
+    if (ev !== "changement-de-compte" && ev !== "deconnexion" && ev !== "expiration") return;
+    compteGen++; uidP = null; myLang = null; afficheId = undefined;
+    if (!cur || !vue) return; // Espaces pas à l'écran : rien d'affiché à effacer
+    leave();
+    redessiner();
+  }
+  if (window.OWIdentite) window.OWIdentite.ecouter(surCompte);
   function show(root, parts, uiLang) {
     leave();
+    vue = { root: root, parts: parts, ui: uiLang };
     // OW-012-A1 : le compte est relu à chaque écran. Avant, il était gardé pour toute la visite : après une
     // déconnexion, une suppression ou un changement de compte dans Profil, les espaces gardaient l'ancien.
     uidP = null;
@@ -986,5 +1098,5 @@
     else avantages(root);
     return t(kind);
   }
-  window.EWEspaces = { show: show, leave: leave, _str: STR };
+  window.EWEspaces = { show: show, leave: leave, _str: STR, _enDirect: enDirect };
 })();

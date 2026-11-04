@@ -4,6 +4,18 @@
    et seul connu@exemple.fr est un compte existant. */
 (function () {
   var PROFILE = { id: "00000000-0000-4000-8000-0000000000aa", pseudo: "sebtest", lang: "fr" };
+  // Changement de compte sur le même téléphone (essais OW-012 lot 4) : localStorage « fake_who » = "b" → @amira (arabe).
+  // Les essais déclenchent ensuite l'événement supabase-js avec window.__fakeAuth (rappels de onAuthStateChange).
+  // Ne touche à rien tant que « fake_who » n'a jamais servi (d'autres essais, comme visio, remplacent PROFILE eux-mêmes).
+  var avantBascule = null;
+  function quiSuisJe() {
+    var b = false; try { b = localStorage.getItem("fake_who") === "b"; } catch (e) {}
+    if (!b && !avantBascule) return;
+    if (!avantBascule) avantBascule = { id: PROFILE.id, pseudo: PROFILE.pseudo, lang: PROFILE.lang };
+    var v = b ? { id: "00000000-0000-4000-8000-0000000000ab", pseudo: "amira", lang: "ar" } : avantBascule;
+    PROFILE.id = v.id; PROFILE.pseudo = v.pseudo; PROFILE.lang = v.lang;
+  }
+  quiSuisJe();
   var UA_PC = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36";
   function load() {
     var s = null;
@@ -13,7 +25,7 @@
         { id: "22222222-2222-4222-8222-222222222222", appareil: UA_PC, depuis: new Date(Date.now() - 864e5).toISOString(), vu: new Date(Date.now() - 3 * 36e5).toISOString(), actuel: false }] };
   }
   function save(s) { try { localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", s.session ? "fake" : ""); } catch (e) {} }
-  function user(s) { return { id: PROFILE.id, email: s.email, new_email: s.new_email, is_anonymous: s.anon, email_confirmed_at: s.email ? "2026-10-19T00:00:00Z" : null }; }
+  function user(s) { quiSuisJe(); return { id: PROFILE.id, email: s.email, new_email: s.new_email, is_anonymous: s.anon, email_confirmed_at: s.email ? "2026-10-19T00:00:00Z" : null }; }
   function err(message, code, status) { return { data: null, error: { message: message, code: code, status: status || 400 } }; }
   // EVERYWHERE (appeler sur TALK) : avec localStorage « fake_contacts » = "1", deux contacts déjà en discussion (@kenji, @maria).
   var KENJI = { id: "00000000-0000-4000-8000-0000000000b1", pseudo: "kenji", lang: "ja" };
@@ -129,7 +141,7 @@
           getUser: function () { var s = load(); return R({ data: { user: s.session ? user(s) : null }, error: null }); },
           signInAnonymously: function () { var s = load(); s.session = true; save(s); return R({ data: { user: user(s) }, error: null }); },
           refreshSession: function () { return R({ data: {}, error: null }); },
-          onAuthStateChange: function () { return { data: { subscription: { unsubscribe: function () {} } } }; },
+          onAuthStateChange: function (cb) { (window.__fakeAuth = window.__fakeAuth || []).push(cb); return { data: { subscription: { unsubscribe: function () {} } } }; },
           updateUser: function (a, o) {
             var s = load();
             try { localStorage.setItem("fake_redirect", (o && o.emailRedirectTo) || ""); } catch (e) {}
@@ -184,7 +196,7 @@
           return R({ data: null, error: null });
         },
         channel: channel,
-        removeChannel: function () { return Promise.resolve("ok"); },
+        removeChannel: function (c) { window.__fakeRemoved = (window.__fakeRemoved || 0) + 1; return Promise.resolve("ok"); },
         realtime: { setAuth: function () {} },
         functions: { invoke: function () { return Promise.resolve({ data: null, error: { message: "test" } }); } }
       };

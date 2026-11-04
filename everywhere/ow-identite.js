@@ -145,6 +145,10 @@
   }
   function client() { return cli ? Promise.resolve(cli) : new Promise(function (ok) { attenteClient.push(ok); }); }
 
+  // E-mail confirmé = indicateur réel de Supabase (email_confirmed_at), jamais la simple présence d'une adresse.
+  // Compte anonyme = jamais confirmé. Adresse en attente de changement (new_email) : seule l'adresse confirmée compte.
+  function emailConfirme(u) { return !!(u && !u.is_anonymous && u.email && u.email_confirmed_at); }
+
   function moi() {
     if (cacheMoi && cacheMoi.id === idCourant) return Promise.resolve(cacheMoi);
     if (lectureMoi) return lectureMoi;
@@ -163,7 +167,7 @@
           if (gen !== generation) throw new Error("OW_COMPTE_CHANGE");
           if (!p || !p.data) { etatCourant = "sans-profil"; return null; }
           cacheMoi = { id: u.id, pseudo: p.data.pseudo || "", nom: p.data.nom || "", langue: p.data.lang || "",
-            email: u.email || "", emailConfirme: !!u.email && !u.is_anonymous };
+            email: u.email || "", emailConfirme: emailConfirme(u) };
           etatCourant = "connecte";
           return cacheMoi;
         });
@@ -226,7 +230,7 @@
   } catch (e) { /* ignoré */ }
 
   window.OWIdentite = {
-    version: "A1",
+    version: "A2",
     CLES: CLES, GARDE: GARDE, CLE_SESSION: CLE_SESSION,
     adopter: adopter, client: client, moi: moi,
     etat: function () { return etatCourant; },

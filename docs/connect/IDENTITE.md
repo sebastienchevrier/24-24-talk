@@ -17,7 +17,7 @@ Fichier : `everywhere/ow-identite.js`. Tests : `everywhere/tests/identite.js` (p
 |---|---|
 | `adopter(client)` | L'écran confie son client supabase-js. Le premier adopté reste l'unique référence de la page. |
 | `client()` | Promesse du client. |
-| `moi()` | Renvoie `{ id, pseudo, nom, langue, email, emailConfirme }` ou `null`. Plusieurs demandes en même temps donnent une seule lecture. |
+| `moi()` | Renvoie `{ id, pseudo, nom, langue, email, emailConfirme }` ou `null`. Plusieurs demandes en même temps donnent une seule lecture. `emailConfirme` = vrai indicateur Supabase `email_confirmed_at` (jamais la simple présence d'une adresse) ; toujours `false` pour un compte anonyme. |
 | `etat()` | `inconnu`, `chargement`, `connecte`, `sans-profil`, `deconnecte`, `hors-ligne` ou `expire`. |
 | `ecouter(fn)` | `fn(evenement, moi)` reçoit `connexion`, `deconnexion`, `changement-de-compte`, `expiration`, `profil-modifie`, `hors-ligne` ou `en-ligne`. |
 | `proteger(promesse)` | Ignore une réponse arrivée après un changement de compte (`OW_COMPTE_CHANGE`). |
@@ -58,9 +58,32 @@ Fichier : `everywhere/ow-identite.js`. Tests : `everywhere/tests/identite.js` (p
 ## Migration (une PR par étape)
 | Étape | Contenu |
 |---|---|
-| A | Gardien seul et testé. Aucun écran ne le charge (cette étape). |
-| B | Pilote Espaces. |
-| C | Mon compte (`connect.js`). |
+| A | Gardien seul et testé. Aucun écran ne le charge. (PR 89) |
+| B | Pilote Espaces : le portail charge le gardien, `espaces.js` lit le compte par `moi()` et écoute `ecouter()`. Changement de compte, déconnexion ou session expirée : salon ou direct arrêté (caméra, micro, temps réel), écran vidé puis redessiné pour le compte actuel. Les autres écrans du portail ne sont pas branchés. |
+| C | Mon compte (`connect.js`). Reste à faire ici : désabonner les notifications push (`push_subs`) côté serveur à la déconnexion. |
 | D | Face à face et Profil de langue. |
-| E | Messagerie (`index.html`), par des points d'accroche, sans réécriture. |
+| E | Messagerie (`index.html`), par des points d'accroche, sans réécriture. Abonnement push du téléphone retiré à la déconnexion et au changement de compte. |
 | F | Retrait des anciens mécanismes, après les tests. |
+
+## Essais
+- `everywhere/tests/identite.js` : gardien seul, faux client (dont e-mail confirmé, non confirmé, anonyme).
+- `everywhere/tests/identite-reel.js` : gardien + VRAIE bibliothèque supabase-js 2.117.2 (empreinte SRI vérifiée).
+  - Mode local (par défaut) : serveur d'authentification imité, aucune sortie sur Internet.
+  - Mode TEST (`OW_REEL=TEST`) : vraie base TEST, crée 1 compte anonyme par passage ; la PROD est refusée.
+  - Constat sur la vraie bibliothèque : un renouvellement refusé lors d'un appel explicite `refreshSession()` ne supprime pas la session ; c'est à l'ouverture (jeton expiré) que supabase-js la supprime. Le gardien suit la session réelle dans les deux cas.
+- `everywhere/tests/espaces.js` : étape B (changement de compte pendant un direct, réponse lente de l'ancien compte, déconnexion, reconnexion).
+
+## Niveaux de validation (état au 1er nov. 2026, PR 90)
+| Niveau | Fait ? | Détail |
+|---|---|---|
+| 1. Faux serveur (Chromium) | OUI | identite 23/23, espaces 36/36 (13 essais étape B : enDirect strict, courses, animateur qui revient dans un direct périmé ou actif), e2e, messagerie, visio, terre, expert, piliers, profil-voyage |
+| 2. Vraie bibliothèque supabase-js 2.117.2 | OUI | identite-reel.js en mode local 12/12 (serveur d'authentification imité) |
+| 3. Vraie base TEST | NON | prêt (`OW_REEL=TEST`), pas lancé : réseau de Claude bloqué vers supabase.co. À lancer depuis un poste ou GitHub Actions. Crée 1 compte anonyme sur TEST. |
+| 4. Vrai téléphone | NON | à faire par Sébastien après fusion sur TEST/PROD : 2 comptes sur le même téléphone, direct en cours. |
+La PROD n'est jamais utilisée pour les essais (page et script la refusent).
+
+## Direct abandonné (« en direct » qui restait affiché)
+- Capacités existantes vérifiées (lecture TEST, 1er nov.) : colonnes `live_on`, `last_at` ; règle « modifier mon salon » (le propriétaire peut écrire `last_at`) ; `ow_before_msg` met `last_at` à jour à chaque message ; pas de pg_cron. Aucune fonction ni RPC nouvelle.
+- Choix sans SQL : l'animateur renouvelle `last_at` chaque minute pendant son direct ; un salon n'est annoncé « en direct » que si `live_on` vaut vrai ET `last_at` est une date lisible, de moins de 5 min, et pas plus de 2 min dans le futur (horloge des téléphones). `last_at` absent, null ou illisible = pas en direct.
+- Limite : `live_on` reste vrai dans la base (non affiché). Une fermeture côté serveur demanderait du SQL (à proposer et valider séparément).
+- Animateur qui revient dans son salon : si le direct est périmé (`enDirect` faux), il est traité comme arrêté dans tout l'écran : bouton « Démarrer le direct », ni pouls ni sous-titres automatiques, rien d'écrit au serveur. Le clic « Démarrer » réécrit `live_on` et `last_at`. Un direct encore actif (signe de vie < 5 min) reprend normalement.

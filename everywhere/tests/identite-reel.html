@@ -1,0 +1,15 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Essai OWIdentite avec le vrai supabase-js</title></head>
+<body><p>Page d'essai du gardien d'identité avec la VRAIE bibliothèque supabase-js 2.117.2 (OW-012 lot 4). Utilisée seulement par identite-reel.js.</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<script src="../ow-identite.js"></script>
+<script>
+  // Même réglage que everywhere/connect.js (session partagée sous la clé lc_net_auth). PROD refusée.
+  (function () {
+    var q = new URLSearchParams(location.search), url = q.get("url") || "", key = q.get("key") || "";
+    window.__evts = [];
+    if (/wsgcumnaltdinchsdovs/.test(url)) { document.body.insertAdjacentHTML("beforeend", "<p id='refus'>PROD refusée</p>"); return; }
+    window.__client = window.supabase.createClient(url, key, { auth: { persistSession: true, autoRefreshToken: false, detectSessionInUrl: false, storageKey: "lc_net_auth" } });
+    OWIdentite.ecouter(function (ev, m) { window.__evts.push(ev); });
+    OWIdentite.adopter(window.__client);
+  })();
+</script></body></html>
