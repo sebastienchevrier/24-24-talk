@@ -15,3 +15,11 @@ Lancer : `bash supabase/base/reconstruire.sh`. Le workflow « Socle base reconst
 - C'est l'état du **TEST**. La PROD n'a pas pu être relue et peut différer : par exemple les restes d'abonnement B7 ou la liste des origines des statistiques. Une comparaison PROD reste à faire, en lecture seule, avec l'accord de Sébastien.
 - Les données de réglage ne sont pas dans le dépôt : `billing_settings`, `stats_origins`, `admins`, et surtout `push_config`, qui contient des clés secrètes et n'y sera jamais.
 - La reconstruction est prouvée sur PostgreSQL 16 avec des bouchons. Ce n'est pas une restauration sur un vrai projet Supabase.
+
+## Correctifs posés après le socle
+
+`reconstruire.sh` applique ensuite, dans l'ordre, chaque correctif `supabase/NN-*.sql`. Pour chacun, il lance ses essais `essais-*.sql`, puis vérifie que son retour arrière passe et que le correctif peut être reposé.
+
+| Correctif | Constat | Essais |
+|---|---|---|
+| `24-stats-anti-triche.sql` | F-31 : statistiques gonflables | 11 essais : plafond par appareil, 10 appareils par adresse au plus, 12 h d'appel par jour au plus, aucune adresse en clair |
