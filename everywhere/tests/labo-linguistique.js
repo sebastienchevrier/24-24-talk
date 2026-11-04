@@ -35,18 +35,29 @@ async function step(n, fn) { try { const r = await fn(); rec(n, r.ok, r.detail);
   await step("Phase 5 : types d'erreurs, « non vérifié », décisions et choix du moteur (traduction incertaine)", async () => {
     const F = require(path.join(SITE, "labo", "moteur", "fiabilite.js"));
     const cat = F.categorie("heure en swahili") === "grave" && F.categorie("nom « Marie »") === "grave" && F.categorie("attendu /usted/") === "contexte" && F.categorie("retraduction") === "sens";
-    const r = F.resumer([{ controles: [{ controle: "nombre 3", ok: false }], chrf_retour: 40 }, { controles: [{ controle: "longueur", ok: true }], chrf_retour: null }, { controles: [], chrf_retour: 50 }]);
-    const res = r.phrases === 3 && r.graves === 1 && r.non_verifie === 1 && r.sans_probleme === 1;
+    // LOT 1 : contrôles vides = non vérifié ; une phrase en échec compte aussi en non vérifié (règle de ChatGPT, à trancher).
+    const r = F.resumer([{ controles: [{ controle: "nombre 3", ok: false }], chrf_retour: 40 }, { controles: [{ controle: "longueur", ok: true }], chrf_retour: null }, { controles: [], chrf_retour: 50 }, { controles: [{ controle: "longueur", ok: true }], chrf_retour: 50 }]);
+    const res = r.phrases === 4 && r.graves === 1 && r.non_verifie === 3 && r.sans_probleme === 1;
     const mm = { phrases: 12, taux: 80 };
     const d1 = F.decider({ phrases: 12, taux: 92, graves: 0 }, mm).decision === "autorisée en test";
     const d2 = F.decider({ phrases: 12, taux: 95, graves: 2 }, mm).decision === "exclue";
     const d3 = F.decider({ phrases: 12, taux: 65, graves: 0 }, mm).decision === "exclue";
     const d4 = F.decider({ phrases: 4, taux: 100, graves: 0 }, mm).decision === "à surveiller";
     const ordre = F.ordreMoteurs({ grande: "autorisée en test", petite: "exclue" }).join(",") === "grande,mymemory";
-    const ok1 = await F.choisir(["grande", "mymemory"], async (m) => m, async (m) => ({ controles: m === "grande" ? [{ controle: "jour « vendredi »", ok: false }] : [], chrf_retour: 40 }));
+    const ok1 = await F.choisir(["grande", "mymemory"], async (m) => m, async (m) => ({ controles: m === "grande" ? [{ controle: "jour « vendredi »", ok: false }] : [{ controle: "longueur", ok: true }], chrf_retour: 40 }));
     const ok2 = await F.choisir(["mymemory"], async (m) => m, async () => ({ controles: [{ controle: "nombre 6", ok: false }], chrf_retour: 40 }));
     const ch = ok1.moteur === "mymemory" && !ok1.incertaine && ok2.incertaine;
     return { ok: cat && res && d1 && d2 && d3 && d4 && ordre && ch, detail: [cat, res, d1, d2, d3, d4, ordre, ch].map((x) => (x ? "✓" : "✗")).join(" ") + " (catégories, résumé, 4 décisions, ordre, choix/incertaine)" };
+  });
+  await step("LOT 1 : 10 tests d'acceptation de la fiabilité (labo/tests/lot1-fiabilite.test.js, hors ligne)", async () => {
+    const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "lot1-fiabilite.test.js")], { encoding: "utf8" });
+    const fin = (r.stdout || "").trim().split("\n").pop();
+    return { ok: r.status === 0 && /^10 \/ 10 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
+  });
+  await step("F-30 : 10 tests d'acceptation « retraduction impossible = non vérifié » (labo/tests/f30-retraduction.test.js, faux réseau)", async () => {
+    const r = require("child_process").spawnSync(process.execPath, [path.join(SITE, "labo", "tests", "f30-retraduction.test.js")], { encoding: "utf8", timeout: 300000 });
+    const fin = (r.stdout || "").trim().split("\n").pop();
+    return { ok: r.status === 0 && /^10 \/ 10 /.test(fin), detail: fin || (r.stderr || "").slice(0, 200) };
   });
   await step("Aucun équivalent inventé : chaque équivalent est marqué « idiome » ou « sens », dans les 5 langues", async () => {
     const manque = [];

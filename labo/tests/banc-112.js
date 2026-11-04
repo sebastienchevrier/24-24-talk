@@ -95,12 +95,10 @@ async function ia(texte) {
 // Retraduction très éloignée de la phrase de départ (chrF < 15) : sens probablement inventé ou perdu.
 // Mesuré le 2 nov. : en wolof, l'IA a rendu « Je t'appelle ce soir après le travail » par « Naka nga def ci jamono bi, ci jàmm »
 // (« comment vas-tu, en paix »), sans qu'aucun autre contrôle ne réagisse. Même seuil pour MyMemory et l'IA.
-const SEUIL_RETOUR = 15;
-function retourEloigne(controles, v) {
-  // Retraduction impossible : la phrase n'est PAS vérifiée (jamais comptée « sans problème »).
-  if (v == null) { controles.push({ controle: "retraduction", ok: null, detail: "retraduction impossible : NON VÉRIFIÉ" }); return; }
-  controles.push({ controle: "retraduction", ok: v >= SEUIL_RETOUR, detail: v >= SEUIL_RETOUR ? "chrF " + v : "chrF " + v + " : RETOUR TRÈS ÉLOIGNÉ, sens probablement inventé ou perdu" });
-}
+// F-30 : le seuil, le contrôle « retraduction » et le cas « retraduction impossible » sont dans fiabilite.js
+// (verifierRetour), partagés par MyMemory et l'IA et testés hors ligne (labo/tests/f30-retraduction.test.js).
+const F = require("../moteur/fiabilite.js");
+const retraduireFr = (t) => mymemory(t, code, "fr");
 
 async function evaluer(c, traduction) {
   const an = S.comprendre(c.t, "fr", D);
@@ -108,13 +106,7 @@ async function evaluer(c, traduction) {
   const controles = E.resultats.concat(V.resultats).filter((x) => !/^expression «/.test(x.controle));
   controles.push({ controle: "écriture " + langue.ecriture, ok: bonneEcriture(traduction), detail: bonneEcriture(traduction) ? "bonne écriture" : "MAUVAISE ÉCRITURE : non traduit ou mauvaise langue" });
   const o = { traduction, controles };
-  try {
-    o.retour = await mymemory(traduction.slice(0, 450), code, "fr");
-    o.chrf_retour = chrf(o.retour, c.t);
-    retourEloigne(controles, o.chrf_retour);
-    const hit = (c.pieges_retour || []).filter((w) => o.retour.toLowerCase().includes(w));
-    if (c.pieges_retour) controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
-  } catch (e) { o.retour_erreur = e.message; }
+  Object.assign(o, await F.verifierRetour(controles, traduction, c.t, retraduireFr, chrf, c.pieges_retour));
   o.echecs = controles.filter((x) => x.ok === false).length;
   return o;
 }
@@ -130,61 +122,69 @@ async function evaluer(c, traduction) {
       const V = S.verifierSens(c.t, l.traduction, code, c);
       l.controles = E.resultats.concat(V.resultats).filter((x) => !/^expression «/.test(x.controle));
       l.controles.push({ controle: "écriture " + langue.ecriture, ok: bonneEcriture(l.traduction), detail: bonneEcriture(l.traduction) ? "bonne écriture" : "MAUVAISE ÉCRITURE : non traduit ou mauvaise langue" });
-      try {
-        l.retour = await mymemory(l.traduction.slice(0, 450), code, "fr");
-        l.chrf_retour = chrf(l.retour, c.t);
-        retourEloigne(l.controles, l.chrf_retour);
-        const hit = (c.pieges_retour || []).filter((w) => l.retour.toLowerCase().includes(w));
-        if (c.pieges_retour) l.controles.push({ controle: "indice mot à mot (retour)", ok: hit.length ? null : true, detail: hit.length ? "l'image revient dans la retraduction (« " + hit.join(", ") + " ») : relecture" : "pas d'image littérale au retour" });
-      } catch (e) { l.retour_erreur = e.message; }
+      Object.assign(l, await F.verifierRetour(l.controles, l.traduction, c.t, retraduireFr, chrf, c.pieges_retour));
     } catch (e) { l.erreur = e.message; }
     if (avecIA && !l.erreur) {
       try { l.ia = await evaluer(c, await ia(c.t)); } catch (e) { l.ia = { erreur: e.message }; }
     }
     l.echecs = (l.controles || []).filter((x) => x.ok === false).length;
-    l.a_relire = (l.controles || []).filter((x) => x.ok === null).length + (c.complexe ? 1 : 0);
+    // F-30 : erreurs, vérifications impossibles et relecture humaine comptées à part.
+    const k = F.classer(l, c.complexe);
+    l.verifiee = k.verifiee; l.impossibles = k.impossibles; l.a_relire = k.a_relire;
+    if (l.ia && !l.ia.erreur) { const ki = F.classer(l.ia, c.complexe); l.ia.verifiee = ki.verifiee; l.ia.impossibles = ki.impossibles; l.ia.a_relire = ki.a_relire; }
     lignes.push(l);
     if (l.ia) console.log(`        IA ${l.ia.erreur ? "ERREUR " + l.ia.erreur : (l.ia.echecs ? "✗" + l.ia.echecs : "✓") + " chrF retour " + (l.ia.chrf_retour ?? "—") + "  " + l.ia.traduction}`);
     console.log(`[${code}] ${c.registre.padEnd(16)} ${l.erreur ? "ERREUR " + l.erreur : (l.echecs ? "✗" + l.echecs : "✓") + " chrF retour " + (l.chrf_retour ?? "—")}  ${l.traduction || ""}`);
     if (l.erreur === "QUOTA" || l.erreur === "LANGUE NON PRISE EN CHARGE") break;
   }
-  const ok = lignes.filter((l) => !l.erreur);
+  // LOT 1 : « sans problème » = tous les contrôles à true ET chrF de retour numérique (fiabilite.js estSansProbleme).
+  const ok = lignes.filter((l) => !!l.traduction);
+  const testsReussis = ok.filter((l) => F.estSansProbleme(l)).length;
+  const problemes = ok.reduce((s, l) => s + (l.controles || []).filter((x) => x && x.ok === false).length, 0);
   const moy = (a) => (a.length ? Math.round(a.reduce((s, x) => s + x, 0) / a.length * 10) / 10 : null);
-  const parRegistre = {};
-  ok.forEach((l) => { parRegistre[l.registre] = { reussi: l.echecs === 0, chrf_retour: l.chrf_retour ?? null, echecs: l.echecs }; });
+  // Par registre : toutes les phrases sont gardées (avant, la dernière phrase d'un registre écrasait les autres).
+  const parRegistre = F.statsParRegistre(ok);
   const bilan = {
     code, nom: langue.nom, ecriture: langue.ecriture, moteur: "MyMemory", date: new Date().toISOString(),
     disponible: ok.length > 0, phrases: B.cas.length, traduites: ok.length, erreurs: lignes.filter((l) => l.erreur).map((l) => l.erreur).filter((x, i, a) => a.indexOf(x) === i),
-    tests_reussis: ok.filter((l) => l.echecs === 0).length, problemes: ok.reduce((s, l) => s + l.echecs, 0),
+    tests_reussis: testsReussis, problemes,
     mauvaise_ecriture: ok.filter((l) => l.controles.some((x) => /^écriture/.test(x.controle) && x.ok === false)).length,
     chrf_retour_moyen: moy(ok.map((l) => l.chrf_retour).filter((x) => x != null)),
     indices_mot_a_mot: ok.filter((l) => l.controles.some((x) => /indice mot à mot/.test(x.controle) && x.ok === null)).length,
-    a_relire_humain: ok.reduce((s, l) => s + l.a_relire, 0),
-    latence_ms_mediane: ms.length ? [...ms].sort((a, b) => a - b)[Math.floor(ms.length / 2)] : null, appels, caracteres, cout_eur: 0,
+    a_relire_humain: ok.reduce((s, l) => s + (l.a_relire || 0), 0),
+    phrases_avec_erreur: ok.filter((l) => l.controles.some((x) => x && x.ok === false)).length,
+    verifications_impossibles: ok.reduce((s, l) => s + (l.impossibles || 0), 0),
+    phrases_non_verifiees: ok.filter((l) => !F.estSansProbleme(l) && !l.controles.some((x) => x && x.ok === false)).length,
+    latence_ms_mediane: F.mediane(ms), latences_ms: ms.slice(), appels, caracteres, cout_eur: 0,
     statut: "testé (contrôles automatiques) — PAS validé", par_registre: parRegistre,
   };
   if (avecIA) {
-    const okIA = lignes.filter((l) => l.ia && !l.ia.erreur);
+    const okIA = lignes.filter((l) => l.ia && l.ia.traduction && !l.ia.erreur);
+    const testsReussisIA = okIA.filter((l) => F.estSansProbleme(l.ia)).length;
     const memes = okIA.filter((l) => !l.erreur);
     const prix = { "openai/gpt-oss-120b": [0.15, 0.6], "openai/gpt-oss-20b": [0.075, 0.3] }[iaStats.modele];
     bilan.ia = {
-      modele: iaStats.modele, traduites: okIA.length, tests_reussis: okIA.filter((l) => l.ia.echecs === 0).length, problemes: okIA.reduce((s, l) => s + l.ia.echecs, 0),
+      modele: iaStats.modele, traduites: okIA.length, tests_reussis: testsReussisIA, problemes: okIA.reduce((s, l) => s + (l.ia.controles || []).filter((x) => x && x.ok === false).length, 0),
       mauvaise_ecriture: okIA.filter((l) => l.ia.controles.some((x) => /^écriture/.test(x.controle) && x.ok === false)).length,
       chrf_retour_moyen: moy(okIA.map((l) => l.ia.chrf_retour).filter((x) => x != null)),
       indices_mot_a_mot: okIA.filter((l) => l.ia.controles.some((x) => /indice mot à mot/.test(x.controle) && x.ok === null)).length,
+      a_relire_humain: okIA.reduce((s, l) => s + (l.ia.a_relire || 0), 0),
+      phrases_avec_erreur: okIA.filter((l) => l.ia.controles.some((x) => x && x.ok === false)).length,
+      verifications_impossibles: okIA.reduce((s, l) => s + (l.ia.impossibles || 0), 0),
+      phrases_non_verifiees: okIA.filter((l) => !F.estSansProbleme(l.ia) && !l.ia.controles.some((x) => x && x.ok === false)).length,
       // Comparaison stricte : seulement les phrases traduites par LES DEUX moteurs.
-      comparaison_memes_phrases: { phrases: memes.length, mymemory_sans_probleme: memes.filter((l) => l.echecs === 0 && l.chrf_retour != null).length, ia_sans_probleme: memes.filter((l) => l.ia.echecs === 0 && l.ia.chrf_retour != null).length,
-        mymemory_non_verifie: memes.filter((l) => l.chrf_retour == null).length, ia_non_verifie: memes.filter((l) => l.ia.chrf_retour == null).length,
+      comparaison_memes_phrases: { phrases: memes.length, mymemory_sans_probleme: memes.filter((l) => F.estSansProbleme(l)).length, ia_sans_probleme: memes.filter((l) => F.estSansProbleme(l.ia)).length,
+        mymemory_non_verifie: memes.filter((l) => !F.estSansProbleme(l) && !(l.controles || []).some((x) => x && x.ok === false)).length,
+        ia_non_verifie: memes.filter((l) => !F.estSansProbleme(l.ia) && !(l.ia.controles || []).some((x) => x && x.ok === false)).length,
         chrf_mymemory: moy(memes.map((l) => l.chrf_retour).filter((x) => x != null)), chrf_ia: moy(memes.map((l) => l.ia.chrf_retour).filter((x) => x != null)) },
       appels: iaStats.appels, echecs: iaStats.echecs, refus_429: iaStats.refus_429, erreurs: iaStats.erreurs,
-      latence_ms_mediane: iaStats.ms.length ? [...iaStats.ms].sort((a, b) => a - b)[Math.floor(iaStats.ms.length / 2)] : null,
+      latence_ms_mediane: F.mediane(iaStats.ms), latences_ms: iaStats.ms.slice(),
       jetons_par_traduction: iaStats.reussis ? Math.round((iaStats.entree + iaStats.sortie) / iaStats.reussis) : null,
       cout_reel_eur: 0, cout_estime_si_payant_usd_par_traduction: prix && iaStats.reussis ? +(((iaStats.entree * prix[0] + iaStats.sortie * prix[1]) / 1e6) / iaStats.reussis).toFixed(6) : null,
-      par_registre: Object.fromEntries(okIA.map((l) => [l.registre, { reussi: l.ia.echecs === 0, chrf_retour: l.ia.chrf_retour ?? null, echecs: l.ia.echecs }])),
+      par_registre: F.statsParRegistre(okIA, (l) => l.ia),
     };
   }
   // Phase 5 : types d'erreurs (grave / sens / contexte), « non vérifié », et décision par langue, sur LES MÊMES phrases.
-  const F = require("../moteur/fiabilite.js");
   const memesF = avecIA ? lignes.filter((l) => !l.erreur && l.ia && !l.ia.erreur) : ok;
   bilan.fiabilite = { mymemory: F.resumer(memesF) };
   if (avecIA) {
