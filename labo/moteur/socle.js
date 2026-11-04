@@ -198,8 +198,19 @@
 
   // ---------------------------------------------------------------- E. CONTRÔLE
   var CHIFFRES_MOTS = { septante: "70", huitante: "80", nonante: "90", "quatre-vingt-dix": "90", "quatre-vingts": "80" };
+  function chiffresAscii(t) {
+    return String(t || "").replace(/\p{Nd}/gu, function (d) {
+      if (d >= "0" && d <= "9") return d;
+      var cp = d.codePointAt(0);
+      // Les chiffres Unicode « Nd » sont rangés par blocs de 10 consécutifs, de 0 à 9 : on cherche le zéro du bloc.
+      var zero = cp; while (zero > 0 && /\p{Nd}/u.test(String.fromCodePoint(zero - 1)) && cp - (zero - 1) <= 9) zero--;
+      return String((cp - zero) % 10);
+    });
+  }
   function extraireNombres(t) {
     var out = [];
+    // L-06 (mesure du 4 nov. : népalais « १२ », birman « ၁၂ », khmer « ១២ ») : chiffres locaux ramenés à 0-9 avant comparaison.
+    t = chiffresAscii(t);
     // Séparateurs de milliers (1 250, 1,250, 1.250) retirés ; heures « 2:30 », « 2.30 », « 14h30 » découpées en heure et minutes.
     var s = String(t || "").replace(/(\d)[\s\u00a0\u202f,.](?=\d{3}(?!\d))/g, "$1").replace(/(\d{1,2})[:.h](\d{2})(?!\d)/g, "$1 $2");
     (s.match(/\d+(?:,\d+)?/g) || []).forEach(function (n) { out.push(n.replace(",", ".")); });
@@ -327,7 +338,7 @@
     var ls = String(reference || source).length, lc = c.length;
     if (ls > 25 && lc) {
       // Phrase courte : une expression se traduit souvent en 2 ou 3 mots (« Elle est tombée dans les pommes » → « She fainted », mesuré le 2 nov.).
-      var ideo = /^(zh|ja|ko)$/.test(versLangue), r = lc / ls, min = ideo ? 0.15 : ls <= 45 ? 0.3 : 0.45, max = ideo ? 1.2 : 2.2;
+      var ideo = /^(zh|zh-TW|ja|ko)$/.test(versLangue), r = lc / ls, min = ideo ? 0.15 : ls <= 45 ? 0.3 : 0.45, max = ideo ? 1.2 : 2.2;
       rep.push({ controle: "longueur", ok: r >= min && r <= max, detail: "rapport " + r.toFixed(2) + (r < min ? " : OMISSION probable" : r > max ? " : AJOUT probable" : "") });
     }
     if (!lc) rep.push({ controle: "traduction vide", ok: false, detail: "rien reçu" });

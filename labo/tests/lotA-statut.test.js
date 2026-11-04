@@ -109,6 +109,24 @@ test("26. L-04 liste étendue sans marque trouvée : « à relire » (null), jam
   return { ok: r.ok === null && en.ok === false, detail: "it : " + r.ok + " · en (liste d'origine) : " + en.ok };
 });
 
+// L-06 : chiffres locaux ; L-07 : longueur du chinois traditionnel (traductions réelles de MyMemory, 4 nov. 2026).
+const nbl = (c, t, code) => S.controler(c.t, t, S.comprendre(c.t, "fr", D), code, D).resultats.filter((x) => /^nombre|^longueur/.test(x.controle));
+test("27. L-06 chiffres népalais, birmans et khmers reconnus (plus de fausses erreurs graves)", () => {
+  const r = [["ne", casFormel, "महोदया, कृपया १,२५० यूरोको रकममा संलग्न इनभ्वाइस नम्बर २०२६ - ११८ फेला पार्नुहोस्।"],
+    ["my", casNb, "မာရီသည္ မတ္လ ၁၂ ရက္ေန႔ ေန႔လယ္ ၂း၃၀ နာရီတြင္ ကာမီအား ယူ႐ိုသန္း ၂၅၀ လႊဲေပးခဲ့သည္။"],
+    ["km", casFormel, "សូមស្វែងរកវិក្កយបត្រភ្ជាប់លេខ ២០២៦-១១៨ ក្នុងចំនួនទឹកប្រាក់ ១២៥០ អឺរ៉ូ។"]].map(([k, c, t]) => [k, nbl(c, t, k).filter((x) => x.ok === false).length]);
+  return { ok: r.every(([, n]) => n === 0), detail: r.map((x) => x.join(" : ") + " erreur(s)").join(" · ") };
+});
+test("28. L-06 une vraie erreur reste détectée (malgache réel : la facture devient « 26128 »)", () => {
+  const r = nbl(casFormel, "Ny INSEE dia mampiasa ny kaodim-paositra 26128.", "mg").filter((x) => x.ok === false).map((x) => x.controle);
+  return { ok: r.includes("nombre 2026") && r.includes("nombre 118") && r.includes("nombre 1250"), detail: r.join(", ") };
+});
+test("29. L-07 chinois traditionnel court mais complet : plus d'« OMISSION probable »", () => {
+  const casReg = BR.cas.find((x) => x.registre === "régional"), casEmo = BR.cas.find((x) => x.registre === "émotionnel");
+  const r = [[casReg, "派對上有七十人。"], [casEmo, "很高興再次見到你，我很想念你！"]].map(([c, t]) => nbl(c, t, "zh-TW").find((x) => x.controle === "longueur"));
+  return { ok: r.every((x) => x && x.ok === true), detail: r.map((x) => x && x.detail).join(" · ") };
+});
+
 // rapport-112.js complet sur un dossier temporaire : mélange nouveau format / ancien format / langue absente.
 function rapport(bilans) {
   const d = fs.mkdtempSync(path.join(os.tmpdir(), "lotA-"));
