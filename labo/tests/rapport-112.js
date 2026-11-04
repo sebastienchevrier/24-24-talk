@@ -26,7 +26,7 @@ testees.forEach((l) => Object.entries(bilans[l.code].par_registre || {}).forEach
   if (typeof c === "number" && Number.isFinite(c)) reg[r].chrf.push(c);
   if (typeof v.phrases === "number") { reg[r].phrases += v.phrases; reg[r].phrases_reussies += v.reussis || 0; }
 }));
-// Vraie médiane des latences : calculée sur toutes les latences brutes, jamais en moyennant des médianes.
+// F-33 (défaut de latence, 4 nov. 2026) : vraie médiane des latences : calculée sur toutes les latences brutes, jamais en moyennant des médianes.
 const toutesLatences = [];
 let latencesCompletes = testees.length > 0;
 testees.forEach((l) => { const a = bilans[l.code].latences_ms; if (Array.isArray(a)) toutesLatences.push(...a); else latencesCompletes = false; });

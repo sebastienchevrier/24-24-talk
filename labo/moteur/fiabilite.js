@@ -71,7 +71,11 @@
         typeof e.chrf_retour === "number" &&
         Number.isFinite(e.chrf_retour);
 
-      if (!controlesComplets || !retourDisponible) {
+      // Correction complémentaire (4 nov.) : une phrase avec erreur détectée est comptée dans les problèmes
+      // (graves / sens / contexte) et NE compte PAS aussi en « non vérifié ».
+      if (ko.length) {
+        // déjà comptée ci-dessus
+      } else if (!controlesComplets || !retourDisponible) {
         r.non_verifie++;
       } else {
         r.sans_probleme++;
@@ -100,6 +104,7 @@
           reussis: 0,
           problemes: 0,
           non_verifies: 0,
+          phrases_avec_erreur: 0,
           chrf: [],
           reussi: true
         };
@@ -112,11 +117,15 @@
       if (valide) v.reussis++;
       else v.reussi = false;
 
-      v.problemes += ((e && e.controles) || []).filter(
+      const erreurs = ((e && e.controles) || []).filter(
         (x) => x && x.ok === false
       ).length;
 
-      if (!valide) v.non_verifies++;
+      v.problemes += erreurs;
+      if (erreurs) v.phrases_avec_erreur++;
+
+      // Même règle que resumer : « non vérifiée » = sans erreur détectée mais vérification incomplète.
+      if (!valide && !erreurs) v.non_verifies++;
 
       if (e && typeof e.chrf_retour === "number" &&
           Number.isFinite(e.chrf_retour)) {

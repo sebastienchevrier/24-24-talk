@@ -51,7 +51,7 @@ test("7. Deux phrases dans le même registre : deux résultats conservés", () =
     { registre: "familier", traduction: "b", controles: [C(false, "nombre 3")], chrf_retour: 40 },
   ];
   const p = F.statsParRegistre(lignes).familier;
-  return { ok: p.phrases === 2 && p.reussis === 1 && p.problemes === 1 && p.non_verifies === 1 && p.reussi === false && p.chrf_retour_moyen === 50, detail: JSON.stringify(p) };
+  return { ok: p.phrases === 2 && p.reussis === 1 && p.problemes === 1 && p.non_verifies === 0 && p.phrases_avec_erreur === 1 && p.reussi === false && p.chrf_retour_moyen === 50, detail: JSON.stringify(p) };
 });
 test("8. Trois latences 100, 200 et 900 : médiane 200", () => {
   const m = F.mediane([900, 100, 200]);
@@ -76,6 +76,56 @@ test("10. Les mêmes règles s'appliquent à MyMemory et à l'IA", () => {
   const memeSans = lignes.every((l) => F.estSansProbleme(l) === F.estSansProbleme(l.ia));
   const ok = JSON.stringify(mm) === JSON.stringify(ia) && JSON.stringify(pmm) === JSON.stringify(pia) && memeSans && mm.sans_probleme === 1;
   return { ok, detail: "MyMemory " + JSON.stringify(mm) + " · IA " + JSON.stringify(ia) };
+});
+
+// ---- Correction complémentaire du 4 nov. : plus de double comptage (erreur détectée ≠ non vérifié).
+const ANCIEN = require(path.join(__dirname, "outils", "fiabilite-18db14e.js")); // fiabilite.js tel qu'au commit 18db14e, gardé pour comparer
+const cas = {
+  faux_sans_chrf: { registre: "a", traduction: "x", controles: [C(true), C(false, "nombre 3")], chrf_retour: null },
+  faux_retour_impossible: { registre: "b", traduction: "x", controles: [C(true), C(false, "négation"), { controle: "retraduction", ok: null, detail: F.RETOUR_IMPOSSIBLE }], chrf_retour: null },
+  vrai_retour_impossible: { registre: "c", traduction: "x", controles: [C(true), { controle: "retraduction", ok: null, detail: F.RETOUR_IMPOSSIBLE }], chrf_retour: null },
+};
+const probleme = (r) => r.graves + r.sens + r.contexte;
+test("11. Contrôle false + chrF absent : problème = 1, non vérifié = 0", () => {
+  const r = F.resumer([cas.faux_sans_chrf]);
+  return { ok: probleme(r) === 1 && r.non_verifie === 0 && r.sans_probleme === 0, detail: JSON.stringify(r) };
+});
+test("12. Contrôle false + retraduction impossible : problème = 1, non vérifié = 0", () => {
+  const r = F.resumer([cas.faux_retour_impossible]);
+  return { ok: probleme(r) === 1 && r.non_verifie === 0 && r.sans_probleme === 0, detail: JSON.stringify(r) };
+});
+test("13. Contrôle true + retraduction impossible : problème = 0, non vérifié = 1", () => {
+  const r = F.resumer([cas.vrai_retour_impossible]);
+  return { ok: probleme(r) === 0 && r.non_verifie === 1 && r.sans_probleme === 0, detail: JSON.stringify(r) };
+});
+test("14. Mêmes résultats dans les statistiques par registre", () => {
+  const p = F.statsParRegistre(Object.values(cas));
+  const ok = p.a.phrases_avec_erreur === 1 && p.a.non_verifies === 0 && p.a.reussis === 0 &&
+    p.b.phrases_avec_erreur === 1 && p.b.non_verifies === 0 && p.b.reussis === 0 &&
+    p.c.phrases_avec_erreur === 0 && p.c.problemes === 0 && p.c.non_verifies === 1 && p.c.reussis === 0;
+  // Total par registre = total de resumer (même règle).
+  const r = F.resumer(Object.values(cas)), t = Object.values(p);
+  const memes = t.reduce((s, v) => s + v.non_verifies, 0) === r.non_verifie && t.reduce((s, v) => s + v.phrases_avec_erreur, 0) === probleme(r) && t.reduce((s, v) => s + v.reussis, 0) === r.sans_probleme;
+  return { ok: ok && memes, detail: JSON.stringify(p) };
+});
+test("15. Réussites identiques avant (18db14e) et après la correction ; seul « non vérifié » baisse", () => {
+  // Jeu varié : réussite, null, undefined, false, chrF absent, retraduction impossible, aucun contrôle, erreur d'appel.
+  const jeu = [
+    { registre: "r1", traduction: "x", controles: [C(true), C(true)], chrf_retour: 70 },
+    { registre: "r1", traduction: "x", controles: [C(true), C(null)], chrf_retour: 70 },
+    { registre: "r2", traduction: "x", controles: [C(true), { controle: "longueur" }], chrf_retour: 70 },
+    { registre: "r2", traduction: "x", controles: [C(false, "jour « vendredi »")], chrf_retour: 70 },
+    { registre: "r3", traduction: "x", controles: [C(false, "attendu /usted/")], chrf_retour: null },
+    { registre: "r3", traduction: "x", controles: [C(true, "retraduction")], chrf_retour: 55 },
+    { registre: "r4", traduction: "x", controles: [], chrf_retour: 70 },
+    cas.faux_retour_impossible, cas.vrai_retour_impossible,
+  ];
+  const a = ANCIEN.resumer(jeu), n = F.resumer(jeu);
+  const pa = ANCIEN.statsParRegistre(jeu), pn = F.statsParRegistre(jeu);
+  const regsIdentiques = Object.keys(pa).every((k) => pa[k].reussis === pn[k].reussis && pa[k].reussi === pn[k].reussi && pa[k].problemes === pn[k].problemes && pa[k].chrf_retour_moyen === pn[k].chrf_retour_moyen);
+  const ok = a.sans_probleme === n.sans_probleme && a.taux === n.taux && a.graves === n.graves && a.sens === n.sens && a.contexte === n.contexte &&
+    n.non_verifie === a.non_verifie - probleme(n) && regsIdentiques && n.sans_probleme === jeu.filter(F.estSansProbleme).length;
+  return { ok, detail: "avant " + JSON.stringify(a) + " · après " + JSON.stringify(n) };
 });
 
 const n = resultats.filter(Boolean).length;
