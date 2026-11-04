@@ -1,18 +1,1 @@
-{
-  "name": "Stats 24/24 Talk",
-  "short_name": "Stats 24/24",
-  "description": "Tableau de bord privé de 24/24 Talk : utilisateurs en direct, traductions, appels, messages et consommation du serveur.",
-  "id": "/24-24-talk/gestion/",
-  "start_url": "/24-24-talk/gestion/",
-  "scope": "/24-24-talk/gestion/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0b0e1a",
-  "theme_color": "#0b0e1a",
-  "lang": "fr",
-  "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
-}
+{"name":"Stats 24/24 Talk","short_name":"Stats 24/24","description":"Tableau de bord privé de 24/24 Talk : utilisateurs en direct, traductions, appels, messages et consommation du serveur.","id":"/24-24-talk/gestion/","start_url":"/24-24-talk/gestion/","scope":"/24-24-talk/gestion/","display":"standalone","orientation":"portrait","background_color":"#0b0e1a","theme_color":"#0b0e1a","lang":"fr","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}

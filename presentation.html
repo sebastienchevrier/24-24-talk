@@ -158,34 +158,7 @@ footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:v
 
   <footer>© 2026 Sébastien Chevrier · 24/24 Talk · Créée à La Réunion</footer>
 </div>
-<script>
-(function () {
-  var hints = {
-    "1": "<b>Avec traduction :</b> vous parlez votre langue, il vous entend dans la sienne. Chacun lit les messages dans sa langue.",
-    "0": "<b>Sans traduction :</b> appels et messages tels quels, pour parler simplement avec ceux qui partagent votre langue."
-  };
-  document.querySelectorAll(".swdemo button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      document.querySelectorAll(".swdemo button").forEach(function (x) { x.classList.toggle("on", x === b); x.setAttribute("aria-pressed", String(x === b)); });
-      document.getElementById("swHint").innerHTML = hints[b.dataset.d];
-    });
-  });
-})();
-(function () {
-  var btn = document.getElementById("copyBtn");
-  var url = document.getElementById("appUrl");
-  btn.addEventListener("click", function () {
-    var text = url.textContent.trim();
-    var done = function () { btn.textContent = "Copié ✓"; setTimeout(function () { btn.textContent = "Copier"; }, 2000); };
-    var select = function () {
-      var r = document.createRange(); r.selectNodeContents(url);
-      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      btn.textContent = "Sélectionné";
-    };
-    try { navigator.clipboard.writeText(text).then(done, select); } catch (e) { select(); }
-  });
-})();
-</script>
+<script>!function(){var e={1:"<b>Avec traduction :</b> vous parlez votre langue, il vous entend dans la sienne. Chacun lit les messages dans sa langue.",0:"<b>Sans traduction :</b> appels et messages tels quels, pour parler simplement avec ceux qui partagent votre langue."};document.querySelectorAll(".swdemo button").forEach((function(t){t.addEventListener("click",(function(){document.querySelectorAll(".swdemo button").forEach((function(e){e.classList.toggle("on",e===t),e.setAttribute("aria-pressed",String(e===t))})),document.getElementById("swHint").innerHTML=e[t.dataset.d]}))}))}(),function(){var e=document.getElementById("copyBtn"),t=document.getElementById("appUrl");e.addEventListener("click",(function(){var n=t.textContent.trim(),o=function(){var n=document.createRange();n.selectNodeContents(t);var o=window.getSelection();o.removeAllRanges(),o.addRange(n),e.textContent="Sélectionné"};try{navigator.clipboard.writeText(n).then((function(){e.textContent="Copié ✓",setTimeout((function(){e.textContent="Copier"}),2e3)}),o)}catch(a){o()}}))}();</script>
 <script src="everywhere/toucher.js?v=2" defer></script>
 </body>
 </html>
