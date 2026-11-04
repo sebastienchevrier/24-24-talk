@@ -1,4 +1,4 @@
-# Labo ONE WORLD — 112 langues, batterie des registres (2026-11-04 11:24 UTC)
+# Labo ONE WORLD — 112 langues, batterie des registres (2026-11-04 11:34 UTC)
 
 Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôles automatiques, PAS validé** (aucune langue validée par un natif : 0).
 
@@ -8,16 +8,16 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | Langues non disponibles chez MyMemory | 2 jv to |
 | Langues sans aucun résultat (banc non lancé ou machine en échec) | 0  |
 | Tests exécutés | 1417 |
-| Tests sans problème détecté | 962 |
-| Problèmes détectés | 107 |
-| Phrases avec au moins une erreur | 64 |
-| Phrases non vérifiées (sans erreur mais vérification incomplète) | 391 |
+| Tests sans problème détecté | 971 |
+| Problèmes détectés | 75 |
+| Phrases avec au moins une erreur | 50 |
+| Phrases non vérifiées (sans erreur mais vérification incomplète) | 396 |
 | Vérifications impossibles (retraduction…) | 0 |
 | Réponses dans la mauvaise écriture | 0 |
 | Indices de mot à mot (retour) | 216 |
-| Points à faire relire par un humain | 872 |
+| Points à faire relire par un humain | 874 |
 | Proximité moyenne au retour (chrF, 0-100) | 66.6 |
-| Latence médiane | 915 ms |
+| Latence médiane | 817 ms |
 | Coût | 0 € |
 
 ## Statut des langues (critères chiffrés, aucune langue validée)
@@ -25,9 +25,9 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | Statut | Langues |
 |---|---|
 | prometteuse | 2 : eu wo |
-| à surveiller | 95 : en es de it pt pt-BR nl pl ro el cs sv da nb fi hu bg hr sk sl lt lv et is ga mt sq mk sr bs uk be ru ca gl cy lb ar he fa tr ku ps az hy ka sw am ha yo ig zu xh af st so rw rn ln sn ny ti om mos zh ja ko vi th id ms tl hi bn mr pa or as ur si lo mn ceb su ky uz tg tk es-MX ht qu mi sm fj haw |
+| à surveiller | 99 : en es de it pt pt-BR nl pl ro el cs sv da nb fi hu bg hr sk sl lt lv et is ga mt sq mk sr bs uk be ru ca gl cy lb ar he fa tr ku ps az hy ka sw am ha yo ig zu xh af st so rw rn ln sn ny ti om mos zh zh-TW ja ko vi th id ms tl hi bn mr pa or as ur ne si my km lo mn ceb su ky uz tg tk es-MX ht qu mi sm fj haw |
 | non vérifiable | 6 : ta te ml kn gu kk |
-| défaillante | 6 : mg zh-TW ne my km gn |
+| défaillante | 2 : mg gn |
 | mesure en échec | 1 : to |
 | non prise en charge | 1 : jv |
 
@@ -38,16 +38,16 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | Registre | Langues | Sans problème détecté | chrF retour |
 |---|---|---|---|
 | normal | 109 | 108 (99 %) | 82.7 |
-| familier | 109 | 107 (98 %) | 52 |
+| familier | 109 | 108 (99 %) | 52 |
 | argot | 109 | 99 (91 %) | 34.3 |
-| soutenu | 109 | 107 (98 %) | 68.8 |
-| formel | 109 | 98 (90 %) | 72.9 |
-| littéraire | 109 | 106 (97 %) | 70.4 |
+| soutenu | 109 | 108 (99 %) | 68.8 |
+| formel | 109 | 101 (93 %) | 72.9 |
+| littéraire | 109 | 107 (98 %) | 70.4 |
 | idiomatique | 109 | 30 (28 %) | 49.6 |
 | métaphorique | 109 | 48 (44 %) | 65.9 |
 | humoristique | 109 | 30 (28 %) | 71.2 |
-| régional | 109 | 17 (16 %) | 65.2 |
-| émotionnel | 109 | 107 (98 %) | 68.7 |
+| régional | 109 | 19 (17 %) | 65.2 |
+| émotionnel | 109 | 108 (99 %) | 68.7 |
 | négation | 109 | 60 (55 %) | 83 |
 | nombres et noms | 109 | 45 (41 %) | 80.8 |
 
@@ -63,14 +63,14 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | wo | Wolof | prometteuse | 12/13 | 0 | 0 | 0 | 43.7 | +0 | 92 % sans problème détecté, 0 grave, chrF retour 43.7 : relecture native requise |
 | ln | Lingala | à surveiller | 11/13 | 1 | 0 | 0 | 44 | +0 | 85 % sans problème détecté, 1 grave(s), chrF retour 44 |
 | fj | Fidjien | à surveiller | 9/13 | 0 | 0 | 0 | 44.7 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 44.7 |
-| my | Birman | défaillante | 9/13 | 7 | 0 | 0 | 49.5 | +0 | 2 phrase(s) avec erreur grave |
+| my | Birman | à surveiller | 11/13 | 0 | 0 | 0 | 49.5 | +0 | 85 % sans problème détecté, 0 grave(s), chrF retour 49.5 |
 | rn | Kirundi | à surveiller | 10/13 | 2 | 0 | 0 | 49.8 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 49.8 |
 | mr | Marathi | à surveiller | 10/13 | 1 | 0 | 0 | 50.1 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 50.1 |
 | lb | Luxembourgeois | à surveiller | 11/13 | 0 | 0 | 0 | 52 | +0 | 85 % sans problème détecté, 0 grave(s), chrF retour 52 |
 | lo | Lao | à surveiller | 9/13 | 1 | 0 | 0 | 53.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 53.2 |
 | mn | Mongol | à surveiller | 8/13 | 3 | 0 | 0 | 53.7 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 53.7 |
 | ig | Igbo | à surveiller | 9/13 | 1 | 0 | 0 | 55.5 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 55.5 |
-| or | Odia | à surveiller | 10/13 | 0 | 0 | 0 | 56.9 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 56.9 |
+| or | Odia | à surveiller | 11/13 | 0 | 0 | 0 | 56.9 | +0 | 85 % sans problème détecté, 0 grave(s), chrF retour 56.9 |
 | sm | Samoan | à surveiller | 11/13 | 0 | 0 | 0 | 57.6 | +0 | 85 % sans problème détecté, 0 grave(s), chrF retour 57.6 |
 | tk | Turkmène | à surveiller | 9/13 | 1 | 0 | 0 | 58.3 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 58.3 |
 | si | Cingalais | à surveiller | 10/13 | 0 | 0 | 0 | 58.7 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 58.7 |
@@ -79,7 +79,7 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | tg | Tadjik | à surveiller | 10/13 | 1 | 0 | 0 | 61.2 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 61.2 |
 | ceb | Cebuano | à surveiller | 9/13 | 0 | 0 | 0 | 62.1 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 62.1 |
 | ja | Japonais | à surveiller | 9/13 | 0 | 0 | 0 | 62.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 62.2 |
-| km | Khmer | défaillante | 7/13 | 7 | 0 | 0 | 62.3 | +0 | 2 phrase(s) avec erreur grave |
+| km | Khmer | à surveiller | 8/13 | 1 | 0 | 0 | 62.3 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 62.3 |
 | zu | Zoulou | à surveiller | 8/13 | 0 | 0 | 0 | 62.8 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 62.8 |
 | ps | Pachto | à surveiller | 7/13 | 1 | 0 | 0 | 63.1 | +0 | 54 % sans problème détecté, 1 grave(s), chrF retour 63.1 |
 | so | Somali | à surveiller | 9/13 | 0 | 0 | 0 | 63.1 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 63.1 |
@@ -87,13 +87,13 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | yo | Yoruba | à surveiller | 10/13 | 0 | 0 | 0 | 63.5 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 63.5 |
 | lt | Lituanien | à surveiller | 8/13 | 1 | 0 | 0 | 64 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 64 |
 | cy | Gallois | à surveiller | 9/13 | 2 | 0 | 0 | 64 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 64 |
-| as | Assamais | à surveiller | 10/13 | 4 | 0 | 0 | 64 | +0 | 77 % sans problème détecté, 1 grave(s), chrF retour 64 |
+| as | Assamais | à surveiller | 10/13 | 0 | 0 | 0 | 64 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 64 |
 | ny | Chichewa | à surveiller | 9/13 | 0 | 0 | 0 | 64.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 64.2 |
 | ti | Tigrigna | à surveiller | 10/13 | 0 | 0 | 0 | 64.2 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 64.2 |
 | om | Oromo | à surveiller | 9/13 | 1 | 0 | 0 | 64.8 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 64.8 |
 | fa | Persan (Farsi) | à surveiller | 10/13 | 1 | 0 | 0 | 65.1 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 65.1 |
 | ms | Malais | à surveiller | 9/13 | 0 | 0 | 0 | 65.3 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 65.3 |
-| ne | Népalais | défaillante | 9/13 | 8 | 0 | 0 | 65.6 | +0 | 2 phrase(s) avec erreur grave |
+| ne | Népalais | à surveiller | 9/13 | 1 | 0 | 0 | 65.6 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 65.6 |
 | ha | Haoussa | à surveiller | 8/13 | 0 | 0 | 0 | 66.2 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 66.2 |
 | sn | Shona | à surveiller | 10/13 | 0 | 0 | 0 | 66.2 | +0 | 77 % sans problème détecté, 0 grave(s), chrF retour 66.2 |
 | uz | Ouzbek | à surveiller | 9/13 | 1 | 0 | 0 | 66.3 | +0 | 69 % sans problème détecté, 1 grave(s), chrF retour 66.3 |
@@ -110,7 +110,7 @@ Moteur : **MyMemory** (gratuit). Statut de chaque langue : **testé par contrôl
 | kk | Kazakh | non vérifiable | 6/13 | 1 | 0 | 0 | 67.9 | +0 | 6 / 13 phrases que les contrôles automatiques ne savent pas vérifier dans cette langue : relecture native |
 | ht | Créole haïtien | à surveiller | 9/13 | 0 | 0 | 0 | 67.9 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 67.9 |
 | tl | Filipino (Tagalog) | à surveiller | 8/13 | 1 | 0 | 0 | 68 | +0 | 62 % sans problème détecté, 1 grave(s), chrF retour 68 |
-| zh-TW | Chinois (traditionnel) | défaillante | 4/13 | 8 | 0 | 0 | 68.2 | +0 | 8 / 13 phrases avec erreur détectée |
+| zh-TW | Chinois (traditionnel) | à surveiller | 9/13 | 0 | 0 | 0 | 68.2 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 68.2 |
 | pa | Pendjabi | à surveiller | 8/13 | 0 | 0 | 0 | 68.6 | +0 | 62 % sans problème détecté, 0 grave(s), chrF retour 68.6 |
 | ko | Coréen | à surveiller | 9/13 | 0 | 0 | 0 | 69 | +0 | 69 % sans problème détecté, 0 grave(s), chrF retour 69 |
 | ml | Malayalam | non vérifiable | 7/13 | 0 | 0 | 0 | 69.3 | +0 | 6 / 13 phrases que les contrôles automatiques ne savent pas vérifier dans cette langue : relecture native |
