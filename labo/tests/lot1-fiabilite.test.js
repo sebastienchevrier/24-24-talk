@@ -177,6 +177,33 @@ test("22. F-34 totaux identiques entre resumer() et statsParRegistre() sur un je
   return { ok, detail: `resumer ${r.phrases} phrases / ${r.sans_probleme} sans problème / ${r.non_verifie} non vérifiées / ${r.graves + r.sens + r.contexte} avec erreur · registres ${S("phrases")} / ${S("reussis")} / ${S("non_verifies")} / ${S("phrases_avec_erreur")}` };
 });
 
+// ---- F-35 : ligne absente vérifiée AVANT prendre(l).
+const valideMM = ligne("v", { controles: [C(true)], chrf_retour: 70, ia: { traduction: "x", controles: [C(true)], chrf_retour: 65 } });
+test("23. F-35 ligne null sans callback : ignorée, pas de plantage", () => {
+  const p = F.statsParRegistre([null, undefined]);
+  return { ok: Object.keys(p).length === 0, detail: "registres " + Object.keys(p).length };
+});
+test("24. F-35 ligne null avec callback (l) => l.ia : ignorée, pas de plantage", () => {
+  const p = F.statsParRegistre([null, undefined], (l) => l.ia);
+  return { ok: Object.keys(p).length === 0, detail: "registres " + Object.keys(p).length };
+});
+test("25. F-35 ligne valide, évaluation IA absente : non comptée côté IA", () => {
+  const l = ligne("a", { controles: [C(true)], chrf_retour: 70 });
+  const p = F.statsParRegistre([l], (x) => x.ia);
+  return { ok: Object.keys(p).length === 0, detail: "registres IA " + Object.keys(p).length };
+});
+test("26. F-35 ligne valide, évaluation IA en erreur : non comptée côté IA", () => {
+  const l = ligne("e", { controles: [C(true)], chrf_retour: 70, ia: { erreur: "IA 500" } });
+  const p = F.statsParRegistre([l], (x) => x.ia);
+  return { ok: Object.keys(p).length === 0, detail: "registres IA " + Object.keys(p).length };
+});
+test("27. F-35 les lignes valides restent comptées (MyMemory et IA), au milieu de lignes null", () => {
+  const jeu = [null, valideMM, undefined, ligne("v", { controles: [C(false, "nombre 3")], chrf_retour: 70, ia: { erreur: "IA 500" } })];
+  const pm = F.statsParRegistre(jeu), pi = F.statsParRegistre(jeu, (l) => l.ia);
+  const ok = pm.v.phrases === 2 && pm.v.reussis === 1 && pm.v.phrases_avec_erreur === 1 && pi.v.phrases === 1 && pi.v.reussis === 1 && pi.v.chrf_retour_moyen === 65;
+  return { ok, detail: "MyMemory " + JSON.stringify(pm.v) + " · IA " + JSON.stringify(pi.v) };
+});
+
 const n = resultats.filter(Boolean).length;
 console.log("\n" + n + " / " + resultats.length + " tests d'acceptation LOT 1 réussis");
 process.exit(n === resultats.length ? 0 : 1);

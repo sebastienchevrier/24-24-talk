@@ -95,10 +95,12 @@
     const parRegistre = {};
 
     for (const l of lignes) {
+      // F-35 : ligne absente : on passe AVANT d'appeler prendre(l) (sinon (l) => l.ia plante sur null).
+      if (!l) continue;
       const e = prendre ? prendre(l) : l;
       // F-34 : même filtre que resumer() : une évaluation absente, en erreur (réseau, moteur)
       // ou sans tableau de contrôles n'est PAS une phrase mesurée : elle n'est pas comptée.
-      if (!l || !e || e.erreur || !Array.isArray(e.controles)) continue;
+      if (!e || e.erreur || !Array.isArray(e.controles)) continue;
       const r = l.registre;
 
       if (!parRegistre[r]) {
