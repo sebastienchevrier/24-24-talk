@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'">
+<title>Établissement · 24/24 ONE WORLD</title>
+<!-- © 2026 Sébastien Chevrier. Tous droits réservés.
+     Page du pilote B2B : établissement de cet appareil, lien de pilote à envoyer, bilan (chiffres seulement). -->
+<style>
+  :root { --bg: #07131d; --card: #0d1f2d; --txt: #e8f1f5; --muted: #9db3bf; --acc: #4fe0b0; --line: #1c3442; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--txt); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.35rem; margin: 8px 0 16px; }
+  h2 { font-size: 1.05rem; margin: 0 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0 0 14px; }
+  label { display: block; margin: 10px 0 4px; color: var(--muted); font-size: .9rem; }
+  input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: #0a1923; color: var(--txt); font-size: 1rem; }
+  button { width: 100%; margin-top: 12px; padding: 13px; border: 0; border-radius: 12px; background: var(--acc); color: #05221a; font-weight: 700; font-size: 1rem; }
+  button.sec { background: transparent; color: var(--txt); border: 1px solid var(--line); }
+  .big { font-size: 2rem; font-weight: 800; color: var(--acc); }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .lien { word-break: break-all; background: #0a1923; border-radius: 10px; padding: 10px; font-family: ui-monospace, monospace; font-size: .85rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
+  td, th { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--line); }
+  td:first-child, th:first-child { text-align: left; }
+  a { color: var(--acc); }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="./" id="retour">← 24/24 ONE WORLD</a></p>
+  <h1 id="titre">Établissement de cet appareil</h1>
+
+  <section class="card" id="etat"></section>
+
+  <section class="card" id="bilan"></section>
+
+  <section class="card">
+    <h2 id="h-lien">Créer un lien de pilote</h2>
+    <p class="muted" id="t-lien">Le lien ouvre ONE WORLD au nom de l'établissement, avec son univers métier déjà choisi. Rien n'est créé sur un serveur.</p>
+    <label for="nom" id="l-nom">Nom de l'établissement</label>
+    <input id="nom" maxlength="80" autocomplete="off" placeholder="Hôtel du Port">
+    <label for="ident" id="l-id">Identifiant (a-z, 0-9, tiret)</label>
+    <input id="ident" maxlength="40" autocomplete="off" inputmode="url" placeholder="hotel-du-port">
+    <label for="pack" id="l-pack">Univers métier</label>
+    <select id="pack">
+      <option value="luxury_hospitality">🛎️ Hôtellerie</option>
+      <option value="logistics">🚚 Logistique</option>
+      <option value="retail">🛍️ Commerce</option>
+      <option value="">—</option>
+    </select>
+    <button id="creer">Créer le lien</button>
+    <div id="sortie" hidden>
+      <p class="lien" id="lien"></p>
+      <button class="sec" id="copier">Copier le lien</button>
+      <button class="sec" id="ici">Utiliser sur cet appareil</button>
+    </div>
+    <p class="muted" id="msg" role="status" aria-live="polite"></p>
+  </section>
+</main>
+<script src="etablissement.js"></script>
+<script src="traduction/secours.js"></script>
+<script>!function(){"use strict";var e=window.EWEtab,t=!/^fr/i.test(navigator.language||"fr"),n=t?{titre:"Business on this device",aucun:"No business on this device (general use).",depuis:"Since",quitter:"Remove the business from this device",bilan:"Pilot report (last 7 days)",phr:"phrases translated",sans:"without network (trade pack or phone memory)",vide:"No phrase translated yet.",j:"Day",p:"Pack",m:"Memory",r:"Online",e:"Failed",bad:"Identifier: 3 to 40 characters, a-z, 0-9 and hyphens.",ok:"This device now belongs to",copie:"Link copied.",quitte:"Business removed; its phrase memory is erased.",hlien:"Create a pilot link",tlien:"The link opens ONE WORLD under the business name, with its trade universe already chosen. Nothing is created on a server.",lnom:"Business name",lid:"Identifier (a-z, 0-9, hyphen)",lpack:"Trade universe",creer:"Create the link",copier:"Copy the link",ici:"Use on this device"}:{titre:"Établissement de cet appareil",aucun:"Aucun établissement sur cet appareil (usage général).",depuis:"Depuis le",quitter:"Retirer l'établissement de cet appareil",bilan:"Bilan du pilote (7 derniers jours)",phr:"phrases traduites",sans:"sans réseau (pack métier ou mémoire du téléphone)",vide:"Aucune phrase traduite pour l'instant.",j:"Jour",p:"Pack",m:"Mémoire",r:"En ligne",e:"Échec",bad:"Identifiant : 3 à 40 caractères, a-z, 0-9 et tirets.",ok:"Cet appareil est maintenant au nom de",copie:"Lien copié.",quitte:"Établissement retiré ; sa mémoire de phrases est effacée."};function i(e){return document.getElementById(e)}function a(e){return String(e).replace(/[&<>"']/g,(function(e){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[e]}))}function r(e){e=String(e||"").toLowerCase();try{e=e.normalize("NFD").replace(/[̀-ͯ]/g,"")}catch(t){}return e.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40).replace(/-+$/,"")}function s(){var t=e.get(),r=i("etat");t?(r.innerHTML="<h2>"+a(t.nom)+'</h2><p class="muted">'+a(t.id)+(t.pack?" · "+a(t.pack):"")+" · "+a(n.depuis)+" "+a(new Date(t.depuis).toLocaleDateString())+'</p><button class="sec" id="quitter">'+a(n.quitter)+"</button>",i("quitter").onclick=function(){e.quitter(!1),i("msg").textContent=n.quitte,s(),o()}):r.innerHTML="<h2>"+a(n.titre)+'</h2><p class="muted">'+a(n.aucun)+"</p>"}function o(){var t=e.bilan(7),r=i("bilan"),s="<h2>"+a(n.bilan)+"</h2>";t.total?(s+='<p><span class="big">'+t.sansReseau+' %</span><br><span class="muted">'+a(n.sans)+"</span></p><p>"+t.total+" "+a(n.phr)+"</p><table><tr><th>"+[n.j,n.p,n.m,n.r,n.e].map(a).join("</th><th>")+"</th></tr>"+t.jours.map((function(e){return"<tr><td>"+a(e.jour.slice(5))+"</td><td>"+e.pack+"</td><td>"+e.memoire+"</td><td>"+e.reseau+"</td><td>"+e.echec+"</td></tr>"})).join("")+"</table>",r.innerHTML=s):r.innerHTML=s+'<p class="muted">'+a(n.vide)+"</p>"}t&&(document.documentElement.lang="en",["titre","h-lien","t-lien","l-nom","l-id","l-pack","creer","copier","ici"].forEach((function(e){var t=e.replace("-","");i(e)&&n[t]&&(i(e).textContent=n[t])}))),i("titre").textContent=n.titre,i("nom").addEventListener("input",(function(){i("ident").dataset.touche||(i("ident").value=r(i("nom").value))})),i("ident").addEventListener("input",(function(){i("ident").dataset.touche="1"}));var c=null;i("creer").onclick=function(){var t=r(i("ident").value||i("nom").value);if(!e._idValide(t))return i("msg").textContent=n.bad,void(i("sortie").hidden=!0);i("ident").value=t,c={id:t,nom:i("nom").value||t,pack:i("pack").value},i("lien").textContent=e.lienPilote(t,c.nom,c.pack),i("sortie").hidden=!1,i("msg").textContent=""},i("copier").onclick=function(){var e=i("lien").textContent;(navigator.clipboard?navigator.clipboard.writeText(e):Promise.reject()).then((function(){i("msg").textContent=n.copie}),(function(){var e=document.createRange();e.selectNodeContents(i("lien"));var t=getSelection();t.removeAllRanges(),t.addRange(e)}))},i("ici").onclick=function(){if(c){var t=e.definir(c.id,c.nom,c.pack);t&&(i("msg").textContent=n.ok+" « "+t.nom+" ».",s(),o())}},s(),o()}();</script>
+</body>
+</html>
