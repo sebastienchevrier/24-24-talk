@@ -3,7 +3,7 @@
    - traduction : MyMemory (api.mymemory.translated.net), comme le moteur en ligne de TALK ;
    - écoute : reconnaissance vocale du navigateur (la langue doit être connue : un bouton micro par langue) ;
    - lecture : voix de synthèse du téléphone.
-   Le dictionnaire de phrases hors ligne de TALK n'est pas repris ici (prochaine étape : un fichier commun à TALK et EVERYWHERE). */
+   Le dictionnaire hôtelier français est intégré en priorité ; les autres phrases passent par MyMemory puis LibreTranslate. */
 (function () {
   "use strict";
   var LANGS = window.EW_LANGS || [];
