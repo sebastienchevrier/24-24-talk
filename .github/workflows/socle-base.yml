@@ -1,0 +1,20 @@
+# 24/24 ONE WORLD — preuve automatique que la base se reconstruit depuis le dépôt seul (constat F-30).
+# PostgreSQL local du runner, bouchons Supabase, aucun secret, ni TEST ni PROD.
+name: Socle base reconstruit
+on:
+  pull_request:
+    paths: ["supabase/base/**", ".github/workflows/socle-base.yml"]
+  push:
+    branches: [main]
+    paths: ["supabase/base/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reconstruire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconstruire une base vide et lancer les essais
+        run: bash supabase/base/reconstruire.sh
