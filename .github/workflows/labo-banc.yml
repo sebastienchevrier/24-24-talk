@@ -1,0 +1,57 @@
+# 24/24 ONE WORLD — Labo linguistique : banc d'essai RÉEL (MyMemory, et IA de test si branchée).
+# © 2026 Sébastien Chevrier. Tous droits réservés.
+# Lancé seulement quand le dossier labo/ change dans une PR, ou à la main (onglet Actions).
+# Une langue par machine : chaque machine a sa propre adresse, donc son propre quota gratuit MyMemory.
+# N'utilise aucun secret : l'IA est appelée via la fonction labo-traduire du projet Supabase de TEST, qui garde
+# la clé Groq de son côté. Ne touche ni à l'application, ni à la PROD, ni aux données Supabase.
+name: Labo linguistique — banc réel
+on:
+  pull_request:
+    paths: ["labo/**", ".github/workflows/labo-banc.yml"]
+  workflow_dispatch:
+    inputs:
+      ia:
+        description: "Inclure l'IA de test (fonction labo-traduire du projet de TEST)"
+        type: boolean
+        default: true
+      batterie:
+        description: "base = 35 phrases (mêmes 270 appels MyMemory que la phase 3) ; p4 = 29 phrases de la phase 4"
+        type: choice
+        options: [base, p4]
+        default: base
+      modele:
+        description: "Modèle Groq (vide = celui du serveur)"
+        type: string
+        default: ""
+permissions:
+  contents: read
+jobs:
+  banc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        langue: [en, es, ar, zh, sw]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+      - name: Banc réel vers ${{ matrix.langue }}
+        env:
+          BATTERIE: ${{ inputs.batterie || 'base' }}
+          MODELE: ${{ inputs.modele }}
+          LABO_CLE: ${{ secrets.LABO_CLE }}  # F-29 : secret du labo, jamais affiché
+          IA: ${{ inputs.ia && '--ia' || '' }}
+        run: node labo/tests/banc-reel.js "${{ matrix.langue }}" $IA --batterie "$BATTERIE" ${MODELE:+--modele "$MODELE"}
+      - name: Résumé lisible dans GitHub
+        if: always()
+        run: |
+          for f in labo/tests/resultats/banc-*.json; do [ -f "$f" ] && node -e 'const b=require(process.argv[1]).bilan;const p=b.problemes_detectes,m=b.mot_a_mot_detecte,i=b.ia||{};console.log(`### ${b.batterie} → ${b.langue}\n\n| | MyMemory seul | Meilleur gratuit | IA (${i.modele||"—"}) |\n|---|---|---|---|\n| Problèmes détectés | ${p.mymemory} | ${p.meilleur_gratuit} | ${p.ia??"—"} |\n| Mot à mot détecté | ${m.mymemory} | ${m.meilleur_gratuit} | ${m.ia??"—"} |\n| Sens perdu (négation, question, date…) | ${b.sens_perdu_detecte.mymemory} | ${b.sens_perdu_detecte.meilleur_gratuit} | ${b.sens_perdu_detecte.ia??"—"} |\n| Latence médiane | ${b.latence_ms.mymemory_mediane} ms | — | ${b.latence_ms.ia_mediane??"—"} ms |\n\nIA : ${i.reussis??0}/${i.appels??0} réussis, ${i.jetons_par_traduction??"—"} jetons par traduction, coût réel 0 €, estimé si payant ${i.cout_estime_si_payant_usd_par_traduction??"—"} $ par traduction.\n`)' "$PWD/$f" >> "$GITHUB_STEP_SUMMARY"; done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: banc-${{ inputs.batterie || 'base' }}-${{ matrix.langue }}
+          path: labo/tests/resultats/
+          retention-days: 30
